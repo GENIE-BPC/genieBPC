@@ -14,3 +14,5 @@ Imports:
     dplyr,
     dtplyr,
     tibble
+Depends: 
+    R (>= 2.10)
