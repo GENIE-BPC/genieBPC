@@ -13,6 +13,10 @@ fetch_samples <- function(clin_dat, cohort_object){
   full_join(
     dat,
     clin_dat %>%
+      rename(time_dob_sequencing = Time..years..from.DOB.to.NGS.sequencing.report) %>%
+      mutate(Oncotree.Code = as.character(Oncotree.Code),
+             Sequence.Assay.ID = as.character(Sequence.Assay.ID),
+             time_dob_sequencing = as.numeric(as.character(time_dob_sequencing))) %>%
       filter(Patient.Identifier %in% cohort_object$ID) %>%
       select(Patient.Identifier, X.Sample.Identifier, Sequence.Assay.ID,
              Oncotree.Code,Time..years..from.DOB.to.NGS.sequencing.report,
