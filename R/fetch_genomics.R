@@ -24,12 +24,12 @@ fetch_genomics <- function(samples_object, maf, fusion, cna){
   # subset to those genes/samples #
   mut_common <- maf %>%
     filter(
-      Tumor_Sample_Barcode %in% as.character(samples_object$ID),
+      Tumor_Sample_Barcode %in% as.character(samples_object$sample_ID),
       Hugo_Symbol %in% genes
     )
   fusion_common <- fusion %>%
     filter(
-      Tumor_Sample_Barcode %in% as.character(samples_object$ID),
+      Tumor_Sample_Barcode %in% as.character(samples_object$sample_ID),
       Hugo_Symbol %in% genes
     )
   cna_common <- cna %>%
