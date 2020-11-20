@@ -22,5 +22,10 @@ fetch_samples <- function(clin_dat, cohort_object){
              Oncotree.Code,time_dob_sequencing,
              Sample.Type) %>%
       rename(ID = Patient.Identifier, sample_ID = X.Sample.Identifier),
-    by = "ID")
+    by = "ID") %>%
+    mutate(
+      seq_time = time_dob_sequencing,
+           regimen_time = as.numeric(as.character(DOB_START_REGIMEN_DATE)),
+           time_regimen_sequencing = seq_time*12 -
+             regimen_time/30.4375)
 }
