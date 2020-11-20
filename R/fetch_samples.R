@@ -23,9 +23,7 @@ fetch_samples <- function(clin_dat, cohort_object){
              Sample.Type) %>%
       rename(ID = Patient.Identifier, sample_ID = X.Sample.Identifier),
     by = "ID") %>%
-    mutate(
-      seq_time = time_dob_sequencing,
-           regimen_time = as.numeric(as.character(dob)),
-           time_regimen_sequencing = seq_time*12 -
+    mutate(regimen_time = as.numeric(as.character(dob)),
+           time_regimen_sequencing = time_dob_sequencing*12 -
              regimen_time/30.4375)
 }
