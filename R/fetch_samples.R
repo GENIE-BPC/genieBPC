@@ -19,7 +19,7 @@ fetch_samples <- function(clin_dat, cohort_object){
              time_dob_sequencing = as.numeric(as.character(time_dob_sequencing))) %>%
       filter(Patient.Identifier %in% cohort_object$ID) %>%
       select(Patient.Identifier, X.Sample.Identifier, Sequence.Assay.ID,
-             Oncotree.Code,Time..years..from.DOB.to.NGS.sequencing.report,
+             Oncotree.Code,time_dob_sequencing,
              Sample.Type) %>%
       rename(ID = Patient.Identifier, sample_ID = X.Sample.Identifier),
     by = "ID")
