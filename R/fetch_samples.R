@@ -25,7 +25,7 @@ fetch_samples <- function(clin_dat, cohort_object){
     by = "ID") %>%
     mutate(
       seq_time = time_dob_sequencing,
-           regimen_time = as.numeric(as.character(DOB_START_REGIMEN_DATE)),
+           regimen_time = as.numeric(as.character(dob)),
            time_regimen_sequencing = seq_time*12 -
              regimen_time/30.4375)
 }
