@@ -34,7 +34,7 @@ fetch_genomics <- function(samples_object, maf, fusion, cna){
     )
   cna_common <- cna %>%
     filter(Hugo_Symbol %in% genes) %>%
-    select(gsub("-",".",as.character(samples_object$sample_ID)))
+    select(c("Hugo_Symbol",gsub("-",".",as.character(samples_object$sample_ID))))
 
   return(list("maf"=mut_common,
               "fusion"=fusion_common,
