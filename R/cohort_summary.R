@@ -29,5 +29,6 @@ cohort_summary <- function(cohort_object){
               ),
               `Event rate PFS M` = paste0(round(sum(pfs_M_status, na.rm = T)/N*100,1),"%")
     ) %>%
-    arrange(-line, -N)
+    arrange(-line, -N) %>%
+    ungroup()
 }

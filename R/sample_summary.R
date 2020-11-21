@@ -21,5 +21,7 @@ sample_summary <- function(samples_object){
               `Tissue Summary` = paste0(names(sort(summary(as.factor(Oncotree.Code)), decreasing = T))
                                         ,"=",sort(summary(as.factor(Oncotree.Code)), decreasing = T),
                                         collapse = ", ")
-    )
+    ) %>%
+    arrange(-line, -N_samples) %>%
+    ungroup()
 }
