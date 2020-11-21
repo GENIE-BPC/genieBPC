@@ -2,6 +2,7 @@
 #'
 #' Creates a summary of the samples retrieved.
 #' @param samples_object output object of the fectch_samples function.
+#' @export
 #' @import
 #' dplyr
 #' dtplyr

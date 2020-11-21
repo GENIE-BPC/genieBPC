@@ -6,6 +6,7 @@
 #' @param maf maf file to be used for mutations
 #' @param fusion fusion file to be used for fusions
 #' @param cna cna file to be used for cna
+#' @export
 #' @import
 #' dplyr
 #' dtplyr

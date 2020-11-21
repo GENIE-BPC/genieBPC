@@ -2,6 +2,7 @@
 #'
 #' Creates a summary of the cohort created.
 #' @param cohort_object output object of the create_cohort function.
+#' @export
 #' @import
 #' dplyr
 #' dtplyr

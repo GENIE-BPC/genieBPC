@@ -4,6 +4,7 @@
 #' @param clin_dat dataframe containing the sample information to be matched with the patients from the cohort of interest.
 #' eg: data_clinical_sample.txt.
 #' @param cohort_object output object of the create_cohort function.
+#' @export
 #' @import
 #' dplyr
 #' dtplyr

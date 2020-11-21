@@ -13,6 +13,7 @@
 #' @param line numberic vector containing the line of therapies to be used to create the cohort. eg: c(1,2), which would keep
 #' regimens specified in the argument above at the lines specified here. By default all lines found will be kept.
 #' @param stage character vector specifying which stage at initial diagnosis to be considered.
+#' @export
 #' @import
 #' dplyr
 #' dtplyr

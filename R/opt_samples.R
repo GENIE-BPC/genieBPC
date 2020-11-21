@@ -6,6 +6,11 @@
 #' Default is either.
 #' @param histology character vector specifying which sample histologies to keep. See "Oncotree.Code" column
 #' of samples_object argument above to get options.
+#' @export
+#' @import
+#' dplyr
+#' dtplyr
+#' tibble
 
 opt_samples <- function(samples_object, sample_type = c("Primary","Metastasis"),histology){
 
