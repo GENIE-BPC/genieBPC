@@ -15,7 +15,7 @@
 fetch_genomics <- function(samples_object, maf, fusion, cna){
 
   keep_panels <- as.character(unlist(panel_names %>%
-                                       filter(Sequence.Assay.ID %in% dat_opt_samples$Sequence.Assay.ID) %>%
+                                       filter(Sequence.Assay.ID %in% samples_object$Sequence.Assay.ID) %>%
                                        select(Panel)))
 
   genes <- Reduce(intersect, lapply(keep_panels,function(x){
