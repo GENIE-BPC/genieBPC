@@ -12,7 +12,9 @@
 #' all regimens found in the dataset inputted will be used.
 #' @param line numberic vector containing the line of therapies to be used to create the cohort. eg: c(1,2), which would keep
 #' regimens specified in the argument above at the lines specified here. By default all lines found will be kept.
-#' @param stage character vector specifying which stage at initial diagnosis to be considered.
+#' @param stage character vector specifying which stage at initial diagnosis to be considered. (this will be updated to reaching that stage
+#' at any time in the future). Requires additional input below.
+#' @param stage_dat dataframe containing the relevant staging information. eg: data_timeline_cancer_diagnosis.txt
 #' @export
 #' @import
 #' dplyr
@@ -20,7 +22,7 @@
 #' tibble
 
 
-create_cohort <- function(treatment_dat, center = NULL, regimen = NULL, line = NULL, stage = NULL){
+create_cohort <- function(treatment_dat, center = NULL, regimen = NULL, line = NULL, stage = NULL, stage_dat = NULL){
 
   # check params #
   if(is.null(center))
@@ -33,8 +35,14 @@ create_cohort <- function(treatment_dat, center = NULL, regimen = NULL, line = N
     warning("We strongly recommend you focus on some regimen lines to study. All lines found in treatment_dat will be used.")
     line <- unique(as.numeric(as.character(treatment_dat$REGIMEN_NUMBER)))
   }
+  if(!is.null(stage) && is.null(stage_dat)){
+    warning("You selected a stage at diagnosis to be considered but did not input the corresponding file.
+            Stage will be ignored.")
+    stage <- NULL
+  }
 
-  treatment_dat %>%
+
+  temp <- treatment_dat %>%
     mutate(Center = case_when(
       grepl("DFCI", PATIENT_ID) ~ "DFCI",
       grepl("MSK", PATIENT_ID) ~ "MSK",
@@ -54,4 +62,10 @@ create_cohort <- function(treatment_dat, center = NULL, regimen = NULL, line = N
     select(ID, Center, regimen, line, os_time, os_status,pfs_I_time,
            pfs_I_status,pfs_M_time, pfs_M_status,dob) %>%
     distinct()
+  if(!is.null(stage))
+    temp %>%
+    rowwise() %>%
+    filter(sum(stage %in% stage_dat$STAGE_DX[stage_dat$PATIENT_ID == ID]) > 0)
+
+  return(temp)
 }
