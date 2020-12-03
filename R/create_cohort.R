@@ -63,7 +63,7 @@ create_cohort <- function(treatment_dat, center = NULL, regimen = NULL, line = N
            pfs_I_status,pfs_M_time, pfs_M_status,dob) %>%
     distinct()
   if(!is.null(stage))
-    temp %>%
+    temp <- temp %>%
     rowwise() %>%
     filter(sum(stage %in% stage_dat$STAGE_DX[stage_dat$PATIENT_ID == ID]) > 0)
 
