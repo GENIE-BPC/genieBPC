@@ -13,6 +13,7 @@ RoxygenNote: 7.1.1
 Imports: 
     dplyr,
     dtplyr,
-    tibble
+    tibble,
+    synapser
 Depends: 
     R (>= 2.10)
