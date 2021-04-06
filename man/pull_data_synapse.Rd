@@ -2,15 +2,18 @@
 % Please edit documentation in R/pull_data_synapse.R
 \name{pull_data_synapse}
 \alias{pull_data_synapse}
-\title{pull_data_synapse}
+\title{Obtain clinical data for GENIE BPC from Synapse}
 \usage{
-pull_data_synapse(cohort, version)
+pull_data_synapse(cohort, version = "1.1")
 }
 \arguments{
-\item{cohort}{Specify the cohort of data to pull (NSCLC or CRC)}
+\item{cohort}{Specify the cohort of interest (NSCLC or CRC)}
 
-\item{version}{Specify which version of the data to pull. By default, the most recent version is pulled.}
+\item{version}{Specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available.}
 }
 \description{
-Pull data from synapse
+The `pull_data_synapse` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+}
+\details{
+To obtain access to Synapse or the GENIE BPC project ...
 }
