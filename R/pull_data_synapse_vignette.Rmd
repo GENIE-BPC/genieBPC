@@ -1,0 +1,77 @@
+---
+title: "Tutorial: pull_data_synapse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Tutorial: pull_data_synapse}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(tidyverse)
+```
+
+## Introduction
+
+The `pull_data_synapse()` function accesses the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+
+This vignette will walk a user through the `pull_data_synapse()` function.
+
+
+## Setup
+
+Before beginning this tutorial, be sure to have a Synapse account. Then install and load {synapser}.
+
+```{r message = FALSE, warning = FALSE}
+# install.packages("synapser")
+library(synapser)
+```
+
+
+After loading the {synapser} package, log into Synapse using the `synLogin()` function:
+
+
+`synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+
+
+Using the `rememberMe` argument caches the authentication information in your operating system's credential storage. This way, the user only needs to enter your credentials once. In future uses, `synLogin()` will be called within the `pull_data_synapse()` function and will not require the user's email and password.
+
+
+## Usage
+
+Let's start by reviewing the `pull_data_synapse()` arguments.
+
+
+```{r echo = FALSE}
+tibble::tribble(
+  ~Argument,       ~Description,
+  "`cohort=`",       "specify the cohort of interest (NSCLC or CRC).",
+  "`version=`",        "specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available."
+) %>%
+  gt::gt() %>%
+  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::tab_options(table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+```
+
+
+```{r, eval = FALSE}
+pull_data_synapse("NSCLC")
+```
+
+
+## Future Work
+
+* As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers.
