@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Tutial: GENIE BPC Data Structure</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Tutial: GENIE BPC Data Structure</h1>
+
+
+
+<div id="aacr-project-genie" class="section level2">
+<h2>AACR Project GENIE</h2>
+<ul>
+<li><p><a href="https://www.aacr.org/professionals/research/aacr-project-genie/">AACR Project GENIE</a> is a publicly accessible international cancer registry of real-world data assembled through data sharing between 19 of the leading cancer centers in the world.</p></li>
+<li><p>GENIE aggregates, harmonizes, and links clinical-grade, next-generation cancer genomic sequencing data with clinical outcomes obtained during routine medical practice from cancer patients treated at these institutions, although clinical information available is limited (~&lt;10 variables).</p></li>
+</ul>
+</div>
+<div id="genie-bpc" class="section level2">
+<h2>GENIE BPC</h2>
+<ul>
+<li><p>The goal of <a href="https://www.aacr.org/about-the-aacr/newsroom/news-releases/aacr-project-genie-begins-five-year-collaborative-research-project-with-36-million-in-new-funding/">Project GENIE BPC</a> (Biopharma Collaborative) is to augment the existing registry genomic data with enhanced clinical (phenomic) data to support clinical-genomics analyses.</p>
+<ul>
+<li>Phenomic data are curated using the PRISSMM curation model.</li>
+<li>Currently MSK, Dana Farber, Vanderbilt and University Health Network are the participating institutions. GENIE BPC will be expanded to more institutions in phase II.</li>
+</ul></li>
+<li><p>GENIE BPC sponsors six projects that involve augmenting the genomic data in Project GENIE to include PRISSMM phenomic data and cancer-related outcomes. Each project encompasses a single cancer site. While all projects are based on curating data under the PRISSMM phenomic data curation model, the variables available for each project may vary. The six projects are:</p>
+<ol style="list-style-type: decimal">
+<li>Non-small cell lung cancer (NSCLC)</li>
+<li>Colon/rectal cancer (CRC)</li>
+<li>Breast cancer (BrCa)</li>
+<li>Pancreas cancer (PANC)</li>
+<li>Prostate cancer</li>
+<li>Bladder cancer</li>
+</ol></li>
+</ul>
+</div>
+<div id="genie-bpc-datasets" class="section level2">
+<h2>GENIE BPC Datasets</h2>
+<p>GENIE BPC is comprised of several phenomic (clinical) datasets that include data from the AACR Project GENIE Tier 1 registry, institutions’ tumor registries, manual curation based on institutions’ electronic health records (PRISSMM phenomic data model), and derived variables based on these data elements. The datasets are:</p>
+<ol style="list-style-type: decimal">
+<li>Patient Characteristics</li>
+<li>Cancer Diagnosis
+<ol style="list-style-type: lower-roman">
+<li>Cancer Diagnosis: BPC Project Cancer</li>
+<li>Cancer Diagnosis: Non-BPC Project Cancer</li>
+</ol></li>
+<li>Cancer-Directed Drugs</li>
+<li>PRISSMM Imaging</li>
+<li>PRISSMM Pathology</li>
+<li>PRISSMM Medical Oncologist Assessments</li>
+<li>PRISSMM Tumor Marker</li>
+<li>Cancer Panel Test</li>
+</ol>
+<p>This vignette will describe the structure of each dataset.</p>
+<div id="patient-characteristics" class="section level3">
+<h3>Patient Characteristics</h3>
+<p>The patient characteristics dataset is structured as one record per patient. This dataset includes variables such as date of death, last known alive date, and number of pathology reports, imaging reports, medical oncologist assessments, along with many other demographic and vital status variables.</p>
+</div>
+<div id="cancer-diagnosis" class="section level3">
+<h3>Cancer Diagnosis</h3>
+<p>Two cancer diagnosis datasets are provided: the BPC Project cancer diagnosis dataset and the non-BPC Project cancer diagnosis dataset.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>BPC Project Cancer</th>
+<th>Non-BPC Project Cancer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.</td>
+<td>A diagnosis of the same or different cancer type as the project cancer that occurs prior to, simultaneous with, or after the BPC Project cancer.</td>
+</tr>
+<tr class="even">
+<td>Has genomic sequencing associated with the cancer diagnosis.</td>
+<td>Does <em>not</em> have associated genomic sequencing</td>
+</tr>
+<tr class="odd">
+<td>Recorded in the BPC Project Cancer Diagnosis dataset.</td>
+<td>Recorded in the Non-BPC Project Cancer Diagnosis dataset.</td>
+</tr>
+</tbody>
+</table>
+<div id="cancer-diagnosis-bpc-project-cancer" class="section level4">
+<h4>Cancer Diagnosis: BPC Project Cancer</h4>
+<p>The BPC Project cancer diagnosis dataset contains one record per BPC Project cancer diagnosis, per patient.</p>
+<p>The BPC Project cancer diagnosis dataset can be linked to the following datasets:</p>
+<ul>
+<li><p>Cancer-directed regimen dataset using variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Cancer panel test dataset using variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using <code>record_id</code></p></li>
+</ul>
+</div>
+<div id="cancer-diagnosis-non-bpc-project-cancer" class="section level4">
+<h4>Cancer Diagnosis: Non-BPC Project Cancer</h4>
+<p>The Non-BPC Project cancer diagnosis dataset contains one record per non-BPC Project cancer diagnosis, per patient. This dataset includes two types of cancer diagnoses: 1) non-BPC Project invasive cancer and in situ/non-invasive cancer diagnoses, and 2) other tumors.</p>
+<p>The Non-BPC Project cancer diagnosis dataset can be linked to the following datasets:</p>
+<ul>
+<li><p>Cancer-directed regimen dataset using variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using <code>record_id</code></p></li>
+<li><p>Cannot be linked to the cancer panel test dataset because non-BPC Project cancer diagnoses were not genomically sequenced</p></li>
+</ul>
+</div>
+</div>
+<div id="cancer-directed-drug-regimen-dataset" class="section level3">
+<h3>Cancer-Directed Drug Regimen Dataset</h3>
+<p>The cancer-directed drug regimen dataset is structured as one record per regimen-associated cancer diagnosis, per patient.</p>
+<p>Cancer-directed regimens were curated for all cancer diagnoses, including both BPC Project and non-BPC Project cancers. A regimen can consist of one drug or up to five drugs given together. Cancer-directed drugs include anti-neoplastic drugs, immunotherapies, targeted therapies, and hormone therapies. A break in treatment of ≥8 weeks was used to indicate the end of a regimen; even if all drugs in the regimen were re-initiated 8+ weeks later, this was considered a new regimen.</p>
+<p>If the cancer-directed drug was part of an investigational drug trial, the drug name(s) <code>drugs_drug_1</code>-<code>drugs_drug_5</code> will be set to “Investigational Drug” and the end date interval will match the start date interval. Identification of investigational drugs varies by institution depending on contractual obligations. For some institutions, all drugs that are part of an investigational trial are required to be masked, even if standard of care. For other institutions, only the investigational drug(s) are required to be masked.</p>
+<p>The cancer-directed drug regimen can be linked to the following datasets:</p>
+<ul>
+<li><p>BPC Project and non-BPC Project cancer diagnosis datasets using the variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Cancer panel test dataset using the variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Patient-Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using <code>record_id</code></p></li>
+</ul>
+</div>
+<div id="prissmm-pathology-dataset" class="section level3">
+<h3>PRISSMM Pathology Dataset</h3>
+<p>The PRISSMM pathology dataset is structured as one record per pathology report, per patient.</p>
+<p>All pathology reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent pathology reports are recorded (including pathology reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses).</p>
+<p>The PRISSMM pathology dataset can be linked to the following datasets:</p>
+<ul>
+<li><p>Cancer panel test dataset using <code>record_id</code>, <code>ca_seq</code>, <code>path_proc_number</code> and <code>path_report_number</code></p></li>
+<li><p>Patient-level, BPC Project and non-BPC Project cancer diagnosis, cancer-directed regimen, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using <code>record_id</code></p></li>
+</ul>
+</div>
+<div id="prissmm-imaging-dataset" class="section level3">
+<h3>PRISSMM Imaging Dataset</h3>
+<p>The PRISSMM imaging dataset is structured as one record per imaging report, per patient.</p>
+<p>All imaging reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent imaging reports are recorded (including imaging reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses).</p>
+<p>The PRISSMM imaging dataset can be linked to all datasets using the variable <code>record_id</code>.</p>
+</div>
+<div id="prissmm-medical-oncologist-assessment-dataset" class="section level3">
+<h3>PRISSMM Medical Oncologist Assessment Dataset</h3>
+<p>The PRISSMM medical oncologist assessment dataset is structured as one row per curated medical oncologist assessment, per patient.</p>
+<p>Medical oncologist assessments were curated beginning with the month and year of the first BPC Project cancer diagnosis. One medical oncologist assessment per month was curated.</p>
+<p>The PRISSMM medical oncologist assessment dataset can be linked to all datasets using the variable <code>record_id</code>.</p>
+</div>
+<div id="prissmm-tumor-marker-dataset" class="section level3">
+<h3>PRISSMM Tumor Marker Dataset</h3>
+<p>The PRISSMM Tumor Marker dataset is structured as one record per curated tumor marker result, per patient. Serum-based tumor markers that are related to the diagnosis/prognosis of cancer were curated. The tumor markers for patients in the BPC Project colorectal cancer cohort include CEA and CA19-9.</p>
+<p><em>Note: variables pertaining to PD-L1, MSI and MMR are recorded in the pathology dataset.</em></p>
+<p>The PRISSMM Tumor Marker dataset can be linked to all datasets using the variable <code>record_id</code>.</p>
+</div>
+<div id="cancer-panel-test-dataset" class="section level3">
+<h3>Cancer Panel Test Dataset</h3>
+<p>The Cancer Panel Test dataset is structured as one record per cancer panel test and its associated cancer diagnosis, per patient.</p>
+<p>The cancer panel test refers to the multi-gene panels that have been performed through next generation sequencing (NGS) assays. The terms “cancer panel test (CPT)” and “next generation sequencing (NGS)” are used interchangeably.</p>
+<p>The cancer panel test dataset can be linked to the following datasets:</p>
+<ul>
+<li><p>BPC Project Cancer Diagnosis dataset using the variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>Cancer-Directed Drug Regimen dataset using the variables <code>record_id</code> and <code>ca_seq</code></p></li>
+<li><p>PRISSMM Pathology dataset using <code>record_id</code>, <code>ca_seq</code>, <code>path_proc_number</code> and <code>path_report_number</code></p></li>
+</ul>
+<p><em>Note: this dataset cannot be linked to the Non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.</em></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
