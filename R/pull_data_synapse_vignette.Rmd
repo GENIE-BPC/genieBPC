@@ -20,22 +20,44 @@ library(tidyverse)
 
 ## Introduction
 
-The `pull_data_synapse()` function accesses the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+The `pull_data_synapse()` function accesses the specified version of the clinical GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
+&nbsp;
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
 
 ## Setup
 
-Before beginning this tutorial, be sure to have a Synapse account. Then install and load {synapser}.
+Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:
+
+1. Register a [Synapse account](https://www.synapse.org/#!Reigster0)
+2. Use [this link](https://www.synapse.org/#!Team:3394597) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
+3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
+
+*Note: Please allow up to a week to review and grant access.*
+
+&nbsp;
+
+Install and load {synapser}.
 
 ```{r message = FALSE, warning = FALSE}
 # install.packages("synapser")
 library(synapser)
 ```
 
+&nbsp;
 
-After loading the {synapser} package, log into Synapse using the `synLogin()` function:
+After loading the {synapser} package, log into Synapse using the `synLogin()` function. 
+
+Users have the option to log in during each session or to store their login information. To log in during each session, call:
+
+
+`synLogin(email = "your_email", password = "your_password")`
+
+
+&nbsp;
+
+For users to store their login information, call:
 
 
 `synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
@@ -43,6 +65,7 @@ After loading the {synapser} package, log into Synapse using the `synLogin()` fu
 
 Using the `rememberMe` argument caches the authentication information in your operating system's credential storage. This way, the user only needs to enter your credentials once. In future uses, `synLogin()` will be called within the `pull_data_synapse()` function and will not require the user's email and password.
 
+&nbsp;
 
 ## Usage
 
@@ -66,6 +89,7 @@ tibble::tribble(
                   row_group.padding = gt::px(1))
 ```
 
+&nbsp;
 
 ```{r, eval = FALSE}
 pull_data_synapse("NSCLC")
@@ -74,4 +98,4 @@ pull_data_synapse("NSCLC")
 
 ## Future Work
 
-* As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers.
+* As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.

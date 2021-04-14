@@ -334,17 +334,31 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The <code>pull_data_synapse()</code> function accesses the specified version of the clinical GENIE BPC data from  and reads it into the R environment.</p>
+<p>The <code>pull_data_synapse()</code> function accesses the specified version of the clinical GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164">Synapse</a> and reads it into the R environment.  </p>
 <p>This vignette will walk a user through the <code>pull_data_synapse()</code> function.</p>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<p>Before beginning this tutorial, be sure to have a Synapse account. Then install and load {synapser}.</p>
+<p>Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:</p>
+<ol style="list-style-type: decimal">
+<li>Register a <a href="https://www.synapse.org/#!Reigster0">Synapse account</a></li>
+<li>Use <a href="https://www.synapse.org/#!Team:3394597">this link</a> to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</li>
+<li>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493">GENIE Biopharma collaborative projects</a>.</li>
+</ol>
+<p><em>Note: Please allow up to a week to review and grant access.</em></p>
+<p> </p>
+<p>Install and load {synapser}.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># install.packages(&quot;synapser&quot;)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(synapser)</span></code></pre></div>
-<p>After loading the {synapser} package, log into Synapse using the <code>synLogin()</code> function:</p>
+<p> </p>
+<p>After loading the {synapser} package, log into Synapse using the <code>synLogin()</code> function.</p>
+<p>Users have the option to log in during each session or to store their login information. To log in during each session, call:</p>
+<p><code>synLogin(email = &quot;your_email&quot;, password = &quot;your_password&quot;)</code></p>
+<p> </p>
+<p>For users to store their login information, call:</p>
 <p><code>synLogin(email = &quot;your_email&quot;, password = &quot;your_password&quot;, rememberMe = TRUE)</code></p>
 <p>Using the <code>rememberMe</code> argument caches the authentication information in your operating system’s credential storage. This way, the user only needs to enter your credentials once. In future uses, <code>synLogin()</code> will be called within the <code>pull_data_synapse()</code> function and will not require the user’s email and password.</p>
+<p> </p>
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
@@ -353,7 +367,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ohgkudftmk .gt_table {
+#xyhediuynz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -378,7 +392,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-left-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_heading {
+#xyhediuynz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -390,7 +404,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-right-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_title {
+#xyhediuynz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -400,7 +414,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-bottom-width: 0;
 }
 
-#ohgkudftmk .gt_subtitle {
+#xyhediuynz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -410,13 +424,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-top-width: 0;
 }
 
-#ohgkudftmk .gt_bottom_border {
+#xyhediuynz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_col_headings {
+#xyhediuynz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -431,7 +445,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-right-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_col_heading {
+#xyhediuynz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -451,7 +465,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   overflow-x: hidden;
 }
 
-#ohgkudftmk .gt_column_spanner_outer {
+#xyhediuynz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -463,15 +477,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   padding-right: 4px;
 }
 
-#ohgkudftmk .gt_column_spanner_outer:first-child {
+#xyhediuynz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ohgkudftmk .gt_column_spanner_outer:last-child {
+#xyhediuynz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ohgkudftmk .gt_column_spanner {
+#xyhediuynz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -483,7 +497,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   width: 100%;
 }
 
-#ohgkudftmk .gt_group_heading {
+#xyhediuynz .gt_group_heading {
   padding: 1px;
   color: #333333;
   background-color: #FFFFFF;
@@ -505,7 +519,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   vertical-align: middle;
 }
 
-#ohgkudftmk .gt_empty_group_heading {
+#xyhediuynz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -520,15 +534,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   vertical-align: middle;
 }
 
-#ohgkudftmk .gt_from_md > :first-child {
+#xyhediuynz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ohgkudftmk .gt_from_md > :last-child {
+#xyhediuynz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ohgkudftmk .gt_row {
+#xyhediuynz .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -547,7 +561,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   overflow-x: hidden;
 }
 
-#ohgkudftmk .gt_stub {
+#xyhediuynz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -559,7 +573,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   padding-left: 12px;
 }
 
-#ohgkudftmk .gt_summary_row {
+#xyhediuynz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -569,7 +583,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   padding-right: 5px;
 }
 
-#ohgkudftmk .gt_first_summary_row {
+#xyhediuynz .gt_first_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -579,7 +593,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-top-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_grand_summary_row {
+#xyhediuynz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -589,7 +603,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   padding-right: 5px;
 }
 
-#ohgkudftmk .gt_first_grand_summary_row {
+#xyhediuynz .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -599,11 +613,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-top-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_striped {
+#xyhediuynz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ohgkudftmk .gt_table_body {
+#xyhediuynz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -612,7 +626,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-bottom-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_footnotes {
+#xyhediuynz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -626,13 +640,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-right-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_footnote {
+#xyhediuynz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 1px;
 }
 
-#ohgkudftmk .gt_sourcenotes {
+#xyhediuynz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -646,46 +660,46 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   border-right-color: #D3D3D3;
 }
 
-#ohgkudftmk .gt_sourcenote {
+#xyhediuynz .gt_sourcenote {
   font-size: 90%;
   padding: 1px;
 }
 
-#ohgkudftmk .gt_left {
+#xyhediuynz .gt_left {
   text-align: left;
 }
 
-#ohgkudftmk .gt_center {
+#xyhediuynz .gt_center {
   text-align: center;
 }
 
-#ohgkudftmk .gt_right {
+#xyhediuynz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ohgkudftmk .gt_font_normal {
+#xyhediuynz .gt_font_normal {
   font-weight: normal;
 }
 
-#ohgkudftmk .gt_font_bold {
+#xyhediuynz .gt_font_bold {
   font-weight: bold;
 }
 
-#ohgkudftmk .gt_font_italic {
+#xyhediuynz .gt_font_italic {
   font-style: italic;
 }
 
-#ohgkudftmk .gt_super {
+#xyhediuynz .gt_super {
   font-size: 65%;
 }
 
-#ohgkudftmk .gt_footnote_marks {
+#xyhediuynz .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="ohgkudftmk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="xyhediuynz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -708,12 +722,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
   
   
 </table></div>
+<p> </p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">pull_data_synapse</span>(<span class="st">&quot;NSCLC&quot;</span>)</span></code></pre></div>
 </div>
 <div id="future-work" class="section level2">
 <h2>Future Work</h2>
 <ul>
-<li>As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers.</li>
+<li>As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.</li>
 </ul>
 </div>
 
