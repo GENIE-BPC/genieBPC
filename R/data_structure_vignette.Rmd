@@ -1,9 +1,9 @@
 ---
-title: 'Tutial: GENIE BPC Data Structure'
+title: 'Tutorial: GENIE BPC Data Structure'
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{Tutorial: pull_data_synapse}
+  %\VignetteIndexEntry{Tutorial: GENIE BPC Data Structure}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -62,6 +62,8 @@ This vignette will describe the structure of each dataset.
 ### Patient Characteristics 
 
 The patient characteristics dataset is structured as one record per patient. This dataset includes variables such as date of death, last known alive date, and number of pathology reports, imaging reports, medical oncologist assessments, along with many other demographic and vital status variables.
+
+The patient characteristics dataset can be linked to all other datasets using `record_id`.
 
 ### Cancer Diagnosis 
 
