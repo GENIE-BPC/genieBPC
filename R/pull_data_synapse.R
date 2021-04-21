@@ -10,57 +10,54 @@
 #' @import
 #' dplyr
 #' dtplyr
-#' tibble
-#' synapser
+
 pull_data_synapse <- function(cohort, version = "1.1") {
-  synapser::synLogin()
+  tryCatch(
+    synapser::synLogin(),
+    error =
+      function(e) {
+        cli::cli_alert_warning("There was an error pulling the data. See error message below.")
+        paste("You are not logged into your synapse account",
+              "Please set credentials by using 'synapser::synLogin()'",
+              sep ="\n") %>%
+          stop(call. = FALSE)
+      }
+  )
+  tryCatch({
 
-  # check params
-  if (is.null(cohort)) {
-    cohort <- c("NSCLC", "CRC")
-    print("Data for all available cohorts is being pulled (NSCLC, CRC)")
-  }
-  if (!(cohort %in% c("NSCLC", "CRC"))) {
-    stop("Select from NSCLC or CRC cohorts.")
-  }
-  if (is.null(version)) {
-    version <- c("1.1")
-    print("v1.1 selected by default.")
-  }
 
-  # pull data from synapse
-  # NSCLC v1.1
-  if (cohort == "NSCLC" & version == "1.1") {
-    pt_char <- read.csv(synGet("syn22418979")$path)
-    ca_dx_index <- read.csv(synGet("syn22418974")$path)
-    ca_dx_non_index <- read.csv(synGet("syn22418975")$path)
-    ca_drugs <- read.csv(synGet("syn22418980")$path)
-    prissmm_pathology <- read.csv(synGet("syn22418982")$path)
-    prissmm_imaging <- read.csv(synGet("syn22418981")$path)
-    prissmm_md <- read.csv(synGet("syn22418986")$path)
-    cpt <- read.csv(synGet("syn22418987")$path)
-  }
 
-  # CRC v1.1
-  if (cohort == "CRC" & version == "1.1") {
-    pt_char <- read.csv(synGet("syn24168397")$path)
-    ca_dx_index <- read.csv(synGet("syn24168395")$path)
-    ca_dx_non_index <- read.csv(synGet("syn24168396")$path)
-    ca_drugs <- read.csv(synGet("syn24168398")$path)
-    prissmm_pathology <- read.csv(synGet("syn24168400")$path)
-    prissmm_imaging <- read.csv(synGet("syn24168399")$path)
-    prissmm_md <- read.csv(synGet("syn24168401")$path)
-    prissmm_tm <- read.csv(synGet("syn24168403")$path)
-    cpt <- read.csv(synGet("syn24168402")$path)
-  }
+    # check params
+    if (missing(cohort)) {
+      stop("Select from 'NSCLC' or 'CRC' cohorts.")
+    }
+    if (sum(!grepl("CRC|NSCLC", c("CRC")))>0) {
+      stop("Select from 'NSCLC' or 'CRC' cohorts.")
+    }
+    if (missing(version)) {
+      print("Version '1.1' selected by default.")
+    }
 
-  return(list("pt_char" = pt_char,
-              "ca_dx_index" = ca_dx_index,
-              "ca_dx_non_index" = ca_dx_non_index,
-              "ca_drugs" = ca_drugs,
-              "prissmm_pathology" = prissmm_pathology,
-              "prissmm_imaging" = prissmm_imaging,
-              "prissmm_md" = prissmm_md,
-              #"prissmm_tm" = prissmm_tm, # only returned if not NSCLC
-              "cpt" = cpt))
+
+
+    synapse_tables$version <- substr(synapse_tables$version,2,nchar(synapse_tables$version))
+    synapse_tables$filenames <- paste(synapse_tables$df, synapse_tables$cohort, sep = "_")
+    synapse_tables <- synapse_tables[synapse_tables$cohort  %in% cohort,]
+    synapse_tables <- synapse_tables[synapse_tables$version  %in% version,]
+
+
+    readfiles <-  lapply(1:nrow(synapse_tables), function(x){
+      read.csv(synGet(synapse_tables$synapse_id[x])$path)
+
+    })
+    names(readfiles) <- synapse_tables$filenames
+
+    return(readfiles)
+  },
+  error = function(e) {
+    cli::cli_alert_warning("There was an error pulling the data. See error message below.")
+    stop(e)
+  })
 }
+
+
