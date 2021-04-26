@@ -31,7 +31,7 @@ pull_data_synapse <- function(cohort, version = "1.1") {
     if (missing(cohort)) {
       stop("Select from 'NSCLC' or 'CRC' cohorts.")
     }
-    if (sum(!grepl("CRC|NSCLC", c("CRC")))>0) {
+    if (sum(!grepl("^CRC$|^NSCLC$", cohort))>0) {
       stop("Select from 'NSCLC' or 'CRC' cohorts.")
     }
     if (missing(version)) {
