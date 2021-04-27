@@ -5,35 +5,37 @@
 \title{create_cohort}
 \usage{
 create_cohort(
-  treatment_dat,
-  center = NULL,
-  regimen = NULL,
-  line = NULL,
-  stage = NULL,
-  stage_dat = NULL
+  cohort = c("NSCLC", "CRC"),
+  institution = c("DFCI", "MSK", "VICC", "UHN"),
+  stage_dx,
+  ca_hist_adeno_squamous,
+  index_ca_dx = "first",
+  regimen_drugs,
+  regimen_number = "first",
+  return_summary = FALSE
 )
 }
 \arguments{
-\item{treatment_dat}{dataframe containing the relevant information for therapies. eg: data_timeline_treatment.txt}
+\item{cohort}{GENIE BPC Project cancer}
 
-\item{center}{character vector containing the centers to be considered to create the cohort. eg: c("MSK", "DFCI"). By default
-all centers found in the dataset inputted will be used.}
+\item{institution}{GENIE BPC participating institution}
 
-\item{regimen}{character vector containing the regimens to be considered to create the cohort.
-eg: c("Carboplatin, Pemetrexed Disodium","Cisplatin, Pemetrexed Disodium"). By default
-all regimens found in the dataset inputted will be used.}
+\item{stage_dx}{Stage at diagnosis}
 
-\item{line}{numberic vector containing the line of therapies to be used to create the cohort. eg: c(1,2), which would keep
-regimens specified in the argument above at the lines specified here. By default all lines found will be kept.}
+\item{ca_hist_adeno_squamous}{Cancer histology}
 
-\item{stage}{character vector specifying which stage at initial diagnosis to be considered. (this will be updated to reaching that stage
-at any time in the future). Requires additional input below.}
+\item{index_ca_dx}{Order of index cancer (first index cancer or all index cancers)}
 
-\item{stage_dat}{dataframe containing the relevant staging information. eg: data_timeline_cancer_diagnosis.txt}
+\item{regimen_drugs}{Names of drugs in cancer-directed regimen}
+
+\item{regimen_number}{Order of cancer-directed regimens returned (first time a regimen was received or all times a regimen was received)}
+
+\item{return_summary}{Specifies whether or not a summary table for the cohort is returned}
+}
+\value{
+
 }
 \description{
-This function allows the user to create a relevant cohort for analysis based on histology, specific regimen,
-regimen line, stage at diagnosis and centers to be considered.
-This will return a dataset containing all patients matching the criterion of interests and their available survival data.
-Specifically PFS_I, PFS_M and OS from the start of regimen.
+This function allows the user to create a relevant cohort for analysis based on cancer diagnosis information such as cancer cohort, treating institution, histology, stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
+This will return a dataset (`cohort_ca_dx`) containing all patients matching the criterion of interest. If drug regimen criteria are also specified, then a second dataset (`cohort_ca_drugs`) will also be returned.
 }
