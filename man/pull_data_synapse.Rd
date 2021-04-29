@@ -13,7 +13,6 @@ pull_data_synapse(cohort, version = "1.1")
 }
 \description{
 The `pull_data_synapse` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
-}
-\details{
+NOTE: when entering cohort and version number they must be in the same order in the lists in order to pull the correct data. See example below.
 To obtain access to Synapse or the GENIE BPC project ...
 }
