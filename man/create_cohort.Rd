@@ -5,37 +5,37 @@
 \title{create_cohort}
 \usage{
 create_cohort(
-  cohort = c("NSCLC", "CRC"),
+  cohort,
   institution = c("DFCI", "MSK", "VICC", "UHN"),
   stage_dx,
   ca_hist_adeno_squamous,
-  index_ca_dx = "first",
+  index_ca_seq = 1,
   regimen_drugs,
-  regimen_number = "first",
+  regimen_seq = 1,
   return_summary = FALSE
 )
 }
 \arguments{
-\item{cohort}{GENIE BPC Project cancer}
+\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
 
-\item{institution}{GENIE BPC participating institution}
+\item{institution}{GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default is all institutions.}
 
-\item{stage_dx}{Stage at diagnosis}
+\item{stage_dx}{Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default is all stages.}
 
-\item{ca_hist_adeno_squamous}{Cancer histology}
+\item{ca_hist_adeno_squamous}{Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor"}
 
-\item{index_ca_dx}{Order of index cancer (first index cancer or all index cancers)}
+\item{regimen_drugs}{Names of drugs in cancer-directed regimen, based on variable `regimen_drugs` in the ca_drugs dataset.}
 
-\item{regimen_drugs}{Names of drugs in cancer-directed regimen}
+\item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE.}
 
-\item{regimen_number}{Order of cancer-directed regimens returned (first time a regimen was received or all times a regimen was received)}
+\item{index_ca_dx}{Order of index cancer. Default is 1, indicating the first index cancer.}
 
-\item{return_summary}{Specifies whether or not a summary table for the cohort is returned}
+\item{regimen_number}{Order of cancer-directed regimen. Default is 1, indicating the first time the regimen was received.}
 }
 \value{
 
 }
 \description{
-This function allows the user to create a relevant cohort for analysis based on cancer diagnosis information such as cancer cohort, treating institution, histology, stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
-This will return a dataset (`cohort_ca_dx`) containing all patients matching the criterion of interest. If drug regimen criteria are also specified, then a second dataset (`cohort_ca_drugs`) will also be returned.
+This function allows the user to create a cohort for analysis based on cancer diagnosis information such as cancer cohort, treating institution, histology, stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
+This will return two datasets: (1) cohort_ca_dx will contain all patients matching the cancer diagnosis criteria of interest; (2) cohort_ca_drugs will return the drug-regimen data to those patients.
 }
