@@ -73,11 +73,11 @@ create_cohort <- function(cohort,
 
   # of those patients, if applicable, pull relevant drug regimens
   # all drug regimens to all patients in cohort
-  if (missing(regimen_drugs) & missing(regimen_seq) & missing(reg_line_one)) {
+  # if (missing(regimen_drugs) & missing(regimen_seq) & reg_line_one == FALSE) {
   cohort_ca_drugs <- left_join(cohort_ca_dx,
                                get(paste0("ca_drugs_", cohort_temp)),
                                by = c("cohort", "record_id", "institution", "ca_seq"))
-  }
+  # }
 
 
   # first line regimen to all pts in cohort, any regimen
@@ -89,7 +89,7 @@ create_cohort <- function(cohort,
 
   # option 2: if specific drug regimen is requested
   # all times that drug regimen was received
-  if (!missing(regimen_drugs) & missing(regimen_seq) & missing(reg_line_one)) {
+  if (!missing(regimen_drugs) & missing(regimen_seq) & reg_line_one == FALSE) {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       filter(regimen_drugs %in% c({{regimen_drugs}})) %>%
@@ -107,7 +107,7 @@ create_cohort <- function(cohort,
   }
 
   # 1st (or other) time that regimen was received
-  else if (!missing(regimen_drugs) & !missing(regimen_seq) & missing(reg_line_one)) {
+  else if (!missing(regimen_drugs) & !missing(regimen_seq) & reg_line_one == FALSE) {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       filter(regimen_drugs %in% c({{regimen_drugs}})) %>%

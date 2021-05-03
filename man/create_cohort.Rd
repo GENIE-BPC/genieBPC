@@ -11,6 +11,7 @@ create_cohort(
   ca_hist_adeno_squamous,
   index_ca_seq = 1,
   regimen_drugs,
+  reg_line_one,
   regimen_seq = 1,
   return_summary = FALSE
 )
