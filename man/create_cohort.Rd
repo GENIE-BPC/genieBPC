@@ -6,18 +6,24 @@
 \usage{
 create_cohort(
   cohort,
+  output_suffix,
+  index_ca_seq = 1,
   institution = c("DFCI", "MSK", "VICC", "UHN"),
   stage_dx,
   ca_hist_adeno_squamous,
-  index_ca_seq = 1,
+  mets_dx_stage_iv,
   regimen_drugs,
-  reg_line_one,
-  regimen_seq = 1,
+  regimen_order,
+  regimen_order_type,
   return_summary = FALSE
 )
 }
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
+
+\item{output_suffix}{Suffix to append to returned data frames (cohort_ca_dx_suffix, cohort_ca_drugs_suffix)}
+
+\item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the patient's first index cancer.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default is all institutions.}
 
@@ -27,11 +33,11 @@ create_cohort(
 
 \item{regimen_drugs}{Names of drugs in cancer-directed regimen, based on variable `regimen_drugs` in the ca_drugs dataset.}
 
+\item{regimen_order}{Order of cancer-directed regimen. Default is 1, indicating the first time the regimen was received. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.}
+
+\item{regimen_order_type}{Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed)}
+
 \item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE.}
-
-\item{index_ca_dx}{Order of index cancer. Default is 1, indicating the first index cancer.}
-
-\item{regimen_number}{Order of cancer-directed regimen. Default is 1, indicating the first time the regimen was received.}
 }
 \value{
 
