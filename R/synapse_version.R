@@ -1,3 +1,5 @@
+#' synapse_version
+#'
 #' Data is updated periodically and each time it is updated the cohort will get a new version number.
 #' This function will get each version number for each cohort and will help you determine what is the most recent version for each cohort.
 #'

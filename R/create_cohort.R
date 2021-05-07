@@ -4,7 +4,6 @@
 #' This will return two datasets: (1) cohort_ca_dx will contain all patients matching the cancer diagnosis criteria of interest; (2) cohort_ca_drugs will return the drug-regimen data to those patients.
 #'
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
-#' @param output_suffix Suffix to append to returned data frames (cohort_ca_dx_suffix, cohort_ca_drugs_suffix)
 #' @param institution GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default is all institutions.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default is all stages.
 #' @param ca_hist_adeno_squamous Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor"
@@ -14,47 +13,44 @@
 #' @param regimen_order_type Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed)
 #' @param return_summary Specifies whether a summary table for the cohort is returned. Default is FALSE.
 #'
-#' @return
+#' @return cohort_ca_dx and cohort_ca_drugs data frames
 #' @export
 #'
 #' @examples
 #' Example 1 ----------------------------------
-#' Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+#' # Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
 #' create_cohort(cohort = "NSCLC",
-#' stage_dx = c("Stage IV"),
-#' ca_hist_adeno_squamous = "Adenocarcinoma")
+#'      stage_dx = c("Stage IV"),
+#'      ca_hist_adeno_squamous = "Adenocarcinoma")
 #' Example 2 ----------------------------------
-#' Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
-#' create_cohort(cohort = "NSCLC",
-#' regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
-#' regimen_order = 1,
-#' regimen_order_type = "within regimen")
+#' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+#'      create_cohort(cohort = "NSCLC",
+#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+#'      regimen_order = 1,
+#'      regimen_order_type = "within regimen")
 #' Example 3 ----------------------------------
-#' Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
+#' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 #' create_cohort(cohort = "NSCLC",
-#' regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-#' regimen_order = 1,
-#' regimen_order_type = "within regimen")
+#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+#'      regimen_order = 1,
+#'      regimen_order_type = "within regimen")
 #' Example 4 ----------------------------------
-#' Create a cohort of all NSCLC patients who ever received Immunotherapy
+#' # Create a cohort of all NSCLC patients who ever received Immunotherapy
 #' create_cohort(cohort = "NSCLC",
-#' regimen_drugs = "Immunotherapy")
+#'      regimen_drugs = "Immunotherapy")
 create_cohort <- function(cohort,
-                         output_suffix,
                           index_ca_seq = 1,
-                          institution = c("DFCI", "MSK", "VICC", "UHN"),
+                          institution,
                           stage_dx,
                           ca_hist_adeno_squamous,
                           mets_dx_stage_iv,
                           regimen_drugs,
                           regimen_order,
                           regimen_order_type,
-                          return_summary = FALSE
-                          ) {
+                          return_summary = FALSE) {
 
   # apply to all variables (alt would be r language)
   cohort_temp <- cohort
-  institution_temp <- institution
 
   # print the cohort that is being returned, esp useful for drug information
   # print(paste0(""))
@@ -66,6 +62,20 @@ create_cohort <- function(cohort,
 
   if (!(cohort %in% c("NSCLC", "CRC"))) {
     stop("Select from available cancer cohorts: NSCLC, CRC")
+  }
+
+  if (cohort == "NSCLC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC", "UHN"))){
+    stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+  }
+
+  if (cohort == "CRC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC"))){
+    stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+  }
+
+  if (missing(institution)){
+    institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
+  } else {
+    institution_temp <- {{ institution }}
   }
 
   # mets at diagnosis specified but stage 4 not selected
@@ -83,19 +93,19 @@ create_cohort <- function(cohort,
   # to account for unspecified stage
   if (missing(stage_dx)) {
     stage_dx_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
-                            distinct(stage_dx), stage_dx)
+      distinct(stage_dx), stage_dx)
   }
   else {
-    stage_dx_temp <- {{stage_dx}}
+    stage_dx_temp <- {{ stage_dx }}
   }
 
   # to account for unspecified histology
   if (missing(ca_hist_adeno_squamous)) {
     histology_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
-                             distinct(ca_hist_adeno_squamous), ca_hist_adeno_squamous)
+      distinct(ca_hist_adeno_squamous), ca_hist_adeno_squamous)
   }
   else {
-    histology_temp <- {{ca_hist_adeno_squamous}}
+    histology_temp <- {{ ca_hist_adeno_squamous }}
   }
 
   #################################################################################
@@ -108,10 +118,11 @@ create_cohort <- function(cohort,
     mutate(index_ca_seq = 1:n()) %>%
     ungroup() %>%
     # apply filter(s)
-    filter(institution %in% c(institution_temp),
-    stage_dx %in% c(stage_dx_temp),
-    ca_hist_adeno_squamous %in% c(histology_temp),
-    index_ca_seq %in% c({{index_ca_seq}})
+    filter(
+      institution %in% c(institution_temp),
+      stage_dx %in% c(stage_dx_temp),
+      ca_hist_adeno_squamous %in% c(histology_temp),
+      index_ca_seq %in% c({{ index_ca_seq }})
     )
 
   # pull drug regimens to those patients
@@ -120,15 +131,19 @@ create_cohort <- function(cohort,
   # regimen_drugs is not specified, regimen_order is not specified
   # if (missing(regimen_drugs) & missing(regimen_order)) {
   cohort_ca_drugs <- left_join(cohort_ca_dx,
-                               get(paste0("ca_drugs_", cohort_temp)),
-                               by = c("cohort", "record_id", "institution", "ca_seq")) %>%
+    get(paste0("ca_drugs_", cohort_temp)),
+    by = c("cohort", "record_id", "institution", "ca_seq")
+  ) %>%
     # create order for drug regimen within cancer and within times the drug was received
     group_by(cohort, record_id, ca_seq) %>%
     mutate(order_within_cancer = 1:n()) %>%
     ungroup() %>%
     group_by(cohort, record_id, ca_seq, regimen_drugs) %>%
     mutate(order_within_regimen = 1:n()) %>%
-    ungroup()
+    ungroup() %>%
+    left_join(.,
+              regimen_drugs_lookup,
+              by = c("regimen_drugs"))
   # }
 
   # option 2: all "first line" drug regimens (regimens of a certain number, within a cancer diganosis)
@@ -136,88 +151,92 @@ create_cohort <- function(cohort,
   # regimen_drugs is not specified, regimen_order is specified and regimen_type = "within cancer"
   if (missing(regimen_drugs) && !missing(regimen_order) && stringr::str_to_lower(regimen_order_type) == "within cancer") {
     cohort_ca_drugs <- left_join(cohort_ca_dx,
-                                 get(paste0("ca_drugs_", cohort_temp)),
-                                 by = c("cohort", "record_id", "institution", "ca_seq")) %>%
-      filter(order_within_cancer %in% c({{regimen_order}}))
+      get(paste0("ca_drugs_", cohort_temp)),
+      by = c("cohort", "record_id", "institution", "ca_seq")
+    ) %>%
+      filter(order_within_cancer %in% c({{ regimen_order }}))
 
     # restrict cancer cohort to all patients who got a drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
-                               cohort_ca_drugs %>%
-                                 select(cohort, record_id, institution, ca_seq),
-                               by = c("cohort", "record_id", "institution", "ca_seq"))
-    }
+      cohort_ca_drugs %>%
+        select(cohort, record_id, institution, ca_seq),
+      by = c("cohort", "record_id", "institution", "ca_seq")
+    )
+  }
 
   # if specific drug regimen is requested
   # option 3: all times that drug regimen was received
   if (!missing(regimen_drugs) && missing(regimen_order)) {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      filter(regimen_drugs %in% c({{regimen_drugs}}))
+      filter(regimen_drugs %in% c({{ regimen_drugs }}) | abbreviation %in% c({{ regimen_drugs }}))
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
-                               cohort_ca_drugs %>%
-                                 select(cohort, record_id, institution, ca_seq),
-                               by = c("cohort", "record_id", "institution", "ca_seq"))
+      cohort_ca_drugs %>%
+        select(cohort, record_id, institution, ca_seq),
+      by = c("cohort", "record_id", "institution", "ca_seq")
+    )
   }
 
   # option 4: 1st (or other) time that regimen was received
   else if (!missing(regimen_drugs) && !missing(regimen_order) && stringr::str_to_lower(regimen_order_type) == "within regimen") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      filter(regimen_drugs %in% c({{regimen_drugs}})) %>%
+      filter(regimen_drugs %in% c({{ regimen_drugs }}) | abbreviation %in% c({{ regimen_drugs }})) %>%
       # filter on order of interest (e.g. first, all)
-      filter(order_within_regimen %in% c({{regimen_order}}))
+      filter(order_within_regimen %in% c({{ regimen_order }}))
 
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
-                               cohort_ca_drugs %>%
-                                 select(cohort, record_id, institution, ca_seq),
-                               by = c("cohort", "record_id", "institution", "ca_seq"))
+      cohort_ca_drugs %>%
+        select(cohort, record_id, institution, ca_seq),
+      by = c("cohort", "record_id", "institution", "ca_seq")
+    )
   }
 
   # specific first line regimens
   else if (!missing(regimen_drugs) && !missing(regimen_order) && stringr::str_to_lower(regimen_order_type) == "within cancer") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      filter(regimen_drugs %in% c({{regimen_drugs}}),
-             order_within_cancer %in% c({{regimen_order}}))
+      filter(
+        regimen_drugs %in% c({{ regimen_drugs }} | abbreviation %in% c({{ regimen_drugs }})),
+        order_within_cancer %in% c({{ regimen_order }})
+      )
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
-                               cohort_ca_drugs %>%
-                                 select(cohort, record_id, institution, ca_seq),
-                               by = c("cohort", "record_id", "institution", "ca_seq"))
+      cohort_ca_drugs %>%
+        select(cohort, record_id, institution, ca_seq),
+      by = c("cohort", "record_id", "institution", "ca_seq")
+    )
   }
 
   # return a table 1 to describe the cancer cohort if the user specifies
   if (return_summary == TRUE) {
     tbl1_cohort <- gtsummary::tbl_summary(cohort_ca_dx,
-                                          by = cohort,
-                                          include = c(cohort, institution, stage_dx, ca_hist_adeno_squamous),
+      by = cohort,
+      include = c(cohort, institution, stage_dx, ca_hist_adeno_squamous),
     )
 
     tbl_drugs <- gtsummary::tbl_summary(cohort_ca_drugs,
-                                        by = cohort,
-                                        include = c(cohort, institution, regimen_drugs))
+      by = cohort,
+      include = c(cohort, institution, regimen_drugs)
+    )
   }
 
-  return(list("cohort_ca_dx" = cohort_ca_dx,
-              "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen),
-              "tbl1_cohort" = tbl1_cohort,
-              "tbl_drugs" = tbl_drugs))
-
-  # if output suffix is requested, rename output datasets
-  # if (!missing(output_suffix)) {
-  #   return(list(paste0("cohort_ca_dx_", get(output_suffix)) = cohort_ca_dx,
-  #               paste0("cohort_ca_drugs_", get(output_suffix)) = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen),
-  #               "tbl1_cohort" = tbl1_cohort,
-  #               "tbl_drugs" = tbl_drugs
-  #   ))
-  # } else {
-    # ))
-  # }
-
-
+  if (return_summary == TRUE) {
+    return(list(
+      "cohort_ca_dx" = cohort_ca_dx,
+      "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen),
+      "tbl1_cohort" = tbl1_cohort,
+      "tbl_drugs" = tbl_drugs
+    ))
+    } else {
+      return(list(
+        "cohort_ca_dx" = cohort_ca_dx,
+        "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen)
+      ))
+  }
 }

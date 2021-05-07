@@ -6,9 +6,8 @@
 \usage{
 create_cohort(
   cohort,
-  output_suffix,
   index_ca_seq = 1,
-  institution = c("DFCI", "MSK", "VICC", "UHN"),
+  institution,
   stage_dx,
   ca_hist_adeno_squamous,
   mets_dx_stage_iv,
@@ -20,8 +19,6 @@ create_cohort(
 }
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
-
-\item{output_suffix}{Suffix to append to returned data frames (cohort_ca_dx_suffix, cohort_ca_drugs_suffix)}
 
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the patient's first index cancer.}
 
@@ -40,7 +37,7 @@ create_cohort(
 \item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE.}
 }
 \value{
-
+cohort_ca_dx and cohort_ca_drugs data frames
 }
 \description{
 This function allows the user to create a cohort for analysis based on cancer diagnosis information such as cancer cohort, treating institution, histology, stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
@@ -48,24 +45,24 @@ This will return two datasets: (1) cohort_ca_dx will contain all patients matchi
 }
 \examples{
 Example 1 ----------------------------------
-Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+# Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
 create_cohort(cohort = "NSCLC",
-stage_dx = c("Stage IV"),
-ca_hist_adeno_squamous = "Adenocarcinoma")
+     stage_dx = c("Stage IV"),
+     ca_hist_adeno_squamous = "Adenocarcinoma")
 Example 2 ----------------------------------
-Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
-create_cohort(cohort = "NSCLC",
-regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
-regimen_order = 1,
-regimen_order_type = "within regimen")
+# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+     create_cohort(cohort = "NSCLC",
+     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+     regimen_order = 1,
+     regimen_order_type = "within regimen")
 Example 3 ----------------------------------
-Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
+# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 create_cohort(cohort = "NSCLC",
-regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-regimen_order = 1,
-regimen_order_type = "within regimen")
+     regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+     regimen_order = 1,
+     regimen_order_type = "within regimen")
 Example 4 ----------------------------------
-Create a cohort of all NSCLC patients who ever received Immunotherapy
+# Create a cohort of all NSCLC patients who ever received Immunotherapy
 create_cohort(cohort = "NSCLC",
-regimen_drugs = "Immunotherapy")
+     regimen_drugs = "Immunotherapy")
 }

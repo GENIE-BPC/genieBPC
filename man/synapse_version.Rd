@@ -2,8 +2,7 @@
 % Please edit documentation in R/synapse_version.R
 \name{synapse_version}
 \alias{synapse_version}
-\title{Data is updated periodically and each time it is updated the cohort will get a new version number.
-This function will get each version number for each cohort and will help you determine what is the most recent version for each cohort.}
+\title{synapse_version}
 \usage{
 synapse_version(most_recent = FALSE)
 }
@@ -11,8 +10,11 @@ synapse_version(most_recent = FALSE)
 \item{most_recent}{TRUE/FALSE indicator if  you only want the most recent version number for each cohort}
 }
 \description{
-The `synapse_version` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+Data is updated periodically and each time it is updated the cohort will get a new version number.
+This function will get each version number for each cohort and will help you determine what is the most recent version for each cohort.
 }
 \details{
+The `synapse_version` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+
 To obtain version numbers and pull the correct one for each cohort
 }
