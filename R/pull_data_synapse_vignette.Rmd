@@ -15,7 +15,11 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(GenieBPC)
 library(tidyverse)
+library(synapser)
+
+synLogin()
 ```
 
 ## Introduction
@@ -75,8 +79,8 @@ Let's start by reviewing the `pull_data_synapse()` arguments.
 ```{r echo = FALSE}
 tibble::tribble(
   ~Argument,       ~Description,
-  "`cohort=`",       "specify the cohort of interest (NSCLC or CRC).",
-  "`version=`",        "specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available."
+  "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
+  "`version`",        "specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available."
 ) %>%
   gt::gt() %>%
   gt::fmt_markdown(columns = vars(Argument)) %>%
@@ -91,10 +95,16 @@ tibble::tribble(
 
 &nbsp;
 
+## Example
+
+The example below demonstrates pulling the most recent NSCLC data from Synapse and storing in the local environment. 
+
 ```{r, eval = FALSE}
-pull_data_synapse("NSCLC")
+nsclc_data = pull_data_synapse("NSCLC")
+list2env(nsclc_data, envir = globalenv())
 ```
 
+&nbsp;
 
 ## Future Work
 
