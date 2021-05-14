@@ -19,8 +19,9 @@ Imports:
     dtplyr,
     tibble,
     cli,
-    gtsummary
+    stringr
 Depends: 
     R (>= 2.10)
 Suggests:
-    synapser
+    synapser,
+    gtsummary

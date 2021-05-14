@@ -17,24 +17,24 @@
 #' @export
 #'
 #' @examples
-#' Example 1 ----------------------------------
+#' Example1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
 #' create_cohort(cohort = "NSCLC",
 #'      stage_dx = c("Stage IV"),
 #'      ca_hist_adeno_squamous = "Adenocarcinoma")
-#' Example 2 ----------------------------------
+#' Example2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #'      create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
-#' Example 3 ----------------------------------
+#' Example3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 #' create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
-#' Example 4 ----------------------------------
+#' Example4 ----------------------------------
 #' # Create a cohort of all NSCLC patients who ever received Immunotherapy
 #' create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = "Immunotherapy")
@@ -63,21 +63,38 @@ create_cohort <- function(cohort,
   if (!(cohort %in% c("NSCLC", "CRC"))) {
     stop("Select from available cancer cohorts: NSCLC, CRC")
   }
+#  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) , !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
-  if (cohort == "NSCLC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC", "UHN"))){
-    stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+#
+#   if (cohort == "NSCLC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC", "UHN"))){
+#     stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+#   }
+
+  if(sum(!missing(institution),grepl("^NSCLC$", cohort)>0)>1 ){
+    if( sum(!grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution)>0)>0  ){
+      stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+    }
   }
 
-  if (cohort == "CRC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC"))){
-    stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+  if(sum(!missing(institution),grepl("^CRC$", cohort)>0)>1 ){
+    if(sum( !grepl(c("^DFCI$|^MSK$|^VICC$"), institution)>0 ) >0){
+      stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+    }
   }
 
-  if (missing(institution)){
+  # if (cohort == "CRC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC"))){
+  #   stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+  # }
+
+  if (missing(institution) & cohort == "NSCLC"){
     institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
+    message("No institutions were provided defaults are DFCI, MSK, UHN, and VICC for NSCLC cohort")
+  } else  if (missing(institution) & cohort == "CRC"){
+    institution_temp <- c("DFCI", "MSK","VICC")
+    message("No institutions were provided defaults are DFCI, MSK,and VICC for CRC cohort")
   } else {
     institution_temp <- {{ institution }}
   }
-
   # mets at diagnosis specified but stage 4 not selected
 
   # regimen_order_type needs to be specified if regimen_order is specified
@@ -85,6 +102,7 @@ create_cohort <- function(cohort,
   if (missing(regimen_order_type) && !missing(regimen_order)) {
     stop("Regimen order type must be specified. Choose from 'within cancer' or 'within drug'.")
   }
+#can't only specify regimen_order_type neec to build check for that
 
   if (missing(regimen_order_type)) {
     regimen_order_type <- NULL
@@ -237,6 +255,7 @@ create_cohort <- function(cohort,
       return(list(
         "cohort_ca_dx" = cohort_ca_dx,
         "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen)
+
       ))
   }
 }
