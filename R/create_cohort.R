@@ -55,7 +55,9 @@ create_cohort <- function(cohort,
   cohort_temp <- cohort
 
   # alphabetize drugs in regimen to match how they are stored in variable regimen_drugs
-  regimen_drugs_sorted <- map_chr(strsplit(regimen_drugs, ","), ~toString(str_sort((str_trim(.x)))))
+  if (!missing(regimen_drugs)) {
+    regimen_drugs_sorted <- map_chr(strsplit(regimen_drugs, ","), ~toString(str_sort((str_trim(.x)))))
+  }
 
   # print the cohort that is being returned, esp useful for drug information
   # print(paste0(""))
