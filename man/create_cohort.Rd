@@ -12,6 +12,7 @@ create_cohort(
   ca_hist_adeno_squamous,
   mets_dx_stage_iv,
   regimen_drugs,
+  regimen_type = "Exact",
   regimen_order,
   regimen_order_type,
   return_summary = FALSE
@@ -30,11 +31,13 @@ create_cohort(
 
 \item{regimen_drugs}{Names of drugs in cancer-directed regimen, based on variable `regimen_drugs` in the ca_drugs dataset.}
 
+\item{regimen_type}{Indicates whether the regimen specified in `regimen_drugs` is the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of "Exact" or "Containing". The default is "Exact".}
+
 \item{regimen_order}{Order of cancer-directed regimen. Default is 1, indicating the first time the regimen was received. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.}
 
 \item{regimen_order_type}{Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed)}
 
-\item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE.}
+\item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE. {gtsummary} is required to return a table summary of the datasets.}
 }
 \value{
 cohort_ca_dx and cohort_ca_drugs data frames
