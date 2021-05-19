@@ -1,44 +1,57 @@
 #' create_cohort
 #'
-#' This function allows the user to create a cohort for analysis based on cancer diagnosis information such as cancer cohort, treating institution, histology, stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
-#' This will return two datasets: (1) cohort_ca_dx will contain all patients matching the cancer diagnosis criteria of interest; (2) cohort_ca_drugs will return the drug-regimen data to those patients.
+#' This function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
+#' This function returns two datasets:
+#' (1) `cohort_ca_dx` will contain cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
+#' (2) `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.
+#' The function inputs `cohort`, `institution`, `stage_dx`, `ca_hist_adeno_squamous`, and `regimen_drugs` correspond to the variable names in the GENIE BPC Analytic Data Guide, available on  \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 #'
-#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
-#' @param institution GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default is all institutions.
-#' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default is all stages.
-#' @param ca_hist_adeno_squamous Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor"
-#' @param index_ca_seq Index cancer sequence. Default is 1, indicating the patient's first index cancer.
-#' @param regimen_drugs Names of drugs in cancer-directed regimen, based on variable `regimen_drugs` in the ca_drugs dataset.
-#' @param regimen_type Indicates whether the regimen specified in `regimen_drugs` is the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of "Exact" or "Containing". The default is "Exact".
-#' @param regimen_order Order of cancer-directed regimen. Default is 1, indicating the first time the regimen was received. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.
+#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).
+#' @param index_ca_seq Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.
+#' @param institution GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default selection is all institutions.
+#' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+#' @param ca_hist_adeno_squamous Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor". Default selection is all histologies.
+#' @param regimen_drugs Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin, Pemetrexed".
+#' @param regimen_type Indicates whether the regimen(s) specified in `regimen_drugs` idnicates the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of "Exact" or "Containing". The default is "Exact".
+#' @param regimen_order Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.
 #' @param regimen_order_type Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed)
-#' @param return_summary Specifies whether a summary table for the cohort is returned. Default is FALSE. {gtsummary} is required to return a table summary of the datasets.
+#' @param return_summary Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.
 #'
-#' @return cohort_ca_dx and cohort_ca_drugs data frames
+#' @return data frames `cohort_ca_dx` and `cohort_ca_drugs`
+#'
+#' @author Jessica Lavery
 #' @export
 #'
 #' @examples
 #' Example 1 ----------------------------------
-#' # Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+#' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 #' create_cohort(cohort = "NSCLC",
 #'      stage_dx = c("Stage IV"),
 #'      ca_hist_adeno_squamous = "Adenocarcinoma")
+#'
 #' Example 2 ----------------------------------
-#' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+#' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 #'      create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
 #'      regimen_order = 1,
-#'      regimen_order_type = "within regimen")
+#'      regimen_order_type = "within cancer")
+#'
 #' Example 3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 #' create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
+#'
 #' Example 4 ----------------------------------
-#' # Create a cohort of all NSCLC patients who ever received Immunotherapy
+#' # Create a cohort of all NSCLC patients who ever received a regimen containing an immunotherapy
+#' # I/O not in drug lookup table yet, still need to test
 #' create_cohort(cohort = "NSCLC",
-#'      regimen_drugs = "Immunotherapy")
+#'               regimen_drugs = "Immunotherapy",
+#'               regimen_type = "Containing",
+#'               regimen_order = 1,
+#'               regimen_order_type = "within regimen",
+#'               return_summary = TRUE)
 create_cohort <- function(cohort,
                           index_ca_seq = 1,
                           institution,

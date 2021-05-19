@@ -19,6 +19,7 @@
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
 #' samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
+#' @author Axel Martin
 #' @import
 #' dplyr
 #' dtplyr

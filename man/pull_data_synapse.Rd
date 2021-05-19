@@ -16,3 +16,6 @@ The `pull_data_synapse` function access the specified version of the clinical GE
 NOTE: when entering cohort and version number they must be in the same order in the lists in order to pull the correct data. See example below.
 To obtain access to Synapse or the GENIE BPC project ...
 }
+\author{
+Mike Curry
+}

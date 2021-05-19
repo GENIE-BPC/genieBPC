@@ -32,3 +32,6 @@ out <- create_cohort(cohort = "NSCLC",
      regimen_order_type = "within regimen")
 samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
 }
+\author{
+Axel Martin
+}
