@@ -6,6 +6,8 @@
 #'
 #' @param cohort Specify the cohort of interest (NSCLC or CRC)
 #' @param version Specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available.
+#'
+#' @author Mike Curry
 #' @export
 #' @import
 #' dplyr
