@@ -1,3 +1,15 @@
+#' Drug Names by Cohort
+#'
+#' A dataset containing the cancer-directed drug names and their synonyms.
+#'
+#' @format A table for cancer-directed drug names associated with each cancer cohort:
+#' \describe{
+#'   \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).}
+#'   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
+#'   \item{drug_name_full}{Name of generic/ingredient cancer-directed drug with associated synonyms in parentheses}
+#'   ...
+#' }
+
 library(tidyverse)
 library(synapser)
 
@@ -14,20 +26,16 @@ drug_names_by_cohort =
   select(cohort, starts_with("drugs_drug")) %>%
   pivot_longer(cols = starts_with("drugs_drug"),
                names_to = "drug_no",
-               values_to = "drug_name",
+               values_to = "drug_name_full",
                values_drop_na = TRUE) %>%
   select(-drug_no) %>%
-  mutate(drug_name_short = word(drug_name, sep = "\\(")) %>%
-  arrange(cohort, drug_name_short) %>%
+  mutate(drug_name = word(drug_name_full, sep = "\\(")) %>%
+  arrange(cohort, drug_name) %>%
   distinct() %>%
-  select(cohort, drug_name_short, drug_name) %>%
-  filter(cohort %in% c("NSCLC", "CRC", "BrCa")) %>%
-  split(.$cohort)
+  select(cohort, drug_name, drug_name_full) %>%
+  filter(cohort %in% c("NSCLC", "CRC"))
 
+attr(drug_names_by_cohort$drug_name, "label") <- "Drug Name"
+attr(drug_names_by_cohort$drug_name_full, "label") <- "Full Drug Name"
 
-for(i in 1:length(drug_names_by_cohort)){
-  file_name = paste0(str_to_lower(names(drug_names_by_cohort)[[i]]), "_cohort_drug_names")
-  save(drug_names_by_cohort,
-       file = here::here(paste0("data/", file_name, ".RData")))
-}
-
+usethis::use_data(drug_names_by_cohort, overwrite = TRUE)
