@@ -1,12 +1,10 @@
 library(tidyverse)
 library(synapser)
 
-
 synLogin()
 
-# load derived datasets
 # load current version of derived data from Synapse
-derived_data_file_synapse <- synGet("syn22299362")#, version =12)
+derived_data_file_synapse <- synGet("syn22299362")
 load(derived_data_file_synapse$path)
 
 drug_names_by_cohort =
@@ -28,9 +26,8 @@ drug_names_by_cohort =
 
 
 for(i in 1:length(drug_names_by_cohort)){
-  openxlsx::write.xlsx(drug_names_by_cohort,
-                       file = here::here("R/drug_names/drug_names_by_cohort.xlsx"),
-                       colnames = TRUE
-  )
+  file_name = paste0(str_to_lower(names(drug_names_by_cohort)[[i]]), "_cohort_drug_names")
+  save(drug_names_by_cohort,
+       file = here::here(paste0("data/", file_name, ".RData")))
 }
 
