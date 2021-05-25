@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(GenieBPC)
 library(tidyverse)
 library(synapser)
+library(gt)
 
 synLogin()
 ```
@@ -97,15 +98,32 @@ tibble::tribble(
 
 ## Example
 
-The example below demonstrates pulling the most recent NSCLC data from Synapse and storing in the local environment. 
+The example below demonstrates pulling the most recent NSCLC data from Synapse and storing in the local environment using the `list2env()` function. 
+
 
 ```{r, eval = FALSE}
 nsclc_data = pull_data_synapse("NSCLC")
 list2env(nsclc_data, envir = globalenv())
 ```
 
+
+The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
+
+```{r, include = FALSE}
+nsclc_data = pull_data_synapse("NSCLC")
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+ls(nsclc_data) %>% 
+  as.data.frame() %>% 
+  gt() %>% 
+  cols_label(. = md("**Datasets Returned**"))
+```
+
+
 &nbsp;
 
 ## Future Work
 
-* As of April 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.
+* As of May 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.
