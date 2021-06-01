@@ -115,19 +115,26 @@ create_cohort <- function(cohort,
   } else {
     institution_temp <- {{ institution }}
   }
-  # mets at diagnosis specified but stage 4 not selected
+
+  if(!missing(regimen_order)){
+    if(!regimen_order %in% c("within cancer", "within drug")){
+      stop("For regimen_order_type select from 'within cancer' or from 'within drug'")
+    }
+  }
 
   # regimen_order_type needs to be specified if regimen_order is specified
-  # this doesn't work
   if (missing(regimen_order_type) && !missing(regimen_order)) {
     stop("Regimen order type must be specified. Choose from 'within cancer' or 'within drug'.")
   }
-#can't only specify regimen_order_type neec to build check for that
+#can't only specify regimen_order_type need to build check for that
+  if(!missing(regimen_order_type) && missing(regimen_order) ){
+    stop("Must specify order in 'regimen_order' argument")
+  }
 
   if (missing(regimen_order_type)) {
     regimen_order_type <- NULL
   }
-
+  # mets at diagnosis specified but stage 4 not selected
   # to account for unspecified stage
   if (missing(stage_dx)) {
     stage_dx_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
