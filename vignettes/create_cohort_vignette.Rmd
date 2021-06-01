@@ -44,6 +44,23 @@ synLogin()
 ```
 
 
+```{r, include = FALSE}
+library(gt)
+library(tidyverse)
+
+gt_compact_fun <- function(x) {
+  gt::tab_options(x, 
+                  table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+}
+```
+
+
 ## Basic Usage
 
 The output from `create_cohort()` is two datasets ready for analysis. 
@@ -51,10 +68,10 @@ The output from `create_cohort()` is two datasets ready for analysis.
 
 ### Modifying Function Arguments
 
-The `create_cohort` function includes several input parameters:
+The `create_cohort()` function includes several input parameters:
 
 
-```{r echo = FALSE}
+```{r, echo = FALSE}
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "GENIE BPC Project cancer. Must be one of 'NSCLC' (non-small cell lung cancer) or 'CRC' (colorectal cancer). Future cohorts will include 'BrCa' (breast cancer), 'PANC' (pancreatic cancer), 'Prostate' (prostate cancer).",
@@ -76,30 +93,71 @@ tibble::tribble(
                   grand_summary_row.padding = gt::px(1),
                   footnotes.padding = gt::px(1),
                   source_notes.padding = gt::px(1),
-                  row_group.padding = gt::px(1))
+                  row_group.padding = gt::px(1)) %>%
+  gt_compact_fun()
 ```
 
+
+## Examples
+
+The examples below create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the `pull_data_synapse` function:
+
+
+```{r, results = 'hide'}
+nsclc_data = pull_data_synapse("NSCLC")
+list2env(nsclc_data, envir = globalenv())
+```
 
 ### Example 1
 
 Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
 ```{r}
-create_cohort(cohort = "NSCLC", 
-              stage_dx = c("Stage IV"), 
-              ca_hist_adeno_squamous = "Adenocarcinoma")
+nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC", 
+                                   stage_dx = c("Stage IV"),
+                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+
+
+nsclc_stg_iv_adeno_ca_dx = nsclc_stg_iv_adeno$cohort_ca_dx
+nsclc_stg_iv_adeno_ca_drugs = nsclc_stg_iv_adeno$cohort_ca_drugs
 ```
 
 ### Example 2
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 
-```{r}
+```{r, eval = FALSE}
 create_cohort(cohort = "NSCLC",
-              regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+              regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
               regimen_order = 1,
               regimen_order_type = "within cancer")
 ```
 
+### Example 3
+
+Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
+
+```{r, warning = FALSE}
+nsclc_cisplatin_pem_any = create_cohort(cohort = "NSCLC",
+                                        regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+                                        regimen_order = 1,
+                                        regimen_order_type = "within regimen", 
+                                        return_summary = TRUE)
+
+nsclc_cisplatin_pem_any$tbl1_cohort
+nsclc_cisplatin_pem_any$tbl_drugs
+```
 
 
+### Example 4
+
+Create a cohort of all NSCLC patients who ever received a regimen containing an immunotherapy
+
+```{r}
+# create_cohort(cohort = "NSCLC",
+#               regimen_drugs = "Immunotherapy",
+#               regimen_type = "Containing",
+#               regimen_order = 1,
+#               regimen_order_type = "within regimen",
+#               return_summary = TRUE)
+```
