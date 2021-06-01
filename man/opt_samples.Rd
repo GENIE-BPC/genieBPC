@@ -6,19 +6,43 @@
 \usage{
 opt_samples(
   samples_object,
-  sample_type = c("Primary", "Metastasis"),
-  histology
+  histology = NULL,
+  sample_type = NULL,
+  min_max_time = NULL
 )
 }
 \arguments{
-\item{samples_object}{output object of the fectch_samples function.}
+\item{samples_object}{output object of the fetch_samples function.}
+
+\item{histology}{character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
+of samples_object argument above to get options.}
 
 \item{sample_type}{character specifying which type of sample to prioritize, options are "Primary" and "Metastasis".
 Default is either.}
 
-\item{histology}{character vector specifying which sample histologies to keep. See "Oncotree.Code" column
-of samples_object argument above to get options.}
+\item{min_max_time}{character specifying if the first or last sample recorded should be kept.
+Options are "min" (first) and "max" (last).}
+}
+\value{
+returns the sample object list inputted with an additional dataset named "samples_data".
 }
 \description{
 Get the best samples for analysis following several user define criterions.
+}
+\examples{
+Example 1 ----------------------------------
+# Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+out <- create_cohort(cohort = "NSCLC",
+     stage_dx = c("Stage IV"),
+     ca_hist_adeno_squamous = "Adenocarcinoma")
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
+opt_samples <- opt_samples(samples_object = samples_data)
+Example 2 ----------------------------------
+# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+out <- create_cohort(cohort = "NSCLC",
+     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+     regimen_order = 1,
+     regimen_order_type = "within regimen")
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
+opt_samples <- opt_samples(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 }

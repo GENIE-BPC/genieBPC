@@ -4,14 +4,34 @@
 \alias{fetch_samples}
 \title{fetch_samples}
 \usage{
-fetch_samples(clin_dat, cohort_object)
+fetch_samples(cohort, cohort_object)
 }
 \arguments{
-\item{clin_dat}{dataframe containing the sample information to be matched with the patients from the cohort of interest.
-eg: data_clinical_sample.txt.}
+\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
 
 \item{cohort_object}{output object of the create_cohort function.}
 }
+\value{
+returns the cohort object list inputted with an additional dataset named "samples_data".
+}
 \description{
 Add samples for each patients of the cohort of interest
+}
+\examples{
+Example 1 ----------------------------------
+# Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+out <- create_cohort(cohort = "NSCLC",
+     stage_dx = c("Stage IV"),
+     ca_hist_adeno_squamous = "Adenocarcinoma")
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
+Example 2 ----------------------------------
+# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+out <- create_cohort(cohort = "NSCLC",
+     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+     regimen_order = 1,
+     regimen_order_type = "within regimen")
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
+}
+\author{
+Axel Martin
 }
