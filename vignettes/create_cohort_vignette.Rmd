@@ -12,7 +12,8 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>", 
+  message = FALSE
 )
 
 library(GenieBPC)
@@ -71,8 +72,8 @@ The output from `create_cohort()` is two datasets ready for analysis.
 The `create_cohort()` function includes several input parameters:
 
 
-```{r, echo = FALSE}
-tibble::tribble(
+```{r, include = FALSE}
+tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "GENIE BPC Project cancer. Must be one of 'NSCLC' (non-small cell lung cancer) or 'CRC' (colorectal cancer). Future cohorts will include 'BrCa' (breast cancer), 'PANC' (pancreatic cancer), 'Prostate' (prostate cancer).",
   "`index_ca_seq`",       "Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.",
@@ -95,6 +96,12 @@ tibble::tribble(
                   source_notes.padding = gt::px(1),
                   row_group.padding = gt::px(1)) %>%
   gt_compact_fun()
+
+tbl_arguments
+```
+
+```{r, echo = FALSE}
+tbl_arguments
 ```
 
 
@@ -117,9 +124,7 @@ nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC",
                                    stage_dx = c("Stage IV"),
                                    ca_hist_adeno_squamous = "Adenocarcinoma")
 
-
-nsclc_stg_iv_adeno_ca_dx = nsclc_stg_iv_adeno$cohort_ca_dx
-nsclc_stg_iv_adeno_ca_drugs = nsclc_stg_iv_adeno$cohort_ca_drugs
+ls(nsclc_stg_iv_adeno)
 ```
 
 ### Example 2
@@ -143,8 +148,15 @@ nsclc_cisplatin_pem_any = create_cohort(cohort = "NSCLC",
                                         regimen_order = 1,
                                         regimen_order_type = "within regimen", 
                                         return_summary = TRUE)
+```
 
+
+```{r, warning = FALSE}
 nsclc_cisplatin_pem_any$tbl1_cohort
+```
+
+
+```{r, warning = FALSE}
 nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
