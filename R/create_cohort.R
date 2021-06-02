@@ -3,7 +3,7 @@
 #' This function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
 #' This function returns two datasets:
 #' (1) `cohort_ca_dx` will contain cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
-#' (2) `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.
+#' (2) `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis. For example, a drug regimen associated with treating two cancer diagnoses will have two records in this dataset.
 #' The function inputs `cohort`, `institution`, `stage_dx`, `ca_hist_adeno_squamous`, and `regimen_drugs` correspond to the variable names in the GENIE BPC Analytic Data Guide, available on  \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 #'
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).
@@ -174,7 +174,6 @@ create_cohort <- function(cohort,
 
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
-  # if (missing(regimen_drugs) & missing(regimen_order)) {
   cohort_ca_drugs <- left_join(cohort_ca_dx,
     get(paste0("ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "institution", "ca_seq")
@@ -183,13 +182,18 @@ create_cohort <- function(cohort,
     group_by(cohort, record_id, ca_seq) %>%
     mutate(order_within_cancer = 1:n()) %>%
     ungroup() %>%
-    group_by(cohort, record_id, ca_seq, regimen_drugs) %>%
-    mutate(order_within_regimen = 1:n()) %>%
-    ungroup() %>%
+    # order drugs w/in regimen, have to account for structure of dat which is 1 reg:assoc ca dx (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
+    left_join(.,
+              ca_drugs_NSCLC %>%
+                distinct(record_id, regimen_number, regimen_drugs) %>%
+                group_by(record_id, regimen_number, regimen_drugs) %>%
+                mutate(order_within_regimen = 1:n()) %>%
+                ungroup() %>%
+                select(-regimen_drugs),
+              by = c("record_id", "regimen_number")) %>%
     left_join(.,
               regimen_drugs_lookup,
               by = c("regimen_drugs"))
-  # }
 
   # option 2: all "first line" drug regimens (regimens of a certain number, within a cancer diganosis)
   # specific regimen number to all pts in cohort, any regimen name
@@ -248,7 +252,6 @@ create_cohort <- function(cohort,
       filter(regimen_drugs %in% c(regimen_drugs_sorted) | abbreviation %in% c(regimen_drugs_sorted)) %>%
       # filter on order of interest (e.g. first, all)
       filter(order_within_regimen %in% c({{ regimen_order }}))
-
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
