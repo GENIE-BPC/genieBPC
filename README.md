@@ -18,4 +18,13 @@ You can install the development version of {GenieBPC} with the following code:
 remotes::install_github("AxelitoMartin/GenieBPC")
 ```
 
+## Obtaining Data Access
+
+Access to the GENIE BPC data release folders on Synapse is required in order to use this function. To obtain access:
+1. Register for a [Synapse account](https://www.synapse.org/#!Reigster0)
+2. Use [this link](https://www.synapse.org/#!Team:3394597) to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
+3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
+
+*Note: Please allow up to a week to review and grant access.*
+
 ## Examples
