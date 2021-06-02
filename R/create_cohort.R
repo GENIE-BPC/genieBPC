@@ -11,10 +11,10 @@
 #' @param institution GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default selection is all institutions.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
 #' @param ca_hist_adeno_squamous Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor". Default selection is all histologies.
-#' @param regimen_drugs Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin, Pemetrexed".
+#' @param regimen_drugs Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin, Pemetrexed". Acceptable values are found in the `drug_names_by_cohort` dataset provided with this package.
 #' @param regimen_type Indicates whether the regimen(s) specified in `regimen_drugs` indicates the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of "Exact" or "Containing". The default is "Exact".
 #' @param regimen_order Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.
-#' @param regimen_order_type Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed)
+#' @param regimen_order_type Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens; "within cancer") or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed; "within regimen"). Acceptable values are "within cancer" and "within regimen".
 #' @param return_summary Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.
 #'
 #' @return data frames `cohort_ca_dx` and `cohort_ca_drugs`
@@ -76,6 +76,7 @@ create_cohort <- function(cohort,
   # print(paste0(""))
 
   # check params
+  # cancer cohort
   if (length(cohort_temp) > 1) {
     stop("Specify only one cohort at a time.")
   }
@@ -83,33 +84,30 @@ create_cohort <- function(cohort,
   if (!(cohort %in% c("NSCLC", "CRC"))) {
     stop("Select from available cancer cohorts: NSCLC, CRC")
   }
+#  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) , !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
-  if (cohort == "NSCLC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC", "UHN"))){
-    stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+  # participating institutions by cohort
+  if(sum(!missing(institution),grepl("^NSCLC$", cohort)>0)>1 ){
+    if( sum(!grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution)>0)>0  ){
+      stop("Select from available participating institutions. For NSCLC, the participating institutions were DFCI, MSK, UHN and VICC.")
+    }
   }
 
-  if (cohort == "CRC" && !missing(institution) && !(institution %in% c("DFCI", "MSK", "VICC"))){
-    stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+  if(sum(!missing(institution),grepl("^CRC$", cohort)>0)>1 ){
+    if(sum( !grepl(c("^DFCI$|^MSK$|^VICC$"), institution)>0 ) >0){
+      stop("Select from available participating institutions. For CRC, the participating institutions were DFCI, MSK and VICC.")
+    }
   }
 
-  if (missing(institution)){
+  if (missing(institution) & cohort == "NSCLC"){
     institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
+  } else  if (missing(institution) & cohort == "CRC"){
+    institution_temp <- c("DFCI", "MSK","VICC")
   } else {
     institution_temp <- {{ institution }}
   }
 
   # mets at diagnosis specified but stage 4 not selected
-
-  # regimen_order_type needs to be specified if regimen_order is specified
-  # this doesn't work
-  if (missing(regimen_order_type) && !missing(regimen_order)) {
-    stop("Regimen order type must be specified. Choose from 'within cancer' or 'within drug'.")
-  }
-
-  if (missing(regimen_order_type)) {
-    regimen_order_type <- NULL
-  }
-
   # to account for unspecified stage
   if (missing(stage_dx)) {
     stage_dx_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
@@ -126,6 +124,33 @@ create_cohort <- function(cohort,
   }
   else {
     histology_temp <- {{ ca_hist_adeno_squamous }}
+  }
+
+  ### drug regimen parameter checks
+  # if regimen_order is not numeric
+  if (!is.numeric(regimen_order)) {
+    stop("The regimen_order parameter must be a numeric value >=1.")
+  }
+
+  # if regimen_order_type is mis-specified
+  if(!missing(regimen_order_type) | is.numeric(regimen_order_type)){
+    if(!regimen_order_type %in% c("within cancer", "within regimen")){
+      stop("For regimen_order_type select from 'within cancer' or from 'within regimen'")
+    }
+  }
+
+  # regimen_order_type needs to be specified if regimen_order is specified
+  if (missing(regimen_order_type) && !missing(regimen_order)) {
+    stop("Regimen order type must be specified. Choose from 'within cancer' or 'within regimen'.")
+  }
+
+  # can't only specify regimen_order_type need to build check for that
+  if(!missing(regimen_order_type) && missing(regimen_order) ){
+    stop("Must specify numeric order in 'regimen_order' argument")
+  }
+
+  if (missing(regimen_order_type)) {
+    regimen_order_type <- NULL
   }
 
   #################################################################################
@@ -297,8 +322,13 @@ create_cohort <- function(cohort,
     )
   }
 
+  # if 0 patients are returned
+  if (nrow(cohort_ca_dx) == 0) {
+    message("No patients meeting the specified criteria were returned. Ensure that all parameters were correctly specified. Specifically, the list of acceptable drugs can be found in the `drug_names_by_cohort` dataset available with this package.")
+  }
+
   # return a table 1 to describe the cancer cohort if the user specifies
-  if (return_summary == TRUE) {
+  if (nrow(cohort_ca_dx) > 0 & return_summary == TRUE) {
     tbl1_cohort <- cohort_ca_dx %>%
       group_by(record_id) %>%
       mutate(n_rec_pt = n()) %>%
@@ -320,17 +350,18 @@ create_cohort <- function(cohort,
     )
   }
 
-  if (return_summary == TRUE) {
+  if (nrow(cohort_ca_dx) > 0 & return_summary == TRUE) {
     return(list(
       "cohort_ca_dx" = cohort_ca_dx,
       "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen),
       "tbl1_cohort" = tbl1_cohort,
       "tbl_drugs" = tbl_drugs
     ))
-    } else {
+    } else if (nrow(cohort_ca_dx) > 0) {
       return(list(
         "cohort_ca_dx" = cohort_ca_dx,
         "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen)
+
       ))
   }
 }
