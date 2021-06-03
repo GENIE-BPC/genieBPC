@@ -2,18 +2,18 @@
 % Please edit documentation in R/pull_data_synapse.R
 \name{pull_data_synapse}
 \alias{pull_data_synapse}
-\title{Obtain clinical data for GENIE BPC from Synapse}
+\title{Obtain Clinical Data Files for GENIE BPC Project}
 \usage{
 pull_data_synapse(cohort, version = "1.1")
 }
 \arguments{
-\item{cohort}{Specify the cohort of interest (NSCLC or CRC)}
+\item{cohort}{Vector or list specifying the cohort(s) of interest. Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or "CRC" (Colorectal Cancer)}
 
 \item{version}{Specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available.}
 }
 \description{
-The `pull_data_synapse` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
-NOTE: when entering cohort and version number they must be in the same order in the lists in order to pull the correct data. See example below.
+The `pull_data_synapse` function accesses the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+NOTE: When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data. See example below.
 To obtain access to Synapse or the GENIE BPC project ...
 }
 \author{

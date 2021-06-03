@@ -1,14 +1,25 @@
-#' Obtain clinical data for GENIE BPC from Synapse
+#' Obtain Clinical Data Files for GENIE BPC Project
 #'
-#' The `pull_data_synapse` function access the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
-#' NOTE: when entering cohort and version number they must be in the same order in the lists in order to pull the correct data. See example below.
-#' To obtain access to Synapse or the GENIE BPC project ...
+#' The `pull_data_synapse` function accesses the specified version of the clinical GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment.
+#' NOTE: When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data. See examples below.
 #'
-#' @param cohort Specify the cohort of interest (NSCLC or CRC)
-#' @param version Specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available.
+#' @param cohort Vector or list specifying the cohort(s) of interest. Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or "CRC" (Colorectal Cancer).
+#' @param version Vector or list specifying the version of the data. By default, the most recent version is pulled. Currently, only version 1.1 is available.
 #'
 #' @author Mike Curry
 #' @export
+#'
+#' #' @examples
+#' Example 1 ----------------------------------
+#' # Pull the most recent non-small cell lung cancer data
+#' pull_data_synapse(cohort = "NSCLC")
+#' #' Example 2 ----------------------------------
+#' # Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data
+#' pull_data_synapse(cohort = c("NSCLC", "CRC"))
+#' #' Example 3 ----------------------------------
+#' # Pull version 2.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data
+#' pull_data_synapse(cohort = c("NSCLC", "CRC"),
+#'                   version = c("2.1", "1.1"))
 #' @import
 #' dplyr
 #' dtplyr
