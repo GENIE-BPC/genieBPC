@@ -52,7 +52,6 @@
 #' Example 4 ----------------------------------
 #' # Create a cohort of all NSCLC patients who ever received a regimen containing
 #' an immunotherapy
-#' # I/O not in drug lookup table yet, still need to test
 #' create_cohort(cohort = "NSCLC",
 #'               regimen_drugs = "Immunotherapy",
 #'               regimen_type = "Containing",
