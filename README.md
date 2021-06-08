@@ -1,5 +1,5 @@
 
-# GenieBPC <img src='imgfile.png' align="right" height="120" /></a>
+# GenieBPC <img src="man/figures/imgfile.png" align="right" height="120" /></a>
 
 The {GenieBPC} package provides a seamless way to obtain the data
 corresponding to each release from Synapse and to create datasets for
