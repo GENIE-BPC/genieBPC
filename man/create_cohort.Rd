@@ -10,7 +10,6 @@ create_cohort(
   institution,
   stage_dx,
   ca_hist_adeno_squamous,
-  mets_dx_stage_iv,
   regimen_drugs,
   regimen_type = "Exact",
   regimen_order,
@@ -40,7 +39,7 @@ create_cohort(
 \item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.}
 }
 \value{
-data frames `cohort_ca_dx` and `cohort_ca_drugs`
+Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
 }
 \description{
 This function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
@@ -51,7 +50,8 @@ The function inputs `cohort`, `institution`, `stage_dx`, `ca_hist_adeno_squamous
 }
 \examples{
 Example 1 ----------------------------------
-# Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
+# Create a cohort of all patients with stage IV NSCLC adenocarcinoma
+and also return all of their corresponding cancer-directed drugs
 create_cohort(cohort = "NSCLC",
      stage_dx = c("Stage IV"),
      ca_hist_adeno_squamous = "Adenocarcinoma")
