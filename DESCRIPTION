@@ -19,7 +19,7 @@ Author: c(person(given = "Jessica",
              role = "aut"),
              )
 Maintainer: Jessica Lavery <laveryj@mskcc.org>
-Description: Helps format Genie data. More Info here.
+Description: The {GenieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
