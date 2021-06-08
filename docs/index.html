@@ -77,7 +77,35 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Helps format Genie data. More Info here.
+<div id="geniebpc-" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#geniebpc-" class="anchor"></a>GenieBPC <img src="imgfile.png" align="right" height="120">
+</h1></div>
+<p>The {GenieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
+<ul>
+<li><p><strong>Pull a specified version of a phenomic data release</strong> from Synapse directly into the R environment. The most recent version is automatically pulled, but a specific version can be specified for the purposes of reproducing analyses. The phenomic data are recorded in multiple datasets, including: patient characteristics (vital status), cancer diagnosis, cancer-directed drug regimens, pathology, imaging, medical oncologist assessment, tumor markers and cancer panel test.</p></li>
+<li><p><strong>Create a cohort for analysis</strong> based on specified diagnosis or regimen inclusion criteria.</p></li>
+<li><p><strong>Pull GENIE genomic data</strong> corresponding to the analytic cohort directly into the R environment, including selection of a single next-generation sequencing test in the case that the patient has multiple, based on user-specified criteria.</p></li>
+</ul>
+<p>The datasets obtained through {GenieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis.</p>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>You can install the development version of {GenieBPC} with the following code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"AxelitoMartin/GenieBPC"</span>)</span></code></pre></div>
+</div>
+<div id="obtaining-data-access" class="section level2">
+<h2 class="hasAnchor">
+<a href="#obtaining-data-access" class="anchor"></a>Obtaining Data Access</h2>
+<p>Access to the GENIE BPC data release folders on Synapse is required in order to use this function. To obtain access:</p>
+<ol>
+<li><p>Register for a <a href="https://www.synapse.org/#">Synapse account</a></p></li>
+<li><p>Use <a href="https://www.synapse.org/#!Team:3399797">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
+<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493">GENIE Biopharma collaborative projects</a>.</p></li>
+</ol>
+<p><em>Note: Please allow up to a week to review and grant access.</em></p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
