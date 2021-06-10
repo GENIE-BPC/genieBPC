@@ -1,4 +1,3 @@
-
 synapse_tables <- tidyr::tibble(
   cohort = c(rep("NSCLC", 8), rep("CRC", 9)),
   df = c("pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs", "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
@@ -9,4 +8,4 @@ synapse_tables <- tidyr::tibble(
                  )
 )
 
-usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
+usethis::use_data(synapse_tables, internal = TRUE, overwrite = TRUE)
