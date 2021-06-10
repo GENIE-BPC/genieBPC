@@ -22,7 +22,7 @@ Maintainer: Jessica Lavery <laveryj@mskcc.org>
 Description: The {GenieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 RoxygenNote: 7.1.1
 Imports:
     stats,
