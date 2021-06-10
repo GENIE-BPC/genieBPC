@@ -24,6 +24,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
+BugReports: https://github.com/AxelitoMartin/GenieBPC/issues
 Imports:
     stats,
     utils,
@@ -31,9 +32,10 @@ Imports:
     dtplyr,
     tibble,
     cli,
-    stringr
-Depends:
-    R (>= 2.10)
-Suggests:
+    stringr,
     synapser,
+    purrr
+Depends:
+    R (>= 3.4)
+Suggests:
     gtsummary

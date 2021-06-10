@@ -8,22 +8,6 @@
 #' @return Returns clinical data corresponding to the specified cohort(s). Data frames have the suffix indicating the cohort appended to their name, e.g. pt_char_NSCLC for the pt_char dataset of the NSCLC cohort.
 #' @author Mike Curry
 #' @export
-#'
-#' @examples
-#' # Example 1 ----------------------------------
-#' # Pull the most recent non-small cell lung cancer data
-#' pull_data_synapse(cohort = "NSCLC")
-#'
-#' # Example 2 ----------------------------------
-#' # Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data
-#' pull_data_synapse(cohort = c("NSCLC", "CRC"))
-#'
-#' # Example 3 ----------------------------------
-#' # Pull version 2.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data
-#' pull_data_synapse(
-#'   cohort = c("NSCLC", "CRC"),
-#'   version = c("2.1", "1.1")
-#' )
 #' @import
 #' dplyr
 #' dtplyr
