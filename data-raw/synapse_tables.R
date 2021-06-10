@@ -11,6 +11,7 @@
 #'   ...
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
+#' @export
 synapse_tables <- tidyr::tibble(
   cohort = c(rep("NSCLC", 8), rep("CRC", 9)),
   df = c("pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs", "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
