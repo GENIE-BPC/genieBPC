@@ -7,6 +7,7 @@
 #'   \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).}
 #'   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
 #'   \item{drug_name_full}{Name of generic/ingredient cancer-directed drug with associated synonyms in parentheses}
+#'   \item{immunotherapy}{Indicator for whether cancer-directed drug is an immunotherapy}
 #'   ...
 #' }
 
@@ -33,9 +34,15 @@ drug_names_by_cohort =
   arrange(cohort, drug_name) %>%
   distinct() %>%
   select(cohort, drug_name, drug_name_full) %>%
-  filter(cohort %in% c("NSCLC", "CRC"))
+  filter(cohort %in% c("NSCLC", "CRC", "BrCa")) %>%
+  mutate(immunotherapy = case_when(
+    drug_name %in% c("Atezolizumab", "Durvalumab", "Ipilimumab", "Nivolumab",
+                     "Pembrolizumab", "Tremelimumab", "Trastuzumab") ~ 1,
+    TRUE ~ 0
+  ))
 
 attr(drug_names_by_cohort$drug_name, "label") <- "Drug Name"
 attr(drug_names_by_cohort$drug_name_full, "label") <- "Full Drug Name"
+attr(drug_names_by_cohort$immunotherapy, "label") <- "Immunotherapy Indicator"
 
 usethis::use_data(drug_names_by_cohort, overwrite = TRUE)

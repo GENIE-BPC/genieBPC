@@ -7,6 +7,6 @@
 #'   \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).}
 #'   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
 #'   \item{drug_name_full}{Name of generic/ingredient cancer-directed drug with associated synonyms in parentheses}
-#'   ...
+#'   \item{immunotherapy}{Indicator for whether cancer-directed drug is an immunotherapy}#'   ...
 #' }
 "drug_names_by_cohort"
