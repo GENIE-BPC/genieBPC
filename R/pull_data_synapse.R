@@ -10,15 +10,15 @@
 #' @export
 #'
 #' @examples
-#' Example 1 ----------------------------------
+#' # Example 1 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer data
 #' pull_data_synapse(cohort = "NSCLC")
 #'
-#' Example 2 ----------------------------------
+#' # Example 2 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data
 #' pull_data_synapse(cohort = c("NSCLC", "CRC"))
 #'
-#' Example 3 ----------------------------------
+#' # Example 3 ----------------------------------
 #' # Pull version 2.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data
 #' pull_data_synapse(cohort = c("NSCLC", "CRC"),
 #'                   version = c("2.1", "1.1"))
