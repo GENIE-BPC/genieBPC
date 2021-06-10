@@ -1,3 +1,16 @@
+#' Synapse table IDs
+#'
+#' A dataset containing the Synapse table IDs for each clinical dataset in GENIE BPC.
+#'
+#' @format A lookup table for Synapse clinical data table IDs:
+#' \describe{
+#'   \item{cohort}{GENIE BPC Project Cohort}
+#'   \item{df}{Clinical dataset}
+#'   \item{version}{Release version}
+#'   \item{synapse_id}{Synapse table ID for each dataset}
+#'   ...
+#' }
+#' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
 synapse_tables <- tidyr::tibble(
   cohort = c(rep("NSCLC", 8), rep("CRC", 9)),
   df = c("pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs", "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
