@@ -37,7 +37,7 @@ pull_data_synapse <- function(cohort, version = "1.1") {
         print("Version '1.1' selected by default.")
       }
 
-      data("synapse_tables", package = "GenieBPC")
+      data("synapse_tables")
 
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))
