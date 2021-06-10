@@ -8,4 +8,4 @@ synapse_tables <- tidyr::tibble(
                  )
 )
 
-usethis::use_data(synapse_tables, internal = TRUE, overwrite = TRUE)
+usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
