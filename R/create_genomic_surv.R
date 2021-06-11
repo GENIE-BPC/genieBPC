@@ -52,7 +52,7 @@ create_genomic_surv <- function(samples_object, gen_dat, surv_type = "pfs_m",
       mutate(time1 = ifelse(time1 >= time2, 0, time1))
 
   if(complete_cases)
-    full_dat <- full_dat[complete.cases(full_dat),]
+    full_dat <- full_dat[stats::complete.cases(full_dat),]
 
   full_dat <- full_dat %>%
     filter(time1 < time2)

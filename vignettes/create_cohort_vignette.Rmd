@@ -47,7 +47,7 @@ synLogin()
 
 ```{r, include = FALSE}
 library(gt)
-library(tidyverse)
+library(dplyr)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x, 

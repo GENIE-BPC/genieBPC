@@ -7,8 +7,16 @@ knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
   warning = FALSE,
-  out.width = "100%")
+  out.width = "100%",
+  comment = "#>",
+  fig.path = "man/figures/README-",
+)
 ```
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/AxelitoMartin/GenieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/AxelitoMartin/GenieBPC/actions)
+[![Codecov test coverage](https://codecov.io/gh/AxelitoMartin/GenieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/AxelitoMartin/GenieBPC?branch=master)
+<!-- badges: end -->
 
 # GenieBPC <img src="man/figures/imgfile.png" align="right" height="120" /></a>
 

@@ -1,42 +1,48 @@
-Package: GenieBPC
 Type: Package
+Package: GenieBPC
 Title: Helps format Genie data
 Version: 0.1.0
-Author: c(person(given = "Jessica",
+Authors@R: 
+    c(person(given = "Jessica",
              family = "Lavery",
-             role = c("aut"),
+             role = c("aut", "cre"),
              email = "laveryj@mskcc.org",
              comment = c(ORCID = "0000-0002-2746-5647")),
-          person(given = "Michael",
+      person(given = "Michael",
              family = "Curry",
              role = "aut",
              comment = c(ORCID = "0000-0002-0261-4044")),
-          person(given = "Samantha",
+      person(given = "Samantha",
              family = "Brown",
              role = "aut"),
-          person(given = "Axel",
+      person(given = "Axel",
              family = "Martin",
-             role = "aut"),
-             )
-Maintainer: Jessica Lavery <laveryj@mskcc.org>
-Description: The {GenieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
+             role = "aut"))
+Description: The {GenieBPC} package provides a seamless way to obtain the
+    data corresponding to each release from Synapse and to create datasets
+    for analysis.
 License: MIT + file LICENSE
+BugReports: https://github.com/AxelitoMartin/GenieBPC/issues
+Depends:
+    R (>= 3.4)
+Imports:
+    cli (>= 2.5.0),
+    dplyr (>= 1.0.6),
+    dtplyr (>= 1.1.0),
+    purrr (>= 0.3.4),
+    stringr (>= 1.4.0),
+    tibble (>= 3.1.2)
+Suggests:
+    testthat (>= 3.0.0),
+    covr (>= 3.5.1),
+    gt,
+    gtsummary (>= 1.4.1),
+    knitr (>= 1.33),
+    rmarkdown (>= 2.8),
+    synapser (>= 0.10.101)
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
-BugReports: https://github.com/AxelitoMartin/GenieBPC/issues
-Imports:
-    stats,
-    utils,
-    dplyr,
-    dtplyr,
-    tibble,
-    cli,
-    stringr,
-    purrr
-Depends:
-    R (>= 3.4)
-Suggests:
-    gtsummary
-Requires: 
-    synapser
+Config/testthat/edition: 3
