@@ -28,3 +28,7 @@ Access to the GENIE BPC data release folders on Synapse is required in order to 
 *Note: Please allow up to a week to review and grant access.*
 
 ## Examples
+
+## Additional References 
+
+Placeholder for GENIE BPC publications
