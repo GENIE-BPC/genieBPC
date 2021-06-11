@@ -26,7 +26,6 @@
 #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
-#' synLogin()
 #' pull_data_synapse("NSCLC")
 #' create_cohort(cohort = "NSCLC",
 #'      stage_dx = c("Stage IV"),
@@ -52,17 +51,6 @@
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
-#'
-#' # Example 4 ----------------------------------
-#' # Create a cohort of all NSCLC patients who ever received a regimen containing
-#' # an immunotherapy
-# pull_data_synapse("NSCLC")
-# create_cohort(cohort = "NSCLC",
-#               regimen_drugs = "Immunotherapy",
-#               regimen_type = "Containing",
-#               regimen_order = 1,
-#               regimen_order_type = "within regimen",
-#               return_summary = TRUE)
 #' @import
 #' dplyr
 #' purrr
@@ -227,7 +215,10 @@ create_cohort <- function(cohort,
               by = c("record_id", "regimen_number")) %>%
     left_join(.,
               regimen_abbreviations,
-              by = c("regimen_drugs"))
+              by = c("regimen_drugs")) %>%
+    left_join(.,
+              drug_regimen_list,
+              by = c("cohort", "regimen_drugs"))
 
   # option 2: all "first line" drug regimens (regimens of a certain number, within a cancer diganosis)
   # specific regimen number to all pts in cohort, any regimen name
@@ -253,7 +244,10 @@ create_cohort <- function(cohort,
   if (!missing(regimen_drugs) && missing(regimen_order) && regimen_type == "Exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      filter(regimen_drugs %in% c(regimen_drugs_sorted) | abbreviation %in% c(regimen_drugs_sorted))
+      filter(regimen_drugs %in% c(regimen_drugs_sorted) |
+               abbreviation %in% c(regimen_drugs_sorted) #|
+               # drug_class %in% c(regimen_drugs_sorted)
+             )
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,

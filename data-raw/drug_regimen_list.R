@@ -22,14 +22,12 @@ drug_regimen_list =
   distinct() %>%
   select(cohort, drug_name, drug_name_full) %>%
   filter(cohort %in% c("NSCLC", "CRC", "BrCa")) %>%
-  mutate(immunotherapy = case_when(
+  mutate(drug_class = case_when(
     drug_name %in% c("Atezolizumab", "Durvalumab", "Ipilimumab", "Nivolumab",
-                     "Pembrolizumab", "Tremelimumab", "Trastuzumab") ~ 1,
-    TRUE ~ 0
-  ))
+                     "Pembrolizumab", "Tremelimumab", "Trastuzumab") ~ "Immunotherapy"))
 
 attr(drug_regimen_list$drug_name, "label") <- "Drug Name"
 attr(drug_regimen_list$drug_name_full, "label") <- "Full Drug Name"
-attr(drug_regimen_list$immunotherapy, "label") <- "Immunotherapy Indicator"
+attr(drug_regimen_list$drug_class, "label") <- "Drug Class"
 
 usethis::use_data(drug_regimen_list, overwrite = TRUE)
