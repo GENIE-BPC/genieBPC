@@ -52,7 +52,6 @@ The function inputs `cohort`, `institution`, `stage_dx`, `ca_hist_adeno_squamous
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 # also return all of their corresponding cancer-directed drugs
-synLogin()
 pull_data_synapse("NSCLC")
 create_cohort(cohort = "NSCLC",
      stage_dx = c("Stage IV"),
@@ -78,10 +77,6 @@ create_cohort(cohort = "NSCLC",
      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
      regimen_order = 1,
      regimen_order_type = "within regimen")
-
-# Example 4 ----------------------------------
-# Create a cohort of all NSCLC patients who ever received a regimen containing
-# an immunotherapy
 }
 \author{
 Jessica Lavery
