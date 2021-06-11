@@ -11,15 +11,16 @@
 #'
 #' @return returns the sample object list inputted with an additional dataset named "samples_data".
 #' @export
-#' #' @examples
-#' Example 1 ----------------------------------
+#'
+#' @examples
+#' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
 #' out <- create_cohort(cohort = "NSCLC",
 #'      stage_dx = c("Stage IV"),
 #'      ca_hist_adeno_squamous = "Adenocarcinoma")
 #' samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
 #' opt_samples <- opt_samples(samples_object = samples_data)
-#' Example 2 ----------------------------------
+#' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' out <- create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
