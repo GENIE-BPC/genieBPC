@@ -26,31 +26,31 @@
 #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      stage_dx = c("Stage IV"),
-#'      ca_hist_adeno_squamous = "Adenocarcinoma")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   stage_dx = c("Stage IV"),
+#' #   ca_hist_adeno_squamous = "Adenocarcinoma")
 #'
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
-#'      regimen_order = 1,
-#'      regimen_order_type = "within cancer")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+#' #   regimen_order = 1,
+#' #   regimen_order_type = "within cancer")
 #'
 #' # Example 3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium
 #' # at any time throughout the course of treatment for their cancer diagnosis,
 #' # but in the event that the patient received the drug multiple times,
 #' # only select the first time.
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-#'      regimen_order = 1,
-#'      regimen_order_type = "within regimen")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+#' #   regimen_order = 1,
+#' #   regimen_order_type = "within regimen")
 #' @import
 #' dplyr
 #' purrr
