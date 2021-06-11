@@ -35,7 +35,7 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     covr (>= 3.5.1),
-    gt,
+    gt (>= 0.3.0),
     gtsummary (>= 1.4.1),
     knitr (>= 1.33),
     rmarkdown (>= 2.8),
