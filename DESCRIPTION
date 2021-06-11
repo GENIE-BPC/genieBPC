@@ -33,9 +33,10 @@ Imports:
     tibble,
     cli,
     stringr,
-    synapser,
     purrr
 Depends:
     R (>= 3.4)
 Suggests:
     gtsummary
+Requires: 
+    synapser

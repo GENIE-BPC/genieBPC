@@ -55,7 +55,7 @@ pull_data_synapse <- function(cohort, version = "1.1") {
 
       # read Synapse tables
       readfiles <- lapply(1:nrow(synapse_tables2), function(x) {
-        read.csv(synGet(synapse_tables2$synapse_id[x])$path)
+        read.csv(synapser::synGet(synapse_tables2$synapse_id[x])$path)
       })
 
       # name Synapse tables
