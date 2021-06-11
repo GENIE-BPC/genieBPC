@@ -5,35 +5,49 @@
 \title{create_cohort}
 \usage{
 create_cohort(
-  treatment_dat,
-  center = NULL,
-  regimen = NULL,
-  line = NULL,
-  stage = NULL,
-  stage_dat = NULL
+  cohort,
+  index_ca_seq = 1,
+  institution,
+  stage_dx,
+  ca_hist_adeno_squamous,
+  regimen_drugs,
+  regimen_type = "Exact",
+  regimen_order,
+  regimen_order_type,
+  return_summary = FALSE
 )
 }
 \arguments{
-\item{treatment_dat}{dataframe containing the relevant information for therapies. eg: data_timeline_treatment.txt}
+\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts will include "BrCa" (breast cancer), "PANC" (pancreatic cancer), "Prostate" (prostate cancer).}
 
-\item{center}{character vector containing the centers to be considered to create the cohort. eg: c("MSK", "DFCI"). By default
-all centers found in the dataset inputted will be used.}
+\item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.}
 
-\item{regimen}{character vector containing the regimens to be considered to create the cohort.
-eg: c("Carboplatin, Pemetrexed Disodium","Cisplatin, Pemetrexed Disodium"). By default
-all regimens found in the dataset inputted will be used.}
+\item{institution}{GENIE BPC participating institution. Must be one of "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI", "MSK", "VICC" for CRC. Default selection is all institutions.}
 
-\item{line}{numberic vector containing the line of therapies to be used to create the cohort. eg: c(1,2), which would keep
-regimens specified in the argument above at the lines specified here. By default all lines found will be kept.}
+\item{stage_dx}{Stage at diagnosis. Must be one of "Stage I", "Stage II", "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.}
 
-\item{stage}{character vector specifying which stage at initial diagnosis to be considered. (this will be updated to reaching that stage
-at any time in the future). Requires additional input below.}
+\item{ca_hist_adeno_squamous}{Cancer histology. Must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Other histologies/mixed tumor". Default selection is all histologies.}
 
-\item{stage_dat}{dataframe containing the relevant staging information. eg: data_timeline_cancer_diagnosis.txt}
+\item{regimen_drugs}{Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin, Pemetrexed". Acceptable values are found in the `drug_names_by_cohort` dataset provided with this package.}
+
+\item{regimen_type}{Indicates whether the regimen(s) specified in `regimen_drugs` indicates the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of "Exact" or "Containing". The default is "Exact".}
+
+\item{regimen_order}{Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.}
+
+\item{regimen_order_type}{Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens; "within cancer") or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed; "within regimen"). Acceptable values are "within cancer" and "within regimen".}
+
+\item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.}
+}
+\value{
+Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
 }
 \description{
-This function allows the user to create a relevant cohort for analysis based on histology, specific regimen,
-regimen line, stage at diagnosis and centers to be considered.
-This will return a dataset containing all patients matching the criterion of interests and their available survival data.
-Specifically PFS_I, PFS_M and OS from the start of regimen.
+This function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order.
+This function returns two datasets:
+(1) `cohort_ca_dx` will contain cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
+(2) `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis. For example, a drug regimen associated with treating two cancer diagnoses will have two records in this dataset.
+The function inputs `cohort`, `institution`, `stage_dx`, `ca_hist_adeno_squamous`, and `regimen_drugs` correspond to the variable names in the GENIE BPC Analytic Data Guide, available on  \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
+}
+\author{
+Jessica Lavery
 }

@@ -6,18 +6,25 @@
 \usage{
 opt_samples(
   samples_object,
-  sample_type = c("Primary", "Metastasis"),
-  histology
+  histology = NULL,
+  sample_type = NULL,
+  min_max_time = NULL
 )
 }
 \arguments{
-\item{samples_object}{output object of the fectch_samples function.}
+\item{samples_object}{output object of the fetch_samples function.}
+
+\item{histology}{character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
+of samples_object argument above to get options.}
 
 \item{sample_type}{character specifying which type of sample to prioritize, options are "Primary" and "Metastasis".
 Default is either.}
 
-\item{histology}{character vector specifying which sample histologies to keep. See "Oncotree.Code" column
-of samples_object argument above to get options.}
+\item{min_max_time}{character specifying if the first or last sample recorded should be kept.
+Options are "min" (first) and "max" (last).}
+}
+\value{
+returns the sample object list inputted with an additional dataset named "samples_data".
 }
 \description{
 Get the best samples for analysis following several user define criterions.

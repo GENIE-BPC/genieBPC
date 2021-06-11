@@ -1,0 +1,129 @@
+---
+title: "Tutorial: pull_data_synapse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Tutorial: pull_data_synapse}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(GenieBPC)
+library(tidyverse)
+library(synapser)
+library(gt)
+
+synLogin()
+```
+
+## Introduction
+
+The `pull_data_synapse()` function accesses the specified version of the clinical GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
+&nbsp;
+
+This vignette will walk a user through the `pull_data_synapse()` function.
+
+
+## Setup
+
+Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:
+
+1. Register a [Synapse account](https://www.synapse.org/#!Reigster0)
+2. Use [this link](https://www.synapse.org/#!Team:3399797) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
+3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
+
+*Note: Please allow up to a week to review and grant access.*
+
+&nbsp;
+
+Install and load {synapser}.
+
+```{r message = FALSE, warning = FALSE}
+# install.packages("synapser")
+library(synapser)
+```
+
+&nbsp;
+
+After loading the {synapser} package, log into Synapse using the `synLogin()` function. 
+
+Users have the option to log in during each session or to store their login information. To log in during each session, call:
+
+
+`synLogin(email = "your_email", password = "your_password")`
+
+
+&nbsp;
+
+For users to store their login information, call:
+
+
+`synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+
+
+Using the `rememberMe` argument caches the authentication information in your operating system's credential storage. This way, the user only needs to enter your credentials once. In future uses, `synLogin()` will be called within the `pull_data_synapse()` function and will not require the user's email and password.
+
+&nbsp;
+
+## Usage
+
+Let's start by reviewing the `pull_data_synapse()` arguments.
+
+
+```{r echo = FALSE}
+tibble::tribble(
+  ~Argument,       ~Description,
+  "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
+  "`version`",        "specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available."
+) %>%
+  gt::gt() %>%
+  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::tab_options(table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+```
+
+&nbsp;
+
+## Example
+
+The example below demonstrates pulling the most recent NSCLC data from Synapse and storing in the local environment using the `list2env()` function. 
+
+
+```{r, eval = FALSE}
+nsclc_data = pull_data_synapse("NSCLC")
+list2env(nsclc_data, envir = globalenv())
+```
+
+
+The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
+
+```{r, include = FALSE}
+nsclc_data = pull_data_synapse("NSCLC")
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+ls(nsclc_data) %>% 
+  as.data.frame() %>% 
+  gt() %>% 
+  cols_label(. = md("**Datasets Returned**"))
+```
+
+
+&nbsp;
+
+## Future Work
+
+* As of May 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.

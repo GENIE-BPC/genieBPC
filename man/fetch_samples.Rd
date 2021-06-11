@@ -4,14 +4,19 @@
 \alias{fetch_samples}
 \title{fetch_samples}
 \usage{
-fetch_samples(clin_dat, cohort_object)
+fetch_samples(cohort, cohort_object)
 }
 \arguments{
-\item{clin_dat}{dataframe containing the sample information to be matched with the patients from the cohort of interest.
-eg: data_clinical_sample.txt.}
+\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
 
 \item{cohort_object}{output object of the create_cohort function.}
 }
+\value{
+returns the cohort object list inputted with an additional dataset named "samples_data".
+}
 \description{
 Add samples for each patients of the cohort of interest
+}
+\author{
+Axel Martin
 }

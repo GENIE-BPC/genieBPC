@@ -1,18 +1,41 @@
 Package: GenieBPC
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Helps format Genie data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: c(person(given = "Jessica",
+             family = "Lavery",
+             role = c("aut"),
+             email = "laveryj@mskcc.org",
+             comment = c(ORCID = "0000-0002-2746-5647")),
+          person(given = "Michael",
+             family = "Curry",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-0261-4044")),
+          person(given = "Samantha",
+             family = "Brown",
+             role = "aut"),
+          person(given = "Axel",
+             family = "Martin",
+             role = "aut"),
+             )
+Maintainer: Jessica Lavery <laveryj@mskcc.org>
+Description: The {GenieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 RoxygenNote: 7.1.1
-Imports: 
+BugReports: https://github.com/AxelitoMartin/GenieBPC/issues
+Imports:
+    stats,
+    utils,
     dplyr,
     dtplyr,
-    tibble
-Depends: 
-    R (>= 2.10)
+    tibble,
+    cli,
+    stringr,
+    synapser,
+    purrr
+Depends:
+    R (>= 3.4)
+Suggests:
+    gtsummary
