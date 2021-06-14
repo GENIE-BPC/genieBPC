@@ -215,10 +215,10 @@ create_cohort <- function(cohort,
               by = c("record_id", "regimen_number")) %>%
     left_join(.,
               regimen_abbreviations,
-              by = c("regimen_drugs")) %>%
-    left_join(.,
-              drug_regimen_list,
-              by = c("cohort", "regimen_drugs"))
+              by = c("regimen_drugs")) #%>%
+    # left_join(.,
+    #           drug_regimen_list,
+    #           by = c("cohort", "regimen_drugs"))
 
   # option 2: all "first line" drug regimens (regimens of a certain number, within a cancer diganosis)
   # specific regimen number to all pts in cohort, any regimen name
