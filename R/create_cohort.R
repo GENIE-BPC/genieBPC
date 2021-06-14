@@ -204,11 +204,13 @@ create_cohort <- function(cohort,
     group_by(cohort, record_id, ca_seq) %>%
     mutate(order_within_cancer = 1:n()) %>%
     ungroup() %>%
-    # order drugs w/in regimen, have to account for structure of dat which is 1 reg:assoc ca dx (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
+    # order drugs w/in regimen, have to account for structure of data which is 1 reg:assoc ca dx
+    # (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
     left_join(.,
               get(paste0("ca_drugs_", cohort_temp)) %>%
                 distinct(record_id, regimen_number, regimen_drugs) %>%
-                group_by(record_id, regimen_number, regimen_drugs) %>%
+                group_by(record_id, regimen_drugs) %>%
+                arrange(record_id, regimen_number, regimen_drugs) %>%
                 mutate(order_within_regimen = 1:n()) %>%
                 ungroup() %>%
                 select(-regimen_drugs),
@@ -385,7 +387,7 @@ create_cohort <- function(cohort,
   if (nrow(cohort_ca_dx) > 0 & return_summary == TRUE) {
     return(list(
       "cohort_ca_dx" = cohort_ca_dx,
-      "cohort_ca_drugs" = cohort_ca_drugs %>% select(-order_within_cancer, -order_within_regimen),
+      "cohort_ca_drugs" = cohort_ca_drugs ,#%>% select(-order_within_cancer, -order_within_regimen),
       "tbl1_cohort" = tbl1_cohort,
       "tbl_drugs" = tbl_drugs
     ))
