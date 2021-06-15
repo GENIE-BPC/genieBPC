@@ -49,11 +49,12 @@ Access to the GENIE BPC data release folders on Synapse is required in order to 
 
 The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.
 
+
 ```{r, echo = FALSE}
-xfun::embed_file(here::here("BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf"))
+xfun::embed_file(here::here("files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf"))
 ```
 
 
 ```{r, echo = FALSE}
-xfun::embed_file(here::here("BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf"))
+xfun::embed_file(here::here("files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf"))
 ```
