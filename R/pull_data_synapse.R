@@ -53,8 +53,6 @@ pull_data_synapse <- function(cohort, version = "1.1") {
         print("Version '1.1' selected by default.")
       }
 
-      data("synapse_tables")
-
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))
       synapse_tables$filenames <- paste(synapse_tables$df, synapse_tables$cohort, sep = "_")
@@ -71,7 +69,7 @@ pull_data_synapse <- function(cohort, version = "1.1") {
 
       # read Synapse tables
       readfiles <- lapply(1:nrow(synapse_tables2), function(x) {
-        read.csv(synapser::synGet(synapse_tables2$synapse_id[x])$path)
+        utils::read.csv(synapser::synGet(synapse_tables2$synapse_id[x])$path)
       })
 
       # name Synapse tables

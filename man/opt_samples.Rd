@@ -38,11 +38,11 @@ Get the best samples for analysis following several user define criterions.
 # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
 # opt_samples <- opt_samples(samples_object = samples_data)
 # Example 2 ----------------------------------
-# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin,
+# Etoposide as their first drug regimen
 # out <- create_cohort(cohort = "NSCLC",
-#      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
-#      regimen_order = 1,
-#      regimen_order_type = "within regimen")
+#     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+#    regimen_order = 1,
+#     regimen_order_type = "within regimen")
 # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
 # opt_samples <- opt_samples(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")
-}

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 
 library(GenieBPC)
-library(tidyverse)
+library(dplyr)
 library(synapser)
 library(gt)
 

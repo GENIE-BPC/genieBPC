@@ -13,7 +13,7 @@ sample_summary <- function(samples_object){
     group_by(Center, regimen, line) %>%
     summarise(N_samples = n(),
               N_patient = length(unique(ID)),
-              `Median time1` = paste0(round(median(time_regimen_sequencing, na.rm = T),2),
+              `Median time1` = paste0(round(stats::median(time_regimen_sequencing, na.rm = T),2),
                                       " (",round(min(time_regimen_sequencing,na.rm = T),2),",",
                                       round(max(time_regimen_sequencing,na.rm = T),2),")"
               ),

@@ -47,7 +47,7 @@ synLogin()
 
 ```{r, include = FALSE}
 library(gt)
-library(tidyverse)
+library(dplyr)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x, 
@@ -158,18 +158,4 @@ nsclc_cisplatin_pem_any$tbl1_cohort
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any$tbl_drugs
-```
-
-
-### Example 4
-
-Create a cohort of all NSCLC patients who ever received a regimen containing an immunotherapy
-
-```{r}
-# create_cohort(cohort = "NSCLC",
-#               regimen_drugs = "Immunotherapy",
-#               regimen_type = "Containing",
-#               regimen_order = 1,
-#               regimen_order_type = "within regimen",
-#               return_summary = TRUE)
 ```
