@@ -26,31 +26,31 @@
 #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      stage_dx = c("Stage IV"),
-#'      ca_hist_adeno_squamous = "Adenocarcinoma")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   stage_dx = c("Stage IV"),
+#' #   ca_hist_adeno_squamous = "Adenocarcinoma")
 #'
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
-#'      regimen_order = 1,
-#'      regimen_order_type = "within cancer")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+#' #   regimen_order = 1,
+#' #   regimen_order_type = "within cancer")
 #'
 #' # Example 3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium
 #' # at any time throughout the course of treatment for their cancer diagnosis,
 #' # but in the event that the patient received the drug multiple times,
 #' # only select the first time.
-#' pull_data_synapse("NSCLC")
-#' create_cohort(cohort = "NSCLC",
-#'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-#'      regimen_order = 1,
-#'      regimen_order_type = "within regimen")
+#' # pull_data_synapse("NSCLC")
+#' # create_cohort(cohort = "NSCLC",
+#' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+#' #   regimen_order = 1,
+#' #   regimen_order_type = "within regimen")
 #' @import
 #' dplyr
 #' purrr
@@ -201,24 +201,23 @@ create_cohort <- function(cohort,
                                by = c("cohort", "record_id", "institution", "ca_seq")
   ) %>%
     # create order for drug regimen within cancer and within times the drug was received
-    dplyr::group_by(.data$cohort, .data$record_id, .data$ca_seq) %>%
+    dplyr::group_by(cohort, record_id, ca_seq) %>%
     dplyr::mutate(order_within_cancer = 1:n()) %>%
     dplyr::ungroup() %>%
-    # order drugs w/in regimen, have to account for structure of dat which is 1 reg:assoc ca dx (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
+    # order drugs w/in regimen, have to account for structure of data which is 1 reg:assoc ca dx
+    # (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
     dplyr::left_join(.,
               get(paste0("ca_drugs_", cohort_temp)) %>%
-                dplyr::distinct(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
-                dplyr::group_by(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
-                dplyr::mutate(order_within_regimen = 1:n()) %>%
-                dplyr::ungroup() %>%
-                dplyr::select(-regimen_drugs),
+                distinct(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
+                group_by(.data$record_id, .data$regimen_drugs) %>%
+                arrange(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
+                mutate(order_within_regimen = 1:n()) %>%
+                ungroup() %>%
+                select(-.data$regimen_drugs),
               by = c("record_id", "regimen_number")) %>%
     dplyr::left_join(.,
               regimen_abbreviations,
-              by = c("regimen_drugs")) %>%
-    dplyr::left_join(.,
-              drug_regimen_list,
-              by = c("cohort", "regimen_drugs"))
+              by = c("regimen_drugs")) 
 
   # option 2: all "first line" drug regimens (regimens of a certain number, within a cancer diganosis)
   # specific regimen number to all pts in cohort, any regimen name

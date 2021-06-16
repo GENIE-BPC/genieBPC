@@ -30,9 +30,7 @@ The datasets obtained through {GenieBPC} can be input directly into
 You can install the development version of {GenieBPC} with the following
 code:
 
-``` r
-remotes::install_github("AxelitoMartin/GenieBPC")
-```
+    remotes::install_github("AxelitoMartin/GenieBPC")
 
 ## Obtaining Data Access
 
@@ -51,3 +49,14 @@ order to use this function. To obtain access:
     projects](https://www.synapse.org/#!Synapse:syn21226493).
 
 *Note: Please allow up to a week to review and grant access.*
+
+## Analytic Data Guides
+
+The analytic data guides provide details on each analytic dataset and
+its corresponding variables for each data release.
+
+[NSCLC V1.1 Analtyic Data
+Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
+
+[CRC V1.1 Analtyic Data
+Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)

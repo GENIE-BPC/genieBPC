@@ -51,3 +51,13 @@ Access to the GENIE BPC data release folders on Synapse is required in order to 
 3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
 
 *Note: Please allow up to a week to review and grant access.*
+
+
+## Analytic Data Guides
+
+The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.
+
+
+[NSCLC V1.1 Analtyic Data Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
+
+[CRC V1.1 Analtyic Data Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)
