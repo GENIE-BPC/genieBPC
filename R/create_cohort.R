@@ -264,8 +264,8 @@ create_cohort <- function(cohort,
   if (!missing(regimen_drugs) && missing(regimen_order) && regimen_type == "Containing") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"), regimen_drugs) |
-        grepl(paste(regimen_drugs_sorted, collapse = "|"), abbreviation))
+      dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$regimen_drugs) |
+        grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$abbreviation))
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
@@ -300,8 +300,8 @@ create_cohort <- function(cohort,
     regimen_type == "Containing") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"), regimen_drugs) |
-        grepl(paste(regimen_drugs_sorted, collapse = "|"), abbreviation)) %>%
+      dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$regimen_drugs) |
+        grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$abbreviation)) %>%
       # need to re-create order of interest because it was defined based on the exact regimen
       dplyr::group_by(.data$cohort, .data$record_id) %>%
       dplyr::mutate(order_within_containing_regimen = 1:n()) %>%
@@ -325,7 +325,8 @@ create_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
-        .data$regimen_drugs %in% c(regimen_drugs_sorted) | abbreviation %in% c(regimen_drugs_sorted),
+        .data$regimen_drugs %in% c(regimen_drugs_sorted) |
+          .data$abbreviation %in% c(regimen_drugs_sorted),
         .data$order_within_cancer %in% c({{ regimen_order }})
       )
 
@@ -345,8 +346,8 @@ create_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
-        grepl(paste(regimen_drugs_sorted, collapse = "|"), regimen_drugs) |
-          grepl(paste(regimen_drugs_sorted, collapse = "|"), abbreviation),
+        grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$regimen_drugs) |
+          grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$abbreviation),
         .data$order_within_cancer %in% c({{ regimen_order }})
       )
 
@@ -371,18 +372,20 @@ create_cohort <- function(cohort,
       dplyr::ungroup() %>%
       gtsummary::tbl_summary(
         by = cohort,
-        include = c(cohort, n_rec_pt, institution, stage_dx, ca_hist_adeno_squamous),
+        include = c(.data$cohort, .data$n_rec_pt, .data$institution,
+                    .data$stage_dx, .data$ca_hist_adeno_squamous),
         label = n_rec_pt ~ "Number of records per patient",
         type = n_rec_pt ~ "categorical"
       )
 
     tbl_drugs <- cohort_ca_drugs %>%
-      dplyr::group_by(record_id) %>%
+      dplyr::group_by(.data$record_id) %>%
       dplyr::mutate(n_rec_pt = n()) %>%
       dplyr::ungroup() %>%
       gtsummary::tbl_summary(
         by = cohort,
-        include = c(cohort, n_rec_pt, institution, regimen_drugs),
+        include = c(.data$cohort, .data$n_rec_pt, .data$institution,
+                    .data$regimen_drugs),
         label = n_rec_pt ~ "Number of records per patient",
         type = n_rec_pt ~ "categorical"
       )
@@ -391,14 +394,16 @@ create_cohort <- function(cohort,
   if (nrow(cohort_ca_dx) > 0 & return_summary == TRUE) {
     return(list(
       "cohort_ca_dx" = cohort_ca_dx,
-      "cohort_ca_drugs" = cohort_ca_drugs %>% dplyr::select(-order_within_cancer, -order_within_regimen),
+      "cohort_ca_drugs" = cohort_ca_drugs %>%
+        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen),
       "tbl1_cohort" = tbl1_cohort,
       "tbl_drugs" = tbl_drugs
     ))
   } else if (nrow(cohort_ca_dx) > 0) {
     return(list(
       "cohort_ca_dx" = cohort_ca_dx,
-      "cohort_ca_drugs" = cohort_ca_drugs %>% dplyr::select(-order_within_cancer, -order_within_regimen)
+      "cohort_ca_drugs" = cohort_ca_drugs %>%
+        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen)
     ))
   }
 } # end of function
