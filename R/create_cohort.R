@@ -202,19 +202,19 @@ create_cohort <- function(cohort,
     by = c("cohort", "record_id", "institution", "ca_seq")
   ) %>%
     # create order for drug regimen within cancer and within times the drug was received
-    dplyr::group_by(cohort, record_id, ca_seq) %>%
+    dplyr::group_by(.data$cohort, .data$record_id, .data$ca_seq) %>%
     dplyr::mutate(order_within_cancer = 1:n()) %>%
     dplyr::ungroup() %>%
     # order drugs w/in regimen, have to account for structure of data which is 1 reg:assoc ca dx
     # (may have more than one row for a drug regimen even if it's the first time that drug regimen was received)
     dplyr::left_join(.,
       get(paste0("ca_drugs_", cohort_temp)) %>%
-        distinct(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
-        group_by(.data$record_id, .data$regimen_drugs) %>%
-        arrange(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
-        mutate(order_within_regimen = 1:n()) %>%
-        ungroup() %>%
-        select(-.data$regimen_drugs),
+        dplyr::distinct(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
+        dplyr::group_by(.data$record_id, .data$regimen_drugs) %>%
+        dplyr::arrange(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
+        dplyr::mutate(order_within_regimen = 1:n()) %>%
+        dplyr::ungroup() %>%
+        dplyr::select(-.data$regimen_drugs),
       by = c("record_id", "regimen_number")
     ) %>%
     dplyr::left_join(.,
@@ -231,7 +231,7 @@ create_cohort <- function(cohort,
       get(paste0("ca_drugs_", cohort_temp)),
       by = c("cohort", "record_id", "institution", "ca_seq")
     ) %>%
-      filter(order_within_cancer %in% c({{ regimen_order }}))
+      dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }}))
 
     # restrict cancer cohort to all patients who got a drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
@@ -270,7 +270,7 @@ create_cohort <- function(cohort,
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
       cohort_ca_drugs %>%
-        distinct(cohort, record_id, institution, ca_seq),
+        dplyr::distinct(.data$cohort, .data$record_id, .data$institution, .data$ca_seq),
       by = c("cohort", "record_id", "institution", "ca_seq")
     )
   }
@@ -281,9 +281,9 @@ create_cohort <- function(cohort,
     regimen_type == "Exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      dplyr::filter(regimen_drugs %in% c(regimen_drugs_sorted) | abbreviation %in% c(regimen_drugs_sorted)) %>%
+      dplyr::filter(.data$regimen_drugs %in% c(regimen_drugs_sorted) | .data$abbreviation %in% c(regimen_drugs_sorted)) %>%
       # filter on order of interest (e.g. first, all)
-      dplyr::filter(order_within_regimen %in% c({{ regimen_order }}))
+      dplyr::filter(.data$order_within_regimen %in% c({{ regimen_order }}))
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
@@ -307,12 +307,12 @@ create_cohort <- function(cohort,
       dplyr::mutate(order_within_containing_regimen = 1:n()) %>%
       dplyr::ungroup() %>%
       # filter on order of interest (e.g. first, all)
-      filter(order_within_containing_regimen %in% c({{ regimen_order }}))
+      dplyr::filter(.data$order_within_containing_regimen %in% c({{ regimen_order }}))
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- inner_join(cohort_ca_dx,
       cohort_ca_drugs %>%
-        distinct(cohort, record_id, institution, ca_seq),
+        dplyr::distinct(.data$cohort, .data$record_id, .data$institution, .data$ca_seq),
       by = c("cohort", "record_id", "institution", "ca_seq")
     )
   }
