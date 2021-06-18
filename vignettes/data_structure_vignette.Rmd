@@ -39,9 +39,9 @@ knitr::opts_chunk$set(
   6. Bladder cancer
 
 
-## GENIE BPC Datasets
+## GENIE BPC Elements
 
-GENIE BPC is comprised of several phenomic (clinical) datasets that include data from the AACR Project GENIE Tier 1 registry, institutions’ tumor registries, manual curation based on institutions’ electronic health records (PRISSMM phenomic data model), and derived variables based on these data elements. The datasets are:
+GENIE BPC is comprised of several phenomic (clinical) elements that include data from the AACR Project GENIE Tier 1 registry, institutions’ tumor registries, manual curation based on institutions’ electronic health records (PRISSMM phenomic data model), and derived variables based on these data elements. The elements are:
 
 1. Patient Characteristics
 2. Cancer Diagnosis 
@@ -54,7 +54,7 @@ GENIE BPC is comprised of several phenomic (clinical) datasets that include data
 7. PRISSMM Tumor Marker
 8. Cancer Panel Test
 
-This vignette will describe the structure of each dataset.
+This vignette will describe the structure of each element (dataset).
 
 
 ### Patient Characteristics 
