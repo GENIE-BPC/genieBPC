@@ -21,13 +21,9 @@ drug_regimen_list =
   arrange(cohort, drug_name) %>%
   distinct() %>%
   select(cohort, drug_name, drug_name_full) %>%
-  filter(cohort %in% c("NSCLC", "CRC", "BrCa")) %>%
-  mutate(drug_class = case_when(
-    drug_name %in% c("Atezolizumab", "Durvalumab", "Ipilimumab", "Nivolumab",
-                     "Pembrolizumab", "Tremelimumab", "Trastuzumab") ~ "Immunotherapy"))
+  filter(cohort %in% c("NSCLC", "CRC"))
 
 attr(drug_regimen_list$drug_name, "label") <- "Drug Name"
 attr(drug_regimen_list$drug_name_full, "label") <- "Full Drug Name"
-attr(drug_regimen_list$drug_class, "label") <- "Drug Class"
 
 usethis::use_data(drug_regimen_list, overwrite = TRUE)
