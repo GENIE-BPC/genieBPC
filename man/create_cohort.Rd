@@ -14,7 +14,8 @@ create_cohort(
   regimen_type = "Exact",
   regimen_order,
   regimen_order_type,
-  return_summary = FALSE
+  return_summary = FALSE,
+  lines_keep = NULL
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ create_cohort(
 \item{regimen_order_type}{Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens; "within cancer") or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed; "within regimen"). Acceptable values are "within cancer" and "within regimen".}
 
 \item{return_summary}{Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.}
+
+\item{lines_keep}{When `return_summary` set to TRUE, will set regimen number to be kept to create the summary of the treatment history.}
 }
 \value{
 Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
