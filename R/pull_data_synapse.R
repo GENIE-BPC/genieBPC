@@ -67,13 +67,25 @@ pull_data_synapse <- function(cohort, version = "1.1") {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      # read Synapse tables
-      readfiles <- lapply(1:nrow(synapse_tables2), function(x) {
-        utils::read.csv(synapser::synGet(synapse_tables2$synapse_id[x])$path)
-      })
+      synapse_tables2$path <- sapply(1:nrow(synapse_tables2),function(x){
+              synapser::synGet(synapse_tables2$synapse_id[x])$path})
 
-      # name Synapse tables
-      names(readfiles) <- synapse_tables2$filenames
+
+
+      # read Synapse tables
+      readcsvfile <- setNames(
+                     lapply( synapse_tables2$path[grepl(".csv", synapse_tables2$path)] ,utils::read.csv),
+                     synapse_tables2$filenames[grepl(".csv", synapse_tables2$path)] )
+
+
+
+      readtxtfile<- setNames(
+          lapply(synapse_tables2$path[grepl(".txt", synapse_tables2$path)],function(x){utils::read.delim(x, sep = "\t")}),
+          synapse_tables2$filenames[grepl(".txt", synapse_tables2$path)] )
+
+      readfiles <- c(readcsvfile,readtxtfile)
+
+
 
       # return Synapse tables to list
       return(readfiles)
