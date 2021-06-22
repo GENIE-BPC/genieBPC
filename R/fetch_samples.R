@@ -39,9 +39,9 @@ fetch_samples <- function(cohort, cohort_object){
     rowwise() %>%
     mutate(IDs = paste0(record_id,"_",ca_seq)) %>%
     ungroup() %>%
-    filter(IDs %in% ids) %>%
-    select(record_id,cpt_genie_sample_id,institution,ca_seq,cpt_seq_assay_id,
-           cpt_sample_type,cpt_oncotree_code,dx_cpt_rep_days,dx_cpt_rep_mos)
+    filter(IDs %in% ids) #%>%
+    # select(record_id,cpt_genie_sample_id,institution,ca_seq,cpt_seq_assay_id,
+    #        cpt_sample_type,cpt_oncotree_code,dx_cpt_rep_days,dx_cpt_rep_mos)
 
   # dim(get(paste0("cpt_", cohort_temp)) %>%
   #       select(record_id,cpt_genie_sample_id,institution,ca_seq,cpt_seq_assay_id,
