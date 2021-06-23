@@ -25,7 +25,7 @@ synLogin()
 
 ## Introduction
 
-The `pull_data_synapse()` function accesses the specified version of the clinical GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
+The `pull_data_synapse()` function accesses the specified version of the clinical and genomic GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
 &nbsp;
 
 This vignette will walk a user through the `pull_data_synapse()` function.
@@ -35,7 +35,7 @@ This vignette will walk a user through the `pull_data_synapse()` function.
 
 Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:
 
-1. Register a [Synapse account](https://www.synapse.org/#!Reigster0)
+1. Register for a [Synapse account](https://www.synapse.org/#!Reigster0)
 2. Use [this link](https://www.synapse.org/#!Team:3399797) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
 3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
 
@@ -77,7 +77,7 @@ Using the `rememberMe` argument caches the authentication information in your op
 Let's start by reviewing the `pull_data_synapse()` arguments.
 
 
-```{r echo = FALSE}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
@@ -117,8 +117,12 @@ nsclc_data = pull_data_synapse("NSCLC")
 ```{r, echo = FALSE, message = FALSE}
 ls(nsclc_data) %>% 
   as.data.frame() %>% 
+  mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
+                                                  "mutations_extended_NSCLC") ~ "Genomic Data",
+                                         TRUE ~ "Clinical Data")) %>% 
   gt() %>% 
-  cols_label(. = md("**Datasets Returned**"))
+  cols_label(. = md("**Datasets Returned**"),
+             clinical_vs_genomic = md("**Clinical/Genomic Data**"))
 ```
 
 
@@ -126,4 +130,4 @@ ls(nsclc_data) %>%
 
 ## Future Work
 
-* As of May 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access mid-July 2021.
+* As of June 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.
