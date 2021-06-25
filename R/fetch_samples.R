@@ -24,7 +24,7 @@
 #' dtplyr
 #' tibble
 
-fetch_samples <- function(cohort, df_record_ids) {
+fetch_samples <- function(cohort, cohort_object, df_record_ids) {
   if (missing(cohort)) {
     stop("You must provide a cohort name ('NSCLC' or 'CRC') function in the `cohort` argument.")
   }
@@ -41,7 +41,7 @@ fetch_samples <- function(cohort, df_record_ids) {
   # keep records based on patient ID + cancer sequence of interest
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
                dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
-             get(paste0("cpt_", cohort_temp)),
+               pluck(cohort_object, paste0("cpt_", cohort_temp)),
              by = c("cohort", "record_id", "ca_seq"))
 
   return(cohort_cpt)

@@ -136,7 +136,11 @@ create_cohort <- function(cohort,
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
-  # cohort objec
+  # cohort object
+  if (missing(cohort_object)){
+    stop("Specify object created by pull_data_synapse() function.")
+  }
+
   # participating institutions by cohort
   if (sum(!missing(institution), grepl("^NSCLC$", cohort) > 0) > 1) {
     if (sum(!grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"),
@@ -165,7 +169,7 @@ create_cohort <- function(cohort,
   # mets at diagnosis specified but stage 4 not selected
   # to account for unspecified stage
   if (missing(stage_dx)) {
-    stage_dx_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
+    stage_dx_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
       dplyr::distinct(stage_dx), stage_dx)
   }
   else {
@@ -183,7 +187,7 @@ create_cohort <- function(cohort,
 
   # to account for unspecified histology
   if (missing(ca_hist_adeno_squamous)) {
-    histology_temp <- pull(get(paste0("ca_dx_index_", cohort_temp)) %>%
+    histology_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
       distinct(ca_hist_adeno_squamous), ca_hist_adeno_squamous)
   }
   else {
@@ -247,7 +251,7 @@ create_cohort <- function(cohort,
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  cohort_ca_dx <- get(paste0(cohort_object,"$ca_dx_index_", cohort_temp)) %>%
+  cohort_ca_dx <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
     # renumber index cancer diagnoses
     dplyr::group_by(.data$cohort, .data$record_id) %>%
     dplyr::mutate(index_ca_seq = 1:n()) %>%
@@ -269,7 +273,7 @@ create_cohort <- function(cohort,
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::left_join(cohort_ca_dx,
-    get(paste0(cohort_object, "$ca_drugs_", cohort_temp)),
+                                      pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "institution", "ca_seq")
   ) %>%
     # create order for drug regimen within cancer and within times the
@@ -282,7 +286,7 @@ create_cohort <- function(cohort,
     # (may have more than one row for a drug regimen even if it's the first time
     # that drug regimen was received)
     dplyr::left_join(.,
-      get(paste0("ca_drugs_", cohort_temp)) %>%
+                     pluck(cohort_object, paste0("ca_drugs_", cohort_temp)) %>%
         dplyr::distinct(.data$record_id, .data$regimen_number,
                         .data$regimen_drugs) %>%
         dplyr::group_by(.data$record_id, .data$regimen_drugs) %>%
@@ -306,7 +310,7 @@ create_cohort <- function(cohort,
   if (missing(regimen_drugs) && !missing(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
     cohort_ca_drugs <- dplyr::left_join(cohort_ca_dx,
-      get(paste0("ca_drugs_", cohort_temp)),
+                                        pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
       by = c("cohort", "record_id", "institution", "ca_seq")
     ) %>%
       dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }}))
@@ -456,6 +460,7 @@ create_cohort <- function(cohort,
   # for patients meeting the specified criteria, also pull cancer panel
   # test information
   cohort_cpt <- fetch_samples(cohort = cohort_temp,
+                              cohort_object = cohort_object,
                               df_record_ids = cohort_ca_dx)
 
   # if 0 patients are returned
@@ -500,7 +505,7 @@ create_cohort <- function(cohort,
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
     treat_hist <- treatment_history(
       ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
-      ca_drugs = get(paste0("ca_drugs_", cohort_temp)),
+      ca_drugs = pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
       regimen_drugs = regimen_drugs,
       lines_keep = lines_keep
     )
