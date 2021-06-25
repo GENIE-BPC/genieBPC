@@ -9,7 +9,7 @@ fetch_samples(cohort, df_record_ids)
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
 
-\item{cohort_object}{output object of the create_cohort function.}
+\item{df_record_ids}{output object of the create_cohort function.}
 }
 \value{
 returns the cohort object list inputted with an additional dataset named "samples_data".

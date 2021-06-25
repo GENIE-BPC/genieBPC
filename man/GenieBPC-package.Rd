@@ -7,7 +7,7 @@
 \title{GenieBPC: Helps format Genie data}
 \description{
 The {GenieBPC} package provides a seamless way to obtain the
-    data corresponding to each release from Synapse and to create datasets
+    data corresponding to each release from Synapse and to prepare datasets
     for analysis.
 }
 \seealso{

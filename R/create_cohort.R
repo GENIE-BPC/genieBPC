@@ -499,8 +499,9 @@ create_cohort <- function(cohort,
 
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
     treat_hist <- treatment_history(
-      record_ids = unique(as.character(cohort_ca_dx$record_id)),
+      ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
       ca_drugs = get(paste0("ca_drugs_", cohort_temp)),
+      regimen_drugs = regimen_drugs,
       lines_keep = lines_keep
     )
     return(list(
