@@ -101,6 +101,7 @@
 #' dplyr
 #' purrr
 create_cohort <- function(cohort,
+                          cohort_object,
                           index_ca_seq = 1,
                           institution,
                           stage_dx,
@@ -114,6 +115,7 @@ create_cohort <- function(cohort,
 
   # apply to all variables (alt would be r language)
   cohort_temp <- cohort
+
 
   # alphabetize drugs in regimen to match how they are stored in variable
   # regimen_drugs
@@ -134,6 +136,7 @@ create_cohort <- function(cohort,
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
+  # cohort objec
   # participating institutions by cohort
   if (sum(!missing(institution), grepl("^NSCLC$", cohort) > 0) > 1) {
     if (sum(!grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"),
@@ -244,7 +247,7 @@ create_cohort <- function(cohort,
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  cohort_ca_dx <- get(paste0("ca_dx_index_", cohort_temp)) %>%
+  cohort_ca_dx <- get(paste0(cohort_object,"$ca_dx_index_", cohort_temp)) %>%
     # renumber index cancer diagnoses
     dplyr::group_by(.data$cohort, .data$record_id) %>%
     dplyr::mutate(index_ca_seq = 1:n()) %>%
@@ -266,7 +269,7 @@ create_cohort <- function(cohort,
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::left_join(cohort_ca_dx,
-    get(paste0("ca_drugs_", cohort_temp)),
+    get(paste0(cohort_object, "$ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "institution", "ca_seq")
   ) %>%
     # create order for drug regimen within cancer and within times the
