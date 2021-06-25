@@ -26,7 +26,10 @@
 #' patient's first index cancer. The index cancer is also referred to as the
 #' BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
 #' cancer that met the eligibility criteria for the project and was selected
-#' at random for PRISSMM phenomic data curation.
+#' at random for PRISSMM phenomic data curation. Specifying multiple index
+#' cancer sequences, e.g. index_ca_seq = c(1, 2) will return index cancers to
+#' patients with 1 index cancer and will return the first and second index
+#' cancers to patients with multiple.
 #' @param institution GENIE BPC participating institution. Must be one of
 #' "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
 #' "MSK", "VICC" for CRC. Default selection is all institutions.
@@ -327,7 +330,7 @@ create_cohort <- function(cohort,
   # if specific drug regimen is requested; exact regimen
   # option 3a: all times that exact drug regimen was received
   if (!missing(regimen_drugs) && missing(regimen_order) &&
-      regimen_type == "Exact") {
+      stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
@@ -347,7 +350,7 @@ create_cohort <- function(cohort,
 
   # option 3b: all times that regimen containing drugs was received
   if (!missing(regimen_drugs) && missing(regimen_order) &&
-      regimen_type == "Containing") {
+      stringr::str_to_lower(regimen_type) == "containing") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"),
@@ -366,7 +369,7 @@ create_cohort <- function(cohort,
   # option 4a: 1st (or other) time that exact regimen was received
   if (!missing(regimen_drugs) && !missing(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
-    regimen_type == "Exact") {
+    stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(.data$regimen_drugs %in% c(regimen_drugs_sorted) |
@@ -387,7 +390,7 @@ create_cohort <- function(cohort,
   if (!missing(regimen_drugs) &&
     !missing(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
-    regimen_type == "Containing") {
+    stringr::str_to_lower(regimen_type) == "containing") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"),
@@ -415,7 +418,7 @@ create_cohort <- function(cohort,
   # option 5a: specific drugs within a cancer diagnosis, exact regimen
   if (!missing(regimen_drugs) &&
     !missing(regimen_order) &&
-    regimen_type == "Exact" &&
+    stringr::str_to_lower(regimen_type) == "exact" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
@@ -437,7 +440,7 @@ create_cohort <- function(cohort,
   # option 5b: specific drugs within a cancer diagnosis, regimen containing
   if (!missing(regimen_drugs) &&
     !missing(regimen_order) &&
-    regimen_type == "Containing" &&
+    stringr::str_to_lower(regimen_type) == "containing" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
@@ -503,27 +506,30 @@ create_cohort <- function(cohort,
   }
 
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
-    treat_hist <- treatment_history(
-      ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
-      ca_drugs = pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
-      regimen_drugs = regimen_drugs,
-      lines_keep = lines_keep
-    )
+    # treat_hist <- treatment_history(
+    #   ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
+    #   ca_drugs = pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
+    #   regimen_drugs = regimen_drugs,
+    #   lines_keep = lines_keep
+    # )
+
     return(list(
-      "cohort_ca_dx" = cohort_ca_dx,
+      "cohort_ca_dx" = cohort_ca_dx %>% select(-.data$index_ca_seq),
       "cohort_ca_drugs" = cohort_ca_drugs %>%
-        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen),
+        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
+                      -.data$index_ca_seq, -.data$abbreviation),
       "cohort_cpt" = cohort_cpt,
       "tbl1_cohort" = tbl1_cohort,
-      "tbl_drugs" = tbl_drugs,
-      "treat_hist" = treat_hist$treat_hist,
-      "p_dist" = treat_hist$p_dist
+      "tbl_drugs" = tbl_drugs#,
+      # "treat_hist" = treat_hist$treat_hist,
+      # "p_dist" = treat_hist$p_dist
     ))
   } else if (nrow(cohort_ca_dx) > 0) {
     return(list(
-      "cohort_ca_dx" = cohort_ca_dx,
+      "cohort_ca_dx" = cohort_ca_dx %>% select(-.data$index_ca_seq),
       "cohort_ca_drugs" = cohort_ca_drugs %>%
-        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen),
+        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
+                      -.data$index_ca_seq, -.data$abbreviation),
       "cohort_cpt" = cohort_cpt
     ))
   }
