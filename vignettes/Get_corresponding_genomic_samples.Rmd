@@ -1,0 +1,94 @@
+---
+title: "Get corresponding genomic samples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get corresponding genomic samples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(GenieBPC)
+library(dplyr)
+library(synapser)
+library(gt)
+
+synLogin()
+```
+
+```{r setup}
+library(GenieBPC)
+```
+
+
+## Introduction
+
+The `GenieBPC` includes functionalities to link the clinical records of cohorts of interest to patients corresponding genomic samples. In this tutorial we follow the data that was downloaded in the `Tutorial: pull_data_synapse()` Vignette, and processed in the `Tutorial: create_cohort` Vignette, as shown below:
+
+```{r}
+nsclc_data = pull_data_synapse("NSCLC")
+
+nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC",
+                                   cohort_object = nsclc_data,
+                                   stage_dx = c("Stage IV"),
+                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+
+```
+
+
+## fetch_samples()
+
+The `fetch_samples()` functions allows the user to match each of the patient record ID from the cohort created. This function takes as input:
+
+- cohort: the cohort name of interest. Options are "NSCLC" and "CRC".
+- cohort_object: the object outputted by the `pull_data_synapse()` function.
+- df_record_ids: the `cohort_ca_drugs` object returned by the `create_cohort()` function.
+
+```{r}
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,df_record_ids = nsclc_stg_iv_adeno$cohort_ca_drugs)
+
+gt(samples_data[1:10,])
+```
+
+Which returns for each of the patients the complete list of samples found for the corresponding cancer, along with the corresponding oncotree code, sample type, sequence assay used for sequencing, and distance of sequencing report to the date of diagnosis.
+
+Note that this object is returned from the `create_cohort()` object under the name `cohort_cpt`:
+
+```{r}
+gt(nsclc_stg_iv_adeno$cohort_cpt[1:10,])
+```
+
+
+## opt_samples()
+
+It sometimes occur that multiple samples of a single cancer were taken for sequencing, this is particularly often the case in metastatic lung cancer. Following the dataset generated above we can see that we had a total of `r length(unique(samples_data$record_id))` patients, for a total of `r length(unique(samples_data$cpt_genie_sample_id))`. We show below a table of patients with the most samples for a single cancer in the cohort generated:
+
+```{r}
+mult_samples <- samples_data %>% 
+  group_by(record_id) %>% 
+  summarise(N_samples = length(unique(cpt_genie_sample_id))) %>% 
+  ungroup() %>% 
+  arrange(-N_samples)
+gt(mult_samples[1:10,])
+```
+
+We implemented in `GenieBPC` an automated way to select the sample of interest based on the following criterions:
+
+- histology: namely the oncotree code of interest to prioritize, in our case this would be "LUAD".
+- sample type: primary or metastatic tumor, in our case "Metastasis".
+- min_max_time: minimizing or maximizing the time between sequencing report and diagnosis of disease, in our case we want the sample closest to diagnosis date. 
+
+If multiple samples are found to optimize all categories selected, the sample with the largest panel size for sequence assay will be chosen. If again multiple samples remain, a random sample will be selected.
+
+```{r}
+optimal_samples <- opt_samples(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+```
+
+
+
+

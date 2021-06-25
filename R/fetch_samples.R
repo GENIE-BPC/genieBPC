@@ -2,6 +2,7 @@
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
+#' @param cohort_object the list object outputted by the `pull_data_synapse()` function.
 #' @param df_record_ids output object of the create_cohort function.
 #' @return returns the cohort object list inputted with an additional dataset named "samples_data".
 #' @export

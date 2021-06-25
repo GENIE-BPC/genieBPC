@@ -38,8 +38,8 @@ opt_samples <- function(samples_object, histology = NULL, sample_type = NULL, mi
   # perform checks #
   if(missing(samples_object))
     stop("The 'samples_object' argument is needed to perform this process. 'samples_object' is the output created by the 'fetch_samples' function.")
-  if(sum(grepl("samples_data",names(samples_object))) != 1)
-    stop("The 'samples_object' input did not contain the 'samples_data' object. Is 'samples_object' input an output of the 'fetch_samples' function?")
+  # if(sum(grepl("samples_data",names(samples_object))) != 1)
+  #   stop("The 'samples_object' input did not contain the 'samples_data' object. Is 'samples_object' input an output of the 'fetch_samples' function?")
   if(is.null(histology) && is.null(sample_type) && is.null(min_max_time))
     warning("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
   if(!is.null(histology) && sum(samples_data$samples_data$cpt_oncotree_code %in% histology) == 0){
@@ -51,7 +51,7 @@ opt_samples <- function(samples_object, histology = NULL, sample_type = NULL, mi
   }
 
 
-  samples_data <- samples_object$samples_data
+  # samples_data <- samples_object$samples_data
   # we perform the optimization only for patients that have multiple samples #
   ### Find patients that had duplicated samples ###
   dup_samples <- as.character(unlist(samples_data %>%
