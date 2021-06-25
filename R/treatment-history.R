@@ -1,8 +1,13 @@
 #' treatment_history
 #'
 #' This function allows the user to get the complete treatment course of a list of patients.
-#' @param record_ids character vector of the patient IDs of interest.
+#' @param ids dataframe with first column `record_id` and second column `ca_seq`.
 #' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
+#' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
+#' separated by a comma. For example, to specify a regimen consisting of
+#' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
+#' Pemetrexed". Acceptable values are found in the `drug_names_by_cohort`
+#' dataset provided with this package.
 #' @param lines_keep regimen number to be kept to create the summary.
 #' @return Returns data frame `treat_hist` and interactive plot `p_dist`.
 #' @export
@@ -20,14 +25,26 @@
 #' pipeR
 
 
-treatment_history <- function(record_ids, ca_drugs,lines_keep = NULL){
+treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
 
   if(is.null(lines_keep))
     lines_keep = min(ca_drugs$regimen_number, na.rm = T) : max(ca_drugs$regimen_number, na.rm = T)
 
-  dat <- ca_drugs %>%
-    filter(record_id %in% record_ids,
-           regimen_number %in% lines_keep)
+  dat <- data.frame()
+  for(i in 1:nrow(ids)){
+    temp <- ca_drugs %>%
+      filter(record_id %in% ids$record_id[i],
+             ca_seq %in% ids$ca_seq[i]) %>%
+      arrange(regimen_number)
+
+    temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp),] %>%
+      mutate(regimen_number = regimen_number - min(regimen_number) + 1)
+
+    dat <- rbind(dat,temp)
+  }
+
+  dat <- dat %>%
+    filter(regimen_number %in% lines_keep)
 
   temp_dat <- dat %>%
     select(record_id, regimen_number,regimen_drugs)
@@ -38,7 +55,7 @@ treatment_history <- function(record_ids, ca_drugs,lines_keep = NULL){
                 values_from = regimen_drugs) %>%
     select(record_id, starts_with("R")) %>%
     rowwise() %>%
-    mutate_at(vars(matches("R")), ~ ifelse(is.null(.),"",.)) %>%
+    mutate_at(vars(matches("R")), ~ ifelse(is.na(.),"",.)) %>%
     ungroup()
 
   path <- c()

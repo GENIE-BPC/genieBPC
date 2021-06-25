@@ -4,12 +4,18 @@
 \alias{treatment_history}
 \title{treatment_history}
 \usage{
-treatment_history(record_ids, ca_drugs, lines_keep = NULL)
+treatment_history(ids, ca_drugs, regimen_drugs, lines_keep = NULL)
 }
 \arguments{
-\item{record_ids}{character vector of the patient IDs of interest.}
+\item{ids}{dataframe with first column `record_id` and second column `ca_seq`.}
 
 \item{ca_drugs}{dataset `ca_drugs` from `pull_data_synapse()` function.}
+
+\item{regimen_drugs}{Vector with names of drugs in cancer-directed regimen,
+separated by a comma. For example, to specify a regimen consisting of
+Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
+Pemetrexed". Acceptable values are found in the `drug_names_by_cohort`
+dataset provided with this package.}
 
 \item{lines_keep}{regimen number to be kept to create the summary.}
 }
