@@ -96,14 +96,16 @@ tibble::tribble(
 
 &nbsp;
 
-## Example
+## Examples
 
-The example below demonstrates pulling the most recent NSCLC data from Synapse and storing in the local environment using the `list2env()` function. 
+
+### Example 1
+
+Pull the most recent NSCLC data from Synapse and store in the local environment. 
 
 
 ```{r, eval = FALSE}
 nsclc_data = pull_data_synapse("NSCLC")
-list2env(nsclc_data, envir = globalenv())
 ```
 
 
@@ -126,7 +128,27 @@ ls(nsclc_data) %>%
 ```
 
 
-&nbsp;
+
+### Example 2
+
+Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data.
+
+```{r, eval = FALSE}
+pull_data_synapse(c("NSCLC", "CRC"))
+```
+
+
+
+### Example 3
+
+Pull version 2.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data.
+
+```{r, eval = FALSE}
+pull_data_synapse(c("NSCLC", "CRC"),
+                  version = c("2.1", "1.1"))
+```
+
+
 
 ## Future Work
 
