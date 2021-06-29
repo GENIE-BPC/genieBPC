@@ -2,6 +2,7 @@
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
+#' @param cohort_object the list object outputted by the `pull_data_synapse()` function.
 #' @param df_record_ids output object of the create_cohort function.
 #' @return returns the cohort object list inputted with an additional dataset named "samples_data".
 #' @export
@@ -42,7 +43,8 @@ fetch_samples <- function(cohort, cohort_object, df_record_ids) {
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
                dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
                pluck(cohort_object, paste0("cpt_", cohort_temp)),
-             by = c("cohort", "record_id", "ca_seq"))
+             by = c("cohort", "record_id", "ca_seq")) %>%
+    distinct()
 
   return(cohort_cpt)
 }

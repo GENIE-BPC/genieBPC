@@ -6,6 +6,7 @@
 \usage{
 create_cohort(
   cohort,
+  cohort_object,
   index_ca_seq = 1,
   institution,
   stage_dx,
@@ -28,7 +29,10 @@ will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
 patient's first index cancer. The index cancer is also referred to as the
 BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
 cancer that met the eligibility criteria for the project and was selected
-at random for PRISSMM phenomic data curation.}
+at random for PRISSMM phenomic data curation. Specifying multiple index
+cancer sequences, e.g. index_ca_seq = c(1, 2) will return index cancers to
+patients with 1 index cancer and will return the first and second index
+cancers to patients with multiple.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of
 "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",

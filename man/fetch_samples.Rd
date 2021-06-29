@@ -4,10 +4,12 @@
 \alias{fetch_samples}
 \title{fetch_samples}
 \usage{
-fetch_samples(cohort, df_record_ids)
+fetch_samples(cohort, cohort_object, df_record_ids)
 }
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
+
+\item{cohort_object}{the list object outputted by the `pull_data_synapse()` function.}
 
 \item{df_record_ids}{output object of the create_cohort function.}
 }

@@ -112,7 +112,6 @@ The examples below create analytic datasets based on the GENIE BPC NSCLC cohort.
 
 ```{r, results = 'hide'}
 nsclc_data = pull_data_synapse("NSCLC")
-list2env(nsclc_data, envir = globalenv())
 ```
 
 ### Example 1
@@ -121,6 +120,7 @@ Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also retu
 
 ```{r}
 nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC", 
+                                   cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
                                    ca_hist_adeno_squamous = "Adenocarcinoma")
 
@@ -133,6 +133,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, eval = FALSE}
 create_cohort(cohort = "NSCLC",
+              cohort_object = nsclc_data,
               regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
               regimen_order = 1,
               regimen_order_type = "within cancer")
@@ -144,6 +145,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any = create_cohort(cohort = "NSCLC",
+                                        cohort_object = nsclc_data,
                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                         regimen_order = 1,
                                         regimen_order_type = "within regimen", 

@@ -321,9 +321,11 @@ create_cohort <- function(cohort,
     # restrict cancer cohort to all patients who got a drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
       cohort_ca_drugs %>%
-        dplyr::select(.data$cohort, .data$record_id, .data$institution,
+        dplyr::select(.data$cohort,
+          .data$record_id, .data$institution,
                       .data$ca_seq),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort",
+        "record_id", "institution", "ca_seq")
     )
   }
 
