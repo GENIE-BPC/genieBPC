@@ -90,5 +90,15 @@ optimal_samples <- opt_samples(samples_object = samples_data, histology = "LUAD"
 ```
 
 
+We can now check that each patient has been assigned a single sample for the cancer of interest:
 
+```{r}
+mult_samples <- optimal_samples %>% 
+    group_by(record_id) %>% 
+    summarise(N_samples = length(unique(cpt_genie_sample_id))) %>% 
+    ungroup() %>% 
+    arrange(-N_samples)
+gt(mult_samples[1:5,])
+```
 
+If the user wishes to learn more on genomic data processing, please refer to the genomic vignette of the `GenieBPC` package. 

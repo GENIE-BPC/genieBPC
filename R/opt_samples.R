@@ -99,9 +99,9 @@ opt_samples <- function(samples_object, histology = NULL, sample_type = NULL, mi
               # If there are still multiple samples select the sample with largest panel #
               if(nrow(temp) > 1){
                 temp <- temp %>%
-                  filter(cpt_seq_assay_id %in% panel_names$Sequence.Assay.ID) %>%
+                  filter(cpt_seq_assay_id %in% genie_panels$Sequence.Assay.ID) %>%
                   rowwise() %>%
-                  mutate(Panel_size = length(unique(get(panel_names[match(cpt_seq_assay_id, panel_names$Sequence.Assay.ID),"Panel"])))) %>%
+                  mutate(Panel_size = genie_panels[match(cpt_seq_assay_id, genie_panels$Sequence.Assay.ID),"Genes"]) %>%
                   ungroup() %>%
                   filter(Panel_size == max(Panel_size)) %>%
                   select(-one_of("Panel_size"))
@@ -129,106 +129,5 @@ opt_samples <- function(samples_object, histology = NULL, sample_type = NULL, mi
       filter(!(record_id %in% dup_samples)),
     solved_dups)
 
-  samples_object$opt_samples_data <- samples_data_final
-  return(samples_object)
-
-
-  # samples_object <- samples_object %>%
-  #   filter(Oncotree.Code %in% histology)
-  #
-  # ### Find patients that had duplicated samples ###
-  # dup_samples <- as.character(unlist(samples_object %>%
-  #                                      group_by(ID) %>%
-  #                                      summarise(N_samples = length(unique(sample_ID))) %>%
-  #                                      filter(N_samples > 1) %>%
-  #                                      select(ID)))
-  #
-  # rm <- unlist(lapply(dup_samples, function(x){
-  #   temp <- samples_object %>%
-  #     filter(ID == x)
-  #
-  #   temp_hist <- temp %>%
-  #     filter(Sample.Type %in% sample_type)
-  #
-  #   if(nrow(temp_hist) > 0){
-  #     # find sample report closest to regimen start #
-  #     index_min <- which.min(abs(temp_hist$time_regimen_sequencing))
-  #     time_min <- temp_hist$time_regimen_sequencing[index_min]
-  #     temp_hist_min <- temp_hist %>%
-  #       filter(time_regimen_sequencing == time_min)
-  #     if(nrow(temp_hist_min) == 1){
-  #       return(as.character(unlist(temp %>%
-  #                                    filter(sample_ID != temp_hist_min$sample_ID) %>%
-  #                                    # filter(time_regimen_sequencing != time_min) %>%
-  #                                    select(sample_ID))))
-  #     }
-  #     else{
-  #       # if one sample has larger sample keep that one #
-  #       plats_temps <- as.character(unique(temp_hist_min$Sequence.Assay.ID))
-  #       plat_keep <- plats_temps[which.max(as.numeric(unlist(regmatches(plats_temps, gregexpr("[[:digit:]]+", plats_temps)))))]
-  #       # keep only samples with the larger platform #
-  #       temp_hist_min_plat <- temp_hist_min %>%
-  #         filter(Sequence.Assay.ID == plat_keep)
-  #       if(nrow(temp_hist_min_plat) == 1){
-  #         return(as.character(unlist(temp_hist %>%
-  #                                      filter(sample_ID != temp_hist_min_plat$sample_ID) %>%
-  #                                      select(sample_ID))))
-  #       }
-  #       else{
-  #         # if no platform difference pick the one that was taken the latest (?) #
-  #         keep <- as.character(temp_hist_min_plat$sample_ID[which.max(as.numeric(unlist(lapply(regmatches(temp_hist_min_plat$sample_ID, gregexpr("[[:digit:]]+", temp_hist_min_plat$sample_ID)),
-  #                                                                                              function(y){
-  #                                                                                                paste0(y, collapse = "")
-  #                                                                                              }))))])
-  #         return(as.character(unlist(temp %>%
-  #                                      filter(sample_ID != keep) %>%
-  #                                      select(sample_ID))))
-  #       }
-  #     }
-  #   }
-  #
-  #   # for samples without any priority samples #
-  #   else{
-  #     # find sample report closest to regimen start #
-  #     index_min <- which.min(abs(temp$time_regimen_sequencing))
-  #     time_min <- temp$time_regimen_sequencing[index_min]
-  #     temp_min <- temp %>%
-  #       filter(time_regimen_sequencing == time_min)
-  #     if(nrow(temp_min) == 1){
-  #       return(as.character(unlist(temp %>%
-  #                                    filter(time_regimen_sequencing != time_min) %>%
-  #                                    select(sample_ID))))
-  #     }
-  #     else{
-  #       # if one sample has larger sample keep that one #
-  #       plats_temps <- as.character(unique(temp_min$Sequence.Assay.ID))
-  #       plat_keep <- plats_temps[which.max(as.numeric(unlist(regmatches(plats_temps, gregexpr("[[:digit:]]+", plats_temps)))))]
-  #       # keep only samples with the larger platform #
-  #       temp_min_plat <- temp_min %>%
-  #         filter(Sequence.Assay.ID == plat_keep)
-  #       if(nrow(temp_min_plat) == 1){
-  #         return(as.character(unlist(temp %>%
-  #                                      filter(sample_ID != temp_hist_min_plat$sample_ID) %>%
-  #                                      select(sample_ID))))
-  #       }
-  #       else{
-  #         # if no platform difference pick the one that was taken the latest (?) #
-  #         keep <- as.character(temp_min_plat$sample_ID[which.max(as.numeric(unlist(lapply(regmatches(temp_min_plat$sample_ID, gregexpr("[[:digit:]]+", temp_min_plat$sample_ID)),
-  #                                                                                         function(y){
-  #                                                                                           paste0(y, collapse = "")
-  #                                                                                         }))))])
-  #         return(as.character(unlist(temp %>%
-  #                                      filter(sample_ID != keep) %>%
-  #                                      select(sample_ID))))
-  #       }
-  #     }
-  #   }
-  #
-  # }))
-  #
-  # # rm duplicated samples #
-  # samples_object_final <- samples_object %>%
-  #   filter(!(sample_ID %in% rm))
-  #
-  # return(samples_object_final)
+  return(samples_data_final)
 }

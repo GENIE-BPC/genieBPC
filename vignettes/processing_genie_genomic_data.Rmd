@@ -1,0 +1,115 @@
+---
+title: "Processing GENIE genomic data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Processing GENIE genomic data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(GenieBPC)
+library(dplyr)
+library(synapser)
+library(gt)
+
+synLogin()
+```
+
+```{r setup}
+library(GenieBPC)
+```
+
+# Introduction 
+
+The GENIE is segmented between the clinically annotated data and the patients' corresponding genomic data. In this vignette we show how these data can be connected and processed. For the purpose of this example we again retrieve the lung adenocarcinoma dataset and focus on advanced stage patients.
+
+```{r}
+# get data #
+nsclc_data = pull_data_synapse("NSCLC")
+# create cohort #
+nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC",
+                                   cohort_object = nsclc_data,
+                                   stage_dx = c("Stage IV"),
+                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+```
+
+We then retrieve the corresponding samples to these patients and select a unique sample for patients that have multiple:
+
+```{r}
+# get corresponding samples #
+samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,df_record_ids = nsclc_stg_iv_adeno$cohort_ca_drugs)
+
+# get unique samples for each patient #
+optimal_samples <- opt_samples(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+```
+
+We will show how to retrieve and process the genomic data for the `r nrow(optimal_samples)` patients in this cohort. 
+
+
+# Genomic files available in GenieBPC
+
+There are three types of genomic files available with the multi-center GENIE study. Each of these centers perform targeted-panel genetic sequencing on the tumor biopsy samples collected from patients. The data collected contains mutations, fusions, and copy-number alterations each in the respective files. 
+
+- Mutations are contained in a Mutation Annotation Format (MAF) file, where each row is a mutation that was observed. This is returned as `mutations_extended` from the `pull_data_synapse()` function in `GenieBPC`.
+
+```{r}
+# show example here #
+# nsclc_data$mutations_extended
+```
+
+- Fusions are similarly contained in a modified MAF file, where each row is a fusion that was observed. This is returned as `fusions` from the `pull_data_synapse()` function in `GenieBPC`.
+
+```{r}
+# show example here #
+# nsclc_data$fusions
+```
+
+- Copy number alterations are contained in a matrix with samples as columns and genes as rows. This is returned as `cna` from the `pull_data_synapse()` function in `GenieBPC`.
+
+```{r}
+# show example here #
+# nsclc_data$cna
+```
+
+It is important to note that as each of the centers has their own sequencing platforms and targeted panels, genes sequenced are not standardized across centers. This implies that some genes were not sequenced for all patients and must be accounted for when processing the genomic data. We show below a list of all the panels that have been used in the GENIE study along with the number of genes included in each of them, this is available in `GenieBPC` under `genie_panels`:
+
+```{r}
+gt(genie_panels)
+```
+
+In the following section we introduce a R software that enables users to generate a binary matrix ready for analysis standardizing genes across centers.
+
+# Creating a binary matrix with gnomeR
+
+The `gnomeR` package package provides a consistent framework for genetic data processing, visualization and analysis. This is primarily targeted to IMPACT datasets but has been expanded to properly process genomic data from the GENIE study. In this section we focus on the main function of that package, `binmat()`, that enables the creation of a binary matrix of samples by events in a robust and flexible way. For more information about `gnomeR`, please refer to its [github page](https://github.com/AxelitoMartin/gnomeR) or its [website](https://axelitomartin.github.io/gnomeR/). 
+
+```{r, eval = F}
+devtools::install_github("AxelitoMartin/gnomeR", ref = "development")
+```
+
+
+The `binmat()`function takes as input the various genomic files of interest, namely mutations, fusions and copy number alterations (which can be inputted in any combination as long as at least one is present). Moroever in order to annotate genes for missingness in each smaple, we require a dataframe specifying the platform each sample was sequenced on. This can be done directly from subsetting the `optimal_samples` dataset created in the `Introduction` section above, with sample name as first column and sequence assay ID as second column.
+
+```{r}
+library(gnomeR)
+# genomic files of interest #
+maf_ex <- nsclc_data$mutations_extended
+fusion_ex <- nsclc_data$fusions
+cna_ex <- nsclc_data$cna
+
+# samples of interest and their corresponding panels #
+sample_panels_ex <- optimal_samples %>% select(cpt_genie_sample_id, cpt_seq_assay_id) 
+
+# create binary matrix #
+bin_df_ex <- binmat(patients = sample_panels_ex$cpt_genie_sample_id,
+                    maf = maf_ex, fusion = fusion_ex, cna = cna_ex,
+                    sample_panels = sample_panels_ex)
+```
+
+

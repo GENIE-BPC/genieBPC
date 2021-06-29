@@ -43,7 +43,8 @@ fetch_samples <- function(cohort, cohort_object, df_record_ids) {
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
                dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
                pluck(cohort_object, paste0("cpt_", cohort_temp)),
-             by = c("cohort", "record_id", "ca_seq"))
+             by = c("cohort", "record_id", "ca_seq")) %>%
+    distinct()
 
   return(cohort_cpt)
 }
