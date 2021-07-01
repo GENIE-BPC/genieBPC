@@ -2,8 +2,8 @@
 
 export(create_cohort)
 export(fetch_samples)
-export(opt_samples)
 export(pull_data_synapse)
+export(select_unique_sample)
 export(synapse_version)
 export(treatment_history)
 import(TraMineR)

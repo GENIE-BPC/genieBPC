@@ -1,6 +1,6 @@
-#' opt_samples
+#' select_unique_sample
 #'
-#' Get the best samples for analysis following several user define criterions.
+#' Get a unique sample for each patient for analysis following several user define criterions.
 #' @param samples_object output object of the fetch_samples function.
 #' @param histology character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
 #' of samples_object argument above to get options.
@@ -19,7 +19,7 @@
 #' #      stage_dx = c("Stage IV"),
 #' #      ca_hist_adeno_squamous = "Adenocarcinoma")
 #' # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
-#' # opt_samples <- opt_samples(samples_object = samples_data)
+#' # select_unique_sample <- select_unique_sample(samples_object = samples_data)
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin,
 #' # Etoposide as their first drug regimen
@@ -28,12 +28,12 @@
 #' #     regimen_order = 1,
 #' #     regimen_order_type = "within regimen")
 #' # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
-#' # opt_samples <- opt_samples(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")
+#' # select_unique_sample <- select_unique_sample(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
-opt_samples <- function(samples_object, histology = NULL, sample_type = NULL, min_max_time = NULL){
+select_unique_sample <- function(samples_object, histology = NULL, sample_type = NULL, min_max_time = NULL){
 
   # perform checks #
   if(missing(samples_object))

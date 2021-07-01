@@ -48,7 +48,7 @@ We then retrieve the corresponding samples to these patients and select a unique
 samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,df_record_ids = nsclc_stg_iv_adeno$cohort_ca_drugs)
 
 # get unique samples for each patient #
-optimal_samples <- opt_samples(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+optimal_samples <- select_unique_sample(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
 ```
 
 We will show how to retrieve and process the genomic data for the `r nrow(optimal_samples)` patients in this cohort. 
