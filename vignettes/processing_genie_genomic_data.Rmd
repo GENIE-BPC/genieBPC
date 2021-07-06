@@ -160,7 +160,7 @@ For the binary example we attempt to correlate the genomic features of the cohor
 temp_outcome <- full_join(
   nsclc_stg_iv_adeno$cohort_ca_dx %>% 
     select(record_id,dmets_dx_brain),
-  nsclc_stg_iv_adeno$cohort_cpt %>% 
+  optimal_samples %>% 
     select(record_id, cpt_genie_sample_id),
   by = "record_id"
 ) %>% 
@@ -196,7 +196,7 @@ We can create a similar example for contunous outcome, testing for association b
 temp_outcome <- full_join(
   nsclc_stg_iv_adeno$cohort_ca_dx %>% 
     select(record_id,age_dx),
-  nsclc_stg_iv_adeno$cohort_cpt %>% 
+  optimal_samples %>% 
     select(record_id, cpt_genie_sample_id),
   by = "record_id"
 ) %>% 
@@ -235,7 +235,7 @@ temp_outcome <- full_join(
   nsclc_stg_iv_adeno$cohort_ca_dx %>% 
     select(record_id,dx_lastalive_int_mos,dx_death_int_mos) %>% 
     mutate(status = ifelse(is.na(dx_death_int_mos),0,1)),
-  nsclc_stg_iv_adeno$cohort_cpt %>% 
+  optimal_samples %>% 
     select(record_id, cpt_genie_sample_id,dx_cpt_rep_mos),
   by = "record_id"
 ) %>% 
@@ -250,7 +250,7 @@ We have created a dataset containing:
 
 ```{r}
 surv_data <- temp_outcome %>% 
-  rename(time1 = dx_cpt_rep_mos, time2 = dx_lastalive_int_mos) %>% 
+  rename(time1 = dx_cpt_rep_mos, time2 = dx_lastalive_int_mos) %>%
   # for some reason some report where after death --> maybe because this was diagnosis of primary disease?
   filter(time1 < time2)
 

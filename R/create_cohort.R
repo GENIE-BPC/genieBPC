@@ -103,6 +103,7 @@
 #' @import
 #' dplyr
 #' purrr
+#' stringr
 create_cohort <- function(cohort,
                           cohort_object,
                           index_ca_seq = 1,
@@ -181,7 +182,7 @@ create_cohort <- function(cohort,
 
   # stage mis-specified
   if (!missing(stage_dx) &&
-    sum(!grepl(c("^stage i$|^Stage ii$|^stage iii$|
+    sum(!grepl(c("^stage i$|^stage ii$|^stage iii$|
                  ^stage i-iii nos$|^stage iv$"),
                stringr::str_to_lower(stage_dx)) > 0) > 0) {
     stop("Select from available stages: Stage I, Stage II, Stage III,

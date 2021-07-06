@@ -37,12 +37,12 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
 
   # perform checks #
   if(missing(samples_object))
-    stop("The 'samples_object' argument is needed to perform this process. 'samples_object' is the output created by the 'fetch_samples' function.")
+    stop("The 'samples_object' argument is needed to perform this process. 'samples_object' is the output created by the 'fetch_samples' function, or the object 'cohort_cpt' from the create_cohort() function.")
   # if(sum(grepl("samples_data",names(samples_object))) != 1)
   #   stop("The 'samples_object' input did not contain the 'samples_data' object. Is 'samples_object' input an output of the 'fetch_samples' function?")
   if(is.null(histology) && is.null(sample_type) && is.null(min_max_time))
     warning("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
-  if(!is.null(histology) && sum(samples_data$samples_data$cpt_oncotree_code %in% histology) == 0){
+  if(!is.null(histology) && sum(samples_object$cpt_oncotree_code %in% histology) == 0){
     warning("The histology inputted do not exist in the samples data and thus will be ignored.")
     histology <- NULL
   }
@@ -54,12 +54,12 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
   # samples_data <- samples_object$samples_data
   # we perform the optimization only for patients that have multiple samples #
   ### Find patients that had duplicated samples ###
-  dup_samples <- as.character(unlist(samples_data %>%
+  dup_samples <- as.character(unlist(samples_object %>%
                                        group_by(record_id) %>%
                                        summarise(N_samples = length(unique(cpt_genie_sample_id))) %>%
                                        filter(N_samples > 1) %>%
                                        select(record_id)))
-  # samples_data %>%
+  # samples_object %>%
   #   group_by(record_id) %>%
   #   summarise(N_samples = length(unique(cpt_genie_sample_id))) %>%
   #   filter(record_id == "GENIE-MSK-P-0012203")
@@ -67,7 +67,7 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
     do.call("rbind",
             lapply(dup_samples, function(x){
               # print(x)
-              temp <- samples_data %>%
+              temp <- samples_object %>%
                 filter(record_id == x)
 
               # deal with sample site #
@@ -125,7 +125,7 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
 
   # remove all patients with duplicates and add back their selected samples #
   samples_data_final <- rbind(
-    samples_data %>%
+    samples_object %>%
       filter(!(record_id %in% dup_samples)),
     solved_dups)
 
