@@ -120,7 +120,6 @@ create_cohort <- function(cohort,
   # apply to all variables (alt would be r language)
   cohort_temp <- cohort
 
-
   # alphabetize drugs in regimen to match how they are stored in variable
   # regimen_drugs
   if (!missing(regimen_drugs)) {
@@ -145,6 +144,18 @@ create_cohort <- function(cohort,
     stop("Specify object created by pull_data_synapse() function.")
   }
 
+  # index cancer sequence
+  # get max # index cancers/pt
+  max_index_ca <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
+    group_by(cohort, record_id) %>%
+    summarize(n_index = n(), .groups = "drop") %>%
+    summarize(max_n_index = max(n_index))
+
+  if (max(index_ca_seq) > max_index_ca){
+    stop(paste0("There are no patients in the cohort with ", max_index_ca,
+         " index cancer diagnoses. The maximum number of index cancers to
+         one patient is ", max_index_ca, "."))
+  }
   # participating institutions by cohort
   if (sum(!missing(institution), grepl("^NSCLC$", cohort) > 0) > 1) {
     if (sum(!grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"),
@@ -170,7 +181,6 @@ create_cohort <- function(cohort,
     institution_temp <- {{ institution }}
   }
 
-  # mets at diagnosis specified but stage 4 not selected
   # to account for unspecified stage
   if (missing(stage_dx)) {
     stage_dx_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
@@ -256,7 +266,7 @@ create_cohort <- function(cohort,
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
   cohort_ca_dx <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
-    # renumber index cancer diagnoses
+    # re-number index cancer diagnoses
     dplyr::group_by(.data$cohort, .data$record_id) %>%
     dplyr::mutate(index_ca_seq = 1:n()) %>%
     dplyr::ungroup() %>%
@@ -479,33 +489,76 @@ create_cohort <- function(cohort,
 
   # return a table 1 to describe the cancer cohort if the user specifies
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
-    tbl1_cohort <- cohort_ca_dx %>%
+
+    # number of records per patient in the diagnosis dataset
+    n_rec_dx_dset <- cohort_ca_dx %>%
       dplyr::group_by(.data$record_id) %>%
-      dplyr::mutate(n_rec_pt = n()) %>%
-      dplyr::ungroup() %>%
+      dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
+      gtsummary::tbl_summary(include = .data$n_rec_pt,
+                             label = n_rec_pt ~ "Number of diagnoses per patient on cohort_ca_dx",
+                             type = n_rec_pt ~ "categorical") %>%
+      gtsummary::modify_header(update = list(
+        stat_0 ~ "**N = {N} patients**"),
+        quiet = TRUE)
+
+    n_rec_drugs_dset <- cohort_ca_drugs %>%
+      dplyr::group_by(.data$record_id) %>%
+      dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
+      gtsummary::tbl_summary(include = .data$n_rec_pt,
+                             label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs",
+                             type = n_rec_pt ~ "categorical")
+
+    n_rec_cpt_dset <- cohort_cpt %>%
+      dplyr::group_by(.data$record_id) %>%
+      dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
+      gtsummary::tbl_summary(include = .data$n_rec_pt,
+                             label = n_rec_pt ~ "Number of CPTs per patient in cohort_cpt",
+                             type = n_rec_pt ~ "categorical")
+
+    tbl_cohort_summary <- gtsummary::tbl_stack(tbls = list(n_rec_dx_dset,
+                                            n_rec_drugs_dset,
+                                            n_rec_cpt_dset),
+                                            quiet = TRUE)
+
+    tbl_cohort <- cohort_ca_dx %>%
+      # dplyr::group_by(.data$record_id) %>%
+      # dplyr::mutate(n_rec_pt = n()) %>%
+      # dplyr::ungroup() %>%
       gtsummary::tbl_summary(
-        by = cohort,
         include = c(
-          .data$cohort, .data$n_rec_pt, .data$institution,
+          .data$cohort, .data$institution,
           .data$stage_dx, .data$ca_hist_adeno_squamous
-        ),
-        label = n_rec_pt ~ "Number of records per patient",
-        type = n_rec_pt ~ "categorical"
-      )
+        )
+      ) %>%
+      gtsummary::modify_header(update = list(
+        all_stat_cols() ~ "**N = {N} Diagnoses**"),
+        quiet = TRUE)
 
     tbl_drugs <- cohort_ca_drugs %>%
-      dplyr::group_by(.data$record_id) %>%
-      dplyr::mutate(n_rec_pt = n()) %>%
-      dplyr::ungroup() %>%
+      # dplyr::group_by(.data$cohort, .data$institution,
+      #                 .data$record_id, .data$ca_seq) %>%
+      # dplyr::mutate(n_rec_pt = n()) %>%
+      # dplyr::ungroup() %>%
       gtsummary::tbl_summary(
-        by = cohort,
         include = c(
-          .data$cohort, .data$n_rec_pt, .data$institution,
+          .data$cohort, .data$institution,
           .data$regimen_drugs
-        ),
-        label = n_rec_pt ~ "Number of records per patient",
-        type = n_rec_pt ~ "categorical"
-      )
+        )
+      ) %>%
+      gtsummary::modify_header(update = list(
+        all_stat_cols() ~ "**N = {N} Regimens**"),
+        quiet = TRUE)
+
+    tbl_cpt <- cohort_cpt %>%
+      gtsummary::tbl_summary(
+        include = c(
+          .data$cohort, .data$institution, .data$cpt_oncotree_code,
+          .data$cpt_seq_assay_id
+        )
+      ) %>%
+      gtsummary::modify_header(update = list(
+        all_stat_cols() ~ "**N = {N} Cancer Panel Tests**"),
+        quiet = TRUE)
   }
 
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
@@ -518,12 +571,15 @@ create_cohort <- function(cohort,
 
     return(list(
       "cohort_ca_dx" = cohort_ca_dx %>% select(-.data$index_ca_seq),
-      "cohort_ca_drugs" = cohort_ca_drugs %>%
-        dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
-                      -.data$index_ca_seq, -.data$abbreviation),
+      "cohort_ca_drugs" = cohort_ca_drugs #%>%
+        # dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
+        #               -.data$index_ca_seq, -.data$abbreviation)
+      ,
       "cohort_cpt" = cohort_cpt,
-      "tbl1_cohort" = tbl1_cohort,
-      "tbl_drugs" = tbl_drugs#,
+      "tbl_cohort_summary" = tbl_cohort_summary,
+      "tbl_cohort" = tbl_cohort,
+      "tbl_drugs" = tbl_drugs,
+      "tbl_cpt" = tbl_cpt
       # "treat_hist" = treat_hist$treat_hist,
       # "p_dist" = treat_hist$p_dist
     ))

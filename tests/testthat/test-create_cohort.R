@@ -2,11 +2,11 @@
 
 # test that three datasets are returned from create_cohort
 test_that("correct number of objects returned from create cohort", {
-  nsclc_crc_data <- pull_data_synapse(c("NSCLC"))
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 
   test1 <- create_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_crc_data,
+    cohort_object = nsclc_data,
     return_summary = FALSE
   )
 
@@ -14,7 +14,7 @@ test_that("correct number of objects returned from create cohort", {
 
   test2 <- create_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_crc_data,
+    cohort_object = nsclc_data,
     return_summary = TRUE
   )
 
@@ -22,21 +22,38 @@ test_that("correct number of objects returned from create cohort", {
 })
 
 test_that("correct cohort returned from create cohort", {
-  nsclc_crc_data <- pull_data_synapse(c("NSCLC"))
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 
   test1 <- create_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_crc_data,
+    cohort_object = nsclc_data,
     return_summary = FALSE
   )
 
   expect_equal(unique(test1$cohort_ca_dx$cohort), "NSCLC")
   expect_equal(unique(test1$cohort_ca_drugs$cohort), "NSCLC")
   expect_equal(unique(test1$cohort_cpt$cohort), "NSCLC")
+
+  # check CRC
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
+
+  test2 <- create_cohort(
+    cohort = "CRC",
+    cohort_object = crc_data,
+    return_summary = FALSE
+  )
+
+  expect_equal(unique(test2$cohort_ca_dx$cohort), "CRC")
+  expect_equal(unique(test2$cohort_ca_drugs$cohort), "CRC")
+  expect_equal(unique(test2$cohort_cpt$cohort), "CRC")
+
+  # non-existent cohort is specified
+  expect_error(create_cohort(cohort = "Lung cancer",
+                             cohort_object = nsclc_data))
 })
 
 test_that("correct diagnosis/diagnoses returned", {
-  nsclc_data <- pull_data_synapse("NSCLC")
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 
   # scenario 1: no diagnosis criteria specified
   # expect that the first index cancer is returned
@@ -71,6 +88,29 @@ test_that("correct diagnosis/diagnoses returned", {
     select(-index_ca_seq)
 
   expect_equal(test2a$cohort_ca_dx, test2b)
+
+  # scenario 3: an index cancer # that doesn't exist in the data is specified
+  expect_error(create_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    index_ca_seq = 10))
+
+})
+
+  # scenario 3: histology is specified
+  test3a <- create_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    ca_hist_adeno_squamous = "Adenocarcinoma"
+  )
+
+  test3b <- nsclc_data$ca_dx_index_NSCLC %>%
+    group_by(cohort, record_id) %>%
+    slice(which.min(ca_seq)) %>%
+    ungroup() %>%
+    filter(ca_hist_adeno_squamous == "Adenocarcinoma")
+
+  expect_equal(test3a$cohort_ca_dx, test3b)
 
   test_that("correct regimen returned", {
   # scenario 3: want all index cancers returned
