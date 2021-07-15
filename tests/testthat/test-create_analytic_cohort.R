@@ -89,30 +89,89 @@ test_that("correct diagnosis/diagnoses returned", {
 
   expect_equal(test2a$cohort_ca_dx, test2b)
 
-  # scenario 3: an index cancer # that doesn't exist in the data is specified
-  expect_error(create_cohort(
-    cohort = "NSCLC",
-    cohort_object = nsclc_data,
-    index_ca_seq = 10))
-
-})
-
-  # scenario 3: histology is specified
+  # institution is specified and correct institution is returned
   test3a <- create_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
-    ca_hist_adeno_squamous = "Adenocarcinoma"
+    institution = "dfci"
   )
 
   test3b <- nsclc_data$ca_dx_index_NSCLC %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
-    filter(ca_hist_adeno_squamous == "Adenocarcinoma")
+    filter(institution == "DFCI")
 
   expect_equal(test3a$cohort_ca_dx, test3b)
 
-  test_that("correct regimen returned", {
+  # scenario 4: histology is specified and correct histology is returned
+  test4a <- create_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    ca_hist_adeno_squamous = "adenocarcinoma"
+  )
+
+  test4b <- nsclc_data$ca_dx_index_NSCLC %>%
+    group_by(cohort, record_id) %>%
+    slice(which.min(ca_seq)) %>%
+    ungroup() %>%
+    filter(ca_hist_adeno_squamous == "Adenocarcinoma")
+
+  expect_equal(test4a$cohort_ca_dx, test4b)
+
+  # scenario 5: multiple histologies are specified and returned
+  test5a <- create_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    ca_hist_adeno_squamous = c("adenocarcinoma", "squamous cell")
+  )
+
+  test5b <- nsclc_data$ca_dx_index_NSCLC %>%
+    group_by(cohort, record_id) %>%
+    slice(which.min(ca_seq)) %>%
+    ungroup() %>%
+    filter(ca_hist_adeno_squamous %in% c("Adenocarcinoma", "Squamous cell"))
+
+  expect_equal(test5a$cohort_ca_dx, test5b)
+})
+
+test_that("errors appropriately triggered", {
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
+
+  # a non-existent cohort is specified
+  expect_error(create_cohort(
+    cohort = "made up cohort"
+  ))
+
+  # a non-existent cohort_object is specified
+  expect_error(create_cohort(
+    cohort = "NSCLC",
+    cohort_object = crc_data))
+
+  # an index cancer # that doesn't exist in the data is specified
+  expect_error(create_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    index_ca_seq = 10))
+
+  # a non-existent institution is specified
+  expect_error(create_cohort(cohort = "NSCLC",
+                             cohort_object = nsclc_data,
+                             institution = "uDFCI"))
+
+  # a non-existent stage is specified
+  expect_error(create_cohort(cohort = "NSCLC",
+                             cohort_object = nsclc_data,
+                             stage_dx = "stage 12"))
+
+
+  # a non-existent histology is specified
+  expect_error(create_cohort(cohort = "NSCLC",
+                             cohort_object = nsclc_data,
+                             ca_hist_adeno_squamous = "squamous_adeno"))
+})
+
+test_that("correct regimen returned", {
   # scenario 3: want all index cancers returned
   # if patient only has 1 index cancer, it should be returned
   # if patient has multiple, all should be returned
