@@ -28,7 +28,7 @@
 #' cancer that met the eligibility criteria for the project and was selected
 #' at random for PRISSMM phenomic data curation. Specifying multiple index
 #' cancer sequences, e.g. index_ca_seq = c(1, 2) will return index cancers to
-#' patients with 1 index cancer and will return the first and second index
+#' patients with 1 index cancer and will return the first AND second index
 #' cancers to patients with multiple.
 #' @param institution GENIE BPC participating institution. Must be one of
 #' "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
@@ -104,7 +104,7 @@
 #' dplyr
 #' purrr
 #' stringr
-create_cohort <- function(cohort,
+create_analytic_cohort <- function(cohort,
                           cohort_object,
                           index_ca_seq = 1,
                           institution,
@@ -531,7 +531,7 @@ create_cohort <- function(cohort,
         )
       ) %>%
       gtsummary::modify_header(update = list(
-        all_stat_cols() ~ "**N = {N} Diagnoses**"),
+        stat_0 ~ "**N = {N} Diagnoses**"),
         quiet = TRUE)
 
     tbl_drugs <- cohort_ca_drugs %>%
@@ -546,7 +546,7 @@ create_cohort <- function(cohort,
         )
       ) %>%
       gtsummary::modify_header(update = list(
-        all_stat_cols() ~ "**N = {N} Regimens**"),
+        stat_0 ~ "**N = {N} Regimens**"),
         quiet = TRUE)
 
     tbl_cpt <- cohort_cpt %>%
@@ -557,7 +557,7 @@ create_cohort <- function(cohort,
         )
       ) %>%
       gtsummary::modify_header(update = list(
-        all_stat_cols() ~ "**N = {N} Cancer Panel Tests**"),
+        stat_0 ~ "**N = {N} Cancer Panel Tests**"),
         quiet = TRUE)
   }
 

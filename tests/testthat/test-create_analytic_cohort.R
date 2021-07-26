@@ -1,10 +1,12 @@
 # adding this one fake test to initialize the unit testing framework
 
+# test that create_cohort returns a list
+
 # test that three datasets are returned from create_cohort
 test_that("correct number of objects returned from create cohort", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 
-  test1 <- create_cohort(
+  test1 <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     return_summary = FALSE
@@ -12,19 +14,19 @@ test_that("correct number of objects returned from create cohort", {
 
   expect_equal(length(test1), 3)
 
-  test2 <- create_cohort(
+  test2 <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     return_summary = TRUE
   )
 
-  expect_equal(length(test2), 5)
+  expect_equal(length(test2), 7)
 })
 
 test_that("correct cohort returned from create cohort", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 
-  test1 <- create_cohort(
+  test1 <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     return_summary = FALSE
@@ -37,7 +39,7 @@ test_that("correct cohort returned from create cohort", {
   # check CRC
   crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
 
-  test2 <- create_cohort(
+  test2 <- create_analytic_cohort(
     cohort = "CRC",
     cohort_object = crc_data,
     return_summary = FALSE
@@ -46,18 +48,14 @@ test_that("correct cohort returned from create cohort", {
   expect_equal(unique(test2$cohort_ca_dx$cohort), "CRC")
   expect_equal(unique(test2$cohort_ca_drugs$cohort), "CRC")
   expect_equal(unique(test2$cohort_cpt$cohort), "CRC")
-
-  # non-existent cohort is specified
-  expect_error(create_cohort(cohort = "Lung cancer",
-                             cohort_object = nsclc_data))
 })
 
-test_that("correct diagnosis/diagnoses returned", {
+test_that("cohort and cohort_object", {
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 
-  # scenario 1: no diagnosis criteria specified
+  # no diagnosis criteria specified
   # expect that the first index cancer is returned
-  test1a <- create_cohort(
+  test1a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data
   )
@@ -69,10 +67,24 @@ test_that("correct diagnosis/diagnoses returned", {
 
   expect_equal(test1a$cohort_ca_dx, test1b)
 
-  # scenario 2: first OR second index cancer is specified
+  # errors if non-existent cohort or cohort_object are specified
+  # a non-existent cohort is specified
+  expect_error(create_analytic_cohort(
+    cohort = "made up cohort"
+  ))
+
+  # a non-existent cohort_object is specified
+  expect_error(create_analytic_cohort(
+    cohort = "NSCLC",
+    cohort_object = crc_data))
+})
+
+test_that("index_ca_seq", {
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+  # first and second index cancer is specified
   # if patient only has 1 index cancer, it should be returned
   # if patient has 2+ index cancers, the first two should be returned
-  test2a <- create_cohort(
+  test2a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     index_ca_seq = c(1, 2),
@@ -89,8 +101,18 @@ test_that("correct diagnosis/diagnoses returned", {
 
   expect_equal(test2a$cohort_ca_dx, test2b)
 
+  # an index cancer # that doesn't exist in the data is specified
+  expect_error(create_analytic_cohort(
+    cohort = "NSCLC",
+    cohort_object = nsclc_data,
+    index_ca_seq = 10))
+})
+
+test_that("institution", {
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+
   # institution is specified and correct institution is returned
-  test3a <- create_cohort(
+  test3a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     institution = "dfci"
@@ -104,8 +126,15 @@ test_that("correct diagnosis/diagnoses returned", {
 
   expect_equal(test3a$cohort_ca_dx, test3b)
 
-  # scenario 4: histology is specified and correct histology is returned
-  test4a <- create_cohort(
+  # a non-existent institution is specified
+  expect_error(create_analytic_cohort(cohort = "NSCLC",
+                                      cohort_object = nsclc_data,
+                                      institution = "uDFCI"))
+})
+
+test_that("histology", {
+  # histology is specified and correct histology is returned
+  test4a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     ca_hist_adeno_squamous = "adenocarcinoma"
@@ -119,8 +148,8 @@ test_that("correct diagnosis/diagnoses returned", {
 
   expect_equal(test4a$cohort_ca_dx, test4b)
 
-  # scenario 5: multiple histologies are specified and returned
-  test5a <- create_cohort(
+  # multiple histologies are specified and returned
+  test5a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     ca_hist_adeno_squamous = c("adenocarcinoma", "squamous cell")
@@ -133,49 +162,28 @@ test_that("correct diagnosis/diagnoses returned", {
     filter(ca_hist_adeno_squamous %in% c("Adenocarcinoma", "Squamous cell"))
 
   expect_equal(test5a$cohort_ca_dx, test5b)
-})
-
-test_that("errors appropriately triggered", {
-  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
-
-  # a non-existent cohort is specified
-  expect_error(create_cohort(
-    cohort = "made up cohort"
-  ))
-
-  # a non-existent cohort_object is specified
-  expect_error(create_cohort(
-    cohort = "NSCLC",
-    cohort_object = crc_data))
-
-  # an index cancer # that doesn't exist in the data is specified
-  expect_error(create_cohort(
-    cohort = "NSCLC",
-    cohort_object = nsclc_data,
-    index_ca_seq = 10))
-
-  # a non-existent institution is specified
-  expect_error(create_cohort(cohort = "NSCLC",
-                             cohort_object = nsclc_data,
-                             institution = "uDFCI"))
-
-  # a non-existent stage is specified
-  expect_error(create_cohort(cohort = "NSCLC",
-                             cohort_object = nsclc_data,
-                             stage_dx = "stage 12"))
-
 
   # a non-existent histology is specified
-  expect_error(create_cohort(cohort = "NSCLC",
+  expect_error(create_analytic_cohort(cohort = "NSCLC",
+                                      cohort_object = nsclc_data,
+                                      ca_hist_adeno_squamous = "squamous_adeno"))
+})
+
+test_that("stage", {
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
+
+
+  # a non-existent stage is specified
+  expect_error(create_analytic_cohort(cohort = "NSCLC",
                              cohort_object = nsclc_data,
-                             ca_hist_adeno_squamous = "squamous_adeno"))
+                             stage_dx = "stage 12"))
 })
 
 test_that("correct regimen returned", {
   # scenario 3: want all index cancers returned
   # if patient only has 1 index cancer, it should be returned
   # if patient has multiple, all should be returned
-  test3a <- create_cohort(
+  test3a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     index_ca_seq = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
@@ -191,7 +199,7 @@ test_that("correct regimen returned", {
 
   # scenario 1: no drug regimen is specified, all drug regimens are returned
   # for a patient's 1st index cancer
-  test1a <- create_cohort(
+  test1a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_crc_data
   )
@@ -202,7 +210,7 @@ test_that("correct regimen returned", {
   })
 
   # scenario 1: all patients whose first drug after diagnosis was carbo pem
-  test1a <- create_cohort(
+  test1a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_crc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
@@ -226,7 +234,7 @@ test_that("correct regimen returned", {
   expect_equal(test1a$cohort_ca_drugs, test1b)
 
   # test 2: all patients whose *second* drug after diagnosis was carbo pem
-  test2a <- create_cohort(
+  test2a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_crc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
@@ -252,7 +260,7 @@ test_that("correct regimen returned", {
   expect_equal(test2a$cohort_ca_drugs, test2b)
 
   # test 3: all patients whose *second* drug after diagnosis was carbo pem
-  test3a <- create_cohort(
+  test3a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_crc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
