@@ -50,7 +50,8 @@
 #' @param regimen_order Order of cancer-directed regimen. If multiple drugs
 #' are specified, `regimen_order` indicates the regimen order for all drugs;
 #' different values of `regimen_order` cannot be specified for different drug
-#' regimens.
+#' regimens. If multiple values are specified, e.g. c(1, 2), then drug regimens
+#' that met either order criteria are returned.
 #' @param regimen_order_type Specifies whether the `regimen_order` parameter
 #' refers to the order of receipt of the drug regimen within the cancer
 #' diagnosis (across all other drug regimens; "within cancer") or the order of
@@ -124,7 +125,7 @@ create_analytic_cohort <- function(cohort,
   # regimen_drugs
   if (!missing(regimen_drugs)) {
     regimen_drugs_sorted <- map_chr(strsplit(regimen_drugs, ","), ~
-                                      toString(str_sort((str_trim(.x)))))
+                                      toString(str_to_lower(str_sort((str_trim(.x))))))
   }
 
   # check parameters
@@ -347,8 +348,8 @@ create_analytic_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
-        .data$regimen_drugs %in% c(regimen_drugs_sorted) |
-          .data$abbreviation %in% c(regimen_drugs_sorted) #|
+        str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
+          str_to_lower(.data$abbreviation) %in% c(regimen_drugs_sorted) #|
         # drug_class %in% c(regimen_drugs_sorted)
       )
 
@@ -367,8 +368,9 @@ create_analytic_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"),
-                          .data$regimen_drugs) |
-        grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$abbreviation))
+                          str_to_lower(.data$regimen_drugs)) |
+        grepl(paste(regimen_drugs_sorted, collapse = "|"),
+              str_to_lower(.data$abbreviation)))
 
     # restrict cancer cohort to patients on that drug regimen
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
@@ -385,8 +387,8 @@ create_analytic_cohort <- function(cohort,
     stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
-      dplyr::filter(.data$regimen_drugs %in% c(regimen_drugs_sorted) |
-                      .data$abbreviation %in% c(regimen_drugs_sorted)) %>%
+      dplyr::filter(str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
+                    str_to_lower(.data$abbreviation) %in% c(regimen_drugs_sorted)) %>%
       # filter on order of interest (e.g. first, all)
       dplyr::filter(.data$order_within_regimen %in% c({{ regimen_order }}))
 
@@ -407,9 +409,9 @@ create_analytic_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(grepl(paste(regimen_drugs_sorted, collapse = "|"),
-                          .data$regimen_drugs) |
+                          str_to_lower(.data$regimen_drugs)) |
         grepl(paste(regimen_drugs_sorted, collapse = "|"),
-              .data$abbreviation)) %>%
+              str_to_lower(.data$abbreviation))) %>%
       # need to re-create order of interest because it was defined based on the
       # exact regimen
       dplyr::group_by(.data$cohort, .data$record_id) %>%
@@ -436,8 +438,8 @@ create_analytic_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
-        .data$regimen_drugs %in% c(regimen_drugs_sorted) |
-          .data$abbreviation %in% c(regimen_drugs_sorted),
+        str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
+        str_to_lower(.data$abbreviation) %in% c(regimen_drugs_sorted),
         .data$order_within_cancer %in% c({{ regimen_order }})
       )
 
@@ -458,9 +460,9 @@ create_analytic_cohort <- function(cohort,
     # identify instances of that drug regimen
     cohort_ca_drugs <- cohort_ca_drugs %>%
       dplyr::filter(
-        grepl(paste(regimen_drugs_sorted, collapse = "|"), .data$regimen_drugs)
+        grepl(paste(regimen_drugs_sorted, collapse = "|"), str_to_lower(.data$regimen_drugs))
         | grepl(paste(regimen_drugs_sorted, collapse = "|"),
-                .data$abbreviation),
+                str_to_lower(.data$abbreviation)),
         .data$order_within_cancer %in% c({{ regimen_order }})
       )
 
