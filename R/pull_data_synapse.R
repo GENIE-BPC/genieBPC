@@ -27,7 +27,7 @@
 #' @import
 #' dplyr
 #' dtplyr
-pull_data_synapse <- function(cohort, version = "1.1") {
+pull_data_synapse <- function(cohort, version ) {
   tryCatch(
     synapser::synLogin(),
     error =
@@ -50,9 +50,11 @@ pull_data_synapse <- function(cohort, version = "1.1") {
         stop("Select cohort from 'NSCLC' or 'CRC'")
       }
       if (missing(version)) {
-        print("Version '1.1' selected by default.")
+        stop("Version needs to be specified. Use `synapse_version()` to see what data is available.")
       }
-
+      if (sum(!grepl("^1.1$|^2.1$", version)) > 0) {
+        stop("Select an appropriate version number. Use `synapse_version()` to see what data is available.")
+      }
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))
       synapse_tables$filenames <- paste(synapse_tables$df, synapse_tables$cohort, sep = "_")
