@@ -1,12 +1,10 @@
 ---
-title: 'Tutorial: create_cohort'
+title: "Tutorial: create_analytic_cohort"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{Tutorial: create_cohort}
+  %\VignetteIndexEntry{Tutorial: create_analytic_cohort}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -25,13 +23,13 @@ synLogin()
 
 ## Introduction
 
-The `create_cohort()` function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns two datasets:
+The `create_analytic_cohort()` function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns two datasets:
 
 1. `cohort_ca_dx` will containing cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
 
 2. `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.
 
-This vignette will walk a user through the `create_cohort()` function. 
+This vignette will walk a user through the `create_analytic_cohort()` function. 
 
 ## Setup
 
@@ -64,12 +62,12 @@ gt_compact_fun <- function(x) {
 
 ## Basic Usage
 
-The output from `create_cohort()` is two datasets ready for analysis. 
+The output from `create_analytic_cohort()` is two datasets ready for analysis. 
 
 
 ### Modifying Function Arguments
 
-The `create_cohort()` function includes several input parameters:
+The `create_analytic_cohort()` function includes several input parameters:
 
 
 ```{r, include = FALSE}
@@ -119,7 +117,7 @@ nsclc_data = pull_data_synapse("NSCLC")
 Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
 ```{r}
-nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC", 
+nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC", 
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
                                    ca_hist_adeno_squamous = "Adenocarcinoma")
@@ -132,7 +130,7 @@ ls(nsclc_stg_iv_adeno)
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 
 ```{r, eval = FALSE}
-create_cohort(cohort = "NSCLC",
+create_analytic_cohort(cohort = "NSCLC",
               cohort_object = nsclc_data,
               regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
               regimen_order = 1,
@@ -144,7 +142,7 @@ create_cohort(cohort = "NSCLC",
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any = create_cohort(cohort = "NSCLC",
+nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
                                         cohort_object = nsclc_data,
                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                         regimen_order = 1,
@@ -154,10 +152,17 @@ nsclc_cisplatin_pem_any = create_cohort(cohort = "NSCLC",
 
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl1_cohort
+nsclc_cisplatin_pem_any$tbl_cohort_summary
 ```
 
+```{r, warning = FALSE}
+nsclc_cisplatin_pem_any$tbl_cohort
+```
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any$tbl_drugs
+```
+
+```{r, warning = FALSE}
+nsclc_cisplatin_pem_any$tbl_cpt
 ```
