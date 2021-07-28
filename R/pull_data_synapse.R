@@ -27,7 +27,7 @@
 #' @import
 #' dplyr
 #' dtplyr
-pull_data_synapse <- function(cohort, version ) {
+pull_data_synapse <- function(cohort, version) {
   tryCatch(
     synapser::synLogin(),
     error =
@@ -46,7 +46,7 @@ pull_data_synapse <- function(cohort, version ) {
       if (missing(cohort)) {
         stop("Select cohort from 'NSCLC' or 'CRC'")
       }
-      if (sum(!grepl("^CRC$|^NSCLC$", cohort)) > 0) {
+      if (sum(!grepl("^CRC$|^NSCLC$", str_to_upper(cohort))) > 0) {
         stop("Select cohort from 'NSCLC' or 'CRC'")
       }
       if (missing(version)) {
@@ -63,30 +63,32 @@ pull_data_synapse <- function(cohort, version ) {
         function(x, y) {
           synapse_tables[synapse_tables$cohort %in% x & synapse_tables$version %in% y, ]
         },
-        cohort,
+        str_to_upper(cohort),
         version
       )
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- sapply(1:nrow(synapse_tables2),function(x){
-              synapser::synGet(synapse_tables2$synapse_id[x])$path})
-
-      synapse_tables2$filenamesversion <- paste(synapse_tables2$filenames,
-                                               synapse_tables2$version, sep  ="_")
+      synapse_tables2$path <- sapply(1:nrow(synapse_tables2), function(x) {
+        synapser::synGet(synapse_tables2$synapse_id[x])$path
+      })
 
       # read Synapse tables
       readcsvfile <- setNames(
-                     lapply( synapse_tables2$path[grepl(".csv", synapse_tables2$path)] ,utils::read.csv),
-                     synapse_tables2$filenamesversion[grepl(".csv", synapse_tables2$path)] )
+        lapply(synapse_tables2$path[grepl(".csv", synapse_tables2$path)], utils::read.csv),
+        synapse_tables2$filenames[grepl(".csv", synapse_tables2$path)]
+      )
 
 
 
-      readtxtfile<- setNames(
-          lapply(synapse_tables2$path[grepl(".txt", synapse_tables2$path)],function(x){utils::read.delim(x, sep = "\t")}),
-          synapse_tables2$filenamesversion[grepl(".txt", synapse_tables2$path)] )
+      readtxtfile <- setNames(
+        lapply(synapse_tables2$path[grepl(".txt", synapse_tables2$path)], function(x) {
+          utils::read.delim(x, sep = "\t")
+        }),
+        synapse_tables2$filenames[grepl(".txt", synapse_tables2$path)]
+      )
 
-      readfiles <- c(readcsvfile,readtxtfile)
+      readfiles <- c(readcsvfile, readtxtfile)
 
 
 

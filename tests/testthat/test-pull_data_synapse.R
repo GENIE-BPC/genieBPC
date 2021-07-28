@@ -3,7 +3,7 @@
 test_that("Test class and length of list for NSCLC", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
   expect_equal(length(nsclc_data), 11)
-  expect_equal(nsclc_data, "list")
+  expect_equal(class(nsclc_data), "list")
 })
 
 
@@ -13,6 +13,20 @@ test_that("Test class length of list for CRC", {
   expect_equal(class(crc_data), "list")
 })
 
+test_that("Case sensitivity of cohort", {
+  lung1 <- pull_data_synapse("NSCLC", version = "1.1")
+  lung2 <- pull_data_synapse("nsclc", version = "1.1")
+  expect_equal(lung1, lung2)
+})
+
+test_that("Version not specified", {
+  expect_error(pull_data_synapse(cohort = "NSCLC"))
+})
+
+test_that("Misspecified cohort or version", {
+  expect_error(pull_data_synapse(c("NSCLC"), version = "0.1"))
+  expect_error(pull_data_synapse(c("lung"), version = "1.1"))
+})
 
 test_that("Number of columns and rows for each NSCLC dataset", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
@@ -22,7 +36,6 @@ test_that("Number of columns and rows for each NSCLC dataset", {
   names(row_length) <- NULL
   expect_equal(col_length, c(33, 110, 83, 114, 195, 42, 11, 19, 1782, 9, 54))
   expect_equal(row_length, c(1849, 1874, 810, 4032, 8329, 35113, 24950, 2026, 930, 821, 17574))
-  wow
 })
 
 
