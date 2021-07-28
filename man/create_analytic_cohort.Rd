@@ -31,7 +31,7 @@ BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
 cancer that met the eligibility criteria for the project and was selected
 at random for PRISSMM phenomic data curation. Specifying multiple index
 cancer sequences, e.g. index_ca_seq = c(1, 2) will return index cancers to
-patients with 1 index cancer and will return the first and second index
+patients with 1 index cancer and will return the first AND second index
 cancers to patients with multiple.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of
@@ -59,7 +59,8 @@ one of "Exact" or "Containing". The default is "Exact".}
 \item{regimen_order}{Order of cancer-directed regimen. If multiple drugs
 are specified, `regimen_order` indicates the regimen order for all drugs;
 different values of `regimen_order` cannot be specified for different drug
-regimens.}
+regimens. If multiple values are specified, e.g. c(1, 2), then drug regimens
+that met either order criteria are returned.}
 
 \item{regimen_order_type}{Specifies whether the `regimen_order` parameter
 refers to the order of receipt of the drug regimen within the cancer
