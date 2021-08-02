@@ -109,7 +109,7 @@ The examples below create analytic datasets based on the GENIE BPC NSCLC cohort.
 
 
 ```{r, results = 'hide'}
-nsclc_data = pull_data_synapse("NSCLC")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
 ```
 
 ### Example 1
@@ -141,28 +141,30 @@ create_analytic_cohort(cohort = "NSCLC",
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
+THERE IS AN ISSUE WITH THIS
+
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
-                                        cohort_object = nsclc_data,
-                                        regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-                                        regimen_order = 1,
-                                        regimen_order_type = "within regimen", 
-                                        return_summary = TRUE)
+# nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
+#                                         cohort_object = nsclc_data,
+#                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+#                                         regimen_order = 1,
+#                                         regimen_order_type = "within regimen", 
+#                                         return_summary = TRUE)
 ```
 
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl_cohort_summary
+# nsclc_cisplatin_pem_any$tbl_cohort_summary
 ```
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl_cohort
+# nsclc_cisplatin_pem_any$tbl_cohort
 ```
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl_drugs
+# nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl_cpt
+# nsclc_cisplatin_pem_any$tbl_cpt
 ```

@@ -7,7 +7,7 @@
 treatment_history(ids, ca_drugs, regimen_drugs, lines_keep = NULL)
 }
 \arguments{
-\item{ids}{dataframe with first column `record_id` and second column `ca_seq`.}
+\item{ids}{dataframe with columns `record_id` and `ca_seq` from the downloaded data.}
 
 \item{ca_drugs}{dataset `ca_drugs` from `pull_data_synapse()` function.}
 
@@ -26,9 +26,11 @@ Returns data frame `treat_hist` and interactive plot `p_dist`.
 This function allows the user to get the complete treatment course of a list of patients.
 }
 \examples{
-# pull_data_synapse("NSCLC")
-# record_ids <- ca_dx_index_NSCLC$record_id[ca_dx_index_NSCLC$stage_dx == "Stage IV"]
-# ca_drugs <- ca_drugs_NSCLC
+# nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+# record_ids <- nsclc_data$ca_dx_index_NSCLC
+# ca_drugs <- nsclc_data$ca_drugs_NSCLC
+# regimen_drugs <- unique(ca_drugs$regimen_drugs)
 # lines_keep = 1:3
-# treatment_history(record_ids = record_ids, ca_drugs = ca_drugs,lines_keep = lines_keep)
+# test1 <- treatment_history(ids = record_ids, ca_drugs = ca_drugs,
+#                            regimen_drugs = regimen_drugs, lines_keep = lines_keep)
 }

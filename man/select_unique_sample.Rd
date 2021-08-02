@@ -17,7 +17,7 @@ select_unique_sample(
 \item{histology}{character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
 of samples_object argument above to get options.}
 
-\item{sample_type}{character specifying which type of sample to prioritize, options are "Primary" and "Metastasis".
+\item{sample_type}{character specifying which type of sample to prioritize, options are "Primary", "Local" and "Metastasis".
 Default is either.}
 
 \item{min_max_time}{character specifying if the first or last sample recorded should be kept.

@@ -4,7 +4,7 @@
 #' @param samples_object output object of the fetch_samples function.
 #' @param histology character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
 #' of samples_object argument above to get options.
-#' @param sample_type character specifying which type of sample to prioritize, options are "Primary" and "Metastasis".
+#' @param sample_type character specifying which type of sample to prioritize, options are "Primary", "Local" and "Metastasis".
 #' Default is either.
 #' @param min_max_time character specifying if the first or last sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
@@ -49,7 +49,8 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
   if(!is.null(min_max_time) && !(min_max_time %in% c("min","max")) && length(min_max_time) > 1){
     stop("The 'min_max_time' argument should be either 'min' or 'max' (only one of the two).")
   }
-
+if(!is.null(sample_type) && (length(sample_type) > 1 || !(sample_type %in% c("Primary", "Local", "Metastasis"))))
+  stop("Please input a single sample of type of interest out of 'Primary', 'Local' or 'Metastasis'")
 
   # samples_data <- samples_object$samples_data
   # we perform the optimization only for patients that have multiple samples #
@@ -62,26 +63,25 @@ select_unique_sample <- function(samples_object, histology = NULL, sample_type =
   # samples_object %>%
   #   group_by(record_id) %>%
   #   summarise(N_samples = length(unique(cpt_genie_sample_id))) %>%
-  #   filter(record_id == "GENIE-MSK-P-0012203")
+  #   filter(record_id == "GENIE-DFCI-004022")
   solved_dups <- as.data.frame(
     do.call("rbind",
             lapply(dup_samples, function(x){
               # print(x)
               temp <- samples_object %>%
-                filter(record_id == x)
+                filter(.data$record_id == x)
 
               # deal with sample site #
               if(!is.null(histology) && (sum(temp$cpt_oncotree_code %in% histology) > 1)){
                 temp <- temp %>%
-                  filter(cpt_oncotree_code %in% histology)
+                  filter(.data$cpt_oncotree_code %in% histology)
               }
               if(!is.null(histology) && (sum(temp$cpt_oncotree_code %in% histology) == 0))
                 warning(paste0("Patient ",x," did not have any sample of source: ", histology))
 
               # deal with sample type #
-              if(!is.null(sample_type) && (sum(grepl(sample_type,temp$cpt_sample_type, ignore.case = T)) > 1)){
-                temp <- temp %>%
-                  filter(grepl(sample_type,temp$cpt_sample_type, ignore.case = T))
+              if(!is.null(sample_type) && (sum(grepl(sample_type,temp$cpt_sample_type, ignore.case = T)) > 0)){
+                temp <- temp[grepl(sample_type,temp$sample_type,ignore.case = T),]
               }
               if(!is.null(sample_type) && (sum(grepl(sample_type,temp$cpt_sample_type, ignore.case = T)) == 0))
                 warning(paste0("Patient ",x," did not have any sample of source: ", sample_type))

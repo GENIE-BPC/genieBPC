@@ -32,10 +32,10 @@ The GENIE is segmented between the clinically annotated data and the patients' c
 
 ```{r}
 # get data #
-nsclc_data = pull_data_synapse("NSCLC")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
 
 # create cohort #
-nsclc_stg_iv_adeno = create_cohort(cohort = "NSCLC",
+nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
                                    ca_hist_adeno_squamous = "Adenocarcinoma")
@@ -154,18 +154,19 @@ There are several simple tools for univariate analysis of association between va
 
 ## Binary
 
-For the binary example we attempt to correlate the genomic features of the cohort with weather patients had also a brain metastasis. Let's first create the outcome:
+For the binary example we attempt to correlate the genomic features of the cohort with weather patients were smokers at some point in their past. Let's first create the outcome:
 
 ```{r}
 temp_outcome <- full_join(
   nsclc_stg_iv_adeno$cohort_ca_dx %>% 
-    select(record_id,dmets_dx_brain),
+    select(record_id,ca_lung_cigarette) %>% 
+    mutate(ca_lung_cigarette = ifelse(ca_lung_cigarette == "Never used","No","Yes")),
   optimal_samples %>% 
     select(record_id, cpt_genie_sample_id),
   by = "record_id"
 ) %>% 
-  select(cpt_genie_sample_id,dmets_dx_brain)
-outcome_bin <- temp_outcome$dmets_dx_brain[match(rownames(bin_df_ex),temp_outcome$cpt_genie_sample_id)]
+  select(cpt_genie_sample_id,ca_lung_cigarette)
+outcome_bin <- temp_outcome$ca_lung_cigarette[match(rownames(bin_df_ex),temp_outcome$cpt_genie_sample_id)]
 ```
 
 The outcome should simply be a vector of values ordered the same way as the binary genomic matrix. We can then simply use the `gen.summary()` function to test for association with all features through Fisher's exact test of independence:

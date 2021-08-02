@@ -4,7 +4,7 @@
 \alias{pull_data_synapse}
 \title{Obtain Clinical Data Files for GENIE BPC Project}
 \usage{
-pull_data_synapse(cohort, version = "1.1")
+pull_data_synapse(cohort, version)
 }
 \arguments{
 \item{cohort}{Vector or list specifying the cohort(s) of interest. Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or "CRC" (Colorectal Cancer).}

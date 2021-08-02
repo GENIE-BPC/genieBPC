@@ -1,7 +1,7 @@
 #' treatment_history
 #'
 #' This function allows the user to get the complete treatment course of a list of patients.
-#' @param ids dataframe with first column `record_id` and second column `ca_seq`.
+#' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
 #' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
 #' separated by a comma. For example, to specify a regimen consisting of
@@ -13,11 +13,13 @@
 #' @export
 #'
 #' @examples
-#' # pull_data_synapse("NSCLC")
-#' # record_ids <- ca_dx_index_NSCLC$record_id[ca_dx_index_NSCLC$stage_dx == "Stage IV"]
-#' # ca_drugs <- ca_drugs_NSCLC
+#' # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+#' # record_ids <- nsclc_data$ca_dx_index_NSCLC
+#' # ca_drugs <- nsclc_data$ca_drugs_NSCLC
+#' # regimen_drugs <- unique(ca_drugs$regimen_drugs)
 #' # lines_keep = 1:3
-#' # treatment_history(record_ids = record_ids, ca_drugs = ca_drugs,lines_keep = lines_keep)
+#' # test1 <- treatment_history(ids = record_ids, ca_drugs = ca_drugs,
+#' #                            regimen_drugs = regimen_drugs, lines_keep = lines_keep)
 #' @import
 #' dplyr
 #' TraMineR
@@ -37,10 +39,12 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
              ca_seq %in% ids$ca_seq[i]) %>%
       arrange(regimen_number)
 
-    temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp),] %>%
-      mutate(regimen_number = regimen_number - min(regimen_number) + 1)
+    if(length(which(temp$regimen_drugs %in% regimen_drugs)) > 0){
+      temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp),] %>%
+        mutate(regimen_number = regimen_number - min(regimen_number) + 1)
 
-    dat <- rbind(dat,temp)
+      dat <- rbind(dat,temp)
+    }
   }
 
   dat <- dat %>%
@@ -54,8 +58,9 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
     pivot_wider(names_from = regimen_number,
                 values_from = regimen_drugs) %>%
     select(record_id, starts_with("R")) %>%
+    mutate_at(vars(matches("R")), ~ as.character(.)) %>%
     rowwise() %>%
-    mutate_at(vars(matches("R")), ~ ifelse(is.na(.),"",.)) %>%
+    mutate_at(vars(matches("R")), ~ ifelse(. == "NULL","",.)) %>%
     ungroup()
 
   path <- c()
@@ -66,7 +71,7 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
 
   temp_temp_dat$path <- path
   temp_temp_dat <- temp_temp_dat %>%
-  select(record_id, path)
+    select(record_id, path)
 
 
   test_dat <- temp_temp_dat %>%
