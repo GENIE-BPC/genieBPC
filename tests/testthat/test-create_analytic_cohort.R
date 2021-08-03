@@ -2,7 +2,7 @@
 nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
 
-# test that a list of three or seven datasets are returned from create_cohort
+# test that a list of three or seven datasets are returned from create_analytic_cohort
 test_that("correct number of objects returned from create cohort", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 

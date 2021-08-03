@@ -82,7 +82,9 @@ tbl_arguments = tibble::tribble(
   "`regimen_type`",        "Indicates whether the regimen(s) specified in `regimen_drugs` indicates the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of 'Exact' or 'Containing'. The default is 'Exact'.",
   "`regimen_order`",        "Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.",
   "`regimen_order_type`",        "Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed).",
-  "`return_summary`",        " Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table."
+  "`return_summary`",        "Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.",
+  "`lines_keep`",        "When `return_summary` set to TRUE, will set regimen number
+#' to be kept to create the summary of the treatment history.."
 ) %>%
   gt::gt() %>%
   gt::fmt_markdown(columns = vars(Argument)) %>%
@@ -141,30 +143,28 @@ create_analytic_cohort(cohort = "NSCLC",
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
-THERE IS AN ISSUE WITH THIS
-
 ```{r, warning = FALSE}
-# nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
-#                                         cohort_object = nsclc_data,
-#                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-#                                         regimen_order = 1,
-#                                         regimen_order_type = "within regimen", 
-#                                         return_summary = TRUE)
+nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
+                                        cohort_object = nsclc_data,
+                                        regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+                                        regimen_order = 1,
+                                        regimen_order_type = "within regimen",
+                                        return_summary = TRUE)
 ```
 
 
 ```{r, warning = FALSE}
-# nsclc_cisplatin_pem_any$tbl_cohort_summary
+nsclc_cisplatin_pem_any$tbl_cohort_summary
 ```
 
 ```{r, warning = FALSE}
-# nsclc_cisplatin_pem_any$tbl_cohort
+nsclc_cisplatin_pem_any$tbl_cohort
 ```
 
 ```{r, warning = FALSE}
-# nsclc_cisplatin_pem_any$tbl_drugs
+nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
 ```{r, warning = FALSE}
-# nsclc_cisplatin_pem_any$tbl_cpt
+nsclc_cisplatin_pem_any$tbl_cpt
 ```
