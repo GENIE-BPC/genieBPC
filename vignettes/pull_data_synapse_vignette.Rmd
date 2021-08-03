@@ -14,12 +14,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
 library(GenieBPC)
 library(dplyr)
 library(synapser)
 library(gt)
-
 synLogin()
 ```
 
@@ -81,7 +79,7 @@ Let's start by reviewing the `pull_data_synapse()` arguments.
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
-  "`version`",        "specify the version of the data. By default, the most recent version is pulled. Currently only version 1.1 is available."
+  "`version`",        "specify the version of the data. Currently versions 1.1 and 2.1 are available for NSCLC and only version 1.1 is available for CRC."
 ) %>%
   gt::gt() %>%
   gt::fmt_markdown(columns = vars(Argument)) %>%
@@ -101,7 +99,7 @@ tibble::tribble(
 
 ### Example 1
 
-Pull the most recent NSCLC data from Synapse and store in the local environment. 
+Pull version 2.1 of the NSCLC data from Synapse and store in the local environment. 
 
 
 ```{r, eval = FALSE}
@@ -131,7 +129,7 @@ ls(nsclc_data) %>%
 
 ### Example 2
 
-Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data.
+Pull version 2.1 of the NSCLC data and version 2.1 of the CRC data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1","1.1"))
@@ -141,7 +139,7 @@ pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1","1.1"))
 
 ### Example 3
 
-Pull version 1.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data.
+Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"),
@@ -152,4 +150,4 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of June 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.
+* As of July 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.

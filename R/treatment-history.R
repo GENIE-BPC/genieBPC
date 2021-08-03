@@ -25,6 +25,7 @@
 #' TraMineR
 #' sunburstR
 #' pipeR
+#' tidyr
 
 
 treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
@@ -60,7 +61,10 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
     select(record_id, starts_with("R")) %>%
     mutate_at(vars(matches("R")), ~ as.character(.)) %>%
     rowwise() %>%
-    mutate_at(vars(matches("R")), ~ ifelse(. == "NULL","",.)) %>%
+    mutate_at(
+      # vars(matches("R")), ~ ifelse(. == "NULL","",.),
+              vars(matches("R")), ~ ifelse(is.na(.) || . == "NULL","",.)
+              ) %>%
     ungroup()
 
   path <- c()

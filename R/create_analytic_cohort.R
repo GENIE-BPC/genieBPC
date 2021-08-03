@@ -564,12 +564,12 @@ create_analytic_cohort <- function(cohort,
   }
 
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
-    # treat_hist <- treatment_history(
-    #   ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
-    #   ca_drugs = pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
-    #   regimen_drugs = regimen_drugs,
-    #   lines_keep = lines_keep
-    # )
+    treat_hist <- treatment_history(
+      ids = cohort_ca_dx %>% select(record_id, ca_seq) %>% distinct(),
+      ca_drugs = pluck(cohort_object, paste0("ca_drugs_", cohort_temp)),
+      regimen_drugs = regimen_drugs,
+      lines_keep = lines_keep
+    )
 
     return(list(
       "cohort_ca_dx" = cohort_ca_dx %>% select(-.data$index_ca_seq),
@@ -581,9 +581,9 @@ create_analytic_cohort <- function(cohort,
       "tbl_cohort_summary" = tbl_cohort_summary,
       "tbl_cohort" = tbl_cohort,
       "tbl_drugs" = tbl_drugs,
-      "tbl_cpt" = tbl_cpt
-      # "treat_hist" = treat_hist$treat_hist,
-      # "p_dist" = treat_hist$p_dist
+      "tbl_cpt" = tbl_cpt,
+      "treat_hist" = treat_hist$treat_hist,
+      "p_dist" = treat_hist$p_dist
     ))
   } else if (nrow(cohort_ca_dx) > 0) {
     return(list(

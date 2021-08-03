@@ -2,7 +2,7 @@
 nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
 
-# test that a list of three or seven datasets are returned from create_cohort
+# test that a list of three or seven datasets are returned from create_analytic_cohort
 test_that("correct number of objects returned from create cohort", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
 
@@ -213,14 +213,14 @@ test_that("histology", {
   expect_error(create_analytic_cohort(cohort = "NSCLC",
                                       cohort_object = nsclc_data,
                                       ca_hist_adeno_squamous = "squamous_adeno"
-                                      ))
+  ))
 })
 
 test_that("stage", {
   # a non-existent stage is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
-                             cohort_object = nsclc_data,
-                             stage_dx = "stage 12"))
+                                      cohort_object = nsclc_data,
+                                      stage_dx = "stage 12"))
 })
 
 test_that("no regimen specified", {
@@ -253,12 +253,12 @@ test_that("drug regimen specified, order not specified", {
   # expect all times that drug was received (for the first index ca)
   # to be returned
   test_1b <- left_join(nsclc_data$ca_dx_index_NSCLC %>%
-                        group_by(record_id) %>%
-                        slice(which.min(ca_seq)) %>%
-                        ungroup(),
-                      nsclc_data$ca_drugs_NSCLC,
-                      by = c("cohort", "record_id", "institution",
-                             "ca_seq")) %>%
+                         group_by(record_id) %>%
+                         slice(which.min(ca_seq)) %>%
+                         ungroup(),
+                       nsclc_data$ca_drugs_NSCLC,
+                       by = c("cohort", "record_id", "institution",
+                              "ca_seq")) %>%
     filter(regimen_drugs == c("Carboplatin, Pemetrexed Disodium"))
 
   expect_equal(test_1a$cohort_ca_drugs, test_1b)
@@ -338,10 +338,10 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
   # compare to data
   test_1b <- left_join(nsclc_data$ca_dx_index_NSCLC %>%
-              group_by(record_id) %>%
-              slice(which.min(ca_seq)),
-              nsclc_data$ca_drugs_NSCLC,
-            by = c("cohort", "record_id", "ca_seq", "institution")) %>%
+                         group_by(record_id) %>%
+                         slice(which.min(ca_seq)),
+                       nsclc_data$ca_drugs_NSCLC,
+                       by = c("cohort", "record_id", "ca_seq", "institution")) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
     ungroup() %>%
