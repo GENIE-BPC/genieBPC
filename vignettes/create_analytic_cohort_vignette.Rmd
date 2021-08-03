@@ -13,9 +13,11 @@ knitr::opts_chunk$set(
   comment = "#>", 
   message = FALSE
 )
+
 library(GenieBPC)
 library(tidyverse)
 library(synapser)
+
 synLogin()
 ```
 
@@ -36,6 +38,7 @@ Before going through the tutorial, install {GenieBPC} and {synapser} and log int
 ```{r, results = 'hide'}
 library(GenieBPC)
 library(synapser)
+
 synLogin()
 ```
 
@@ -43,6 +46,7 @@ synLogin()
 ```{r, include = FALSE}
 library(gt)
 library(dplyr)
+
 gt_compact_fun <- function(x) {
   gt::tab_options(x, 
                   table.font.size = 'small',
@@ -92,6 +96,7 @@ tbl_arguments = tibble::tribble(
                   source_notes.padding = gt::px(1),
                   row_group.padding = gt::px(1)) %>%
   gt_compact_fun()
+
 tbl_arguments
 ```
 
@@ -118,6 +123,7 @@ nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
                                    ca_hist_adeno_squamous = "Adenocarcinoma")
+
 ls(nsclc_stg_iv_adeno)
 ```
 
@@ -161,8 +167,4 @@ nsclc_cisplatin_pem_any$tbl_drugs
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any$tbl_cpt
-```
-
-```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$p_dist
 ```
