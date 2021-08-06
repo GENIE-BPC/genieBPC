@@ -102,6 +102,30 @@ test_that("index_ca_seq", {
     cohort = "NSCLC",
     cohort_object = nsclc_data,
     index_ca_seq = 10))
+
+  ## index cancer #s in cohort_ca_drugs and cohort_cpt match those in cohort_ca_dx
+  test2a <- create_analytic_cohort(
+    cohort = "CRC",
+    cohort_object = crc_data,
+    index_ca_seq = c(1, 2)
+  )
+
+  expect_equal(test2a$cohort_ca_dx %>%
+                 select(record_id, ca_seq) %>%
+                 arrange(record_id, ca_seq),
+               test2a$cohort_ca_drugs %>%
+                 select(record_id, ca_seq) %>%
+                 distinct() %>%
+                 arrange(record_id, ca_seq))
+
+  expect_equal(test2a$cohort_ca_dx %>%
+                 select(record_id, ca_seq) %>%
+                 arrange(record_id, ca_seq),
+               test2a$cohort_cpt %>%
+                 select(record_id, ca_seq) %>%
+                 distinct() %>%
+                 arrange(record_id, ca_seq))
+
 })
 
 test_that("institution", {
@@ -139,6 +163,11 @@ test_that("institution", {
   expect_error(create_analytic_cohort(cohort = "NSCLC",
                                       cohort_object = nsclc_data,
                                       institution = "uDFCI"))
+
+
+  expect_error(create_analytic_cohort(cohort = "CRC",
+                                      cohort_object = crc_data,
+                                      institution = "UHN"))
 })
 
 test_that("stage_dx", {
