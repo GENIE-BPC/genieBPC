@@ -2,7 +2,7 @@
 #'
 #' Get a unique sample for each patient for analysis following several user define criterions.
 #' @param samples_object output object of the fetch_samples function.
-#' @param histology character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
+#' @param oncotree_code character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of samples_object argument above to get options.
 #' @param sample_type character specifying which type of sample to prioritize, options are "Primary", "Local" and "Metastasis".
 #' Default is either.
@@ -28,23 +28,23 @@
 #' #     regimen_order = 1,
 #' #     regimen_order_type = "within regimen")
 #' # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
-#' # select_unique_sample <- select_unique_sample(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")
+#' # select_unique_sample <- select_unique_sample(samples_object = samples_data, oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
-select_unique_sample <- function(samples_object, histology = NULL, sample_type = NULL, min_max_time = NULL){
+select_unique_sample <- function(samples_object, oncotree_code = NULL, sample_type = NULL, min_max_time = NULL){
 
   # perform checks #
   if(missing(samples_object))
     stop("The 'samples_object' argument is needed to perform this process. 'samples_object' is the output created by the 'fetch_samples' function, or the object 'cohort_cpt' from the create_cohort() function.")
   # if(sum(grepl("samples_data",names(samples_object))) != 1)
   #   stop("The 'samples_object' input did not contain the 'samples_data' object. Is 'samples_object' input an output of the 'fetch_samples' function?")
-  if(is.null(histology) && is.null(sample_type) && is.null(min_max_time))
+  if(is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time))
     warning("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
-  if(!is.null(histology) && sum(samples_object$cpt_oncotree_code %in% histology) == 0){
-    warning("The histology inputted do not exist in the samples data and thus will be ignored.")
-    histology <- NULL
+  if(!is.null(oncotree_code) && sum(samples_object$cpt_oncotree_code %in% oncotree_code) == 0){
+    warning("The OncoTree code inputted do not exist in the samples data and thus will be ignored.")
+    oncotree_code <- NULL
   }
   if(!is.null(min_max_time) && !(min_max_time %in% c("min","max")) && length(min_max_time) > 1){
     stop("The 'min_max_time' argument should be either 'min' or 'max' (only one of the two).")
@@ -72,12 +72,12 @@ if(!is.null(sample_type) && (length(sample_type) > 1 || !(sample_type %in% c("Pr
                 filter(.data$record_id == x)
 
               # deal with sample site #
-              if(!is.null(histology) && (sum(temp$cpt_oncotree_code %in% histology) > 1)){
+              if(!is.null(oncotree_code) && (sum(temp$cpt_oncotree_code %in% oncotree_code) > 1)){
                 temp <- temp %>%
-                  filter(.data$cpt_oncotree_code %in% histology)
+                  filter(.data$cpt_oncotree_code %in% oncotree_code)
               }
-              if(!is.null(histology) && (sum(temp$cpt_oncotree_code %in% histology) == 0))
-                warning(paste0("Patient ",x," did not have any sample of source: ", histology))
+              if(!is.null(oncotree_code) && (sum(temp$cpt_oncotree_code %in% oncotree_code) == 0))
+                warning(paste0("Patient ",x," did not have any sample of source: ", oncotree_code))
 
               # deal with sample type #
               if(!is.null(sample_type) && (sum(grepl(sample_type,temp$cpt_sample_type, ignore.case = T)) > 0)){
