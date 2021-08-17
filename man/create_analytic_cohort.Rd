@@ -10,7 +10,7 @@ create_analytic_cohort(
   index_ca_seq = 1,
   institution,
   stage_dx,
-  ca_hist_adeno_squamous,
+  histology,
   regimen_drugs,
   regimen_type = "Exact",
   regimen_order,
@@ -41,9 +41,14 @@ cancers to patients with multiple.}
 \item{stage_dx}{Stage at diagnosis. Must be one of "Stage I", "Stage II",
 "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.}
 
-\item{ca_hist_adeno_squamous}{Cancer histology. Must be one of
+\item{histology}{Cancer histology. For all cancer cohorts except for BrCa
+(breast cancer), this corresponds to the variable `ca_hist_adeno_squamous` and
+must be one of
 "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma",
-"Other histologies/mixed tumor". Default selection is all histologies.}
+"Other histologies/mixed tumor". For BrCa, this corresponds to the variable
+`ca_hist_brca` and must be one of
+"Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
+Default selection is all histologies.}
 
 \item{regimen_drugs}{Vector with names of drugs in cancer-directed regimen,
 separated by a comma. For example, to specify a regimen consisting of
@@ -95,7 +100,7 @@ matching the specified criteria. This dataset is structured as one record per
  regimen associated with treating two cancer diagnoses will have two records
  in this dataset.
 The function inputs `cohort`, `institution`, `stage_dx`,
-`ca_hist_adeno_squamous`, and `regimen_drugs` correspond to the variable
+and `regimen_drugs` correspond to the variable
 names in the GENIE BPC Analytic Data Guide, available on
 \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 }
@@ -106,7 +111,7 @@ names in the GENIE BPC Analytic Data Guide, available on
 # pull_data_synapse("NSCLC")
 # create_cohort(cohort = "NSCLC",
 #   stage_dx = c("Stage IV"),
-#   ca_hist_adeno_squamous = "Adenocarcinoma")
+#   histology = "Adenocarcinoma")
 
 # Example 2 ----------------------------------
 # Create a cohort of all NSCLC patients who received Cisplatin,

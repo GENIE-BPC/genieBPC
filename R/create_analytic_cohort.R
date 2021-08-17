@@ -14,7 +14,7 @@
 #'  regimen associated with treating two cancer diagnoses will have two records
 #'  in this dataset.
 #' The function inputs `cohort`, `institution`, `stage_dx`,
-#' `histology`, and `regimen_drugs` correspond to the variable
+#' and `regimen_drugs` correspond to the variable
 #' names in the GENIE BPC Analytic Data Guide, available on
 #' \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 #'
@@ -36,9 +36,11 @@
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
 #' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
 #' @param histology Cancer histology. For all cancer cohorts except for BrCa
-#' (breast cancer), must be one of
+#' (breast cancer), this corresponds to the variable `ca_hist_adeno_squamous` and
+#' must be one of
 #' "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma",
-#' "Other histologies/mixed tumor". For BrCa, must be one of
+#' "Other histologies/mixed tumor". For BrCa, this corresponds to the variable
+#' `ca_hist_brca` and must be one of
 #' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 #' Default selection is all histologies.
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
