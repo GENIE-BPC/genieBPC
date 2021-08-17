@@ -12,7 +12,7 @@ The datasets obtained through {GenieBPC} can be input directly into {gnomeR} to 
 
 ## Installation
 
-You can install the development version of {GenieBPC} with the following code:
+You can install the development version of {genieBPC} with the following code:
 
 ``` r
 remotes::install_github("AxelitoMartin/GenieBPC")
