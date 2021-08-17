@@ -8,14 +8,14 @@ The {genieBPC} package provides a seamless way to obtain the data corresponding 
 
 * **Pull GENIE genomic data** corresponding to the analytic cohort directly into the R environment, including selection of a single next-generation sequencing test in the case that the patient has multiple, based on user-specified criteria.
 
-The datasets obtained through {GenieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis. {gnomeR} annotates the genomic data ... [Axel to add]
+The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis. {gnomeR} annotates the genomic data ... [Axel to add]
 
 ## Installation
 
 You can install the development version of {genieBPC} with the following code:
 
 ``` r
-remotes::install_github("AxelitoMartin/genieBPC")
+remotes::install_github("GENIE-BPC/genieBPC")
 ```
 
 ## Obtaining Data Access
