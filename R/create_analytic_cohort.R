@@ -477,7 +477,7 @@ create_analytic_cohort <- function(cohort,
 
   # for patients meeting the specified criteria, also pull cancer panel
   # test information
-  cohort_cpt <- fetch_samples(cohort = cohort_temp,
+  cohort_ngs <- fetch_samples(cohort = cohort_temp,
                               cohort_object = cohort_object,
                               df_record_ids = cohort_ca_dx)
 
@@ -510,11 +510,11 @@ create_analytic_cohort <- function(cohort,
                              label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs",
                              type = n_rec_pt ~ "categorical")
 
-    n_rec_cpt_dset <- cohort_cpt %>%
+    n_rec_cpt_dset <- cohort_ngs %>%
       dplyr::group_by(.data$record_id) %>%
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(include = .data$n_rec_pt,
-                             label = n_rec_pt ~ "Number of CPTs per patient in cohort_cpt",
+                             label = n_rec_pt ~ "Number of CPTs per patient in cohort_ngs",
                              type = n_rec_pt ~ "categorical")
 
     tbl_cohort_summary <- gtsummary::tbl_stack(tbls = list(n_rec_dx_dset,
@@ -551,7 +551,7 @@ create_analytic_cohort <- function(cohort,
         stat_0 ~ "**N = {N} Regimens**"),
         quiet = TRUE)
 
-    tbl_cpt <- cohort_cpt %>%
+    tbl_cpt <- cohort_ngs %>%
       gtsummary::tbl_summary(
         include = c(
           .data$cohort, .data$institution, .data$cpt_oncotree_code,
@@ -577,7 +577,7 @@ create_analytic_cohort <- function(cohort,
         # dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
         #               -.data$index_ca_seq, -.data$abbreviation)
       ,
-      "cohort_cpt" = cohort_cpt,
+      "cohort_ngs" = cohort_ngs,
       "tbl_cohort_summary" = tbl_cohort_summary,
       "tbl_cohort" = tbl_cohort,
       "tbl_drugs" = tbl_drugs,
@@ -591,7 +591,7 @@ create_analytic_cohort <- function(cohort,
       "cohort_ca_drugs" = cohort_ca_drugs %>%
         dplyr::select(-.data$order_within_cancer, -.data$order_within_regimen,
                       -.data$index_ca_seq, -.data$abbreviation),
-      "cohort_cpt" = cohort_cpt
+      "cohort_ngs" = cohort_ngs
     ))
   }
 } # end of function
