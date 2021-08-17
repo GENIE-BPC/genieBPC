@@ -212,14 +212,14 @@ test_that("histology", {
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
-    ca_hist_adeno_squamous = "adenocarcinoma"
+    histology = "adenocarcinoma"
   )
 
   test_1b <- nsclc_data$ca_dx_index_NSCLC %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
-    filter(ca_hist_adeno_squamous == "Adenocarcinoma")
+    filter(histology == "Adenocarcinoma")
 
   expect_equal(test_1a$cohort_ca_dx, test_1b)
 
@@ -227,21 +227,21 @@ test_that("histology", {
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
     cohort_object = nsclc_data,
-    ca_hist_adeno_squamous = c("adenocarcinoma", "squamous cell")
+    histology = c("adenocarcinoma", "squamous cell")
   )
 
   test_2b <- nsclc_data$ca_dx_index_NSCLC %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
-    filter(ca_hist_adeno_squamous %in% c("Adenocarcinoma", "Squamous cell"))
+    filter(histology %in% c("Adenocarcinoma", "Squamous cell"))
 
   expect_equal(test_2a$cohort_ca_dx, test_2b)
 
   # a non-existent histology is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
                                       cohort_object = nsclc_data,
-                                      ca_hist_adeno_squamous = "squamous_adeno"
+                                      histology = "squamous_adeno"
   ))
 })
 

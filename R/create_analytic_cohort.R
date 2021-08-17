@@ -14,7 +14,7 @@
 #'  regimen associated with treating two cancer diagnoses will have two records
 #'  in this dataset.
 #' The function inputs `cohort`, `institution`, `stage_dx`,
-#' `ca_hist_adeno_squamous`, and `regimen_drugs` correspond to the variable
+#' `histology`, and `regimen_drugs` correspond to the variable
 #' names in the GENIE BPC Analytic Data Guide, available on
 #' \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 #'
@@ -35,9 +35,12 @@
 #' "MSK", "VICC" for CRC. Default selection is all institutions.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
 #' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
-#' @param ca_hist_adeno_squamous Cancer histology. Must be one of
+#' @param histology Cancer histology. For all cancer cohorts except for BrCa
+#' (breast cancer), must be one of
 #' "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma",
-#' "Other histologies/mixed tumor". Default selection is all histologies.
+#' "Other histologies/mixed tumor". For BrCa, must be one of
+#' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
+#' Default selection is all histologies.
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
 #' separated by a comma. For example, to specify a regimen consisting of
 #' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
@@ -77,7 +80,7 @@
 #' # pull_data_synapse("NSCLC")
 #' # create_cohort(cohort = "NSCLC",
 #' #   stage_dx = c("Stage IV"),
-#' #   ca_hist_adeno_squamous = "Adenocarcinoma")
+#' #   histology = "Adenocarcinoma")
 #'
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
@@ -110,7 +113,7 @@ create_analytic_cohort <- function(cohort,
                           index_ca_seq = 1,
                           institution,
                           stage_dx,
-                          ca_hist_adeno_squamous,
+                          histology,
                           regimen_drugs,
                           regimen_type = "Exact",
                           regimen_order,
@@ -201,22 +204,39 @@ create_analytic_cohort <- function(cohort,
   }
 
   # to account for unspecified histology
-  if (missing(ca_hist_adeno_squamous)) {
-    histology_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
+  if (missing(histology)) {
+    if (cohort_temp != "BrCa") {
+    histology_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_",
+                                                       cohort_temp)) %>%
       distinct(ca_hist_adeno_squamous), ca_hist_adeno_squamous)
+    } else {
+      histology_temp <- pull(pluck(cohort_object, paste0("ca_dx_index_",
+                                                         cohort_temp)) %>%
+                               distinct(ca_hist_brca),
+                             ca_hist_brca)
+    }
   }
   else {
-    histology_temp <- {{ ca_hist_adeno_squamous }}
+    histology_temp <- {{ histology }}
   }
 
   # histology mis-specified
-  if (!missing(ca_hist_adeno_squamous) &&
-    sum(!grepl(c("^adenocarcinoma$|^squamous cell$|^sarcoma$|^small cell
+  if (!missing(histology) &&
+      cohort_temp != "BrCa" &&
+      sum(!grepl(c("^adenocarcinoma$|^squamous cell$|^sarcoma$|^small cell
                  carcinoma$|^other histologies/mixed tumor$"),
-               stringr::str_to_lower(ca_hist_adeno_squamous)) > 0) > 0) {
+               stringr::str_to_lower(histology)) > 0) > 0) {
     stop("Select from available histology categories: Adenocarcinoma,
          Squamous cell, Sarcoma, Small cell carcinoma, Other histologies/mixed
          tumor")
+  }
+  if (!missing(histology) &&
+      cohort_temp == "BrCa" &&
+      sum(!grepl(c("^invasive lobular carcinoma$|^invasive ductal carcinoma$|
+                 ^Other histology$"),
+                 stringr::str_to_lower(histology)) > 0) > 0) {
+    stop("Select from available histology categories: Invasive lobular
+         carcinoma, Invasive ductal carcinoma, Other histology")
   }
 
   ### drug regimen parameter checks
@@ -266,21 +286,39 @@ create_analytic_cohort <- function(cohort,
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  cohort_ca_dx <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
-    # re-number index cancer diagnoses
-    dplyr::group_by(.data$cohort, .data$record_id) %>%
-    dplyr::mutate(index_ca_seq = 1:n()) %>%
-    dplyr::ungroup() %>%
-    # apply filter(s)
-    dplyr::filter(
-      stringr::str_to_lower(.data$institution) %in%
-        stringr::str_to_lower(c(institution_temp)),
-      stringr::str_to_lower(.data$stage_dx) %in%
-        stringr::str_to_lower(c(stage_dx_temp)),
-      stringr::str_to_lower(.data$ca_hist_adeno_squamous) %in%
-        stringr::str_to_lower(c(histology_temp)),
-      .data$index_ca_seq %in% c({{ index_ca_seq }})
-    )
+  if (cohort_temp != "BrCa"){
+    cohort_ca_dx <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
+      # re-number index cancer diagnoses
+      dplyr::group_by(.data$cohort, .data$record_id) %>%
+      dplyr::mutate(index_ca_seq = 1:n()) %>%
+      dplyr::ungroup() %>%
+      # apply filter(s)
+      dplyr::filter(
+        stringr::str_to_lower(.data$institution) %in%
+          stringr::str_to_lower(c(institution_temp)),
+        stringr::str_to_lower(.data$stage_dx) %in%
+          stringr::str_to_lower(c(stage_dx_temp)),
+        stringr::str_to_lower(.data$ca_hist_adeno_squamous) %in%
+          stringr::str_to_lower(c(histology_temp)),
+        .data$index_ca_seq %in% c({{ index_ca_seq }})
+      )
+  } else {
+    cohort_ca_dx <- pluck(cohort_object, paste0("ca_dx_index_", cohort_temp)) %>%
+      # re-number index cancer diagnoses
+      dplyr::group_by(.data$cohort, .data$record_id) %>%
+      dplyr::mutate(index_ca_seq = 1:n()) %>%
+      dplyr::ungroup() %>%
+      # apply filter(s)
+      dplyr::filter(
+        stringr::str_to_lower(.data$institution) %in%
+          stringr::str_to_lower(c(institution_temp)),
+        stringr::str_to_lower(.data$stage_dx) %in%
+          stringr::str_to_lower(c(stage_dx_temp)),
+        stringr::str_to_lower(.data$ca_hist_brca) %in%
+          stringr::str_to_lower(c(histology_temp)),
+        .data$index_ca_seq %in% c({{ index_ca_seq }})
+      )
+  }
 
   # pull drug regimens to those patients
 
@@ -522,19 +560,35 @@ create_analytic_cohort <- function(cohort,
                                             n_rec_cpt_dset),
                                             quiet = TRUE)
 
-    tbl_cohort <- cohort_ca_dx %>%
-      # dplyr::group_by(.data$record_id) %>%
-      # dplyr::mutate(n_rec_pt = n()) %>%
-      # dplyr::ungroup() %>%
-      gtsummary::tbl_summary(
-        include = c(
-          .data$cohort, .data$institution,
-          .data$stage_dx, .data$ca_hist_adeno_squamous
-        )
-      ) %>%
-      gtsummary::modify_header(update = list(
-        stat_0 ~ "**N = {N} Diagnoses**"),
-        quiet = TRUE)
+    if (cohort_temp != "BrCa") {
+      tbl_cohort <- cohort_ca_dx %>%
+        # dplyr::group_by(.data$record_id) %>%
+        # dplyr::mutate(n_rec_pt = n()) %>%
+        # dplyr::ungroup() %>%
+        gtsummary::tbl_summary(
+          include = c(
+            .data$cohort, .data$institution,
+            .data$stage_dx, .data$ca_hist_adeno_squamous
+          )
+        ) %>%
+        gtsummary::modify_header(update = list(
+          stat_0 ~ "**N = {N} Diagnoses**"),
+          quiet = TRUE)
+    } else {
+        tbl_cohort <- cohort_ca_dx %>%
+          # dplyr::group_by(.data$record_id) %>%
+          # dplyr::mutate(n_rec_pt = n()) %>%
+          # dplyr::ungroup() %>%
+          gtsummary::tbl_summary(
+            include = c(
+              .data$cohort, .data$institution,
+              .data$stage_dx, .data$ca_hist_brca
+            )
+          ) %>%
+          gtsummary::modify_header(update = list(
+            stat_0 ~ "**N = {N} Diagnoses**"),
+            quiet = TRUE)
+    }
 
     tbl_drugs <- cohort_ca_drugs %>%
       # dplyr::group_by(.data$cohort, .data$institution,
