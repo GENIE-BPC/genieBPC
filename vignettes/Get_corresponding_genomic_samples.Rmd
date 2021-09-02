@@ -28,7 +28,9 @@ library(GenieBPC)
 
 ## Introduction
 
-The `GenieBPC` includes functionalities to link the clinical records of cohorts of interest to patients corresponding genomic samples. In this tutorial we follow the data that was downloaded in the `Tutorial: pull_data_synapse()` Vignette, and processed in the `Tutorial: create_cohort` Vignette, as shown below:
+The `genieBPC` package includes functionalities to link the clinical data to patients' corresponding genomic samples. 
+
+This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below:
 
 ```{r}
 nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
@@ -36,7 +38,7 @@ nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
 nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
-                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+                                   histology = "Adenocarcinoma")
 
 ```
 
@@ -60,7 +62,7 @@ Which returns for each of the patients the complete list of samples found for th
 Note that this object is returned from the `create_cohort()` object under the name `cohort_cpt`:
 
 ```{r}
-gt(nsclc_stg_iv_adeno$cohort_cpt[1:10,])
+gt(nsclc_stg_iv_adeno$cohort_ngs[1:10,])
 ```
 
 
@@ -86,7 +88,7 @@ We implemented in `GenieBPC` an automated way to select the sample of interest b
 If multiple samples are found to optimize all categories selected, the sample with the largest panel size for sequence assay will be chosen. If again multiple samples remain, a random sample will be selected.
 
 ```{r}
-optimal_samples <- select_unique_sample(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+optimal_samples <- select_unique_sample(samples_object = samples_data, oncotree_code = "LUAD",sample_type = "Metastasis",min_max_time = "min")
 ```
 
 

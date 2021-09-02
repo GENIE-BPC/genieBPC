@@ -38,7 +38,7 @@ nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
 nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
-                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+                                   histology = "Adenocarcinoma")
 ```
 
 We then retrieve the corresponding samples to these patients and select a unique sample for patients that have multiple:
@@ -48,7 +48,7 @@ We then retrieve the corresponding samples to these patients and select a unique
 samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,df_record_ids = nsclc_stg_iv_adeno$cohort_ca_drugs)
 
 # get unique samples for each patient #
-optimal_samples <- select_unique_sample(samples_object = samples_data, histology = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+optimal_samples <- select_unique_sample(samples_object = samples_data, oncotree_code = "LUAD",sample_type = "Metastasis",min_max_time = "min")
 ```
 
 We will show how to retrieve and process the genomic data for the `r nrow(optimal_samples)` patients in this cohort. 

@@ -23,11 +23,13 @@ synLogin()
 
 ## Introduction
 
-The `create_analytic_cohort()` function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns two datasets:
+The `create_analytic_cohort()` function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns three datasets:
 
-1. `cohort_ca_dx` will containing cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
+1. `cohort_ca_dx` contains cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.
 
-2. `cohort_ca_drugs` will return the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.
+2. `cohort_ca_drugs` returns the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.
+
+3. `cohort_ngs` contains next generation sequencing information that can linked to the genomic data from Project GENIE. This dataset is structured as one record per cancer panel test and associated diagnosis, per patient. 
 
 This vignette will walk a user through the `create_analytic_cohort()` function. 
 
@@ -60,12 +62,7 @@ gt_compact_fun <- function(x) {
 ```
 
 
-## Basic Usage
-
-The output from `create_analytic_cohort()` is two datasets ready for analysis. 
-
-
-### Modifying Function Arguments
+## Modifying Function Arguments
 
 The `create_analytic_cohort()` function includes several input parameters:
 
@@ -77,7 +74,7 @@ tbl_arguments = tibble::tribble(
   "`index_ca_seq`",       "Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.",
   "`institution`",        "GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for    NSCLC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC. Default selection is all institutions.",
   "`stage_dx`",        "Stage at diagnosis. Must be one of 'Stage I', 'Stage II', 'Stage III', 'Stage I-III NOS', 'Stage IV'. Default selection is all stages.",
-  "`ca_hist_adeno_squamous`",        "Cancer histology. Must be one of 'Adenocarcinoma', 'Squamous cell', 'Sarcoma', 'Small cell carcinoma', 'Other histologies/mixed tumor'. Default selection is all histologies.",
+  "`histology`",        "Cancer histology. Must be one of 'Adenocarcinoma', 'Squamous cell', 'Sarcoma', 'Small cell carcinoma', 'Other histologies/mixed tumor'. Default selection is all histologies.",
   "`regimen_drugs`",        "Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = 'Carboplatin, Pemetrexed'.",
   "`regimen_type`",        "Indicates whether the regimen(s) specified in `regimen_drugs` indicates the exact regimen to return, or if regimens containing the drugs listed in `regimen_drugs` should be returned. Must be one of 'Exact' or 'Containing'. The default is 'Exact'.",
   "`regimen_order`",        "Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.",
@@ -122,7 +119,7 @@ Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also retu
 nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC", 
                                    cohort_object = nsclc_data,
                                    stage_dx = c("Stage IV"),
-                                   ca_hist_adeno_squamous = "Adenocarcinoma")
+                                   histology = "Adenocarcinoma")
 
 ls(nsclc_stg_iv_adeno)
 ```

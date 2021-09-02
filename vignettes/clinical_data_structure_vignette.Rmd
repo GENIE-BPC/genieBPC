@@ -181,5 +181,5 @@ The cancer panel test dataset can be linked to the following datasets:
 
 - PRISSMM Pathology dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
-*Note: this dataset cannot be linked to the Non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.*
+*Note: this dataset cannot be linked to the non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.*
 
