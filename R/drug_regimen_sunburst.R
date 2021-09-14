@@ -1,6 +1,6 @@
-#' treatment_history
+#' drug_regimen_sunburst
 #'
-#' This function allows the user to get the complete treatment course of a list of patients.
+#' This function allows the user to visualize the complete treatment course for selected diagnoses.
 #' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
 #' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
@@ -9,7 +9,7 @@
 #' Pemetrexed". Acceptable values are found in the `drug_names_by_cohort`
 #' dataset provided with this package.
 #' @param lines_keep regimen number to be kept to create the summary.
-#' @return Returns data frame `treat_hist` and interactive plot `p_dist`.
+#' @return Returns data frame `treat_hist` and interactive plot `sunburst_plot`.
 #' @export
 #'
 #' @examples
@@ -28,23 +28,27 @@
 #' tidyr
 
 
-treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
+drug_regimen_sunburst <- function(ids, ca_drugs, regimen_drugs, lines_keep = NULL) {
 
-  if(is.null(lines_keep))
-    lines_keep = min(ca_drugs$regimen_number, na.rm = T) : max(ca_drugs$regimen_number, na.rm = T)
+  #
+  if (is.null(lines_keep)) {
+    lines_keep <- min(ca_drugs$regimen_number, na.rm = T):max(ca_drugs$regimen_number, na.rm = T)
+  }
 
   dat <- data.frame()
-  for(i in 1:nrow(ids)){
+  for (i in 1:nrow(ids)) {
     temp <- ca_drugs %>%
-      filter(record_id %in% ids$record_id[i],
-             ca_seq %in% ids$ca_seq[i]) %>%
+      filter(
+        record_id %in% ids$record_id[i],
+        ca_seq %in% ids$ca_seq[i]
+      ) %>%
       arrange(regimen_number)
 
-    if(length(which(temp$regimen_drugs %in% regimen_drugs)) > 0){
-      temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp),] %>%
+    if (length(which(temp$regimen_drugs %in% regimen_drugs)) > 0) {
+      temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp), ] %>%
         mutate(regimen_number = regimen_number - min(regimen_number) + 1)
 
-      dat <- rbind(dat,temp)
+      dat <- rbind(dat, temp)
     }
   }
 
@@ -52,25 +56,27 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
     filter(regimen_number %in% lines_keep)
 
   temp_dat <- dat %>%
-    select(record_id, regimen_number,regimen_drugs)
+    select(record_id, regimen_number, regimen_drugs)
 
   temp_temp_dat <- temp_dat %>%
-    mutate(regimen_number = paste0("R",regimen_number)) %>%
-    pivot_wider(names_from = regimen_number,
-                values_from = regimen_drugs) %>%
+    mutate(regimen_number = paste0("R", regimen_number)) %>%
+    pivot_wider(
+      names_from = regimen_number,
+      values_from = regimen_drugs
+    ) %>%
     select(record_id, starts_with("R")) %>%
     mutate_at(vars(matches("R")), ~ as.character(.)) %>%
     rowwise() %>%
     mutate_at(
       # vars(matches("R")), ~ ifelse(. == "NULL","",.),
-              vars(matches("R")), ~ ifelse(is.na(.) || . == "NULL","",.)
-              ) %>%
+      vars(matches("R")), ~ ifelse(is.na(.) || . == "NULL", "", .)
+    ) %>%
     ungroup()
 
   path <- c()
-  for(i in 1:nrow(temp_temp_dat)){
-    temp_path <- as.character(unlist(temp_temp_dat[i,grep("R",colnames(temp_temp_dat))]))
-    path[i] <- paste0(temp_path[temp_path != ""],collapse = "-")
+  for (i in 1:nrow(temp_temp_dat)) {
+    temp_path <- as.character(unlist(temp_temp_dat[i, grep("R", colnames(temp_temp_dat))]))
+    path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
   }
 
   temp_temp_dat$path <- path
@@ -83,7 +89,7 @@ treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
     summarise(Pop = length(unique(record_id))) %>%
     ungroup()
 
-  p <- sunburst(test_dat, legend=TRUE)
+  p <- sunburst(test_dat, legend = TRUE)
 
-  return(list("treat_hist" = temp_temp_dat,"p_dist" = p))
+  return(list("treat_hist" = temp_temp_dat, "sunburst_plot" = p))
 }
