@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: select_unique_sample"
+title: "Tutorial: select_unique_ngs"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{select_unique_sample}
+  %\VignetteIndexEntry{select_unique_ngs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -65,7 +65,7 @@ tbl_arguments = tibble::tribble(
   "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.",
   "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
   gt::gt() %>%
-  gt::tab_header(title = "`select_unique_sample()` Function Arguments") %>% 
+  gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>% 
   gt::fmt_markdown(columns = vars(Argument)) %>%
   gt::tab_options(table.font.size = 'small',
                   data_row.padding = gt::px(1),
@@ -92,7 +92,7 @@ tbl_arguments
 Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient's earliest sample.
 
 ```{r, results = 'hide'}
-select_unique_sample(
+select_unique_ngs(
 		samples_object = nsclc_stg_iv_adeno$cohort_ngs,
 		oncotree_code = "LUAD",
 		sample_type = "Metastasis",
