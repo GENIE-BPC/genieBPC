@@ -25,7 +25,9 @@ synapse_version <- function(most_recent = FALSE){
     synapse_tables %>%
       group_by(cohort, version) %>%
       filter(row_number()==1) %>%
-      select(cohort,version) %>%
+      select(cohort, version) %>%
+      # remove the "v" from "v1.1"
+      mutate(version = substr(version, 2, 4)) %>%
       mutate(versions_returned = "All Versions")
   }
   else{
@@ -33,7 +35,8 @@ synapse_version <- function(most_recent = FALSE){
       arrange(cohort, desc(version)) %>%
       group_by(cohort) %>%
       filter(row_number()==1) %>%
-      select(cohort,version) %>%
+      select(cohort, version) %>%
+      mutate(version = substr(version, 2, 4)) %>%
       mutate(versions_returned = "Most Recent Versions")
 
   }

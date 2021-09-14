@@ -1,4 +1,4 @@
-#' treatment_history
+#' drug_regimen_sunburst
 #'
 #' This function allows the user to get the complete treatment course of a list of patients.
 #' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
@@ -28,7 +28,7 @@
 #' tidyr
 
 
-treatment_history <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
+drug_regimen_sunburst <- function(ids, ca_drugs,regimen_drugs ,lines_keep = NULL){
 
   if(is.null(lines_keep))
     lines_keep = min(ca_drugs$regimen_number, na.rm = T) : max(ca_drugs$regimen_number, na.rm = T)
