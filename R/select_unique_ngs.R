@@ -1,12 +1,12 @@
 #' select_unique_ngs
 #'
-#' Get a unique sample for each patient for analysis following several user define criterions.
+#' Get a unique genomic sample for each patient for analysis following several user define criterions.
 #' @param samples_object output object of the fetch_samples function.
 #' @param oncotree_code character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of samples_object argument above to get options.
-#' @param sample_type character specifying which type of sample to prioritize, options are "Primary", "Local" and "Metastasis".
+#' @param sample_type character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
 #' Default is either.
-#' @param min_max_time character specifying if the first or last sample recorded should be kept.
+#' @param min_max_time character specifying if the first or last genomic sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
 #'
 #' @return returns the sample object list inputted with an additional dataset named "samples_data".
