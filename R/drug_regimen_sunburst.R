@@ -3,13 +3,8 @@
 #' This function allows the user to visualize the complete treatment course for selected diagnoses.
 #' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
 #' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
-#' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
-#' separated by a comma. For example, to specify a regimen consisting of
-#' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
-#' Pemetrexed". Acceptable values are found in the `drug_names_by_cohort`
-#' dataset provided with this package.
 #' @param lines_keep regimen number to be kept to create the summary.
-#' @return Returns data frame `treat_hist` and interactive plot `sunburst_plot`.
+#' @return Returns data frame `treatment_history` and interactive plot `sunburst_plot`.
 #' @export
 #'
 #' @examples
@@ -18,7 +13,7 @@
 #' # ca_drugs <- nsclc_data$ca_drugs_NSCLC
 #' # regimen_drugs <- unique(ca_drugs$regimen_drugs)
 #' # lines_keep = 1:3
-#' # test1 <- treatment_history(ids = record_ids, ca_drugs = ca_drugs,
+#' # test1 <- drug_regimen_sunburst(ids = record_ids, ca_drugs = ca_drugs,
 #' #                            regimen_drugs = regimen_drugs, lines_keep = lines_keep)
 #' @import
 #' dplyr
@@ -28,37 +23,41 @@
 #' tidyr
 
 
-drug_regimen_sunburst <- function(ids, ca_drugs, regimen_drugs, lines_keep = NULL) {
+drug_regimen_sunburst <- function(data_synapse,
+                                  data_cohort,
+                                  lines_keep = NULL) {
 
-  #
+  # get the name of the cohort from the data_synapse object naming convention
+  cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
+
+  # if no lines of therapy are specified, select all lines of therapy
   if (is.null(lines_keep)) {
-    lines_keep <- min(ca_drugs$regimen_number, na.rm = T):max(ca_drugs$regimen_number, na.rm = T)
+    # get range of all lines of therapy
+    lines_keep <- min(pluck(data_synapse,
+                            paste0("ca_drugs", cohort_temp))$regimen_number,
+                      na.rm = T):max(pluck(data_synapse,
+                                           paste0("ca_drugs", cohort_temp))$regimen_number,
+                                     na.rm = T)
   }
 
-  dat <- data.frame()
-  for (i in 1:nrow(ids)) {
-    temp <- ca_drugs %>%
-      filter(
-        record_id %in% ids$record_id[i],
-        ca_seq %in% ids$ca_seq[i]
-      ) %>%
-      arrange(regimen_number)
+  # if (is.null(first_regimen)) {
+  #   first_regimen <- pluck(data_cohort, "cohort_ca_drugs")$regimen_drugs
+  # }
 
-    if (length(which(temp$regimen_drugs %in% regimen_drugs)) > 0) {
-      temp <- temp[which(temp$regimen_drugs %in% regimen_drugs)[1]:nrow(temp), ] %>%
-        mutate(regimen_number = regimen_number - min(regimen_number) + 1)
+  # get all regimens to diagnoses in cohort
+  cohort_all_drugs <- left_join(pluck(data_cohort, "cohort_ca_dx"),
+                   pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
+                   by = c("cohort", "record_id", "ca_seq", "institution"))
 
-      dat <- rbind(dat, temp)
-    }
-  }
-
-  dat <- dat %>%
+  # subset on regimen numbers of interest, if applicable
+  # (selects all lines if lines_keep is left blank, i.e. doesn't subset at all)
+  cohort_reg_nums_of_interest <- cohort_all_drugs %>%
     filter(regimen_number %in% lines_keep)
 
-  temp_dat <- dat %>%
-    select(record_id, regimen_number, regimen_drugs)
-
-  temp_temp_dat <- temp_dat %>%
+  # prepare the data for the sunburst function
+  # 1 column per regimen (R1, R2, R3, etc.)
+  cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
+    select(record_id, regimen_number, regimen_drugs) %>%
     mutate(regimen_number = paste0("R", regimen_number)) %>%
     pivot_wider(
       names_from = regimen_number,
@@ -73,23 +72,33 @@ drug_regimen_sunburst <- function(ids, ca_drugs, regimen_drugs, lines_keep = NUL
     ) %>%
     ungroup()
 
+  # set up drug regimen data for sunburst
+  # concatenate drug regimens separated by "-" into variable path
   path <- c()
-  for (i in 1:nrow(temp_temp_dat)) {
-    temp_path <- as.character(unlist(temp_temp_dat[i, grep("R", colnames(temp_temp_dat))]))
+  for (i in 1:nrow(cohort_for_sunburst)) {
+    temp_path <- as.character(unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
     path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
   }
 
-  temp_temp_dat$path <- path
-  temp_temp_dat <- temp_temp_dat %>%
+  # add path onto dataset
+  cohort_for_sunburst$path <- path
+
+  # only keep each record ID plus drug regimen sequence (1 row/patient)
+  cohort_for_sunburst <- cohort_for_sunburst %>%
     select(record_id, path)
 
-
-  test_dat <- temp_temp_dat %>%
+  # summarize number of patients with each regimen combination
+  # 1 row per regimen combination with number of patients that got that regimen sequence
+  df_for_sunburst <- cohort_for_sunburst %>%
     group_by(path) %>%
     summarise(Pop = length(unique(record_id))) %>%
     ungroup()
 
-  p <- sunburst(test_dat, legend = TRUE)
+  # create the sunburst plot
+  sunburst_plot <- sunburst(df_for_sunburst, legend = TRUE)
 
-  return(list("treat_hist" = temp_temp_dat, "sunburst_plot" = p))
+  # return treatment data and sunburst plot
+  return(list("treatment_history" = df_for_sunburst,
+              "sunburst_plot" = sunburst_plot
+              ))
 }
