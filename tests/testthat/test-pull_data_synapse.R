@@ -63,10 +63,7 @@ test_that("Testing synapse version", {
 
 
 test_that("Test synget equals pulldata synapse", {
-  ptchar_nsclc_synget <- read.csv(synapser::synGet("syn22418979")$path) #version 1.1
-  ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC","1.1")[[1]]
-  expect_equal(ptchar_nsclc_synget,ptchar_nsclc_pulldata)
+  ptchar_nsclc_synget <- read.csv(synapser::synGet("syn22418979")$path) # version 1.1
+  ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC", "1.1")[[1]]
+  expect_equal(ptchar_nsclc_synget, ptchar_nsclc_pulldata)
 })
-
-
-

@@ -13,32 +13,30 @@
 #'
 #' dplyr
 
-synapse_version <- function(most_recent = FALSE){
-  if(!is.logical(most_recent)){
+synapse_version <- function(most_recent = FALSE) {
+  if (!is.logical(most_recent)) {
     stop("Please provide TRUE or FALSE for the most_recent argument")
   }
-  if(is.na(most_recent)){
+  if (is.na(most_recent)) {
     stop("Please provide TRUE or FALSE for the most_recent argument")
   }
 
-  if (most_recent == FALSE){
+  if (most_recent == FALSE) {
     synapse_tables %>%
       group_by(cohort, version) %>%
-      filter(row_number()==1) %>%
+      filter(row_number() == 1) %>%
       select(cohort, version) %>%
       # remove the "v" from "v1.1"
       mutate(version = substr(version, 2, 4)) %>%
       mutate(versions_returned = "All Versions")
   }
-  else{
+  else {
     synapse_tables %>%
       arrange(cohort, desc(version)) %>%
       group_by(cohort) %>%
-      filter(row_number()==1) %>%
+      filter(row_number() == 1) %>%
       select(cohort, version) %>%
       mutate(version = substr(version, 2, 4)) %>%
       mutate(versions_returned = "Most Recent Versions")
-
   }
-
 }

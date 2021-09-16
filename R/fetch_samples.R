@@ -35,15 +35,16 @@ fetch_samples <- function(cohort, data_synapse, df_record_ids) {
     stop("You must provide an object that contains the variable record_id.")
   }
 
-  if (min(grepl( "record_id", names(df_record_ids))) == 1){
+  if (min(grepl("record_id", names(df_record_ids))) == 1) {
     stop("You must provide an object that contains a variable called record_id.")
   }
 
   # keep records based on patient ID + cancer sequence of interest
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
-               dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
-               pluck(data_synapse, paste0("cpt_", cohort_temp)),
-             by = c("cohort", "record_id", "ca_seq")) %>%
+    dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
+  pluck(data_synapse, paste0("cpt_", cohort_temp)),
+  by = c("cohort", "record_id", "ca_seq")
+  ) %>%
     distinct() %>%
     mutate(sample_type = case_when(
       str_to_lower(.data$cpt_sample_type) %in% c("1", "primary", "primary tumor") ~ "Primary tumor",

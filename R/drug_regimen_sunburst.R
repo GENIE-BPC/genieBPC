@@ -33,11 +33,17 @@ drug_regimen_sunburst <- function(data_synapse,
   # if no lines of therapy are specified, select all lines of therapy
   if (is.null(lines_keep)) {
     # get range of all lines of therapy
-    lines_keep <- min(pluck(data_synapse,
-                            paste0("ca_drugs", cohort_temp))$regimen_number,
-                      na.rm = T):max(pluck(data_synapse,
-                                           paste0("ca_drugs", cohort_temp))$regimen_number,
-                                     na.rm = T)
+    lines_keep <- min(pluck(
+      data_synapse,
+      paste0("ca_drugs", cohort_temp)
+    )$regimen_number,
+    na.rm = T
+    ):max(pluck(
+      data_synapse,
+      paste0("ca_drugs", cohort_temp)
+    )$regimen_number,
+    na.rm = T
+    )
   }
 
   # if (is.null(first_regimen)) {
@@ -46,8 +52,9 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # get all regimens to diagnoses in cohort
   cohort_all_drugs <- left_join(pluck(data_cohort, "cohort_ca_dx"),
-                   pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
-                   by = c("cohort", "record_id", "ca_seq", "institution"))
+    pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
+    by = c("cohort", "record_id", "ca_seq", "institution")
+  )
 
   # subset on regimen numbers of interest, if applicable
   # (selects all lines if lines_keep is left blank, i.e. doesn't subset at all)
@@ -98,7 +105,8 @@ drug_regimen_sunburst <- function(data_synapse,
   sunburst_plot <- sunburst(df_for_sunburst, legend = TRUE)
 
   # return treatment data and sunburst plot
-  return(list("treatment_history" = df_for_sunburst,
-              "sunburst_plot" = sunburst_plot
-              ))
+  return(list(
+    "treatment_history" = df_for_sunburst,
+    "sunburst_plot" = sunburst_plot
+  ))
 }
