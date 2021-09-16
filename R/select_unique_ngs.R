@@ -1,12 +1,12 @@
-#' select_unique_sample
+#' select_unique_ngs
 #'
-#' Get a unique sample for each patient for analysis following several user define criterions.
+#' Get a unique genomic sample for each patient for analysis following several user define criterions.
 #' @param samples_object output object of the fetch_samples function.
 #' @param oncotree_code character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of samples_object argument above to get options.
-#' @param sample_type character specifying which type of sample to prioritize, options are "Primary", "Local" and "Metastasis".
+#' @param sample_type character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
 #' Default is either.
-#' @param min_max_time character specifying if the first or last sample recorded should be kept.
+#' @param min_max_time character specifying if the first or last genomic sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
 #'
 #' @return returns the sample object list inputted with an additional dataset named "samples_data".
@@ -19,7 +19,7 @@
 #' #      stage_dx = c("Stage IV"),
 #' #      ca_hist_adeno_squamous = "Adenocarcinoma")
 #' # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
-#' # select_unique_sample <- select_unique_sample(samples_object = samples_data)
+#' # select_unique_ngs <- select_unique_ngs(samples_object = samples_data)
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin,
 #' # Etoposide as their first drug regimen
@@ -28,12 +28,12 @@
 #' #     regimen_order = 1,
 #' #     regimen_order_type = "within regimen")
 #' # samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out)
-#' # select_unique_sample <- select_unique_sample(samples_object = samples_data, oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
+#' # select_unique_ngs <- select_unique_ngs(samples_object = samples_data, oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
-select_unique_sample <- function(samples_object, oncotree_code = NULL, sample_type = NULL, min_max_time = NULL){
+select_unique_ngs <- function(samples_object, oncotree_code = NULL, sample_type = NULL, min_max_time = NULL){
 
   # perform checks #
   if(missing(samples_object))

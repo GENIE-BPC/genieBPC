@@ -66,7 +66,7 @@ gt(nsclc_stg_iv_adeno$cohort_ngs[1:10,])
 ```
 
 
-## select_unique_sample()
+## select_unique_ngs()
 
 It sometimes occur that multiple samples of a single cancer were taken for sequencing, this is particularly often the case in metastatic lung cancer. Following the dataset generated above we can see that we had a total of `r length(unique(samples_data$record_id))` patients, for a total of `r length(unique(samples_data$cpt_genie_sample_id))`. We show below a table of patients with the most samples for a single cancer in the cohort generated:
 
@@ -88,7 +88,7 @@ We implemented in `GenieBPC` an automated way to select the sample of interest b
 If multiple samples are found to optimize all categories selected, the sample with the largest panel size for sequence assay will be chosen. If again multiple samples remain, a random sample will be selected.
 
 ```{r}
-optimal_samples <- select_unique_sample(samples_object = samples_data, oncotree_code = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+optimal_samples <- select_unique_ngs(samples_object = samples_data, oncotree_code = "LUAD",sample_type = "Metastasis",min_max_time = "min")
 ```
 
 
