@@ -9,11 +9,11 @@ test_that("function returns correct number of samples", {
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
-  test1 <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,
+  test1 <- fetch_samples(cohort = "NSCLC", data_synapse = nsclc_data,
                 df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test1))
   expect_equal(ncol(test1),20)
@@ -25,11 +25,11 @@ test_that("function returns correct number of samples", {
   cohort_temp <- create_analytic_cohort(
     cohort = "NSCLC",
     stage_dx = c("Stage IV"),
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
-  test2 <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,
+  test2 <- fetch_samples(cohort = "NSCLC", data_synapse = nsclc_data,
                          df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test2))
   expect_equal(ncol(test2),20)
@@ -39,12 +39,12 @@ test_that("function returns correct number of samples", {
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE,
     institution = "DFCI"
   )
 
-  test3 <- fetch_samples(cohort = "NSCLC", cohort_object = nsclc_data,
+  test3 <- fetch_samples(cohort = "NSCLC", data_synapse = nsclc_data,
                          df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test3))
   expect_equal(ncol(test3),20)
@@ -61,11 +61,11 @@ test_that("function returns correct number of samples", {
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
     cohort = "CRC",
-    cohort_object = crc_data,
+    data_synapse = crc_data,
     return_summary = FALSE
   )
 
-  test1 <- fetch_samples(cohort = "CRC", cohort_object = crc_data,
+  test1 <- fetch_samples(cohort = "CRC", data_synapse = crc_data,
                          df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test1))
   expect_equal(ncol(test1),26)
@@ -77,11 +77,11 @@ test_that("function returns correct number of samples", {
   cohort_temp <- create_analytic_cohort(
     cohort = "CRC",
     stage_dx = c("Stage IV"),
-    cohort_object = crc_data,
+    data_synapse = crc_data,
     return_summary = FALSE
   )
 
-  test2 <- fetch_samples(cohort = "CRC", cohort_object = crc_data,
+  test2 <- fetch_samples(cohort = "CRC", data_synapse = crc_data,
                          df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test2))
   expect_equal(ncol(test2),26)
@@ -91,12 +91,12 @@ test_that("function returns correct number of samples", {
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
     cohort = "CRC",
-    cohort_object = crc_data,
+    data_synapse = crc_data,
     return_summary = FALSE,
     institution = "DFCI"
   )
 
-  test3 <- fetch_samples(cohort = "CRC", cohort_object = crc_data,
+  test3 <- fetch_samples(cohort = "CRC", data_synapse = crc_data,
                          df_record_ids = cohort_temp$cohort_ca_dx)
   expect_true(tibble::is_tibble(test3))
   expect_equal(ncol(test3),26)

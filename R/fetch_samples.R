@@ -2,7 +2,7 @@
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
-#' @param cohort_object the list object outputted by the `pull_data_synapse()` function.
+#' @param data_synapse the list object outputted by the `pull_data_synapse()` function.
 #' @param df_record_ids output object of the create_cohort function.
 #' @return returns the cohort object list inputted with an additional dataset named "samples_data".
 #' @export
@@ -12,20 +12,20 @@
 #' out <- create_cohort(cohort = "NSCLC",
 #'      stage_dx = c("Stage IV"),
 #'      ca_hist_adeno_squamous = "Adenocarcinoma")
-#' samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out$cohort_ca_dx)
+#' samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' out <- create_cohort(cohort = "NSCLC",
 #'      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
 #'      regimen_order = 1,
 #'      regimen_order_type = "within regimen")
-#' samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out$cohort_ca_dx)
+#' samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
 
-fetch_samples <- function(cohort, cohort_object, df_record_ids) {
+fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   if (missing(cohort)) {
     stop("You must provide a cohort name ('NSCLC' or 'CRC') function in the `cohort` argument.")
   }
@@ -42,7 +42,7 @@ fetch_samples <- function(cohort, cohort_object, df_record_ids) {
   # keep records based on patient ID + cancer sequence of interest
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
                dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
-               pluck(cohort_object, paste0("cpt_", cohort_temp)),
+               pluck(data_synapse, paste0("cpt_", cohort_temp)),
              by = c("cohort", "record_id", "ca_seq")) %>%
     distinct() %>%
     mutate(sample_type = case_when(
