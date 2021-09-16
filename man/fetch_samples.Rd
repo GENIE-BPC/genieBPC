@@ -4,12 +4,12 @@
 \alias{fetch_samples}
 \title{fetch_samples}
 \usage{
-fetch_samples(cohort, cohort_object, df_record_ids)
+fetch_samples(cohort, data_synapse, df_record_ids)
 }
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
 
-\item{cohort_object}{the list object outputted by the `pull_data_synapse()` function.}
+\item{data_synapse}{the list object outputted by the `pull_data_synapse()` function.}
 
 \item{df_record_ids}{output object of the create_cohort function.}
 }
@@ -26,12 +26,12 @@ Axel Martin
 out <- create_cohort(cohort = "NSCLC",
      stage_dx = c("Stage IV"),
      ca_hist_adeno_squamous = "Adenocarcinoma")
-samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out$cohort_ca_dx)
+samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
 # Example 2 ----------------------------------
 # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 out <- create_cohort(cohort = "NSCLC",
      regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
      regimen_order = 1,
      regimen_order_type = "within regimen")
-samples_data <- fetch_samples(cohort = "NSCLC", cohort_object = out$cohort_ca_dx)
+samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
 }

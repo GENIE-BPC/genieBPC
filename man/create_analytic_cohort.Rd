@@ -6,7 +6,7 @@
 \usage{
 create_analytic_cohort(
   cohort,
-  cohort_object,
+  data_synapse,
   index_ca_seq = 1,
   institution,
   stage_dx,
@@ -15,8 +15,7 @@ create_analytic_cohort(
   regimen_type = "Exact",
   regimen_order,
   regimen_order_type,
-  return_summary = FALSE,
-  lines_keep = NULL
+  return_summary = FALSE
 )
 }
 \arguments{
@@ -78,9 +77,6 @@ regimen"). Acceptable values are "within cancer" and "within regimen".}
 \item{return_summary}{Specifies whether a summary table for the cohort is
 returned. Default is FALSE. The `gtsummary` package is required to return a
 summary table.}
-
-\item{lines_keep}{When `return_summary` set to TRUE, will set regimen number
-to be kept to create the summary of the treatment history.}
 }
 \value{
 Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`

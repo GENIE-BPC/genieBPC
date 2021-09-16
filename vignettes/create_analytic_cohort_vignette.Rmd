@@ -117,7 +117,7 @@ Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also retu
 
 ```{r}
 nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC", 
-                                   cohort_object = nsclc_data,
+                                   data_synapse = nsclc_data,
                                    stage_dx = c("Stage IV"),
                                    histology = "Adenocarcinoma")
 
@@ -130,7 +130,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, eval = FALSE}
 create_analytic_cohort(cohort = "NSCLC",
-              cohort_object = nsclc_data,
+              data_synapse = nsclc_data,
               regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
               regimen_order = 1,
               regimen_order_type = "within cancer")
@@ -142,7 +142,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
-                                        cohort_object = nsclc_data,
+                                        data_synapse = nsclc_data,
                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                         regimen_order = 1,
                                         regimen_order_type = "within regimen",
