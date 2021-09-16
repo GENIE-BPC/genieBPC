@@ -8,7 +8,7 @@ test_that("correct number of objects returned from create cohort", {
 
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
@@ -17,7 +17,7 @@ test_that("correct number of objects returned from create cohort", {
 
   test2 <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = TRUE
   )
 
@@ -28,7 +28,7 @@ test_that("correct number of objects returned from create cohort", {
 test_that("correct cohort returned from create cohort", {
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
@@ -39,7 +39,7 @@ test_that("correct cohort returned from create cohort", {
   # check CRC
   test2 <- create_analytic_cohort(
     cohort = "CRC",
-    cohort_object = crc_data,
+    data_synapse = crc_data,
     return_summary = FALSE
   )
 
@@ -48,13 +48,13 @@ test_that("correct cohort returned from create cohort", {
   expect_equal(unique(test2$cohort_cpt$cohort), "CRC")
 })
 
-test_that("cohort and cohort_object", {
+test_that("cohort and data_synapse", {
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
   # incl criteria
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data
+    data_synapse = nsclc_data
   )
 
   test_1b <- nsclc_data$ca_dx_index_NSCLC %>%
@@ -64,16 +64,16 @@ test_that("cohort and cohort_object", {
 
   expect_equal(test_1a$cohort_ca_dx, test_1b)
 
-  # errors if non-existent cohort or cohort_object are specified
+  # errors if non-existent cohort or data_synapse are specified
   # a non-existent cohort is specified
   expect_error(create_analytic_cohort(
     cohort = "made up cohort"
   ))
 
-  # a non-existent cohort_object is specified
+  # a non-existent data_synapse is specified
   expect_error(create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = crc_data))
+    data_synapse = crc_data))
 })
 
 test_that("index_ca_seq", {
@@ -82,7 +82,7 @@ test_that("index_ca_seq", {
   # if patient has 2+ index cancers, the first two should be returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     index_ca_seq = c(1, 2),
     return_summary = TRUE
   )
@@ -100,13 +100,13 @@ test_that("index_ca_seq", {
   # an index cancer # that doesn't exist in the data is specified
   expect_error(create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     index_ca_seq = 10))
 
   ## index cancer #s in cohort_ca_drugs and cohort_cpt match those in cohort_ca_dx
   test2a <- create_analytic_cohort(
     cohort = "CRC",
-    cohort_object = crc_data,
+    data_synapse = crc_data,
     index_ca_seq = c(1, 2)
   )
 
@@ -132,7 +132,7 @@ test_that("institution", {
   # institution is specified and correct institution is returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     institution = "dfci"
   )
 
@@ -147,7 +147,7 @@ test_that("institution", {
   # multiple institutions specified
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     institution = c("dfci", "msk")
   )
 
@@ -161,12 +161,12 @@ test_that("institution", {
 
   # a non-existent institution is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
-                                      cohort_object = nsclc_data,
+                                      data_synapse = nsclc_data,
                                       institution = "uDFCI"))
 
 
   expect_error(create_analytic_cohort(cohort = "CRC",
-                                      cohort_object = crc_data,
+                                      data_synapse = crc_data,
                                       institution = "UHN"))
 })
 
@@ -174,7 +174,7 @@ test_that("stage_dx", {
   # stage dx is specified and correct stage is returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     stage_dx = "stage ii"
   )
 
@@ -189,7 +189,7 @@ test_that("stage_dx", {
   # multiple stage values are specified
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     stage_dx = c("Stage I", "stage ii")
   )
 
@@ -203,7 +203,7 @@ test_that("stage_dx", {
 
   # non-existent stage is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
-                                      cohort_object = nsclc_data,
+                                      data_synapse = nsclc_data,
                                       stage_dx = "3A"))
 })
 
@@ -211,7 +211,7 @@ test_that("histology", {
   # histology is specified and correct histology is returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     histology = "adenocarcinoma"
   )
 
@@ -226,7 +226,7 @@ test_that("histology", {
   # multiple histologies are specified and returned
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     histology = c("adenocarcinoma", "squamous cell")
   )
 
@@ -240,7 +240,7 @@ test_that("histology", {
 
   # a non-existent histology is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
-                                      cohort_object = nsclc_data,
+                                      data_synapse = nsclc_data,
                                       histology = "squamous_adeno"
   ))
 })
@@ -248,7 +248,7 @@ test_that("histology", {
 test_that("stage", {
   # a non-existent stage is specified
   expect_error(create_analytic_cohort(cohort = "NSCLC",
-                                      cohort_object = nsclc_data,
+                                      data_synapse = nsclc_data,
                                       stage_dx = "stage 12"))
 })
 
@@ -256,7 +256,7 @@ test_that("no regimen specified", {
   # all regimens are returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
@@ -275,7 +275,7 @@ test_that("drug regimen specified, order not specified", {
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium")
   )
 
@@ -300,7 +300,7 @@ test_that("drug regimen specified, order not specified", {
   # regimen order not specified
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Pemetrexed DISODIUM, carboplatin")
   )
 
@@ -313,7 +313,7 @@ test_that("drug regimen specified, order not specified", {
   # multiple drug regimens specified, but order not specified
   test_3a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab")
   )
 
@@ -334,7 +334,7 @@ test_that("drug regimen specified, order not specified", {
   # multiple drug regimens specified, regimen_type = containing
   test_4a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin", "Nivolumab"),
     regimen_type = "containING"
   )
@@ -358,7 +358,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
   # all patients whose first drug after diagnosis was carbo pem
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = 1,
@@ -381,7 +381,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
   # second regimen after diagnosis was carbo pem
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = 2,
@@ -407,7 +407,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
   # first AND/OR second regimen after diagnosis was carbo pem
   test_3a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = c(1, 2),
@@ -434,7 +434,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
   # regimen_type = containing rather than default of exact
   test_4a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "containing",
     regimen_order = c(1, 2),
@@ -463,7 +463,7 @@ test_that("drug regimen specified, order specified to be within regimen", {
   #cancers
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_order = c(1),
     regimen_order_type = "within REGimen"
@@ -487,7 +487,7 @@ test_that("drug regimen specified, order specified to be within regimen", {
   # multiple regimens specified, want first time each given
   test_2a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
     regimen_order = c(1),
     regimen_order_type = "within REGimen"
@@ -514,7 +514,7 @@ test_that("drug regimen specified, order specified to be within regimen", {
   # multiple regimens specified, want first time each given
   test_3a <- create_analytic_cohort(
     cohort = "NSCLC",
-    cohort_object = nsclc_data,
+    data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
     regimen_order = c(1, 2),
     regimen_order_type = "within REGimen"
