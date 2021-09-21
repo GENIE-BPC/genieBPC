@@ -60,7 +60,7 @@ nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
 ```{r, include = FALSE}
 tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
-  "`sample_data`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.",
+  "`data_cohort`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.",
   "`histology`",       "Prioritizes samples of a particular histology. Can take any OncoTree code value (e.g.: “LUAD”, “CRC”). Default is NULL.",
   "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.",
   "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
@@ -93,7 +93,7 @@ Select metastatic lung adenocarcinoma samples. If multiple samples are available
 
 ```{r, results = 'hide'}
 select_unique_ngs(
-		samples_object = nsclc_stg_iv_adeno$cohort_ngs,
+		data_cohort = nsclc_stg_iv_adeno$cohort_ngs,
 		oncotree_code = "LUAD",
 		sample_type = "Metastasis",
 		min_max_time = "min")
