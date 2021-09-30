@@ -3,7 +3,7 @@
 #' This function allows the user to visualize the complete treatment course for selected diagnoses.
 #' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
 #' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
-#' @param lines_keep regimen number to be kept to create the summary.
+#' @param max_n_regimens regimen number to be kept to create the summary.
 #' @return Returns data frame `treatment_history` and interactive plot `sunburst_plot`.
 #' @export
 #'
@@ -11,10 +11,8 @@
 #' # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 #' # record_ids <- nsclc_data$ca_dx_index_NSCLC
 #' # ca_drugs <- nsclc_data$ca_drugs_NSCLC
-#' # regimen_drugs <- unique(ca_drugs$regimen_drugs)
-#' # lines_keep = 1:3
-#' # test1 <- drug_regimen_sunburst(ids = record_ids, ca_drugs = ca_drugs,
-#' #                            regimen_drugs = regimen_drugs, lines_keep = lines_keep)
+#' # test1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = ca_drugs,
+#' max_n_regimens = 3)
 #' @import
 #' dplyr
 #' TraMineR
@@ -25,30 +23,53 @@
 
 drug_regimen_sunburst <- function(data_synapse,
                                   data_cohort,
-                                  lines_keep = NULL) {
+                                  max_n_regimens) {
 
   # get the name of the cohort from the data_synapse object naming convention
   cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
 
+  # make sure all required parameters are specified
+  if (missing(data_synapse) | class(data_synapse) != "list") {
+    stop("Specify the list object returned from pull_data_synapse in the
+         `data_synapse` parameter.")
+  }
+
+  # if the data_synapse parameter is a list but not the right list
+  if (is.null(names(data_synapse)) |
+      min(grepl("pt_char|ca_dx|ca_drugs|prissmm|cpt|cna|fusions|mutations",
+                names(data_synapse))) == 0){
+    stop("Specify the list object returned from pull_data_synapse in the
+         `data_synapse` parameter.")
+  }
+
+  if (missing(data_cohort) | class(data_cohort) != "list") {
+    stop("Specify the list object returned from create_analytic_cohort in the
+         `data_cohort` parameter.")
+  }
+
+  # if the data_cohort parameter is a list but not the right list
+  # checking the names of the list inputs
+  if (is.null(names(data_cohort)) |
+      min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs", names(data_cohort)))
+      == 0){
+    stop("Specify the list object returned from create_analytic_cohort in the
+         `data_cohort` parameter")
+  }
+
+  if (class(max_n_regimens) != "numeric"){
+    stop("Specify the maximum number of regimens to display.")
+  }
+
   # if no lines of therapy are specified, select all lines of therapy
-  if (is.null(lines_keep)) {
+  if (is.null(max_n_regimens)) {
     # get range of all lines of therapy
-    lines_keep <- min(pluck(
-      data_synapse,
-      paste0("ca_drugs", cohort_temp)
-    )$regimen_number,
-    na.rm = T
-    ):max(pluck(
+    max_n_regimens <- 1:max(pluck(
       data_synapse,
       paste0("ca_drugs", cohort_temp)
     )$regimen_number,
     na.rm = T
     )
   }
-
-  # if (is.null(first_regimen)) {
-  #   first_regimen <- pluck(data_cohort, "cohort_ca_drugs")$regimen_drugs
-  # }
 
   # get all regimens to diagnoses in cohort
   cohort_all_drugs <- left_join(pluck(data_cohort, "cohort_ca_dx"),
@@ -57,9 +78,9 @@ drug_regimen_sunburst <- function(data_synapse,
   )
 
   # subset on regimen numbers of interest, if applicable
-  # (selects all lines if lines_keep is left blank, i.e. doesn't subset at all)
+  # (selects all lines if max_n_regimens is left blank, i.e. doesn't subset at all)
   cohort_reg_nums_of_interest <- cohort_all_drugs %>%
-    filter(regimen_number %in% lines_keep)
+    filter(regimen_number %in% 1:max_n_regimens)
 
   # prepare the data for the sunburst function
   # 1 column per regimen (R1, R2, R3, etc.)
