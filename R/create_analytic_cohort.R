@@ -38,7 +38,7 @@
 #' @param histology Cancer histology. For all cancer cohorts except for BrCa
 #' (breast cancer), this corresponds to the variable `ca_hist_adeno_squamous` and
 #' must be one of
-#' "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma",
+#' "Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Carcinoma",
 #' "Other histologies/mixed tumor". For BrCa, this corresponds to the variable
 #' `ca_hist_brca` and must be one of
 #' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
@@ -46,7 +46,7 @@
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
 #' separated by a comma. For example, to specify a regimen consisting of
 #' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
-#' Pemetrexed". Acceptable values are found in the `drug_names_by_cohort`
+#' Pemetrexed". Acceptable values are found in the `drug_regimen_list`
 #' dataset provided with this package.
 #' @param regimen_type Indicates whether the regimen(s) specified in
 #' `regimen_drugs` indicates the exact regimen to return, or if regimens
@@ -236,7 +236,7 @@ create_analytic_cohort <- function(cohort,
     cohort_temp != "BrCa" &&
     sum(!grepl(
       c("^adenocarcinoma$|^squamous cell$|^sarcoma$|^small cell
-                 carcinoma$|^other histologies/mixed tumor$"),
+                 carcinoma$|^carcinoma$|^other histologies/mixed tumor$"),
       stringr::str_to_lower(histology)
     ) > 0) > 0) {
     stop("Select from available histology categories: Adenocarcinoma,
@@ -574,7 +574,7 @@ create_analytic_cohort <- function(cohort,
     message("No patients meeting the specified criteria were returned.
             Ensure that all parameters were correctly specified. Specifically,
             the list of acceptable drugs can be found in the
-            `drug_names_by_cohort` dataset available with this package.")
+            `drug_regimen_list` dataset available with this package.")
   }
 
   # return a table 1 to describe the cancer cohort if the user specifies
