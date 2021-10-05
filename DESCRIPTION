@@ -1,7 +1,6 @@
 Type: Package
 Package: genieBPC
-Title: Data Processing Pipeline for the AACR Project GENIE Biopharma 
-Collaborative Data
+Title: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Jessica",
