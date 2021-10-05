@@ -1,6 +1,7 @@
 Type: Package
-Package: GenieBPC
-Title: Helps format Genie data
+Package: genieBPC
+Title: Data Processing Pipeline for the AACR Project GENIE Biopharma 
+Collaborative Data
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Jessica",
@@ -18,7 +19,7 @@ Authors@R:
       person(given = "Axel",
              family = "Martin",
              role = "aut"))
-Description: The {GenieBPC} package provides a seamless way to obtain the
+Description: The {genieBPC} package provides a seamless way to obtain the
     data corresponding to each release from Synapse and to prepare datasets
     for analysis.
 License: MIT + file LICENSE

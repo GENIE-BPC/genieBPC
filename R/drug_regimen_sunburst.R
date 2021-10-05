@@ -1,17 +1,16 @@
 #' drug_regimen_sunburst
 #'
 #' This function allows the user to visualize the complete treatment course for selected diagnoses.
-#' @param ids dataframe with columns `record_id` and `ca_seq` from the downloaded data.
-#' @param ca_drugs dataset `ca_drugs` from `pull_data_synapse()` function.
-#' @param max_n_regimens regimen number to be kept to create the summary.
-#' @return Returns data frame `treatment_history` and interactive plot `sunburst_plot`.
+#' @param data_synapse The list returned from the `pull_data_synapse()` function call
+#' @param data_cohort The list returned from the `create_analytic_cohort()` function call
+#' @param max_n_regimens The number of regimens displayed in the sunburst plot
+#' @return Returns data frame `treatment_history` and interactive plot `sunburst_plot`
 #' @export
 #'
 #' @examples
 #' # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
-#' # record_ids <- nsclc_data$ca_dx_index_NSCLC
-#' # ca_drugs <- nsclc_data$ca_drugs_NSCLC
-#' # test1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = ca_drugs,
+#' # nsclc_cohort <- create_analytic_cohort(data_synapse = "nsclc_data", stage = "Stage IV")
+#' # ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = ca_drugs,
 #' max_n_regimens = 3)
 #' @import
 #' dplyr

@@ -4,10 +4,10 @@
 \alias{drug_regimen_sunburst}
 \title{drug_regimen_sunburst}
 \usage{
-drug_regimen_sunburst(data_synapse, data_cohort, lines_keep = NULL)
+drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens)
 }
 \arguments{
-\item{lines_keep}{regimen number to be kept to create the summary.}
+\item{max_n_regimens}{regimen number to be kept to create the summary.}
 
 \item{ids}{dataframe with columns `record_id` and `ca_seq` from the downloaded data.}
 
@@ -23,8 +23,6 @@ This function allows the user to visualize the complete treatment course for sel
 # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 # record_ids <- nsclc_data$ca_dx_index_NSCLC
 # ca_drugs <- nsclc_data$ca_drugs_NSCLC
-# regimen_drugs <- unique(ca_drugs$regimen_drugs)
-# lines_keep = 1:3
-# test1 <- drug_regimen_sunburst(ids = record_ids, ca_drugs = ca_drugs,
-#                            regimen_drugs = regimen_drugs, lines_keep = lines_keep)
+# test1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = ca_drugs,
+max_n_regimens = 3)
 }

@@ -1,4 +1,4 @@
-#' create_cohort
+#' create_analytic_cohort
 #'
 #' This function allows the user to create a cohort from the GENIE BPC data
 #' based on cancer diagnosis information such as cancer cohort, treating
@@ -78,7 +78,7 @@
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
 #' # pull_data_synapse("NSCLC")
-#' # create_cohort(cohort = "NSCLC",
+#' # create_analytic_cohort(cohort = "NSCLC",
 #' #   stage_dx = c("Stage IV"),
 #' #   histology = "Adenocarcinoma")
 #'
@@ -87,7 +87,7 @@
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
 #' # pull_data_synapse("NSCLC")
-#' # create_cohort(cohort = "NSCLC",
+#' # create_analytic_cohort(cohort = "NSCLC",
 #' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin,
 #' #   Etoposide"),
 #' #   regimen_order = 1,
@@ -100,7 +100,7 @@
 #' # but in the event that the patient received the drug multiple times,
 #' # only select the first time.
 #' # pull_data_synapse("NSCLC")
-#' # create_cohort(cohort = "NSCLC",
+#' # create_analytic_cohort(cohort = "NSCLC",
 #' #   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #' #   regimen_order = 1,
 #' #   regimen_order_type = "within regimen")
