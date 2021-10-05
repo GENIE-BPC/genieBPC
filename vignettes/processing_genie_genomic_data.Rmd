@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
   fig.width = 8
 )
 
-library(GenieBPC)
+library(genieBPC)
 library(dplyr)
 library(synapser)
 library(gt)
