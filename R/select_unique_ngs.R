@@ -116,7 +116,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL, sample_type = N
         # If somehow there is still multiple possible samples pick one at random... #
         if (nrow(temp) > 1) {
           warning(paste0("Patient ", x, " still had multiple possible samples based on the selected arguments, a sample was selected at random."))
-          # Set seed so this is reproduceable #
+          # Set seed so this is reproducible #
           set.seed(210793)
           temp <- temp[sample(1:nrow(temp), size = 1), ]
         }
