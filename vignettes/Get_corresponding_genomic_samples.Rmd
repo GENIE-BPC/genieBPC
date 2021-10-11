@@ -22,7 +22,7 @@ synLogin()
 ```
 
 ```{r setup}
-library(GenieBPC)
+library(genieBPC)
 ```
 
 

@@ -38,7 +38,7 @@ This vignette will walk a user through the `create_analytic_cohort()` function.
 Before going through the tutorial, install {GenieBPC} and {synapser} and log into Synapse using the `synLogin()` function. For more information on `synLogin()`, refer to the pull_data_synapse vignette or [synapser documentation](https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html).
 
 ```{r, results = 'hide'}
-library(GenieBPC)
+library(genieBPC)
 library(synapser)
 
 synLogin()
