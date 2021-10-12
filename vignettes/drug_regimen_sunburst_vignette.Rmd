@@ -1,0 +1,103 @@
+---
+title: "Tutorial: drug_regimen_sunburst"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{drug-regimen-sunburst}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(genieBPC)
+library(dplyr)
+library(synapser)
+library(gt)
+
+synLogin()
+```
+
+```{r, include = FALSE}
+gt_compact_fun <- function(x) {
+  gt::tab_options(x, 
+                  table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+}
+```
+
+
+```{r setup}
+library(genieBPC)
+```
+
+
+## Introduction
+
+The `drug_regimen_sunburst()` function creates a visualization of the complete treatment course for selected diagnoses in a given analytic cohort. Specifically, the function returns a list containing a 'treatment_history' data frame and the interactive plot 'sunburst_plot'.
+
+
+## Modifying Function Arguments
+
+```{r, include = FALSE, results = 'hide'}
+tbl_arguments = tibble::tribble(
+  ~Argument,       ~Description,
+  "`data_synapse`",       "The list returned from the `pull_data_synapse()` function call.",
+  "`data_cohort`",       "The list returned from the `create_analytic_cohort()` function call.",
+  "`max_n_regimens`",        "The number of regimens displayed in the sunburst plot.") %>%
+  gt::gt() %>%
+  gt::tab_header(title = "`drug_regimen_sunburst()` Function Arguments") %>% 
+  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::tab_options(table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1)) %>%
+  gt_compact_fun()
+
+tbl_arguments
+```
+
+```{r, echo = FALSE, results = 'hide'}
+tbl_arguments
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+tbl_arguments
+```
+
+## Example
+
+The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. This example utilizes the data downloaded using the `pull_data_synapse()` function and processed in the `create_analytic_cohort()` function.
+
+
+```{r, results = 'hide'}
+nsclc_data = pull_data_synapse("NSCLC", version = "1.1")
+
+nsclc_cohort = create_analytic_cohort(cohort = "NSCLC",
+                                      data_synapse = nsclc_data,
+                                      stage_dx = c("Stage IV"))
+
+nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_data, 
+                      data_cohort = nsclc_cohort,
+                      max_n_regimens = 3)
+```
+
+
+```{r}
+head(nsclc_treatment$treatment_history)
+```
+
+```{r}
+nsclc_treatment$sunburst_plot
+```
+
