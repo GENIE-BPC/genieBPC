@@ -5,7 +5,7 @@
 #' @param oncotree_code character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of data_cohort argument above to get options.
 #' @param sample_type character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
-#' Default is either.
+#' Default is to not select a NGS sample based on the sample type.
 #' @param min_max_time character specifying if the first or last genomic sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
 #'
