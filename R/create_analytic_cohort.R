@@ -614,7 +614,7 @@ create_analytic_cohort <- function(cohort,
         type = n_rec_pt ~ "categorical"
       )
 
-    tbl_cohort_summary <- gtsummary::tbl_stack(
+    tbl_overall_summary <- gtsummary::tbl_stack(
       tbls = list(
         n_rec_dx_dset,
         n_rec_drugs_dset,
@@ -701,7 +701,7 @@ create_analytic_cohort <- function(cohort,
           -.data$index_ca_seq, -.data$abbreviation
         ),
       "cohort_ngs" = cohort_ngs,
-      "tbl_cohort_summary" = tbl_cohort_summary,
+      "tbl_overall_summary" = tbl_overall_summary,
       "tbl_cohort" = tbl_cohort,
       "tbl_drugs" = tbl_drugs,
       "tbl_ngs" = tbl_ngs

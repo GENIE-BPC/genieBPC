@@ -36,7 +36,7 @@ The datasets obtained through {genieBPC} can be input directly into {gnomeR} to 
 You can install the development version of {genieBPC} with the following code:
 
 ```{r, eval = FALSE}
-remotes::install_github("AxelitoMartin/genieBPC")
+remotes::install_github("GENIE-BPC/genieBPC")
 ```
 
 
