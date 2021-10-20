@@ -34,14 +34,9 @@ gt_compact_fun <- function(x) {
 ```
 
 
-```{r setup}
-library(genieBPC)
-```
-
-
 ## Introduction
 
-The `drug_regimen_sunburst()` function creates a visualization of the complete treatment course for selected diagnoses in a given analytic cohort. Specifically, the function returns a list containing a 'treatment_history' data frame and the interactive plot 'sunburst_plot'.
+The `drug_regimen_sunburst()` function creates a visualization of the treatment patterns for selected diagnoses in a given analytic cohort. The function returns a list containing a 'treatment_history' data frame and the interactive plot 'sunburst_plot'.
 
 
 ## Modifying Function Arguments
@@ -51,7 +46,7 @@ tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
   "`data_synapse`",       "The list returned from the `pull_data_synapse()` function call.",
   "`data_cohort`",       "The list returned from the `create_analytic_cohort()` function call.",
-  "`max_n_regimens`",        "The number of regimens displayed in the sunburst plot.") %>%
+  "`max_n_regimens`",        "The number of lines of treatment displayed in the sunburst plot.") %>%
   gt::gt() %>%
   gt::tab_header(title = "`drug_regimen_sunburst()` Function Arguments") %>% 
   gt::fmt_markdown(columns = vars(Argument)) %>%
@@ -75,12 +70,18 @@ tbl_arguments
 tbl_arguments
 ```
 
+
+Note that the innermost circle of the sunburst plot indicates the first therapies that patients received following diagnosis. The circle is divided proportionally based on the percentage of patients that received a particular treatment. Each subsequent ring of the sunburst corresponds to a subsequent treatment regimen, such that the inner rings represent earlier treatments. Together, the rings illustrate the distribution and patterns of various treatment regimens.
+
+
 ## Example
 
 The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. This example utilizes the data downloaded using the `pull_data_synapse()` function and processed in the `create_analytic_cohort()` function.
 
 
 ```{r, results = 'hide'}
+library(genieBPC)
+
 nsclc_data = pull_data_synapse("NSCLC", version = "1.1")
 
 nsclc_cohort = create_analytic_cohort(cohort = "NSCLC",
@@ -97,7 +98,7 @@ nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_data,
 head(nsclc_treatment$treatment_history)
 ```
 
-```{r}
+```{r, fig.height=8, fig.width=8}
 nsclc_treatment$sunburst_plot
 ```
 
