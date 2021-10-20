@@ -49,7 +49,7 @@ drug_regimen_sunburst <- function(data_synapse,
   # if the data_cohort parameter is a list but not the right list
   # checking the names of the list inputs
   if (is.null(names(data_cohort)) |
-      min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs", names(data_cohort)))
+      min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs", names(data_cohort)[1:3]))
       == 0){
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter")
