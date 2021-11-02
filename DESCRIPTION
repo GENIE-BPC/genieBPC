@@ -37,14 +37,13 @@ Imports:
     sunburstR,
     tidyr
 Remotes:
-    Sage-Bionetworks/synapser
+    github::Sage-Bionetworks/synapser
 Suggests:
     covr (>= 3.5.1),
     gt (>= 0.3.0),
     gtsummary (>= 1.4.1),
     knitr (>= 1.33),
     rmarkdown (>= 2.8),
-    synapser (>= 0.10.101),
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
