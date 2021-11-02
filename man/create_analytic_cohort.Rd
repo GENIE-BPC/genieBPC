@@ -24,6 +24,8 @@ create_analytic_cohort(
 will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
 "Prostate" (prostate cancer).}
 
+\item{data_synapse}{The list returned from pull_data_synapse().}
+
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
 BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
