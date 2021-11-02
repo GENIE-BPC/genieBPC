@@ -22,7 +22,7 @@ Description: The {genieBPC} package provides a seamless way to obtain the
     data corresponding to each release from Synapse and to prepare datasets
     for analysis.
 License: MIT + file LICENSE
-BugReports: https://github.com/AxelitoMartin/GenieBPC/issues
+BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
     R (>= 3.4)
 Imports:

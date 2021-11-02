@@ -12,18 +12,18 @@
 #' @examples
 #' # Example 1 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer data
-#' pull_data_synapse(cohort = "NSCLC")
+#' # pull_data_synapse(cohort = "NSCLC", version = "2.1")
 #'
 #' # Example 2 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer data and the most recent colorectal cancer data
-#' pull_data_synapse(cohort = c("NSCLC", "CRC"))
+#' # pull_data_synapse(cohort = c("NSCLC", "CRC"), version = c("2.1", "1.2"))
 #'
 #' # Example 3 ----------------------------------
 #' # Pull version 2.1 for non-small cell lung cancer and version 1.1 for colorectal cancer data
-#' pull_data_synapse(
-#'   cohort = c("NSCLC", "CRC"),
-#'   version = c("2.1", "1.1")
-#' )
+#' # pull_data_synapse(
+#' #  cohort = c("NSCLC", "CRC"),
+#' #  version = c("2.1", "1.1")
+#' # )
 #' @import
 #' dplyr
 #' dtplyr

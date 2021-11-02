@@ -2,10 +2,6 @@
 
 The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 
-The {GenieBPC} package provides a seamless way to obtain the data
-corresponding to each release from Synapse and to create datasets for
-analysis.
-
 -   **Pull a specified version of a phenomic data release** from Synapse
     directly into the R environment. The most recent version is
     automatically pulled, but a specific version can be specified for
@@ -52,8 +48,12 @@ order to use this function. To obtain access:
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
-[NSCLC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
+[NSCLC V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23002641)
 
-[CRC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/GenieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)
+[NSCLC V2.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn26008058)
+
+[CRC V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23764204)
+
+[CRC V1.2 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23764204)
+
+[BrCa V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn26077313)
