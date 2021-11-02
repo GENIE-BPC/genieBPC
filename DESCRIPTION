@@ -35,9 +35,10 @@ Imports:
     TraMineR,
     pipeR,
     sunburstR,
-    tidyr
+    tidyr,
+    synapser
 Remotes:
-    Sage-Bionetworks/synapser
+    github::Sage-Bionetworks/synapser
 Suggests:
     covr (>= 3.5.1),
     gt (>= 0.3.0),
