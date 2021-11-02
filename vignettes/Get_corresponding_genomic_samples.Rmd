@@ -88,7 +88,10 @@ We implemented in `GenieBPC` an automated way to select the sample of interest b
 If multiple samples are found to optimize all categories selected, the sample with the largest panel size for sequence assay will be chosen. If again multiple samples remain, a random sample will be selected.
 
 ```{r}
-optimal_samples <- select_unique_ngs(samples_object = samples_data, oncotree_code = "LUAD",sample_type = "Metastasis",min_max_time = "min")
+optimal_samples <- select_unique_ngs(data_cohort = samples_data, 
+                                     oncotree_code = "LUAD",
+                                     sample_type = "Metastasis",
+                                     min_max_time = "min")
 ```
 
 
