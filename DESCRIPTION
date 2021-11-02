@@ -35,8 +35,7 @@ Imports:
     TraMineR,
     pipeR,
     sunburstR,
-    tidyr,
-    synapser
+    tidyr
 Remotes:
     github::Sage-Bionetworks/synapser
 Suggests:
@@ -45,7 +44,6 @@ Suggests:
     gtsummary (>= 1.4.1),
     knitr (>= 1.33),
     rmarkdown (>= 2.8),
-    synapser (>= 0.10.101),
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
@@ -53,3 +51,5 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
+Remotes:  
+    github::Sage-Bionetworks/synapser
