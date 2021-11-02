@@ -1,4 +1,4 @@
 library(testthat)
-library(GenieBPC)
+library(genieBPC)
 
-test_check("GenieBPC")
+test_check("genieBPC")

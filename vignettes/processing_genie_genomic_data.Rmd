@@ -60,19 +60,19 @@ We will show how to retrieve and process the genomic data for the `r nrow(optima
 
 There are three types of genomic files available with the multi-center GENIE study. Each of these centers perform targeted-panel genetic sequencing on the tumor biopsy samples collected from patients. The data collected contains mutations, fusions, and copy-number alterations each in the respective files. 
 
-- Mutations are contained in a Mutation Annotation Format (MAF) file, where each row is a mutation that was observed. This is returned as `mutations_extended` from the `pull_data_synapse()` function in `GenieBPC`.
+- Mutations are contained in a Mutation Annotation Format (MAF) file, where each row is a mutation that was observed. This is returned as `mutations_extended` from the `pull_data_synapse()` function in `{genieBPC}`.
 
 ```{r}
 gt(nsclc_data$mutations_extended[1:5, ])
 ```
 
-- Fusions are similarly contained in a modified MAF file, where each row is a fusion that was observed. This is returned as `fusions` from the `pull_data_synapse()` function in `GenieBPC`.
+- Fusions are similarly contained in a modified MAF file, where each row is a fusion that was observed. This is returned as `fusions` from the `pull_data_synapse()` function in `{genieBPC}`.
 
 ```{r}
 gt(nsclc_data$fusions[1:5, ])
 ```
 
-- Copy number alterations are contained in a matrix with samples as columns and genes as rows. This is returned as `cna` from the `pull_data_synapse()` function in `GenieBPC`.
+- Copy number alterations are contained in a matrix with samples as columns and genes as rows. This is returned as `cna` from the `pull_data_synapse()` function in `{genieBPC}`.
 
 ```{r}
 gt(nsclc_data$cna[1:10, 1:10])
@@ -85,7 +85,7 @@ summary(as.factor(unlist(nsclc_data$cna[, -1])))
 # 64136     3436 35072857   106637 10483156
 ```
 
-It is important to note that as each of the centers has their own sequencing platforms and targeted panels, genes sequenced are not standardized across centers. This implies that some genes were not sequenced for all patients and must be accounted for when processing the genomic data. We show below a list of all the panels that have been used in the GENIE study along with the number of genes included in each of them, this is available in `GenieBPC` under `genie_panels`:
+It is important to note that as each of the centers has their own sequencing platforms and targeted panels, genes sequenced are not standardized across centers. This implies that some genes were not sequenced for all patients and must be accounted for when processing the genomic data. We show below a list of all the panels that have been used in the GENIE study along with the number of genes included in each of them, this is available in `{genieBPC}` under `genie_panels`:
 
 ```{r}
 gt(genie_panels)

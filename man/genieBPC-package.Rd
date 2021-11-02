@@ -13,7 +13,7 @@ The {genieBPC} package provides a seamless way to obtain the
 \seealso{
 Useful links:
 \itemize{
-  \item Report bugs at \url{https://github.com/AxelitoMartin/GenieBPC/issues}
+  \item Report bugs at \url{https://github.com/GENIE-BPC/genieBPC/issues}
 }
 
 }
