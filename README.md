@@ -1,5 +1,6 @@
+# genieBPC <img src="man/figures/imgfile.png" align="right" height="120" /></a>
 
-# GenieBPC <img src="man/figures/imgfile.png" align="right" height="120" /></a>
+The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 
 The {GenieBPC} package provides a seamless way to obtain the data
 corresponding to each release from Synapse and to create datasets for
@@ -17,20 +18,16 @@ analysis.
 -   **Create a cohort for analysis** based on specified diagnosis or
     regimen inclusion criteria.
 
--   **Pull GENIE genomic data** corresponding to the analytic cohort
-    directly into the R environment, including selection of a single
-    next-generation sequencing test in the case that the patient has
-    multiple, based on user-specified criteria.
 
-The datasets obtained through {GenieBPC} can be input directly into
-{gnomeR} to prepare the genomics data for analysis.
+The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis. {gnomeR} annotates the genomic data ... [Axel to add]
 
 ## Installation
 
-You can install the development version of {GenieBPC} with the following
-code:
+You can install the development version of {genieBPC} with the following code:
 
-    remotes::install_github("AxelitoMartin/GenieBPC")
+``` r
+remotes::install_github("GENIE-BPC/genieBPC")
+```
 
 ## Obtaining Data Access
 
