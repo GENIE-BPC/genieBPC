@@ -25,6 +25,8 @@ License: MIT + file LICENSE
 BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
     R (>= 3.4)
+Remotes:
+    github::Sage-Bionetworks/synapser
 Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
@@ -35,9 +37,8 @@ Imports:
     TraMineR,
     pipeR,
     sunburstR,
-    tidyr
-Remotes:
-    github::Sage-Bionetworks/synapser
+    tidyr,
+    synapser
 Suggests:
     covr (>= 3.5.1),
     gt (>= 0.3.0),
