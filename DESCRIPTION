@@ -36,6 +36,8 @@ Imports:
     pipeR,
     sunburstR,
     tidyr
+Remotes:
+    Sage-Bionetworks/synapser
 Suggests:
     covr (>= 3.5.1),
     gt (>= 0.3.0),

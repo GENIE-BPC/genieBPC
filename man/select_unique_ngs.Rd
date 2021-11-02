@@ -18,7 +18,7 @@ select_unique_ngs(
 of data_cohort argument above to get options.}
 
 \item{sample_type}{character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
-Default is either.}
+Default is to not select a NGS sample based on the sample type.}
 
 \item{min_max_time}{character specifying if the first or last genomic sample recorded should be kept.
 Options are "min" (first) and "max" (last).}
