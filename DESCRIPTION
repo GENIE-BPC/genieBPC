@@ -27,6 +27,7 @@ Depends:
     R (>= 3.4)
 Remotes:
     github::Sage-Bionetworks/synapser
+    github::Sage-Bionetworks/PythonEmbedInR
 Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
@@ -38,6 +39,7 @@ Imports:
     pipeR,
     sunburstR,
     tidyr,
+    PythonEmbedInR,
     synapser
 Suggests:
     covr (>= 3.5.1),
