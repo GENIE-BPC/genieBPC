@@ -26,8 +26,7 @@ BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
     R (>= 3.4)
 Remotes:
-    github::Sage-Bionetworks/synapser,
-    github::Sage-Bionetworks/PythonEmbedInR
+    github::Sage-Bionetworks/synapser
 Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
@@ -39,7 +38,7 @@ Imports:
     pipeR,
     sunburstR,
     tidyr,
-    PythonEmbedInR,
+    PythonEmbedInR(>= 0.8),
     synapser
 Suggests:
     covr (>= 3.5.1),
