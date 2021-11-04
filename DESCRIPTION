@@ -53,5 +53,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
+SystemRequirements: libssl-dev, libcurl-dev, zlib-dev
 Additional_repositories:
   http://ran.synapse.org
