@@ -53,3 +53,5 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
+Additional_repositories:
+  http://ran.synapse.org
