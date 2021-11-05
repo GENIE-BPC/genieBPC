@@ -53,4 +53,4 @@ LazyData: TRUE
 RoxygenNote: 7.1.1
 SystemRequirements: libssl-dev, libcurl-dev, zlib-dev
 Additional_repositories:
-  http://ran.synapse.org
+  http://ran.synapse.org 
