@@ -1,6 +1,7 @@
 Type: Package
 Package: genieBPC
-Title: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data
+Title: Data Processing Pipeline for the AACR Project GENIE Biopharma
+    Collaborative Data
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Jessica",
@@ -19,8 +20,8 @@ Authors@R:
              family = "Martin",
              role = "aut"))
 Description: The {genieBPC} package provides a seamless way to obtain the
-    data corresponding to each release from Synapse and to prepare datasets
-    for analysis.
+    data corresponding to each release from Synapse and to prepare
+    datasets for analysis.
 License: MIT + file LICENSE
 BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
@@ -29,16 +30,15 @@ Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
     dtplyr (>= 1.1.0),
+    pipeR,
     purrr (>= 0.3.4),
     stringr (>= 1.4.0),
-    tibble (>= 3.1.2),
-    TraMineR,
-    pipeR,
     sunburstR,
+    tibble (>= 3.1.2),
     tidyr,
-    PythonEmbedInR(>= 0.8),
-    synapser
+    TraMineR
 Suggests:
+    synapser,
     covr (>= 3.5.1),
     gt (>= 0.3.0),
     gtsummary (>= 1.4.1),
@@ -47,10 +47,8 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Additional_repositories: http://ran.synapse.org
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.1
-SystemRequirements: libssl-dev, libcurl-dev, zlib-dev
-Additional_repositories:
-  http://ran.synapse.org 
