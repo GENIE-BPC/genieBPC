@@ -38,7 +38,6 @@ Imports:
     tidyr,
     TraMineR
 Suggests:
-    synapser,
     covr (>= 3.5.1),
     gt (>= 0.3.0),
     gtsummary (>= 1.4.1),

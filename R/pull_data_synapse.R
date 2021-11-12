@@ -28,6 +28,10 @@
 #' dplyr
 #' dtplyr
 pull_data_synapse <- function(cohort, version) {
+  if("synapser" %in% rownames(installed.packages()) == FALSE) {
+    #install.packages("xtable")
+    stop("Please install the package synapser from http://ran.synapse.org")
+    }
   tryCatch(
     synapser::synLogin(),
     error =
