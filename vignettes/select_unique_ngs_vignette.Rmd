@@ -7,14 +7,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include = FALSE,eval = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", warning = F, message = F,
   eval = FALSE
 )
 
-library(genieBPC)
+#library(genieBPC)
 library(dplyr)
 #library(synapser)
 library(gt)
@@ -35,7 +35,7 @@ gt_compact_fun <- function(x) {
 
 
 ```{r setup}
-library(genieBPC)
+#library(genieBPC)
 ```
 
 

@@ -9,13 +9,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE,eval = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   eval = FALSE
 )
-library(genieBPC)
+#library(genieBPC)
 library(dplyr)
 #library(synapser)
 library(gt)
