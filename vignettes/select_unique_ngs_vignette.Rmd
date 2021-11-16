@@ -34,69 +34,69 @@ gt_compact_fun <- function(x) {
 ```
 
 
-```{r setup}
-#library(genieBPC)
-```
+<!-- ```{r setup} -->
+<!-- #library(genieBPC) -->
+<!-- ``` -->
 
 
-## Introduction
+<!-- ## Introduction -->
 
-The `genieBPC` package includes functionalities to link the clinical data to patients' corresponding genomic samples. 
+<!-- The `genieBPC` package includes functionalities to link the clinical data to patients' corresponding genomic samples.  -->
 
-This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below:
+<!-- This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below: -->
 
-```{r, results = 'hide'}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+<!-- ```{r, results = 'hide'} -->
+<!-- nsclc_data = pull_data_synapse("NSCLC", version = "2.1") -->
 
-nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
-                                   data_synapse = nsclc_data,
-                                   stage_dx = c("Stage IV"),
-                                   histology = "Adenocarcinoma")
-```
-
-
-## Modifying Function Arguments
+<!-- nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC", -->
+<!--                                    data_synapse = nsclc_data, -->
+<!--                                    stage_dx = c("Stage IV"), -->
+<!--                                    histology = "Adenocarcinoma") -->
+<!-- ``` -->
 
 
-```{r, include = FALSE}
-tbl_arguments = tibble::tribble(
-  ~Argument,       ~Description,
-  "`data_cohort`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.",
-  "`oncotree_code`",       "Prioritizes samples defined by any OncoTree code value (e.g.: “LUAD”, “CRC”). Default is NULL.",
-  "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.",
-  "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
-  gt::gt() %>%
-  gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>% 
-  gt::fmt_markdown(columns = vars(Argument)) %>%
-  gt::tab_options(table.font.size = 'small',
-                  data_row.padding = gt::px(1),
-                  summary_row.padding = gt::px(1),
-                  grand_summary_row.padding = gt::px(1),
-                  footnotes.padding = gt::px(1),
-                  source_notes.padding = gt::px(1),
-                  row_group.padding = gt::px(1)) %>%
-  gt_compact_fun()
-
-tbl_arguments
-```
+<!-- ## Modifying Function Arguments -->
 
 
-```{r, echo = FALSE}
-tbl_arguments
-```
+<!-- ```{r, include = FALSE} -->
+<!-- tbl_arguments = tibble::tribble( -->
+<!--   ~Argument,       ~Description, -->
+<!--   "`data_cohort`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.", -->
+<!--   "`oncotree_code`",       "Prioritizes samples defined by any OncoTree code value (e.g.: “LUAD”, “CRC”). Default is NULL.", -->
+<!--   "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.", -->
+<!--   "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>% -->
+<!--   gt::gt() %>% -->
+<!--   gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>%  -->
+<!--   gt::fmt_markdown(columns = vars(Argument)) %>% -->
+<!--   gt::tab_options(table.font.size = 'small', -->
+<!--                   data_row.padding = gt::px(1), -->
+<!--                   summary_row.padding = gt::px(1), -->
+<!--                   grand_summary_row.padding = gt::px(1), -->
+<!--                   footnotes.padding = gt::px(1), -->
+<!--                   source_notes.padding = gt::px(1), -->
+<!--                   row_group.padding = gt::px(1)) %>% -->
+<!--   gt_compact_fun() -->
+
+<!-- tbl_arguments -->
+<!-- ``` -->
 
 
-*Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.*
+<!-- ```{r, echo = FALSE} -->
+<!-- tbl_arguments -->
+<!-- ``` -->
 
-## Example
 
-Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient's earliest sample.
+<!-- *Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.* -->
 
-```{r, results = 'hide'}
-select_unique_ngs(
-		data_cohort = nsclc_stg_iv_adeno$cohort_ngs,
-		oncotree_code = "LUAD",
-		sample_type = "Metastasis",
-		min_max_time = "min")
-```
+<!-- ## Example -->
+
+<!-- Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient's earliest sample. -->
+
+<!-- ```{r, results = 'hide'} -->
+<!-- select_unique_ngs( -->
+<!-- 		data_cohort = nsclc_stg_iv_adeno$cohort_ngs, -->
+<!-- 		oncotree_code = "LUAD", -->
+<!-- 		sample_type = "Metastasis", -->
+<!-- 		min_max_time = "min") -->
+<!-- ``` -->
 

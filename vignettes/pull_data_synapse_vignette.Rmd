@@ -22,133 +22,133 @@ library(gt)
 #synLogin()
 ```
 
-## Introduction
+<!-- ## Introduction -->
 
-The `pull_data_synapse()` function accesses the specified version of the clinical and genomic GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
-&nbsp;
+<!-- The `pull_data_synapse()` function accesses the specified version of the clinical and genomic GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment. -->
+<!-- &nbsp; -->
 
-This vignette will walk a user through the `pull_data_synapse()` function.
-
-
-## Setup
-
-Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:
-
-1. Register for a [Synapse account](https://www.synapse.org/#!Reigster0)
-2. Use [this link](https://www.synapse.org/#!Team:3399797) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
-3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
-
-*Note: Please allow up to a week to review and grant access.*
-
-&nbsp;
-
-Install and load {synapser}.
-
-```{r message = FALSE, warning = FALSE}
-# install.packages("synapser")
-#library(synapser)
-```
-
-&nbsp;
-
-After loading the {synapser} package, log into Synapse using the `synLogin()` function. 
-
-Users have the option to log in during each session or to store their login information. To log in during each session, call:
+<!-- This vignette will walk a user through the `pull_data_synapse()` function. -->
 
 
-`synLogin(email = "your_email", password = "your_password")`
+<!-- ## Setup -->
+
+<!-- Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below: -->
+
+<!-- 1. Register for a [Synapse account](https://www.synapse.org/#!Reigster0) -->
+<!-- 2. Use [this link](https://www.synapse.org/#!Team:3399797) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request. -->
+<!-- 3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493). -->
+
+<!-- *Note: Please allow up to a week to review and grant access.* -->
+
+<!-- &nbsp; -->
+
+<!-- Install and load {synapser}. -->
+
+<!-- ```{r message = FALSE, warning = FALSE} -->
+<!-- # install.packages("synapser") -->
+<!-- #library(synapser) -->
+<!-- ``` -->
+
+<!-- &nbsp; -->
+
+<!-- After loading the {synapser} package, log into Synapse using the `synLogin()` function.  -->
+
+<!-- Users have the option to log in during each session or to store their login information. To log in during each session, call: -->
 
 
-&nbsp;
-
-For users to store their login information, call:
+<!-- `synLogin(email = "your_email", password = "your_password")` -->
 
 
-`synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+<!-- &nbsp; -->
+
+<!-- For users to store their login information, call: -->
 
 
-Using the `rememberMe` argument caches the authentication information in your operating system's credential storage. This way, the user only needs to enter your credentials once. In future uses, `synLogin()` will be called within the `pull_data_synapse()` function and will not require the user's email and password.
-
-&nbsp;
-
-## Usage
-
-Let's start by reviewing the `pull_data_synapse()` arguments.
+<!-- `synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)` -->
 
 
-```{r echo = FALSE, warning = FALSE, message = FALSE}
-tibble::tribble(
-  ~Argument,       ~Description,
-  "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
-  "`version`",        "specify the version of the data. Currently versions 1.1 and 2.1 are available for NSCLC and only version 1.1 is available for CRC."
-) %>%
-  gt::gt() %>%
-  gt::fmt_markdown(columns = vars(Argument)) %>%
-  gt::tab_options(table.font.size = 'small',
-                  data_row.padding = gt::px(1),
-                  summary_row.padding = gt::px(1),
-                  grand_summary_row.padding = gt::px(1),
-                  footnotes.padding = gt::px(1),
-                  source_notes.padding = gt::px(1),
-                  row_group.padding = gt::px(1))
-```
+<!-- Using the `rememberMe` argument caches the authentication information in your operating system's credential storage. This way, the user only needs to enter your credentials once. In future uses, `synLogin()` will be called within the `pull_data_synapse()` function and will not require the user's email and password. -->
 
-&nbsp;
+<!-- &nbsp; -->
 
-## Examples
+<!-- ## Usage -->
+
+<!-- Let's start by reviewing the `pull_data_synapse()` arguments. -->
 
 
-### Example 1
+<!-- ```{r echo = FALSE, warning = FALSE, message = FALSE} -->
+<!-- tibble::tribble( -->
+<!--   ~Argument,       ~Description, -->
+<!--   "`cohort`",       "specify the cohort of interest (NSCLC or CRC).", -->
+<!--   "`version`",        "specify the version of the data. Currently versions 1.1 and 2.1 are available for NSCLC and only version 1.1 is available for CRC." -->
+<!-- ) %>% -->
+<!--   gt::gt() %>% -->
+<!--   gt::fmt_markdown(columns = vars(Argument)) %>% -->
+<!--   gt::tab_options(table.font.size = 'small', -->
+<!--                   data_row.padding = gt::px(1), -->
+<!--                   summary_row.padding = gt::px(1), -->
+<!--                   grand_summary_row.padding = gt::px(1), -->
+<!--                   footnotes.padding = gt::px(1), -->
+<!--                   source_notes.padding = gt::px(1), -->
+<!--                   row_group.padding = gt::px(1)) -->
+<!-- ``` -->
 
-Pull version 2.1 of the NSCLC data from Synapse and store in the local environment. 
+<!-- &nbsp; -->
 
-
-```{r, eval = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
-```
-
-
-The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
-
-```{r, include = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
-```
-
-
-```{r, echo = FALSE, message = FALSE}
-ls(nsclc_data) %>% 
-  as.data.frame() %>% 
-  mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
-                                                  "mutations_extended_NSCLC") ~ "Genomic Data",
-                                         TRUE ~ "Clinical Data")) %>% 
-  gt() %>% 
-  cols_label(. = md("**Datasets Returned**"),
-             clinical_vs_genomic = md("**Clinical/Genomic Data**"))
-```
+<!-- ## Examples -->
 
 
+<!-- ### Example 1 -->
 
-### Example 2
+<!-- Pull version 2.1 of the NSCLC data from Synapse and store in the local environment.  -->
 
-Pull version 2.1 of the NSCLC data and version 2.1 of the CRC data.
 
-```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1","1.1"))
-```
+<!-- ```{r, eval = FALSE} -->
+<!-- nsclc_data = pull_data_synapse("NSCLC", version = "2.1") -->
+<!-- ``` -->
+
+
+<!-- The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset: -->
+
+<!-- ```{r, include = FALSE} -->
+<!-- nsclc_data = pull_data_synapse("NSCLC", version = "2.1") -->
+<!-- ``` -->
+
+
+<!-- ```{r, echo = FALSE, message = FALSE} -->
+<!-- ls(nsclc_data) %>%  -->
+<!--   as.data.frame() %>%  -->
+<!--   mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC", -->
+<!--                                                   "mutations_extended_NSCLC") ~ "Genomic Data", -->
+<!--                                          TRUE ~ "Clinical Data")) %>%  -->
+<!--   gt() %>%  -->
+<!--   cols_label(. = md("**Datasets Returned**"), -->
+<!--              clinical_vs_genomic = md("**Clinical/Genomic Data**")) -->
+<!-- ``` -->
 
 
 
-### Example 3
+<!-- ### Example 2 -->
 
-Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data.
+<!-- Pull version 2.1 of the NSCLC data and version 2.1 of the CRC data. -->
 
-```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"),
-                  version = c("1.1", "1.1"))
-```
-
+<!-- ```{r, eval = FALSE} -->
+<!-- pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1","1.1")) -->
+<!-- ``` -->
 
 
-## Future Work
 
-* As of July 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.
+<!-- ### Example 3 -->
+
+<!-- Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data. -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- pull_data_synapse(c("NSCLC", "CRC"), -->
+<!--                   version = c("1.1", "1.1")) -->
+<!-- ``` -->
+
+
+
+<!-- ## Future Work -->
+
+<!-- * As of July 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021. -->
