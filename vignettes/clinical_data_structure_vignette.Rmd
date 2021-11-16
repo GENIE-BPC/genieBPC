@@ -12,175 +12,174 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  eval = FALSE
+  comment = "#>"
 )
 ```
 
-<!-- ## AACR Project GENIE -->
+## AACR Project GENIE
 
 
-<!-- - [AACR Project GENIE](https://www.aacr.org/professionals/research/aacr-project-genie/) is a publicly accessible international cancer registry of real-world data assembled through data sharing between 19 of the leading cancer centers in the world. -->
+- [AACR Project GENIE](https://www.aacr.org/professionals/research/aacr-project-genie/) is a publicly accessible international cancer registry of real-world data assembled through data sharing between 19 of the leading cancer centers in the world.
 
-<!-- - GENIE aggregates, harmonizes, and links clinical-grade, next-generation cancer genomic sequencing data with clinical outcomes obtained during routine medical practice from cancer patients treated at these institutions, although clinical information available is limited (~<10 variables). -->
+- GENIE aggregates, harmonizes, and links clinical-grade, next-generation cancer genomic sequencing data with clinical outcomes obtained during routine medical practice from cancer patients treated at these institutions, although clinical information available is limited (~<10 variables).
 
-<!-- ## GENIE BPC  -->
+## GENIE BPC
 
-<!-- - The goal of [Project GENIE BPC](https://www.aacr.org/about-the-aacr/newsroom/news-releases/aacr-project-genie-begins-five-year-collaborative-research-project-with-36-million-in-new-funding/) (Biopharma Collaborative) is to augment the existing registry genomic data with enhanced clinical (phenomic) data to support clinical-genomics analyses.  -->
-<!--   - Phenomic data are curated using the PRISSMM curation model. -->
-<!--   - Currently MSK, Dana Farber, Vanderbilt and University Health Network are the participating institutions. GENIE BPC will be expanded to more institutions in phase II. -->
+- The goal of [Project GENIE BPC](https://www.aacr.org/about-the-aacr/newsroom/news-releases/aacr-project-genie-begins-five-year-collaborative-research-project-with-36-million-in-new-funding/) (Biopharma Collaborative) is to augment the existing registry genomic data with enhanced clinical (phenomic) data to support clinical-genomics analyses.
+  - Phenomic data are curated using the PRISSMM curation model.
+  - Currently MSK, Dana Farber, Vanderbilt and University Health Network are the participating institutions. GENIE BPC will be expanded to more institutions in phase II.
 
-<!-- - GENIE BPC sponsors six projects that involve augmenting the genomic data in Project GENIE to include PRISSMM phenomic data and cancer-related outcomes. Each project encompasses a single cancer site. While all projects are based on curating data under the PRISSMM phenomic data curation model, the variables available for each project may vary. The six projects are: -->
+- GENIE BPC sponsors six projects that involve augmenting the genomic data in Project GENIE to include PRISSMM phenomic data and cancer-related outcomes. Each project encompasses a single cancer site. While all projects are based on curating data under the PRISSMM phenomic data curation model, the variables available for each project may vary. The six projects are:
 
-<!--   1. Non-small cell lung cancer (NSCLC) -->
-<!--   2. Colon/rectal cancer (CRC) -->
-<!--   3. Breast cancer (BrCa) -->
-<!--   4. Pancreas cancer (PANC) -->
-<!--   5. Prostate cancer -->
-<!--   6. Bladder cancer -->
+  1. Non-small cell lung cancer (NSCLC)
+  2. Colon/rectal cancer (CRC)
+  3. Breast cancer (BrCa)
+  4. Pancreas cancer (PANC)
+  5. Prostate cancer
+  6. Bladder cancer
 
 
-<!-- ## GENIE BPC Elements -->
+## GENIE BPC Elements
 
-<!-- GENIE BPC is comprised of several phenomic (clinical) elements that include data from the AACR Project GENIE Tier 1 registry, institutions’ tumor registries, manual curation based on institutions’ electronic health records (PRISSMM phenomic data model), and derived variables based on these data elements. The elements are: -->
+GENIE BPC is comprised of several phenomic (clinical) elements that include data from the AACR Project GENIE Tier 1 registry, institutions’ tumor registries, manual curation based on institutions’ electronic health records (PRISSMM phenomic data model), and derived variables based on these data elements. The elements are:
 
-<!-- 1. Patient Characteristics -->
-<!-- 2. Cancer Diagnosis  -->
-<!--     i. Cancer Diagnosis: BPC Project Cancer -->
-<!--     ii. Cancer Diagnosis: Non-BPC Project Cancer -->
-<!-- 3. Cancer-Directed Drugs -->
-<!-- 4. PRISSMM Imaging -->
-<!-- 5. PRISSMM Pathology -->
-<!-- 6. PRISSMM Medical Oncologist Assessments -->
-<!-- 7. PRISSMM Tumor Marker -->
-<!-- 8. Cancer Panel Test -->
+1. Patient Characteristics
+2. Cancer Diagnosis
+    i. Cancer Diagnosis: BPC Project Cancer
+    ii. Cancer Diagnosis: Non-BPC Project Cancer
+3. Cancer-Directed Drugs
+4. PRISSMM Imaging
+5. PRISSMM Pathology
+6. PRISSMM Medical Oncologist Assessments
+7. PRISSMM Tumor Marker
+8. Cancer Panel Test
 
-<!-- This vignette will describe the structure of each element (dataset). -->
+This vignette will describe the structure of each element (dataset).
 
 
-<!-- ### Patient Characteristics  -->
+### Patient Characteristics
 
-<!-- The patient characteristics dataset is structured as one record per patient. This dataset includes variables such as date of death, last known alive date, and number of pathology reports, imaging reports, medical oncologist assessments, along with many other demographic and vital status variables. -->
+The patient characteristics dataset is structured as one record per patient. This dataset includes variables such as date of death, last known alive date, and number of pathology reports, imaging reports, medical oncologist assessments, along with many other demographic and vital status variables.
 
-<!-- The patient characteristics dataset can be linked to all other datasets using `record_id`. -->
+The patient characteristics dataset can be linked to all other datasets using `record_id`.
 
-<!-- ### Cancer Diagnosis  -->
+### Cancer Diagnosis
 
-<!-- Two cancer diagnosis datasets are provided: the BPC Project cancer diagnosis dataset and the non-BPC Project cancer diagnosis dataset.  -->
+Two cancer diagnosis datasets are provided: the BPC Project cancer diagnosis dataset and the non-BPC Project cancer diagnosis dataset.
 
-<!-- BPC Project Cancer  | Non-BPC Project Cancer -->
-<!-- ------------- | ------------- -->
-<!-- The cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.  | A diagnosis of the same or different cancer type as the project cancer that occurs prior to, simultaneous with, or after the BPC Project cancer.  -->
-<!-- Has genomic sequencing associated with the cancer diagnosis.  | Does *not* have associated genomic sequencing -->
-<!-- Recorded in the BPC Project Cancer Diagnosis dataset.  | Recorded in the Non-BPC Project Cancer Diagnosis dataset. -->
+BPC Project Cancer  | Non-BPC Project Cancer
+------------- | -------------
+The cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.  | A diagnosis of the same or different cancer type as the project cancer that occurs prior to, simultaneous with, or after the BPC Project cancer.
+Has genomic sequencing associated with the cancer diagnosis.  | Does *not* have associated genomic sequencing
+Recorded in the BPC Project Cancer Diagnosis dataset.  | Recorded in the Non-BPC Project Cancer Diagnosis dataset.
 
 
-<!-- ####  Cancer Diagnosis: BPC Project Cancer -->
+####  Cancer Diagnosis: BPC Project Cancer
 
-<!-- The BPC Project cancer diagnosis dataset contains one record per BPC Project cancer diagnosis, per patient. -->
+The BPC Project cancer diagnosis dataset contains one record per BPC Project cancer diagnosis, per patient.
 
-<!-- The BPC Project cancer diagnosis dataset can be linked to the following datasets: -->
+The BPC Project cancer diagnosis dataset can be linked to the following datasets:
 
-<!-- - Cancer-directed regimen dataset using variables `record_id` and `ca_seq` -->
+- Cancer-directed regimen dataset using variables `record_id` and `ca_seq`
 
-<!-- - Cancer panel test dataset using variables `record_id` and `ca_seq` -->
+- Cancer panel test dataset using variables `record_id` and `ca_seq`
 
-<!-- - Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id` -->
+- Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
 
 
-<!-- ####  Cancer Diagnosis: Non-BPC Project Cancer -->
+####  Cancer Diagnosis: Non-BPC Project Cancer
 
-<!-- The Non-BPC Project cancer diagnosis dataset contains one record per non-BPC Project cancer diagnosis, per patient. This dataset includes two types of cancer diagnoses: 1) non-BPC Project invasive cancer and in situ/non-invasive cancer diagnoses, and 2) other tumors. -->
+The Non-BPC Project cancer diagnosis dataset contains one record per non-BPC Project cancer diagnosis, per patient. This dataset includes two types of cancer diagnoses: 1) non-BPC Project invasive cancer and in situ/non-invasive cancer diagnoses, and 2) other tumors.
 
-<!-- The Non-BPC Project cancer diagnosis dataset can be linked to the following datasets: -->
+The Non-BPC Project cancer diagnosis dataset can be linked to the following datasets:
 
-<!-- - Cancer-directed regimen dataset using variables `record_id` and `ca_seq` -->
+- Cancer-directed regimen dataset using variables `record_id` and `ca_seq`
 
-<!-- - Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id` -->
+- Patient-level, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
 
-<!-- - Cannot be linked to the cancer panel test dataset because non-BPC Project cancer diagnoses were not genomically sequenced -->
+- Cannot be linked to the cancer panel test dataset because non-BPC Project cancer diagnoses were not genomically sequenced
 
 
-<!-- ### Cancer-Directed Drug Regimen Dataset -->
+### Cancer-Directed Drug Regimen Dataset
 
-<!-- The cancer-directed drug regimen dataset is structured as one record per regimen-associated cancer diagnosis, per patient. -->
+The cancer-directed drug regimen dataset is structured as one record per regimen-associated cancer diagnosis, per patient.
 
 
-<!-- Cancer-directed regimens were curated for all cancer diagnoses, including both BPC Project and non-BPC Project cancers. A regimen can consist of one drug or up to five drugs given together. Cancer-directed drugs include anti-neoplastic drugs, immunotherapies, targeted therapies, and hormone  -->
-<!-- therapies. A break in treatment of ≥8 weeks was used to indicate the end of a regimen; even if all drugs in the regimen were re-initiated 8+ weeks later, this was considered a new regimen. -->
+Cancer-directed regimens were curated for all cancer diagnoses, including both BPC Project and non-BPC Project cancers. A regimen can consist of one drug or up to five drugs given together. Cancer-directed drugs include anti-neoplastic drugs, immunotherapies, targeted therapies, and hormone
+therapies. A break in treatment of ≥8 weeks was used to indicate the end of a regimen; even if all drugs in the regimen were re-initiated 8+ weeks later, this was considered a new regimen.
 
 
-<!-- If the cancer-directed drug was part of an investigational drug trial, the drug name(s) `drugs_drug_1`-`drugs_drug_5` will be set to “Investigational Drug” and the end date interval will match the start date  -->
-<!-- interval. Identification of investigational drugs varies by institution depending on contractual obligations. For some institutions, all drugs that are part of an investigational trial are required to be  -->
-<!-- masked, even if standard of care. For other institutions, only the investigational drug(s) are required to be masked. -->
+If the cancer-directed drug was part of an investigational drug trial, the drug name(s) `drugs_drug_1`-`drugs_drug_5` will be set to “Investigational Drug” and the end date interval will match the start date
+interval. Identification of investigational drugs varies by institution depending on contractual obligations. For some institutions, all drugs that are part of an investigational trial are required to be
+masked, even if standard of care. For other institutions, only the investigational drug(s) are required to be masked.
 
-<!-- The cancer-directed drug regimen can be linked to the following datasets: -->
+The cancer-directed drug regimen can be linked to the following datasets:
 
-<!-- - BPC Project and non-BPC Project cancer diagnosis datasets using the variables `record_id` and `ca_seq` -->
+- BPC Project and non-BPC Project cancer diagnosis datasets using the variables `record_id` and `ca_seq`
 
-<!-- - Cancer panel test dataset using the variables `record_id` and `ca_seq` -->
+- Cancer panel test dataset using the variables `record_id` and `ca_seq`
 
-<!-- - Patient-Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id` -->
+- Patient-Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
 
 
-<!-- ### PRISSMM Pathology Dataset -->
+### PRISSMM Pathology Dataset
 
-<!-- The PRISSMM pathology dataset is structured as one record per pathology report, per patient. -->
+The PRISSMM pathology dataset is structured as one record per pathology report, per patient.
 
 
-<!-- All pathology reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent pathology reports are recorded (including pathology reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses). -->
+All pathology reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent pathology reports are recorded (including pathology reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses).
 
-<!-- The PRISSMM pathology dataset can be linked to the following datasets: -->
+The PRISSMM pathology dataset can be linked to the following datasets:
 
-<!-- - Cancer panel test dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number` -->
+- Cancer panel test dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
-<!-- - Patient-level, BPC Project and non-BPC Project cancer diagnosis, cancer-directed regimen, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id` -->
+- Patient-level, BPC Project and non-BPC Project cancer diagnosis, cancer-directed regimen, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
 
 
-<!-- ### PRISSMM Imaging Dataset -->
+### PRISSMM Imaging Dataset
 
-<!-- The PRISSMM imaging dataset is structured as one record per imaging report, per patient. -->
+The PRISSMM imaging dataset is structured as one record per imaging report, per patient.
 
-<!-- All imaging reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent imaging reports are recorded (including imaging reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses). -->
+All imaging reports beginning with the month and year of the first BPC Project cancer diagnosis and all subsequent imaging reports are recorded (including imaging reports corresponding to non-BPC Project cancer and subsequent BPC Project cancer diagnoses).
 
-<!-- The PRISSMM imaging dataset can be linked to all datasets using the variable `record_id`. -->
+The PRISSMM imaging dataset can be linked to all datasets using the variable `record_id`.
 
 
-<!-- ### PRISSMM Medical Oncologist Assessment Dataset -->
+### PRISSMM Medical Oncologist Assessment Dataset
 
-<!-- The PRISSMM medical oncologist assessment dataset is structured as one row per curated medical oncologist assessment, per patient.  -->
+The PRISSMM medical oncologist assessment dataset is structured as one row per curated medical oncologist assessment, per patient.
 
-<!-- Medical oncologist assessments were curated beginning with the month and year of the first BPC Project cancer diagnosis. One medical oncologist  -->
-<!-- assessment per month was curated. -->
+Medical oncologist assessments were curated beginning with the month and year of the first BPC Project cancer diagnosis. One medical oncologist
+assessment per month was curated.
 
-<!-- The PRISSMM medical oncologist assessment dataset can be linked to all datasets using the variable `record_id`. -->
+The PRISSMM medical oncologist assessment dataset can be linked to all datasets using the variable `record_id`.
 
 
-<!-- ### PRISSMM Tumor Marker Dataset -->
+### PRISSMM Tumor Marker Dataset
 
-<!-- The PRISSMM Tumor Marker dataset is structured as one record per curated tumor marker result, per patient. Serum-based tumor markers that are related to the diagnosis/prognosis of cancer were curated. The tumor markers for patients in the BPC Project colorectal cancer cohort include CEA and CA19-9. -->
+The PRISSMM Tumor Marker dataset is structured as one record per curated tumor marker result, per patient. Serum-based tumor markers that are related to the diagnosis/prognosis of cancer were curated. The tumor markers for patients in the BPC Project colorectal cancer cohort include CEA and CA19-9.
 
-<!-- *Note: variables pertaining to PD-L1, MSI and MMR are recorded in the pathology dataset.* -->
+*Note: variables pertaining to PD-L1, MSI and MMR are recorded in the pathology dataset.*
 
-<!-- The PRISSMM Tumor Marker dataset can be linked to all datasets using the variable `record_id`. -->
+The PRISSMM Tumor Marker dataset can be linked to all datasets using the variable `record_id`.
 
 
-<!-- ### Cancer Panel Test Dataset -->
+### Cancer Panel Test Dataset
 
-<!-- The Cancer Panel Test dataset is structured as one record per  -->
-<!-- cancer panel test and its associated cancer diagnosis, per patient. -->
+The Cancer Panel Test dataset is structured as one record per
+cancer panel test and its associated cancer diagnosis, per patient.
 
 
-<!-- The cancer panel test refers to the multi-gene panels that have been performed through next generation sequencing (NGS) assays. The terms “cancer panel test (CPT)” and “next generation sequencing (NGS)” are used  -->
-<!-- interchangeably. -->
+The cancer panel test refers to the multi-gene panels that have been performed through next generation sequencing (NGS) assays. The terms “cancer panel test (CPT)” and “next generation sequencing (NGS)” are used
+interchangeably.
 
-<!-- The cancer panel test dataset can be linked to the following datasets: -->
+The cancer panel test dataset can be linked to the following datasets:
 
-<!-- - BPC Project Cancer Diagnosis dataset using the variables `record_id` and `ca_seq` -->
+- BPC Project Cancer Diagnosis dataset using the variables `record_id` and `ca_seq`
 
-<!-- - Cancer-Directed Drug Regimen dataset using the variables `record_id` and `ca_seq` -->
+- Cancer-Directed Drug Regimen dataset using the variables `record_id` and `ca_seq`
 
-<!-- - PRISSMM Pathology dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number` -->
+- PRISSMM Pathology dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
-<!-- *Note: this dataset cannot be linked to the non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.* -->
+*Note: this dataset cannot be linked to the non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.*
 
