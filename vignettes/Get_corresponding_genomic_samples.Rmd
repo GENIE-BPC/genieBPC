@@ -23,7 +23,7 @@ library(gt)
 ```
 
 ```{r setup}
-library(genieBPC)
+#library(genieBPC)
 ```
 
 
