@@ -11,15 +11,16 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", warning = F, message = F,
-  fig.width = 8
+  fig.width = 8,
+  eval = FALSE
 )
 
 library(genieBPC)
 library(dplyr)
-library(synapser)
+#library(synapser)
 library(gt)
 
-synLogin()
+#synLogin()
 ```
 
 ```{r setup}

@@ -11,14 +11,15 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
-  message = FALSE
+  message = FALSE,
+  eval = FALSE
 )
 
 library(genieBPC)
 library(tidyverse)
-library(synapser)
+#library(synapser)
 
-synLogin()
+#synLogin()
 ```
 
 ## Introduction
@@ -39,9 +40,9 @@ Before going through the tutorial, install {genieBPC} and {synapser} and log int
 
 ```{r, results = 'hide'}
 library(genieBPC)
-library(synapser)
+#library(synapser)
 
-synLogin()
+#synLogin()
 ```
 
 
