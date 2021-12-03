@@ -4,11 +4,12 @@
 \name{genieBPC-package}
 \alias{genieBPC}
 \alias{genieBPC-package}
-\title{genieBPC: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data}
+\title{genieBPC: Data Processing Pipeline for the AACR Project GENIE Biopharma
+    Collaborative Data}
 \description{
 The {genieBPC} package provides a seamless way to obtain the
-    data corresponding to each release from Synapse and to prepare datasets
-    for analysis.
+    data corresponding to each release from Synapse and to prepare
+    datasets for analysis.
 }
 \seealso{
 Useful links:
@@ -22,7 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Michael Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
+  \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown
   \item Axel Martin
 }
