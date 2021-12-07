@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
   
-```{r, include = FALSE, eval=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", warning = F, message = F,
@@ -30,7 +30,7 @@ library(genieBPC)
 
 The GENIE is segmented between the clinically annotated data and the patients' corresponding genomic data. In this vignette we show how these data can be connected and processed. For the purpose of this example we again retrieve the lung adenocarcinoma dataset and focus on advanced stage patients.
 
-```{r}
+```{r, results = 'hide'}
 # get data #
 nsclc_data <- pull_data_synapse("NSCLC", version = "2.1")
 
@@ -45,12 +45,12 @@ nsclc_stg_iv_adeno <- create_analytic_cohort(
 
 We then retrieve the corresponding samples to these patients and select a unique sample for patients that have multiple:
 
-```{r}
-# get corresponding samples #
-samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = nsclc_data, df_record_ids = nsclc_stg_iv_adeno$cohort_ca_drugs)
-
+```{r, results = 'hide'}
 # get unique samples for each patient #
-optimal_samples <- select_unique_ngs(data_cohort = samples_data, oncotree_code = "LUAD", sample_type = "Metastasis", min_max_time = "min")
+optimal_samples <- select_unique_ngs(data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
+                                     oncotree_code = "LUAD", 
+                                     sample_type = "Metastasis", 
+                                     min_max_time = "min")
 ```
 
 We will show how to retrieve and process the genomic data for the `r nrow(optimal_samples)` patients in this cohort.

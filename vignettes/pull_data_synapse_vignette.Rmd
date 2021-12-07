@@ -82,7 +82,7 @@ tibble::tribble(
   "`version`",        "specify the version of the data. Currently versions 1.1 and 2.1 are available for NSCLC and only version 1.1 is available for CRC."
 ) %>%
   gt::gt() %>%
-  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::fmt_markdown(columns = c(Argument)) %>%
   gt::tab_options(table.font.size = 'small',
                   data_row.padding = gt::px(1),
                   summary_row.padding = gt::px(1),

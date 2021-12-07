@@ -84,7 +84,7 @@ tbl_arguments = tibble::tribble(
 #' to be kept to create the summary of the treatment history.."
 ) %>%
   gt::gt() %>%
-  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::fmt_markdown(columns = c(Argument)) %>%
   gt::tab_options(table.font.size = 'small',
                   data_row.padding = gt::px(1),
                   summary_row.padding = gt::px(1),
@@ -163,5 +163,5 @@ nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
 ```{r, warning = FALSE}
-nsclc_cisplatin_pem_any$tbl_cpt
+nsclc_cisplatin_pem_any$tbl_ngs
 ```

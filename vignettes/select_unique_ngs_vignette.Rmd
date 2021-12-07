@@ -40,7 +40,7 @@ library(genieBPC)
 
 ## Introduction
 
-The `genieBPC` package includes functionalities to link the clinical data to patients' corresponding genomic samples. 
+The `genieBPC` package allows users to link the clinical data to patients' corresponding genomic samples. 
 
 This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below:
 
@@ -66,7 +66,7 @@ tbl_arguments = tibble::tribble(
   "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
   gt::gt() %>%
   gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>% 
-  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::fmt_markdown(columns = c(Argument)) %>%
   gt::tab_options(table.font.size = 'small',
                   data_row.padding = gt::px(1),
                   summary_row.padding = gt::px(1),

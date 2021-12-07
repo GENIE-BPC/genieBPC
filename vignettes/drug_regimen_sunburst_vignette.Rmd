@@ -48,7 +48,7 @@ tbl_arguments = tibble::tribble(
   "`max_n_regimens`",        "The number of lines of treatment displayed in the sunburst plot.") %>%
   gt::gt() %>%
   gt::tab_header(title = "`drug_regimen_sunburst()` Function Arguments") %>%
-  gt::fmt_markdown(columns = vars(Argument)) %>%
+  gt::fmt_markdown(columns = c(Argument)) %>%
   gt::tab_options(table.font.size = 'small',
                   data_row.padding = gt::px(1),
                   summary_row.padding = gt::px(1),
