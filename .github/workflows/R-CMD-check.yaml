@@ -53,7 +53,7 @@ jobs:
 
       - name: Install pak and query dependencies
         run: |
-          Rscript -e 'install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))))'
+          install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))))
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
           saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
         shell: Rscript {0}
@@ -76,7 +76,6 @@ jobs:
       
       - name: Install dependencies
         run: |
-          Rscript -e 'install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))))'
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rcmdcheck")
         shell: Rscript {0}
