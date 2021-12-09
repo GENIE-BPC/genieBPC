@@ -25,7 +25,7 @@ jobs:
 
       - name: Install pak and query dependencies
         run: |
-          install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))))
+          install.packages("synapser", repos = c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
           saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
         shell: Rscript {0}
