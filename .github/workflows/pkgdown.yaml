@@ -45,7 +45,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))))
+          install.packages("synapser", repos = c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           pak::local_install_dev_deps(upgrade = TRUE, dependencies = c("all", "Config/Needs/website"))
           pak::pkg_install("pkgdown")
         shell: Rscript {0}
