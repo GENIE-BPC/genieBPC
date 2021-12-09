@@ -48,6 +48,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          install.packages("synapser", repos = c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("covr")
         shell: Rscript {0}
