@@ -55,7 +55,7 @@ jobs:
         run: |
           install.packages("synapser", repos = c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
+          saveRDS(pak::pkg_deps("local::."), ".github/r-depends.rds")
         shell: Rscript {0}
 
       - name: Restore R package cache
@@ -77,6 +77,7 @@ jobs:
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
+          install.packages("synapser", repos = c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           pak::pkg_install("rcmdcheck")
         shell: Rscript {0}
 
