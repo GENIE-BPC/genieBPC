@@ -10,16 +10,16 @@ name: R
 
 on:
   push:
-    branches: [ master ]
+    branches: [ Development ]
   pull_request:
-    branches: [ master ]
+    branches: [ Development ]
 
 jobs:
   build:
     runs-on: macos-latest
     strategy:
       matrix:
-        r-version: ['3.6.3', '4.1.1']
+        r-version: ['4.1.1']
 
     steps:
       - uses: actions/checkout@v2
