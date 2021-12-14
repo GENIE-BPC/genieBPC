@@ -31,17 +31,21 @@ Get a unique next generation sequencing sample for each patient for analysis fol
 }
 \examples{
 # Example 1 ----------------------------------
-# Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
+# Create a cohort of all patients with stage IV NSCLC of histology
+# adenocarcinoma
 # out <- create_analytic_cohort(cohort = "NSCLC",
 #      stage_dx = c("Stage IV"),
 #      ca_hist_adeno_squamous = "Adenocarcinoma")
 # select_unique_ngs <- select_unique_ngs(data_cohort = out)
 # Example 2 ----------------------------------
-# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin,
+# Create a cohort of all NSCLC patients who received Cisplatin,
+# Pemetrexed Disodium or Cisplatin,
 # Etoposide as their first drug regimen
 # out <- create_analytic_cohort(cohort = "NSCLC",
-#     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+#     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
+# "Cisplatin, Etoposide"),
 #     regimen_order = 1,
 #     regimen_order_type = "within regimen")
-# select_unique_ngs <- select_unique_ngs(data_cohort = out, oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
+# select_unique_ngs <- select_unique_ngs(data_cohort = out,
+# oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 }

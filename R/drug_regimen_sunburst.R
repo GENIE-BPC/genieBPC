@@ -1,16 +1,22 @@
 #' drug_regimen_sunburst
 #'
-#' This function allows the user to visualize the complete treatment course for selected diagnoses.
-#' @param data_synapse The list returned from the `pull_data_synapse()` function call
-#' @param data_cohort The list returned from the `create_analytic_cohort()` function call
+#' This function allows the user to visualize the complete treatment
+#' course for selected diagnoses.
+#' @param data_synapse The list returned from the `pull_data_synapse()`
+#' function call
+#' @param data_cohort The list returned from the `create_analytic_cohort()`
+#' function call
 #' @param max_n_regimens The number of regimens displayed in the sunburst plot
-#' @return Returns data frame `treatment_history` and interactive plot `sunburst_plot`
+#' @return Returns data frame `treatment_history` and interactive
+#' plot `sunburst_plot`
 #' @export
 #'
 #' @examples
 #' # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
-#' # nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC", data_synapse = "nsclc_data", stage = "Stage IV")
-#' # ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = nsclc_cohort,
+#' # nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
+#' # data_synapse = "nsclc_data", stage = "Stage IV")
+#' # ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data,
+#' #data_cohort = nsclc_cohort,
 #' # max_n_regimens = 3)
 #' @import
 #' dplyr
@@ -35,8 +41,10 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # if the data_synapse parameter is a list but not the right list
   if (is.null(names(data_synapse)) |
-      min(grepl("pt_char|ca_dx|ca_drugs|prissmm|cpt|cna|fusions|mutations",
-                names(data_synapse))) == 0){
+    min(grepl(
+      "pt_char|ca_dx|ca_drugs|prissmm|cpt|cna|fusions|mutations",
+      names(data_synapse)
+    )) == 0) {
     stop("Specify the list object returned from pull_data_synapse in the
          `data_synapse` parameter.")
   }
@@ -49,13 +57,14 @@ drug_regimen_sunburst <- function(data_synapse,
   # if the data_cohort parameter is a list but not the right list
   # checking the names of the list inputs
   if (is.null(names(data_cohort)) |
-      min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs", names(data_cohort)[1:3]))
-      == 0){
+    min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs",
+              names(data_cohort)[1:3]))
+    == 0) {
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter")
   }
 
-  if (class(max_n_regimens) != "numeric"){
+  if (class(max_n_regimens) != "numeric") {
     stop("Specify the maximum number of regimens to display.")
   }
 
@@ -66,7 +75,7 @@ drug_regimen_sunburst <- function(data_synapse,
       data_synapse,
       paste0("ca_drugs", cohort_temp)
     )$regimen_number,
-    na.rm = T
+    na.rm = TRUE
     )
   }
 
@@ -77,20 +86,21 @@ drug_regimen_sunburst <- function(data_synapse,
   )
 
   # subset on regimen numbers of interest, if applicable
-  # (selects all lines if max_n_regimens is left blank, i.e. doesn't subset at all)
+  # (selects all lines if max_n_regimens is left blank,
+  # i.e. doesn't subset at all)
   cohort_reg_nums_of_interest <- cohort_all_drugs %>%
-    filter(regimen_number %in% 1:max_n_regimens)
+    filter(.data$regimen_number %in% 1:max_n_regimens)
 
   # prepare the data for the sunburst function
   # 1 column per regimen (R1, R2, R3, etc.)
   cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
-    select(record_id, regimen_number, regimen_drugs) %>%
-    mutate(regimen_number = paste0("R", regimen_number)) %>%
+    select(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
+    mutate(regimen_number = paste0("R", .data$regimen_number)) %>%
     pivot_wider(
       names_from = regimen_number,
       values_from = regimen_drugs
     ) %>%
-    select(record_id, starts_with("R")) %>%
+    select(.data$record_id, starts_with("R")) %>%
     mutate_at(vars(matches("R")), ~ as.character(.)) %>%
     rowwise() %>%
     mutate_at(
@@ -103,7 +113,8 @@ drug_regimen_sunburst <- function(data_synapse,
   # concatenate drug regimens separated by "-" into variable path
   path <- c()
   for (i in 1:nrow(cohort_for_sunburst)) {
-    temp_path <- as.character(unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
+    temp_path <- as.character(
+      unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
     path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
   }
 
@@ -112,13 +123,14 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # only keep each record ID plus drug regimen sequence (1 row/patient)
   cohort_for_sunburst <- cohort_for_sunburst %>%
-    select(record_id, path)
+    select(.data$record_id, .data$path)
 
   # summarize number of patients with each regimen combination
-  # 1 row per regimen combination with number of patients that got that regimen sequence
+  # 1 row per regimen combination with number of patients that
+  # got that regimen sequence
   df_for_sunburst <- cohort_for_sunburst %>%
-    group_by(path) %>%
-    summarise(Pop = length(unique(record_id))) %>%
+    group_by(.data$path) %>%
+    summarise(Pop = length(unique(.data$record_id))) %>%
     ungroup()
 
   # create the sunburst plot

@@ -22,21 +22,21 @@ synapse_version <- function(most_recent = FALSE) {
   }
 
   if (most_recent == FALSE) {
-    synapse_tables %>%
-      group_by(cohort, version) %>%
+    .env$synapse_tables %>%
+      group_by(.data$cohort, .data$version) %>%
       filter(row_number() == 1) %>%
-      select(cohort, version) %>%
+      select(.data$cohort, .data$version) %>%
       # remove the "v" from "v1.1"
-      mutate(version = substr(version, 2, 4)) %>%
+      mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "All Versions")
   }
   else {
-    synapse_tables %>%
-      arrange(cohort, desc(version)) %>%
+    .env$synapse_tables %>%
+      arrange(.data$cohort, desc(.data$version)) %>%
       group_by(cohort) %>%
       filter(row_number() == 1) %>%
-      select(cohort, version) %>%
-      mutate(version = substr(version, 2, 4)) %>%
+      select(.data$cohort, .data$version) %>%
+      mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "Most Recent Versions")
   }
 }

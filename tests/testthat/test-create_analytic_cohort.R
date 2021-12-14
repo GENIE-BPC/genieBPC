@@ -34,7 +34,7 @@ test_that("correct cohort returned from create cohort", {
 
   expect_equal(unique(test1$cohort_ca_dx$cohort), "NSCLC")
   expect_equal(unique(test1$cohort_ca_drugs$cohort), "NSCLC")
-  expect_equal(unique(test1$cohort_cpt$cohort), "NSCLC")
+  expect_equal(unique(test1$cohort_ngs$cohort), "NSCLC")
 
   # check CRC
   test2 <- create_analytic_cohort(
@@ -45,7 +45,7 @@ test_that("correct cohort returned from create cohort", {
 
   expect_equal(unique(test2$cohort_ca_dx$cohort), "CRC")
   expect_equal(unique(test2$cohort_ca_drugs$cohort), "CRC")
-  expect_equal(unique(test2$cohort_cpt$cohort), "CRC")
+  expect_equal(unique(test2$cohort_ngs$cohort), "CRC")
 })
 
 test_that("cohort and data_synapse", {
@@ -102,10 +102,10 @@ test_that("index_ca_seq", {
   expect_error(create_analytic_cohort(
     cohort = "NSCLC",
     data_synapse = nsclc_data,
-    index_ca_seq = 10
+    index_ca_seq = 100
   ))
 
-  ## index cancer #s in cohort_ca_drugs and cohort_cpt match those in cohort_ca_dx
+  ## index cancer #s in cohort_ngs match those in cohort_ca_dx
   test2a <- create_analytic_cohort(
     cohort = "CRC",
     data_synapse = crc_data,
@@ -116,17 +116,7 @@ test_that("index_ca_seq", {
     test2a$cohort_ca_dx %>%
       select(record_id, ca_seq) %>%
       arrange(record_id, ca_seq),
-    test2a$cohort_ca_drugs %>%
-      select(record_id, ca_seq) %>%
-      distinct() %>%
-      arrange(record_id, ca_seq)
-  )
-
-  expect_equal(
-    test2a$cohort_ca_dx %>%
-      select(record_id, ca_seq) %>%
-      arrange(record_id, ca_seq),
-    test2a$cohort_cpt %>%
+    test2a$cohort_ngs %>%
       select(record_id, ca_seq) %>%
       distinct() %>%
       arrange(record_id, ca_seq)
@@ -230,7 +220,7 @@ test_that("histology", {
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
-    filter(histology == "Adenocarcinoma")
+    filter(ca_hist_adeno_squamous == "Adenocarcinoma")
 
   expect_equal(test_1a$cohort_ca_dx, test_1b)
 
@@ -245,7 +235,7 @@ test_that("histology", {
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
-    filter(histology %in% c("Adenocarcinoma", "Squamous cell"))
+    filter(ca_hist_adeno_squamous %in% c("Adenocarcinoma", "Squamous cell"))
 
   expect_equal(test_2a$cohort_ca_dx, test_2b)
 

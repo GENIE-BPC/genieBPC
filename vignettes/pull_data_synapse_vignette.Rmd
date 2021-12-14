@@ -120,8 +120,9 @@ ls(nsclc_data) %>%
   mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
                                                   "mutations_extended_NSCLC") ~ "Genomic Data",
                                          TRUE ~ "Clinical Data")) %>% 
-  gt() %>% 
-  cols_label(. = md("**Datasets Returned**"),
+  gt::gt() %>% 
+  gt::cols_label(.data = .,
+                 `.` = md("**Datasets Returned**"),
              clinical_vs_genomic = md("**Clinical/Genomic Data**"))
 ```
 

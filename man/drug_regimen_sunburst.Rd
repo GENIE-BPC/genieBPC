@@ -7,21 +7,27 @@
 drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens)
 }
 \arguments{
-\item{data_synapse}{The list returned from the `pull_data_synapse()` function call}
+\item{data_synapse}{The list returned from the `pull_data_synapse()`
+function call}
 
-\item{data_cohort}{The list returned from the `create_analytic_cohort()` function call}
+\item{data_cohort}{The list returned from the `create_analytic_cohort()`
+function call}
 
 \item{max_n_regimens}{The number of regimens displayed in the sunburst plot}
 }
 \value{
-Returns data frame `treatment_history` and interactive plot `sunburst_plot`
+Returns data frame `treatment_history` and interactive
+plot `sunburst_plot`
 }
 \description{
-This function allows the user to visualize the complete treatment course for selected diagnoses.
+This function allows the user to visualize the complete treatment
+course for selected diagnoses.
 }
 \examples{
 # nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
-# nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC", data_synapse = "nsclc_data", stage = "Stage IV")
-# ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data, data_cohort = nsclc_cohort,
+# nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
+# data_synapse = "nsclc_data", stage = "Stage IV")
+# ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data,
+#data_cohort = nsclc_cohort,
 # max_n_regimens = 3)
 }
