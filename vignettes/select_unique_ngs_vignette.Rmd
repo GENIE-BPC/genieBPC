@@ -2,7 +2,7 @@
 title: "Tutorial: select_unique_ngs"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{select_unique_ngs}
+  %\VignetteIndexEntry{Tutorial: select_unique_ngs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
