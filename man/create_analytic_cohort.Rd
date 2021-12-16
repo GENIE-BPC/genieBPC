@@ -43,10 +43,10 @@ cancers to patients with multiple.}
 "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.}
 
 \item{histology}{Cancer histology. For all cancer cohorts except for BrCa
-(breast cancer), this corresponds to the variable `ca_hist_adeno_squamous` and
-must be one of
-"Adenocarcinoma", "Squamous cell", "Sarcoma", "Small cell carcinoma", "Carcinoma",
-"Other histologies/mixed tumor". For BrCa, this corresponds to the variable
+(breast cancer), this corresponds to the variable `ca_hist_adeno_squamous`
+and must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma",
+"Small cell carcinoma", "Carcinoma", "Other histologies/mixed tumor".
+ For BrCa, this corresponds to the variable
 `ca_hist_brca` and must be one of
 "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 Default selection is all histologies.}

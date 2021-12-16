@@ -380,7 +380,7 @@ create_analytic_cohort <- function(cohort,
       by = c("record_id", "regimen_number")
     ) %>%
     dplyr::left_join(.,
-      .env$regimen_abbreviations,
+      regimen_abbreviations,
       by = c("regimen_drugs")
     )
 
