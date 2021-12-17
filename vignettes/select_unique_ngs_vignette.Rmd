@@ -1,0 +1,101 @@
+---
+title: "Tutorial: select_unique_ngs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: select_unique_ngs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", warning = F, message = F
+)
+
+library(genieBPC)
+library(dplyr)
+library(synapser)
+library(gt)
+
+gt_compact_fun <- function(x) {
+  gt::tab_options(x, 
+                  table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+}
+
+synLogin()
+```
+
+
+```{r setup}
+library(genieBPC)
+```
+
+
+## Introduction
+
+The `genieBPC` package allows users to link the clinical data to patients' corresponding genomic samples. 
+
+This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below:
+
+```{r, results = 'hide'}
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+
+nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
+                                   data_synapse = nsclc_data,
+                                   stage_dx = c("Stage IV"),
+                                   histology = "Adenocarcinoma")
+```
+
+
+## Modifying Function Arguments
+
+
+```{r, include = FALSE}
+tbl_arguments = tibble::tribble(
+  ~Argument,       ~Description,
+  "`data_cohort`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.",
+  "`oncotree_code`",       "Prioritizes samples defined by any OncoTree code value (e.g.: “LUAD”, “CRC”). Default is NULL.",
+  "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.",
+  "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
+  gt::gt() %>%
+  gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>% 
+  gt::fmt_markdown(columns = c(Argument)) %>%
+  gt::tab_options(table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1)) %>%
+  gt_compact_fun()
+
+tbl_arguments
+```
+
+
+```{r, echo = FALSE}
+tbl_arguments
+```
+
+
+*Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.*
+
+## Example
+
+Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient's earliest sample.
+
+```{r, results = 'hide'}
+select_unique_ngs(
+		data_cohort = nsclc_stg_iv_adeno$cohort_ngs,
+		oncotree_code = "LUAD",
+		sample_type = "Metastasis",
+		min_max_time = "min")
+```
+

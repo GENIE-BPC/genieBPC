@@ -1,0 +1,295 @@
+---
+title: "Processing GENIE genomic data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Processing GENIE genomic data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", warning = F, message = F,
+  fig.width = 8
+)
+
+library(genieBPC)
+library(dplyr)
+library(synapser)
+library(gt)
+
+synLogin()
+```
+
+```{r setup}
+library(genieBPC)
+```
+
+# Introduction
+
+The GENIE is segmented between the clinically annotated data and the patients' corresponding genomic data. In this vignette we show how these data can be connected and processed. For the purpose of this example we again retrieve the lung adenocarcinoma dataset and focus on advanced stage patients.
+
+```{r, results = 'hide'}
+# get data #
+nsclc_data <- pull_data_synapse("NSCLC", version = "2.1")
+
+# create cohort #
+nsclc_stg_iv_adeno <- create_analytic_cohort(
+  cohort = "NSCLC",
+  data_synapse = nsclc_data,
+  stage_dx = c("Stage IV"),
+  histology = "Adenocarcinoma"
+)
+```
+
+We then retrieve the corresponding samples to these patients and select a unique sample for patients that have multiple:
+
+```{r, results = 'hide'}
+# get unique samples for each patient #
+optimal_samples <- select_unique_ngs(data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
+                                     oncotree_code = "LUAD", 
+                                     sample_type = "Metastasis", 
+                                     min_max_time = "min")
+```
+
+We will show how to retrieve and process the genomic data for the `r nrow(optimal_samples)` patients in this cohort.
+
+
+# Genomic files available in GenieBPC
+
+There are three types of genomic files available with the multi-center GENIE study. Each of these centers perform targeted-panel genetic sequencing on the tumor biopsy samples collected from patients. The data collected contains mutations, fusions, and copy-number alterations each in the respective files.
+
+- Mutations are contained in a Mutation Annotation Format (MAF) file, where each row is a mutation that was observed. This is returned as `mutations_extended` from the `pull_data_synapse()` function in `{genieBPC}`.
+
+```{r}
+gt(nsclc_data$mutations_extended[1:5, ])
+```
+
+- Fusions are similarly contained in a modified MAF file, where each row is a fusion that was observed. This is returned as `fusions` from the `pull_data_synapse()` function in `{genieBPC}`.
+
+```{r}
+gt(nsclc_data$fusions[1:5, ])
+```
+
+- Copy number alterations are contained in a matrix with samples as columns and genes as rows. This is returned as `cna` from the `pull_data_synapse()` function in `{genieBPC}`.
+
+```{r}
+gt(nsclc_data$cna[1:10, 1:10])
+
+# remove later but distribution of events seems wrong?
+summary(as.factor(unlist(nsclc_data$cna[, -1])))
+
+# distribution across ~ 60K IMPACT samples
+#    -2     -1.5        0        2     NA's
+# 64136     3436 35072857   106637 10483156
+```
+
+It is important to note that as each of the centers has their own sequencing platforms and targeted panels, genes sequenced are not standardized across centers. This implies that some genes were not sequenced for all patients and must be accounted for when processing the genomic data. We show below a list of all the panels that have been used in the GENIE study along with the number of genes included in each of them, this is available in `{genieBPC}` under `genie_panels`:
+
+```{r}
+gt(genie_panels)
+```
+
+In the following section we introduce a R software that enables users to generate a binary matrix ready for analysis standardizing genes across centers.
+
+# Creating a binary matrix with gnomeR
+
+The `gnomeR` package package provides a consistent framework for genetic data processing, visualization and analysis. This is primarily targeted to IMPACT datasets but has been expanded to properly process genomic data from the GENIE study. In this section we focus on the main function of that package, `binmat()`, that enables the creation of a binary matrix of samples by events in a robust and flexible way. For more information about `gnomeR`, please refer to its [github page](https://github.com/AxelitoMartin/gnomeR) or its [website](https://axelitomartin.github.io/gnomeR/).
+
+```{r, eval = F}
+devtools::install_github("AxelitoMartin/gnomeR", ref = "development")
+```
+
+
+The `binmat()`function takes as input the various genomic files of interest, namely mutations, fusions and copy number alterations (which can be inputted in any combination as long as at least one is present). Moroever in order to annotate genes for missingness in each sample, we require a dataframe specifying the platform each sample was sequenced on. This can be done directly from subsetting the `optimal_samples` dataset created in the `Introduction` section above, with sample name as first column and sequence assay ID as second column.
+
+```{r}
+library(gnomeR)
+# genomic files of interest #
+maf_ex <- nsclc_data$mutations_extended %>%
+  mutate(Mutation_Status = ifelse(Mutation_Status == "" || Mutation_Status == "UNKNOWN", "SOMATIC", Mutation_Status))
+fusion_ex <- nsclc_data$fusions
+cna_ex <- nsclc_data$cna
+
+# samples of interest and their corresponding panels #
+sample_panels_ex <- as.data.frame(optimal_samples %>% select(cpt_genie_sample_id, cpt_seq_assay_id))
+
+# create binary matrix #
+bin_df_ex <- binmat(
+  patients = sample_panels_ex$cpt_genie_sample_id,
+  maf = maf_ex, fusion = fusion_ex, cna = cna_ex,
+  sample_panels = sample_panels_ex
+)
+```
+
+
+The output of `binmat()` is a binary matrix of samples by features, where the features are mutations, fusions (column with names ending in ".fus"), and copy-number alterations (column with names ending in ".Del" for deletions, and ".Amp" for amplifications). This matrix has `r nrow(bin_df_ex)` rows (which is our number of samples in the cohort) and `r ncol(bin_df_ex)` features combining all mutations, fusions and copy-number alterations that were found.
+
+As mentioned previously this matrix is standardized for the gene difference from the different centers and various platforms. When the gene of interest has not been sequenced for a given sample we replace its binary input with a missing value. We give below an example for this annotation:
+
+```{r}
+gt(bin_df_ex[c(
+  "GENIE-MSK-P-0002956-T01-IM3",
+  "GENIE-MSK-P-0002451-T02-IM5",
+  "GENIE-MSK-P-0011243-T02-IM6",
+  "GENIE-DFCI-005843-1704",
+  "GENIE-DFCI-036465-130622",
+  "GENIE-DFCI-011355-10295",
+  "GENIE-VICC-211570-unk-1",
+  "GENIE-VICC-199993-unk-1",
+  "GENIE-VICC-611118-unk-1"
+), c("TP53", "KRAS", "EGFR", "STK11", "KEAP1", "SMARCA4", "RNF43", "MAGI2.fus")], rownames_to_stub = T)
+```
+
+Note that a complete list of genes available for each of the platforms is available within `gnomeR` as the table `genie_gene_info`:
+
+```{r}
+gt(genie_gene_info %>%
+  filter(hugo_symbol %in% c("TP53", "KRAS", "EGFR", "STK11", "KEAP1", "SMARCA4")) %>%
+  select(-one_of("alias")))
+```
+
+
+# Analyzing genomic data with gnomeR
+
+There are several simple tools for univariate analysis of association between various common outcomes, such as binary, dichotomous, guassian or time to event, and the genomic data from GENIE.
+
+
+## Binary
+
+For the binary example we attempt to correlate the genomic features of the cohort with weather patients were smokers at some point in their past. Let's first create the outcome:
+
+```{r}
+temp_outcome <- full_join(
+  nsclc_stg_iv_adeno$cohort_ca_dx %>%
+    select(record_id, ca_lung_cigarette) %>%
+    mutate(ca_lung_cigarette = ifelse(ca_lung_cigarette == "Never used", "No", "Yes")),
+  optimal_samples %>%
+    select(record_id, cpt_genie_sample_id),
+  by = "record_id"
+) %>%
+  select(cpt_genie_sample_id, ca_lung_cigarette)
+outcome_bin <- temp_outcome$ca_lung_cigarette[match(rownames(bin_df_ex), temp_outcome$cpt_genie_sample_id)]
+```
+
+The outcome should simply be a vector of values ordered the same way as the binary genomic matrix. We can then simply use the `gen.summary()` function to test for association with all features through Fisher's exact test of independence:
+
+```{r}
+test_binary <- gen.summary(gen.dat = bin_df_ex, outcome = outcome_bin, filter = 0.05)
+```
+
+This function returns a complete table of all features that passed the filtering threshold, with corresponding overall event frequency, event frequency per category, odds ratio, confidence interval, p-value, multiple testing adjusted p-value using False Discovery Rate (FDR) correction:
+
+```{r}
+gt(test_binary$fits[1:10, ])
+```
+
+as well as summary plots, such as a forest plot for the most significant features and a complete summary of all features through an interactive volcano plot:
+
+```{r}
+test_binary$forest.plot
+test_binary$vPlot
+```
+
+
+## Continuous
+
+We can create a similar example for contunous outcome, testing for association between the outcome and all features of interest using simple linear regression. For this example we use the age of patients as an outcome:
+
+```{r}
+temp_outcome <- full_join(
+  nsclc_stg_iv_adeno$cohort_ca_dx %>%
+    select(record_id, age_dx),
+  optimal_samples %>%
+    select(record_id, cpt_genie_sample_id),
+  by = "record_id"
+) %>%
+  select(cpt_genie_sample_id, age_dx)
+outcome_cont <- temp_outcome$age_dx[match(rownames(bin_df_ex), temp_outcome$cpt_genie_sample_id)]
+```
+
+Again simply apply `gen.summary()`, but this time specifying the outcome is continuous:
+
+```{r}
+test_cont <- gen.summary(gen.dat = bin_df_ex, outcome = outcome_cont, filter = 0.05, cont = T)
+```
+
+Again the function returns a complete summary table of the tests performed:
+
+```{r}
+gt(test_cont$fits[1:10, ])
+```
+
+Along with a volcano plot summarising all tests in a visual fahsion:
+
+```{r}
+test_cont$vPlot
+```
+
+## Time-to-event
+
+A particularly common and important outcome in cancer research is time-to-event. Whether that is overall survival, progression-free survival, time on treatment or others, it is of critical importance when assessing the behavior of the cohort at hand.
+
+Before we show an example of univariate analysis for time-to-event outcome using Cox's proportional hazard models, we want to emphasize the issue of <b><u>left-truncation</u></b> in the GENIE dataset. This occurs when the start time of a given outcome differs from the time of genomic sequencing for a patient, if uncorrected this leads to an over-optimistic estimation of the survival time of patients in the cohort. The left-truncation time should be calculated as the time difference between genomic sequencing reporting and the start of the outcome of interest (note if the sequencing was performed before the start of the outcome of interest then the left-truncation time is zero).
+
+Say we are interested in overall survival for diagnosis of advanced stage disease in our example:
+
+```{r}
+temp_outcome <- full_join(
+  nsclc_stg_iv_adeno$cohort_ca_dx %>%
+    select(record_id, dx_lastalive_int_mos, dx_death_int_mos) %>%
+    mutate(status = ifelse(is.na(dx_death_int_mos), 0, 1)),
+  optimal_samples %>%
+    select(record_id, cpt_genie_sample_id, dx_cpt_rep_mos),
+  by = "record_id"
+) %>%
+  select(cpt_genie_sample_id, dx_cpt_rep_mos, dx_lastalive_int_mos, status)
+```
+
+We have created a dataset containing:
+
+- time 1: the left-truncation time, which is the time between the diagnosis date and the report of genomic sequencing date
+- time 2: the survival time, which is the time between the diagnosis date and the last follow up date
+- status: binary variable specifying of the patient of interest experienced the event, in this example, death
+
+```{r}
+surv_data <- temp_outcome %>%
+  rename(time1 = dx_cpt_rep_mos, time2 = dx_lastalive_int_mos) %>%
+  # for some reason some report where after death --> maybe because this was diagnosis of primary disease?
+  filter(time1 < time2)
+
+surv_data <- surv_data[na.omit(match(rownames(bin_df_ex), surv_data$cpt_genie_sample_id)), ]
+# some missing patients because of the above...#
+
+# fix bin mat #
+bin_df_ex_sub <- bin_df_ex[na.omit(match(surv_data$cpt_genie_sample_id, rownames(bin_df_ex))), ]
+
+surv_data <- as.data.frame(surv_data %>%
+  select(-one_of("cpt_genie_sample_id")))
+```
+
+The `uni.cox()` function of `gnomeR` can use this outcome to perform univariate Cox's proportional hazard models on each of the features of interest. Note that because we are using left-truncation adjustement, we specify the formula `Surv(time1,time2,status)` to correct for the delayed entry:
+
+```{r}
+test_cox <- uni.cox(X = bin_df_ex_sub, surv.dat = surv_data, surv.formula = Surv(time1, time2, status) ~ ., filter = 0.05)
+```
+
+Again a complete summary table is returned:
+
+```{r}
+gt(test_cox$tab[1:10, ])
+```
+
+along with a volcano plot:
+
+```{r}
+library(plotly)
+test_cox$p %>% layout(xaxis = list(range = c(-3, 3)))
+```
+
+and Kaplan-Meier plots for the most significant features:
+
+```{r}
+test_cox$KM[[1]]
+```
