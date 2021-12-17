@@ -31,7 +31,5 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-        shell: pwsh
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
-        shell: pwsh
