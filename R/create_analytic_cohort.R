@@ -380,12 +380,12 @@ create_analytic_cohort <- function(cohort,
       by = c("record_id", "regimen_number")
     ) %>%
     dplyr::left_join(.,
-      regimen_abbreviations,
+                     genieBPC::regimen_abbreviations,
       by = c("regimen_drugs")
     )
 
   # option 2: all "first line" drug regimens (regimens of a certain number,
-  # within a cancer diganosis)
+  # within a cancer diagnosis)
   # specific regimen number to all pts in cohort, any regimen name
   # regimen_drugs is not specified, regimen_order is specified and
   # regimen_type = "within cancer"

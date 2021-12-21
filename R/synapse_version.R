@@ -22,7 +22,7 @@ synapse_version <- function(most_recent = FALSE) {
   }
 
   if (most_recent == FALSE) {
-    .env$synapse_tables %>%
+    genieBPC::synapse_tables %>%
       group_by(.data$cohort, .data$version) %>%
       filter(row_number() == 1) %>%
       select(.data$cohort, .data$version) %>%
@@ -31,7 +31,7 @@ synapse_version <- function(most_recent = FALSE) {
       mutate(versions_returned = "All Versions")
   }
   else {
-    .env$synapse_tables %>%
+    genieBPC::synapse_tables %>%
       arrange(.data$cohort, desc(.data$version)) %>%
       group_by(cohort) %>%
       filter(row_number() == 1) %>%
