@@ -97,8 +97,8 @@ drug_regimen_sunburst <- function(data_synapse,
     select(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
     mutate(regimen_number = paste0("R", .data$regimen_number)) %>%
     pivot_wider(
-      names_from = regimen_number,
-      values_from = regimen_drugs
+      names_from = .data$regimen_number,
+      values_from = .data$regimen_drugs
     ) %>%
     select(.data$record_id, starts_with("R")) %>%
     mutate_at(vars(matches("R")), ~ as.character(.)) %>%

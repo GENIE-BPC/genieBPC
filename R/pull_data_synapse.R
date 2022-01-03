@@ -28,7 +28,7 @@
 #' dplyr
 #' dtplyr
 pull_data_synapse <- function(cohort, version) {
-  if("synapser" %in% rownames(installed.packages()) == FALSE) {
+  if("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
     #install.packages("synapser", repos = "http://ran.synapse.org")
     stop("Please install the package synapser from http://ran.synapse.org")
     }

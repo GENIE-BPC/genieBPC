@@ -33,7 +33,7 @@ synapse_version <- function(most_recent = FALSE) {
   else {
     genieBPC::synapse_tables %>%
       arrange(.data$cohort, desc(.data$version)) %>%
-      group_by(cohort) %>%
+      group_by(.data$cohort) %>%
       filter(row_number() == 1) %>%
       select(.data$cohort, .data$version) %>%
       mutate(version = substr(.data$version, 2, 4)) %>%
