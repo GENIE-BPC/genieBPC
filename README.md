@@ -1,4 +1,4 @@
-# genieBPC <img src="man/figures/imgfile.png" align="right" height="120" /></a>
+# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
 
 The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 
