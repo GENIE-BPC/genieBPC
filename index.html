@@ -23,8 +23,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +35,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">genieBPC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -73,7 +77,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">
+  <a href="https://github.com/GENIE-BPC/genieBPC/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,82 +95,67 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-
-<p>The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
+<p><a href="https://github.com/AxelitoMartin/genieBPC/actions"><img src="https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master"><img src="https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --> <!--
+# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
+ --> The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
 <ul>
 <li><p><strong>Pull a specified version of a phenomic data release</strong> from Synapse directly into the R environment. The most recent version is automatically pulled, but a specific version can be specified for the purposes of reproducing analyses. The phenomic data are recorded in multiple datasets, including: patient characteristics (vital status), cancer diagnosis, cancer-directed drug regimens, pathology, imaging, medical oncologist assessment, tumor markers and cancer panel test.</p></li>
 <li><p><strong>Create a cohort for analysis</strong> based on specified diagnosis or regimen inclusion criteria.</p></li>
 <li><p><strong>Pull GENIE genomic data</strong> corresponding to the analytic cohort directly into the R environment, including selection of a single next-generation sequencing test in the case that the patient has multiple, based on user-specified criteria.</p></li>
 </ul>
 <p>The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the development version of {genieBPC} with the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="obtaining-data-access">Obtaining Data Access<a class="anchor" aria-label="anchor" href="#obtaining-data-access"></a>
-</h2>
+<div id="obtaining-data-access" class="section level2">
+<h2 class="hasAnchor">
+<a href="#obtaining-data-access" class="anchor"></a>Obtaining Data Access</h2>
 <p>Access to the GENIE BPC data release folders on Synapse is required in order to use this function. To obtain access:</p>
-<ol style="list-style-type: decimal">
-<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">Synapse account</a></p></li>
-<li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
-<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma collaborative projects</a>.</p></li>
+<ol>
+<li><p>Register for a <a href="https://www.synapse.org/#">Synapse account</a></p></li>
+<li><p>Use <a href="https://www.synapse.org/#!Team:3399797">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
+<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493">GENIE Biopharma collaborative projects</a>.</p></li>
 </ol>
 <p><em>Note: Please allow up to a week to review and grant access.</em></p>
 </div>
-<div class="section level2">
-<h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
-</h2>
+<div id="analytic-data-guides" class="section level2">
+<h2 class="hasAnchor">
+<a href="#analytic-data-guides" class="anchor"></a>Analytic Data Guides</h2>
 <p>The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.</p>
-<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf" class="external-link">NSCLC V1.1 Analtyic Data Guide</a></p>
-<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf" class="external-link">CRC V1.1 Analtyic Data Guide</a></p>
+<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf">NSCLC V1.1 Analtyic Data Guide</a></p>
+<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf">CRC V1.1 Analtyic Data Guide</a></p>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/GENIE-BPC/genieBPC/issues" class="external-link">Report a bug</a></li>
+<li>Browse source code at <br><a href="https://github.com/GENIE-BPC/genieBPC/">https://​github.com/​GENIE-BPC/​genieBPC/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/GENIE-BPC/genieBPC/issues">https://​github.com/​GENIE-BPC/​genieBPC/​issues</a>
+</li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing genieBPC</a></li>
-</ul>
-</div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Jessica Lavery <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2746-5647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Michael A. Curry <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0261-4044" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Samantha Brown <br><small class="roles"> Author </small>  </li>
+<li>Jessica Lavery <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2746-5647" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Michael A. Curry <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0261-4044" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Samantha Brown <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5352-974X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Axel Martin <br><small class="roles"> Author </small>  </li>
-</ul>
-</div>
-
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/AxelitoMartin/genieBPC/actions" class="external-link"><img src="https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master" class="external-link"><img src="https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -175,13 +164,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -189,8 +176,6 @@
 
   
 
-
-  
 
   </body>
 </html>

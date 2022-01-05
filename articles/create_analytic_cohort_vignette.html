@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,12 +31,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">genieBPC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -69,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">
+  <a href="https://github.com/GENIE-BPC/genieBPC/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,22 +88,22 @@
 
       
 
-      </header><div class="row">
+      </header><script src="create_analytic_cohort_vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial: create_analytic_cohort</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/HEAD/vignettes/create_analytic_cohort_vignette.Rmd" class="external-link"><code>vignettes/create_analytic_cohort_vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/master/vignettes/create_analytic_cohort_vignette.Rmd"><code>vignettes/create_analytic_cohort_vignette.Rmd</code></a></small>
       <div class="hidden name"><code>create_analytic_cohort_vignette.Rmd</code></div>
 
     </div>
 
     
     
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns three datasets:</p>
 <ol style="list-style-type: decimal">
 <li><p><code>cohort_ca_dx</code> contains cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.</p></li>
@@ -108,26 +112,26 @@
 </ol>
 <p>This vignette will walk a user through the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
 </div>
-<div class="section level2">
-<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h2>
-<p>Before going through the tutorial, install {genieBPC} and {synapser} and log into Synapse using the <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code> function. For more information on <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code>, refer to the pull_data_synapse vignette or <a href="https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html" class="external-link">synapser documentation</a>.</p>
+<div id="setup" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup" class="anchor"></a>Setup</h2>
+<p>Before going through the tutorial, install {genieBPC} and {synapser} and log into Synapse using the <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin()</a></code> function. For more information on <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin()</a></code>, refer to the pull_data_synapse vignette or <a href="https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html">synapser documentation</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">genieBPC</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.synapse.org" class="external-link">synapser</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">genieBPC</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.synapse.org">synapser</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
-</h2>
+<div id="modifying-function-arguments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#modifying-function-arguments" class="anchor"></a>Modifying Function Arguments</h2>
 <p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several input parameters:</p>
-<div id="ykafyiwwhf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lmlabrbprr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ykafyiwwhf .gt_table {
+#lmlabrbprr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -152,7 +156,7 @@
   border-left-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_heading {
+#lmlabrbprr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -164,7 +168,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_title {
+#lmlabrbprr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -174,7 +178,7 @@
   border-bottom-width: 0;
 }
 
-#ykafyiwwhf .gt_subtitle {
+#lmlabrbprr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -184,13 +188,13 @@
   border-top-width: 0;
 }
 
-#ykafyiwwhf .gt_bottom_border {
+#lmlabrbprr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_col_headings {
+#lmlabrbprr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -205,7 +209,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_col_heading {
+#lmlabrbprr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -225,7 +229,7 @@
   overflow-x: hidden;
 }
 
-#ykafyiwwhf .gt_column_spanner_outer {
+#lmlabrbprr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -237,15 +241,15 @@
   padding-right: 4px;
 }
 
-#ykafyiwwhf .gt_column_spanner_outer:first-child {
+#lmlabrbprr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ykafyiwwhf .gt_column_spanner_outer:last-child {
+#lmlabrbprr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ykafyiwwhf .gt_column_spanner {
+#lmlabrbprr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -257,7 +261,7 @@
   width: 100%;
 }
 
-#ykafyiwwhf .gt_group_heading {
+#lmlabrbprr .gt_group_heading {
   padding: 1px;
   color: #333333;
   background-color: #FFFFFF;
@@ -279,7 +283,7 @@
   vertical-align: middle;
 }
 
-#ykafyiwwhf .gt_empty_group_heading {
+#lmlabrbprr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -294,15 +298,15 @@
   vertical-align: middle;
 }
 
-#ykafyiwwhf .gt_from_md > :first-child {
+#lmlabrbprr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ykafyiwwhf .gt_from_md > :last-child {
+#lmlabrbprr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ykafyiwwhf .gt_row {
+#lmlabrbprr .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -321,7 +325,7 @@
   overflow-x: hidden;
 }
 
-#ykafyiwwhf .gt_stub {
+#lmlabrbprr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -333,7 +337,7 @@
   padding-left: 12px;
 }
 
-#ykafyiwwhf .gt_summary_row {
+#lmlabrbprr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -343,7 +347,7 @@
   padding-right: 5px;
 }
 
-#ykafyiwwhf .gt_first_summary_row {
+#lmlabrbprr .gt_first_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -353,7 +357,7 @@
   border-top-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_grand_summary_row {
+#lmlabrbprr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -363,7 +367,7 @@
   padding-right: 5px;
 }
 
-#ykafyiwwhf .gt_first_grand_summary_row {
+#lmlabrbprr .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -373,11 +377,11 @@
   border-top-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_striped {
+#lmlabrbprr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ykafyiwwhf .gt_table_body {
+#lmlabrbprr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -386,7 +390,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_footnotes {
+#lmlabrbprr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -400,13 +404,13 @@
   border-right-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_footnote {
+#lmlabrbprr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 1px;
 }
 
-#ykafyiwwhf .gt_sourcenotes {
+#lmlabrbprr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -420,41 +424,41 @@
   border-right-color: #D3D3D3;
 }
 
-#ykafyiwwhf .gt_sourcenote {
+#lmlabrbprr .gt_sourcenote {
   font-size: 90%;
   padding: 1px;
 }
 
-#ykafyiwwhf .gt_left {
+#lmlabrbprr .gt_left {
   text-align: left;
 }
 
-#ykafyiwwhf .gt_center {
+#lmlabrbprr .gt_center {
   text-align: center;
 }
 
-#ykafyiwwhf .gt_right {
+#lmlabrbprr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ykafyiwwhf .gt_font_normal {
+#lmlabrbprr .gt_font_normal {
   font-weight: normal;
 }
 
-#ykafyiwwhf .gt_font_bold {
+#lmlabrbprr .gt_font_bold {
   font-weight: bold;
 }
 
-#ykafyiwwhf .gt_font_italic {
+#lmlabrbprr .gt_font_italic {
   font-style: italic;
 }
 
-#ykafyiwwhf .gt_super {
+#lmlabrbprr .gt_super {
   font-size: 65%;
 }
 
-#ykafyiwwhf .gt_footnote_marks {
+#lmlabrbprr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -537,44 +541,44 @@
 </table>
 </div>
 </div>
-<div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
-</h2>
+<div id="examples" class="section level2">
+<h2 class="hasAnchor">
+<a href="#examples" class="anchor"></a>Examples</h2>
 <p>The examples below create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the <code>pull_data_synapse</code> function:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1"</span><span class="op">)</span></code></pre></div>
-<div class="section level3">
-<h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
-</h3>
+<div id="example-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-1" class="anchor"></a>Example 1</h3>
 <p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
                                    data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
+                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
                                    histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span>
 <span class="co">#&gt; [1] "cohort_ca_drugs" "cohort_ca_dx"    "cohort_ngs"</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
-</h3>
+<div id="example-2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-2" class="anchor"></a>Example 2</h3>
 <p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
               data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-              regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
+              regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
               regimen_order <span class="op">=</span> <span class="fl">1</span>,
               regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
-</h3>
+<div id="example-3" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-3" class="anchor"></a>Example 3</h3>
 <p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
                                         data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                        regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
+                                        regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
                                         regimen_order <span class="op">=</span> <span class="fl">1</span>,
                                         regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,
                                         return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -583,12 +587,12 @@
 <span class="co">#&gt; NULL</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></code></pre></div>
-<div id="fyxkwjkavl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="hyuejesqdm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#fyxkwjkavl .gt_table {
+#hyuejesqdm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -613,7 +617,7 @@
   border-left-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_heading {
+#hyuejesqdm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -625,7 +629,7 @@
   border-right-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_title {
+#hyuejesqdm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -635,7 +639,7 @@
   border-bottom-width: 0;
 }
 
-#fyxkwjkavl .gt_subtitle {
+#hyuejesqdm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -645,13 +649,13 @@
   border-top-width: 0;
 }
 
-#fyxkwjkavl .gt_bottom_border {
+#hyuejesqdm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_col_headings {
+#hyuejesqdm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -666,7 +670,7 @@
   border-right-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_col_heading {
+#hyuejesqdm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -686,7 +690,7 @@
   overflow-x: hidden;
 }
 
-#fyxkwjkavl .gt_column_spanner_outer {
+#hyuejesqdm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -698,15 +702,15 @@
   padding-right: 4px;
 }
 
-#fyxkwjkavl .gt_column_spanner_outer:first-child {
+#hyuejesqdm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fyxkwjkavl .gt_column_spanner_outer:last-child {
+#hyuejesqdm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fyxkwjkavl .gt_column_spanner {
+#hyuejesqdm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -718,7 +722,7 @@
   width: 100%;
 }
 
-#fyxkwjkavl .gt_group_heading {
+#hyuejesqdm .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -740,7 +744,7 @@
   vertical-align: middle;
 }
 
-#fyxkwjkavl .gt_empty_group_heading {
+#hyuejesqdm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -755,15 +759,15 @@
   vertical-align: middle;
 }
 
-#fyxkwjkavl .gt_from_md > :first-child {
+#hyuejesqdm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fyxkwjkavl .gt_from_md > :last-child {
+#hyuejesqdm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fyxkwjkavl .gt_row {
+#hyuejesqdm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -782,7 +786,7 @@
   overflow-x: hidden;
 }
 
-#fyxkwjkavl .gt_stub {
+#hyuejesqdm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -794,7 +798,7 @@
   padding-left: 12px;
 }
 
-#fyxkwjkavl .gt_summary_row {
+#hyuejesqdm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -804,7 +808,7 @@
   padding-right: 5px;
 }
 
-#fyxkwjkavl .gt_first_summary_row {
+#hyuejesqdm .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -814,7 +818,7 @@
   border-top-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_grand_summary_row {
+#hyuejesqdm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -824,7 +828,7 @@
   padding-right: 5px;
 }
 
-#fyxkwjkavl .gt_first_grand_summary_row {
+#hyuejesqdm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -834,11 +838,11 @@
   border-top-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_striped {
+#hyuejesqdm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fyxkwjkavl .gt_table_body {
+#hyuejesqdm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -847,7 +851,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_footnotes {
+#hyuejesqdm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -861,13 +865,13 @@
   border-right-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_footnote {
+#hyuejesqdm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#fyxkwjkavl .gt_sourcenotes {
+#hyuejesqdm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -881,41 +885,41 @@
   border-right-color: #D3D3D3;
 }
 
-#fyxkwjkavl .gt_sourcenote {
+#hyuejesqdm .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#fyxkwjkavl .gt_left {
+#hyuejesqdm .gt_left {
   text-align: left;
 }
 
-#fyxkwjkavl .gt_center {
+#hyuejesqdm .gt_center {
   text-align: center;
 }
 
-#fyxkwjkavl .gt_right {
+#hyuejesqdm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fyxkwjkavl .gt_font_normal {
+#hyuejesqdm .gt_font_normal {
   font-weight: normal;
 }
 
-#fyxkwjkavl .gt_font_bold {
+#hyuejesqdm .gt_font_bold {
   font-weight: bold;
 }
 
-#fyxkwjkavl .gt_font_italic {
+#hyuejesqdm .gt_font_italic {
   font-style: italic;
 }
 
-#fyxkwjkavl .gt_super {
+#hyuejesqdm .gt_super {
   font-size: 65%;
 }
 
-#fyxkwjkavl .gt_footnote_marks {
+#hyuejesqdm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1020,12 +1024,12 @@
 </div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></code></pre></div>
-<div id="udiyplnumx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rweuovccdo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#udiyplnumx .gt_table {
+#rweuovccdo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1050,7 +1054,7 @@
   border-left-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_heading {
+#rweuovccdo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1062,7 +1066,7 @@
   border-right-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_title {
+#rweuovccdo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1072,7 +1076,7 @@
   border-bottom-width: 0;
 }
 
-#udiyplnumx .gt_subtitle {
+#rweuovccdo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1082,13 +1086,13 @@
   border-top-width: 0;
 }
 
-#udiyplnumx .gt_bottom_border {
+#rweuovccdo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_col_headings {
+#rweuovccdo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1103,7 +1107,7 @@
   border-right-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_col_heading {
+#rweuovccdo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1123,7 +1127,7 @@
   overflow-x: hidden;
 }
 
-#udiyplnumx .gt_column_spanner_outer {
+#rweuovccdo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1135,15 +1139,15 @@
   padding-right: 4px;
 }
 
-#udiyplnumx .gt_column_spanner_outer:first-child {
+#rweuovccdo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#udiyplnumx .gt_column_spanner_outer:last-child {
+#rweuovccdo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#udiyplnumx .gt_column_spanner {
+#rweuovccdo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1155,7 +1159,7 @@
   width: 100%;
 }
 
-#udiyplnumx .gt_group_heading {
+#rweuovccdo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1177,7 +1181,7 @@
   vertical-align: middle;
 }
 
-#udiyplnumx .gt_empty_group_heading {
+#rweuovccdo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1192,15 +1196,15 @@
   vertical-align: middle;
 }
 
-#udiyplnumx .gt_from_md > :first-child {
+#rweuovccdo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#udiyplnumx .gt_from_md > :last-child {
+#rweuovccdo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#udiyplnumx .gt_row {
+#rweuovccdo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1219,7 +1223,7 @@
   overflow-x: hidden;
 }
 
-#udiyplnumx .gt_stub {
+#rweuovccdo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1231,7 +1235,7 @@
   padding-left: 12px;
 }
 
-#udiyplnumx .gt_summary_row {
+#rweuovccdo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1241,7 +1245,7 @@
   padding-right: 5px;
 }
 
-#udiyplnumx .gt_first_summary_row {
+#rweuovccdo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1251,7 +1255,7 @@
   border-top-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_grand_summary_row {
+#rweuovccdo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1261,7 +1265,7 @@
   padding-right: 5px;
 }
 
-#udiyplnumx .gt_first_grand_summary_row {
+#rweuovccdo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1271,11 +1275,11 @@
   border-top-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_striped {
+#rweuovccdo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#udiyplnumx .gt_table_body {
+#rweuovccdo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1284,7 +1288,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_footnotes {
+#rweuovccdo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1298,13 +1302,13 @@
   border-right-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_footnote {
+#rweuovccdo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#udiyplnumx .gt_sourcenotes {
+#rweuovccdo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1318,41 +1322,41 @@
   border-right-color: #D3D3D3;
 }
 
-#udiyplnumx .gt_sourcenote {
+#rweuovccdo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#udiyplnumx .gt_left {
+#rweuovccdo .gt_left {
   text-align: left;
 }
 
-#udiyplnumx .gt_center {
+#rweuovccdo .gt_center {
   text-align: center;
 }
 
-#udiyplnumx .gt_right {
+#rweuovccdo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#udiyplnumx .gt_font_normal {
+#rweuovccdo .gt_font_normal {
   font-weight: normal;
 }
 
-#udiyplnumx .gt_font_bold {
+#rweuovccdo .gt_font_bold {
   font-weight: bold;
 }
 
-#udiyplnumx .gt_font_italic {
+#rweuovccdo .gt_font_italic {
   font-style: italic;
 }
 
-#udiyplnumx .gt_super {
+#rweuovccdo .gt_super {
   font-size: 65%;
 }
 
-#udiyplnumx .gt_footnote_marks {
+#rweuovccdo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1417,12 +1421,12 @@
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></code></pre></div>
-<div id="swubtbxmcy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wifxkbnben" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#swubtbxmcy .gt_table {
+#wifxkbnben .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1447,7 +1451,7 @@
   border-left-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_heading {
+#wifxkbnben .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1459,7 +1463,7 @@
   border-right-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_title {
+#wifxkbnben .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1469,7 +1473,7 @@
   border-bottom-width: 0;
 }
 
-#swubtbxmcy .gt_subtitle {
+#wifxkbnben .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1479,13 +1483,13 @@
   border-top-width: 0;
 }
 
-#swubtbxmcy .gt_bottom_border {
+#wifxkbnben .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_col_headings {
+#wifxkbnben .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1500,7 +1504,7 @@
   border-right-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_col_heading {
+#wifxkbnben .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1520,7 +1524,7 @@
   overflow-x: hidden;
 }
 
-#swubtbxmcy .gt_column_spanner_outer {
+#wifxkbnben .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1532,15 +1536,15 @@
   padding-right: 4px;
 }
 
-#swubtbxmcy .gt_column_spanner_outer:first-child {
+#wifxkbnben .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#swubtbxmcy .gt_column_spanner_outer:last-child {
+#wifxkbnben .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#swubtbxmcy .gt_column_spanner {
+#wifxkbnben .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1552,7 +1556,7 @@
   width: 100%;
 }
 
-#swubtbxmcy .gt_group_heading {
+#wifxkbnben .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1574,7 +1578,7 @@
   vertical-align: middle;
 }
 
-#swubtbxmcy .gt_empty_group_heading {
+#wifxkbnben .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1589,15 +1593,15 @@
   vertical-align: middle;
 }
 
-#swubtbxmcy .gt_from_md > :first-child {
+#wifxkbnben .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#swubtbxmcy .gt_from_md > :last-child {
+#wifxkbnben .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#swubtbxmcy .gt_row {
+#wifxkbnben .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1616,7 +1620,7 @@
   overflow-x: hidden;
 }
 
-#swubtbxmcy .gt_stub {
+#wifxkbnben .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1628,7 +1632,7 @@
   padding-left: 12px;
 }
 
-#swubtbxmcy .gt_summary_row {
+#wifxkbnben .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1638,7 +1642,7 @@
   padding-right: 5px;
 }
 
-#swubtbxmcy .gt_first_summary_row {
+#wifxkbnben .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1648,7 +1652,7 @@
   border-top-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_grand_summary_row {
+#wifxkbnben .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1658,7 +1662,7 @@
   padding-right: 5px;
 }
 
-#swubtbxmcy .gt_first_grand_summary_row {
+#wifxkbnben .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1668,11 +1672,11 @@
   border-top-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_striped {
+#wifxkbnben .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#swubtbxmcy .gt_table_body {
+#wifxkbnben .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1681,7 +1685,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_footnotes {
+#wifxkbnben .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1695,13 +1699,13 @@
   border-right-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_footnote {
+#wifxkbnben .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#swubtbxmcy .gt_sourcenotes {
+#wifxkbnben .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1715,41 +1719,41 @@
   border-right-color: #D3D3D3;
 }
 
-#swubtbxmcy .gt_sourcenote {
+#wifxkbnben .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#swubtbxmcy .gt_left {
+#wifxkbnben .gt_left {
   text-align: left;
 }
 
-#swubtbxmcy .gt_center {
+#wifxkbnben .gt_center {
   text-align: center;
 }
 
-#swubtbxmcy .gt_right {
+#wifxkbnben .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#swubtbxmcy .gt_font_normal {
+#wifxkbnben .gt_font_normal {
   font-weight: normal;
 }
 
-#swubtbxmcy .gt_font_bold {
+#wifxkbnben .gt_font_bold {
   font-weight: bold;
 }
 
-#swubtbxmcy .gt_font_italic {
+#wifxkbnben .gt_font_italic {
   font-style: italic;
 }
 
-#swubtbxmcy .gt_super {
+#wifxkbnben .gt_super {
   font-size: 65%;
 }
 
-#swubtbxmcy .gt_footnote_marks {
+#wifxkbnben .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1887,13 +1891,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -1901,8 +1903,6 @@
 
   
 
-
-  
 
   </body>
 </html>
