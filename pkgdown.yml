@@ -8,7 +8,7 @@ articles:
   processing_genie_genomic_data: processing_genie_genomic_data.html
   pull_data_synapse_vignette: pull_data_synapse_vignette.html
   select_unique_ngs_vignette: select_unique_ngs_vignette.html
-last_built: 2022-01-05T17:35Z
+last_built: 2022-01-05T17:53Z
 urls:
   reference: https://genie-bpc.github.io/genieBPC//reference
   article: https://genie-bpc.github.io/genieBPC//articles
