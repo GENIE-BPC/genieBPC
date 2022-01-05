@@ -67,6 +67,9 @@
       <a href="articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
     </li>
     <li>
+      <a href="articles/processing_genie_genomic_data.html">Processing GENIE genomic data</a>
+    </li>
+    <li>
       <a href="articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
     </li>
     <li>
@@ -95,9 +98,12 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><a href="https://github.com/AxelitoMartin/genieBPC/actions"><img src="https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master"><img src="https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --> <!--
-# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
- --> The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
+
+<div id="geniebpc-" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#geniebpc-" class="anchor"></a>genieBPC <img src="reference/figures/geniebpc_hex_sticker.png" align="right" height="120">
+</h1></div>
+<p>The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
 <ul>
 <li><p><strong>Pull a specified version of a phenomic data release</strong> from Synapse directly into the R environment. The most recent version is automatically pulled, but a specific version can be specified for the purposes of reproducing analyses. The phenomic data are recorded in multiple datasets, including: patient characteristics (vital status), cancer diagnosis, cancer-directed drug regimens, pathology, imaging, medical oncologist assessment, tumor markers and cancer panel test.</p></li>
 <li><p><strong>Create a cohort for analysis</strong> based on specified diagnosis or regimen inclusion criteria.</p></li>
@@ -108,8 +114,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the development version of {genieBPC} with the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"GENIE-BPC/genieBPC"</span>)</span></code></pre></div>
 </div>
 <div id="obtaining-data-access" class="section level2">
 <h2 class="hasAnchor">
@@ -128,6 +133,7 @@
 <p>The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.</p>
 <p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf">NSCLC V1.1 Analtyic Data Guide</a></p>
 <p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf">CRC V1.1 Analtyic Data Guide</a></p>
+</div>
 </div>
 
   </div>
@@ -154,12 +160,19 @@
 <ul class="list-unstyled">
 <li>Jessica Lavery <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2746-5647" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Michael A. Curry <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0261-4044" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Samantha Brown <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5352-974X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Samantha Brown <br><small class="roles"> Author </small>  </li>
 <li>Axel Martin <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/AxelitoMartin/genieBPC/actions"><img src="https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master"><img src="https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
