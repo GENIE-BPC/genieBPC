@@ -90,15 +90,18 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
+
 <div class="section level1">
-<div class="page-header"><h1 id="geniebpc-">genieBPC <img src="geniebpc_hex_sticker.png" align="right" height="20"><a class="anchor" aria-label="anchor" href="#geniebpc-"></a>
+<div class="page-header"><h1 id="geniebpc-">genieBPC <img src="reference/figures/geniebpc_hex_sticker.png" align="right" height="20"><a class="anchor" aria-label="anchor" href="#geniebpc-"></a>
 </h1></div>
 <p>The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.</p>
 <ul>
 <li><p><strong>Pull a specified version of a phenomic data release</strong> from Synapse directly into the R environment. The most recent version is automatically pulled, but a specific version can be specified for the purposes of reproducing analyses. The phenomic data are recorded in multiple datasets, including: patient characteristics (vital status), cancer diagnosis, cancer-directed drug regimens, pathology, imaging, medical oncologist assessment, tumor markers and cancer panel test.</p></li>
 <li><p><strong>Create a cohort for analysis</strong> based on specified diagnosis or regimen inclusion criteria.</p></li>
+<li><p><strong>Pull GENIE genomic data</strong> corresponding to the analytic cohort directly into the R environment, including selection of a single next-generation sequencing test in the case that the patient has multiple, based on user-specified criteria.</p></li>
 </ul>
-<p>The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis. {gnomeR} annotates the genomic data … [Axel to add]</p>
+<p>The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -121,13 +124,11 @@
 <h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
 </h2>
 <p>The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.</p>
-<p><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC V1.1 Analytic Data Guide</a></p>
-<p><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC V2.1 Analytic Data Guide</a></p>
-<p><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC V1.1 Analytic Data Guide</a></p>
-<p><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC V1.2 Analytic Data Guide</a></p>
-<p><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa V1.1 Analytic Data Guide</a></p>
+<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf" class="external-link">NSCLC V1.1 Analtyic Data Guide</a></p>
+<p><a href="https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf" class="external-link">CRC V1.1 Analtyic Data Guide</a></p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -165,7 +166,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/AxelitoMartin/genieBPC/actions" class="external-link"><img src="https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master" class="external-link"><img src="https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </div>
 </div>
