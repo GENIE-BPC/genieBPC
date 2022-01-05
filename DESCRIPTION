@@ -15,7 +15,8 @@ Authors@R:
              comment = c(ORCID = "0000-0002-0261-4044")),
       person(given = "Samantha",
              family = "Brown",
-             role = "aut"),
+             role = "aut",
+             comment = c(ORCID = "0000-0001-5352-974X")),
       person(given = "Axel",
              family = "Martin",
              role = "aut"))
