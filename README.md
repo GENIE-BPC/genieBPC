@@ -1,6 +1,16 @@
-# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
 
-The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/AxelitoMartin/genieBPC/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master)
+<!-- badges: end -->
+<!--
+# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
+ -->
+The {genieBPC} package provides a seamless way to obtain the data
+corresponding to each release from Synapse and to create datasets for
+analysis.
 
 -   **Pull a specified version of a phenomic data release** from Synapse
     directly into the R environment. The most recent version is
@@ -14,12 +24,18 @@ The {genieBPC} package provides a seamless way to obtain the data corresponding 
 -   **Create a cohort for analysis** based on specified diagnosis or
     regimen inclusion criteria.
 
+-   **Pull GENIE genomic data** corresponding to the analytic cohort
+    directly into the R environment, including selection of a single
+    next-generation sequencing test in the case that the patient has
+    multiple, based on user-specified criteria.
 
-The datasets obtained through {genieBPC} can be input directly into {gnomeR} to prepare the genomics data for analysis. {gnomeR} annotates the genomic data ... [Axel to add]
+The datasets obtained through {genieBPC} can be input directly into
+{gnomeR} to prepare the genomics data for analysis.
 
 ## Installation
 
-You can install the development version of {genieBPC} with the following code:
+You can install the development version of {genieBPC} with the following
+code:
 
 ``` r
 remotes::install_github("GENIE-BPC/genieBPC")
@@ -48,12 +64,8 @@ order to use this function. To obtain access:
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
-[NSCLC V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23002641)
+[NSCLC V1.1 Analtyic Data
+Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
 
-[NSCLC V2.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn26008058)
-
-[CRC V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23764204)
-
-[CRC V1.2 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn23764204)
-
-[BrCa V1.1 Analytic Data Guide](https://www.synapse.org/#!Synapse:syn26077313)
+[CRC V1.1 Analtyic Data
+Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)
