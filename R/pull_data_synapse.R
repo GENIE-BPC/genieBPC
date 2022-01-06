@@ -48,10 +48,10 @@ pull_data_synapse <- function(cohort, version) {
     {
       # check parameters
       if (missing(cohort)) {
-        stop("Select cohort from 'NSCLC' or 'CRC'")
+        stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa'")
       }
-      if (sum(!grepl("^CRC$|^NSCLC$", str_to_upper(cohort))) > 0) {
-        stop("Select cohort from 'NSCLC' or 'CRC'")
+      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", str_to_upper(cohort))) > 0) {
+        stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa")
       }
       if (missing(version)) {
         stop("Version needs to be specified. Use `synapse_version()` to see what data is available.")

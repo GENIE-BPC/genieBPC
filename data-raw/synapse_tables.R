@@ -1,32 +1,50 @@
 synapse_tables <- tidyr::tibble(
-  cohort = c(rep("NSCLC", 22), rep("CRC", 12)),
+  cohort = c(rep("NSCLC", 11*2),
+             rep("CRC", 12*2),
+             rep("BrCa", 11)),
   df = c(
     # NSCLC
     rep(c(
       "pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs",
       "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
-      "cna", "fusions", "mutations_extended"
-    ), 2),
+      "cna", "fusions", "mutations_extended"), 2),
     # CRC
-    "pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs",
+    rep(c("pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs",
     "prissmm_pathology", "prissmm_imaging", "prissmm_md",
-    "tm", "cpt", "cna", "fusions", "mutations_extended"
+    "tm", "cpt", "cna", "fusions", "mutations_extended"), 2),
+    # BrCa
+    rep(c(
+      "pt_char", "ca_dx_index", "ca_dx_non_index", "ca_drugs",
+      "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
+      "cna", "fusions", "mutations_extended"), 1)
   ),
-  version = c(rep("v1.1", 11), rep("v2.1", 11), rep("v1.1", 12)),
-  synapse_id = c( # NSCLC 1.1
+  version = c(rep("v1.1", 11),
+              rep("v2.1", 11),
+              rep("v1.1", 12),
+              rep("v1.2", 12),
+              rep("v1.1", 11)),
+  synapse_id = c(
+    # NSCLC 1.1-consortium
     "syn22418979", "syn22418974", "syn22418975", "syn22418980", "syn22418982",
     "syn22418981", "syn22418986", "syn22418987", "syn22334132", "syn22334134",
     "syn22334131",
-    # NSCLC 2.1
+    # NSCLC 2.1-consortium
     "syn25985884", "syn25985882", "syn25985883",
     "syn25985885", "syn25985887", "syn25985886",
     "syn25985888", "syn25985889",
     "syn25471850", "syn25471854", "syn25471844",
-
-    # CRC
+    # CRC 1.1-consortium
     "syn24168397", "syn24168395", "syn24168396", "syn24168398", "syn24168400",
     "syn24168399", "syn24168401", "syn24168403", "syn24168402", "syn23593204",
-    "syn23593208", "syn23593182"
+    "syn23593208", "syn23593182",
+    # CRC 1.2-consortium
+    "syn26046793", "syn26046791", "syn26046792", "syn26046794",
+    "syn26046796", "syn26046795", "syn26046797", "syn26046799", "syn26046798",
+    "syn25999008", "syn25999010", "syn25999007",
+    # BrCa 1.1-consortium
+    "syn26253365", "syn26253363", "syn26253364", "syn26253366",
+    "syn26253368", "syn26253367", "syn26253369",  "syn26253370",
+    "syn24994182", "syn24994184", "syn24994179"
   )
 )
 
