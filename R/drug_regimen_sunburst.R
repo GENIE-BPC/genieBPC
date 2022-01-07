@@ -28,7 +28,7 @@
 
 drug_regimen_sunburst <- function(data_synapse,
                                   data_cohort,
-                                  max_n_regimens) {
+                                  max_n_regimens = NULL) {
 
   # get the name of the cohort from the data_synapse object naming convention
   cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
@@ -64,50 +64,54 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_cohort` parameter")
   }
 
-  if (class(max_n_regimens) != "numeric") {
-    stop("Specify the maximum number of regimens to display.")
-  }
+  # if (class(max_n_regimens) != "numeric") {
+  #   stop("Specify the maximum number of regimens to display.")
+  # }
+
+  # get all regimens to diagnoses in cohort
+  cohort_all_drugs <- dplyr::inner_join(pluck(data_cohort, "cohort_ca_dx"),
+    pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
+    by = c("cohort", "record_id", "ca_seq", "institution")
+  ) %>%
+    # create drug regimen order WITHIN the cancer diagnosis
+    # (variable regimen_number is the order of the regimen w/in the patient)
+    dplyr::group_by(.data$cohort, .data$record_id, .data$ca_seq) %>%
+    dplyr::arrange(.data$cohort, .data$record_id,
+                   .data$ca_seq, .data$regimen_number) %>%
+    dplyr::mutate(order_within_cancer = 1:n()) %>%
+    dplyr::ungroup()
 
   # if no lines of therapy are specified, select all lines of therapy
   if (is.null(max_n_regimens)) {
     # get range of all lines of therapy
-    max_n_regimens <- 1:max(pluck(
-      data_synapse,
-      paste0("ca_drugs", cohort_temp)
-    )$regimen_number,
+    max_n_regimens <- max(cohort_all_drugs$order_within_cancer,
     na.rm = TRUE
     )
   }
-
-  # get all regimens to diagnoses in cohort
-  cohort_all_drugs <- left_join(pluck(data_cohort, "cohort_ca_dx"),
-    pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
-    by = c("cohort", "record_id", "ca_seq", "institution")
-  )
 
   # subset on regimen numbers of interest, if applicable
   # (selects all lines if max_n_regimens is left blank,
   # i.e. doesn't subset at all)
   cohort_reg_nums_of_interest <- cohort_all_drugs %>%
-    filter(.data$regimen_number %in% 1:max_n_regimens)
+    filter(.data$order_within_cancer %in% 1:max_n_regimens)
 
   # prepare the data for the sunburst function
   # 1 column per regimen (R1, R2, R3, etc.)
   cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
-    select(.data$record_id, .data$regimen_number, .data$regimen_drugs) %>%
-    mutate(regimen_number = paste0("R", .data$regimen_number)) %>%
-    pivot_wider(
-      names_from = .data$regimen_number,
+    dplyr::select(.data$record_id, .data$order_within_cancer, .data$regimen_drugs) %>%
+    dplyr::mutate(order_within_cancer = paste0("R", .data$order_within_cancer)) %>%
+    tidyr::pivot_wider(
+      names_from = .data$order_within_cancer,
       values_from = .data$regimen_drugs
     ) %>%
-    select(.data$record_id, starts_with("R")) %>%
-    mutate_at(vars(matches("R")), ~ as.character(.)) %>%
-    rowwise() %>%
-    mutate_at(
+    dplyr::select(.data$record_id, starts_with("R")) %>%
+    dplyr::mutate_at(vars(matches("R")), ~ as.character(.)) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate_at(
       # vars(matches("R")), ~ ifelse(. == "NULL","",.),
       vars(matches("R")), ~ ifelse(is.na(.) || . == "NULL", "", .)
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   # set up drug regimen data for sunburst
   # concatenate drug regimens separated by "-" into variable path
@@ -123,15 +127,15 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # only keep each record ID plus drug regimen sequence (1 row/patient)
   cohort_for_sunburst <- cohort_for_sunburst %>%
-    select(.data$record_id, .data$path)
+    dplyr::select(.data$record_id, .data$path)
 
   # summarize number of patients with each regimen combination
   # 1 row per regimen combination with number of patients that
   # got that regimen sequence
   df_for_sunburst <- cohort_for_sunburst %>%
-    group_by(.data$path) %>%
-    summarise(Pop = length(unique(.data$record_id))) %>%
-    ungroup()
+    dplyr::group_by(.data$path) %>%
+    dplyr::summarise(Pop = length(unique(.data$record_id))) %>%
+    dplyr::ungroup()
 
   # create the sunburst plot
   sunburst_plot <- sunburst(df_for_sunburst, legend = TRUE)

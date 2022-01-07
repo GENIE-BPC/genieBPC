@@ -50,13 +50,13 @@ pull_data_synapse <- function(cohort, version) {
       if (missing(cohort)) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa'")
       }
-      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", str_to_upper(cohort))) > 0) {
+      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", stringr::str_to_upper(cohort))) > 0) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa")
       }
       if (missing(version)) {
         stop("Version needs to be specified. Use `synapse_version()` to see what data is available.")
       }
-      if (sum(!grepl("^1.1$|^2.1$", version)) > 0) {
+      if (sum(!grepl("^1.1$|^1.2$|^2.1$", version)) > 0) {
         stop("Select an appropriate version number. Use `synapse_version()` to see what data is available.")
       }
       if(length(cohort) < length(version)){
@@ -68,7 +68,7 @@ pull_data_synapse <- function(cohort, version) {
 
       cohort_version <- Map(
         function(x, y) {
-          synapse_tables[synapse_tables$cohort %in% x & synapse_tables$version %in% y, ]
+          synapse_tables[stringr::str_to_upper(synapse_tables$cohort) %in% x & synapse_tables$version %in% y, ]
         },
         stringr::str_to_upper(cohort),
         version

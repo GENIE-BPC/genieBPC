@@ -121,8 +121,14 @@ create_analytic_cohort <- function(cohort,
                                    regimen_order_type,
                                    return_summary = FALSE) {
 
-  # apply to all variables (alt would be r language)
-  cohort_temp <- stringr::str_to_upper(cohort)
+  # get cohort from data_synapse object
+  # position of cohort in unique list of cohorts returned in pull_data_synapse object
+  # in the case that multiple cohorts were pulled
+  coh_position <- grep(stringr::str_to_upper(cohort),
+                       unique(word(names(data_synapse), -1, sep = "_")),
+                       ignore.case = TRUE)
+  # get that cohort name and how it is capitalized in the data_synapse object
+  cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))[coh_position]
 
   # alphabetize drugs in regimen to match how they are stored in variable
   # regimen_drugs
@@ -138,7 +144,7 @@ create_analytic_cohort <- function(cohort,
   }
 
   if (!(stringr::str_to_upper(cohort) %in% c("NSCLC", "CRC", "BRCA"))) {
-    stop("Select from available cancer cohorts: NSCLC, CRC, BrCa")
+    stop("Select from available cancer cohorts: NSCLC, CRC, BrCa (not case sensitive)")
   }
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
@@ -216,7 +222,7 @@ create_analytic_cohort <- function(cohort,
 
   # to account for unspecified histology
   if (missing(histology)) {
-    if (cohort_temp != "BRCA") {
+    if (cohort_temp != "BrCa") {
       histology_temp <- pull(pluck(data_synapse, paste0(
         "ca_dx_index_",
         cohort_temp
@@ -239,7 +245,7 @@ create_analytic_cohort <- function(cohort,
 
   # histology mis-specified
   if (!missing(histology) &&
-    cohort_temp != "BRCA" &&
+    cohort_temp != "BrCa" &&
     sum(!grepl(
       c("^adenocarcinoma$|^squamous cell$|^sarcoma$|^small cell
                  carcinoma$|^carcinoma$|^other histologies/mixed tumor$"),
@@ -250,7 +256,7 @@ create_analytic_cohort <- function(cohort,
          tumor")
   }
   if (!missing(histology) &&
-    cohort_temp == "BRCA" &&
+    cohort_temp == "BrCa" &&
     sum(!grepl(
       c("^invasive lobular carcinoma$|^invasive ductal carcinoma$|
                  ^Other histology$"),
@@ -309,7 +315,7 @@ create_analytic_cohort <- function(cohort,
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  if (cohort_temp != "BRCA") {
+  if (cohort_temp != "BrCa") {
     cohort_ca_dx <- pluck(data_synapse, paste0("ca_dx_index_", cohort_temp)) %>%
       # re-number index cancer diagnoses
       dplyr::group_by(.data$cohort, .data$record_id) %>%
@@ -636,9 +642,10 @@ create_analytic_cohort <- function(cohort,
         n_rec_cpt_dset
       ),
       quiet = TRUE
-    )
+    ) %>%
+    gtsummary::bold_labels()
 
-    if (cohort_temp != "BRCA") {
+    if (cohort_temp != "BrCa") {
       tbl_cohort <- cohort_ca_dx %>%
         # dplyr::group_by(.data$record_id) %>%
         # dplyr::mutate(n_rec_pt = n()) %>%
@@ -647,8 +654,15 @@ create_analytic_cohort <- function(cohort,
           include = c(
             .data$cohort, .data$institution,
             .data$stage_dx, .data$ca_hist_adeno_squamous
+          ),
+          list(
+            cohort ~ "Cohort (cohort)",
+            institution ~ "Institution (institution)",
+            stage_dx ~ "Stage at diagnosis (stage_dx)",
+            ca_hist_adeno_squamous ~ "Histology (ca_hist_adeno_squamous)"
           )
         ) %>%
+        gtsummary::bold_labels() %>%
         gtsummary::modify_header(
           update = list(
             stat_0 ~ "**N = {N} Diagnoses**"
@@ -664,8 +678,15 @@ create_analytic_cohort <- function(cohort,
           include = c(
             .data$cohort, .data$institution,
             .data$stage_dx, .data$ca_hist_brca
+          ),
+          label = list(
+            cohort ~ "Cohort (cohort)",
+            institution ~ "Institution (institution)",
+            stage_dx ~ "Stage at diagnosis (stage_dx)",
+            ca_hist_brca ~ "Histology (ca_hist_brca)"
           )
         ) %>%
+        gtsummary::bold_labels() %>%
         gtsummary::modify_header(
           update = list(
             stat_0 ~ "**N = {N} Diagnoses**"
@@ -683,8 +704,14 @@ create_analytic_cohort <- function(cohort,
         include = c(
           .data$cohort, .data$institution,
           .data$regimen_drugs
+        ),
+        label = list(
+          .data$cohort ~ "Cohort (cohort)",
+          .data$institution ~ "Institution (institution)",
+          .data$regimen_drugs ~ "Drugs in regimen (regimen_drugs)"
         )
       ) %>%
+      gtsummary::bold_labels() %>%
       gtsummary::modify_header(
         update = list(
           stat_0 ~ "**N = {N} Regimens**"
@@ -697,8 +724,15 @@ create_analytic_cohort <- function(cohort,
         include = c(
           .data$cohort, .data$institution, .data$cpt_oncotree_code,
           .data$cpt_seq_assay_id
+        ),
+        label = list(
+          cohort ~ "Cohort (cohort)",
+          institution ~ "Institution (institution)",
+          cpt_oncotree_code ~ "OncoTree code (cpt_oncotree_code)",
+          cpt_seq_assay_id ~ "Sequence assay ID (cpt_seq_assay_id)"
         )
       ) %>%
+      gtsummary::bold_labels() %>%
       gtsummary::modify_header(
         update = list(
           stat_0 ~ "**N = {N} Cancer Panel Tests**"
