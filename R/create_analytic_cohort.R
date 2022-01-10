@@ -33,14 +33,18 @@
 #' cancers to patients with multiple.
 #' @param institution GENIE BPC participating institution. Must be one of
 #' "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-#' "MSK", "VICC" for CRC. Default selection is all institutions.
+#' "MSK", "VICC" for CRC. Default selection is all institutions. This parameter
+#' corresponds to the variable `institution` in the Analytic Data Guide.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
 #' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+#' This parameter corresponds to the variable `stage_dx` in the
+#' Analytic Data Guide.
 #' @param histology Cancer histology. For all cancer cohorts except for BrCa
-#' (breast cancer), this corresponds to the variable `ca_hist_adeno_squamous`
-#' and must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma",
+#' (breast cancer), this parameter corresponds to the variable
+#' `ca_hist_adeno_squamous` and must be one of "Adenocarcinoma",
+#' "Squamous cell", "Sarcoma",
 #' "Small cell carcinoma", "Carcinoma", "Other histologies/mixed tumor".
-#'  For BrCa, this corresponds to the variable
+#'  For BrCa, this parameter corresponds to the variable
 #' `ca_hist_brca` and must be one of
 #' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 #' Default selection is all histologies.
@@ -48,7 +52,8 @@
 #' separated by a comma. For example, to specify a regimen consisting of
 #' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
 #' Pemetrexed". Acceptable values are found in the `drug_regimen_list`
-#' dataset provided with this package.
+#' dataset provided with this package. This parameter
+#' corresponds to the variable `regimen_drugs` in the Analytic Data Guide.
 #' @param regimen_type Indicates whether the regimen(s) specified in
 #' `regimen_drugs` indicates the exact regimen to return, or if regimens
 #' containing the drugs listed in `regimen_drugs` should be returned. Must be
@@ -607,7 +612,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of diagnoses per patient on cohort_ca_dx",
+        label = n_rec_pt ~ "Number of diagnoses per patient in cohort_ca_dx
+        data frame",
         type = n_rec_pt ~ "categorical"
       ) %>%
       gtsummary::modify_header(
@@ -622,7 +628,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs",
+        label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs
+        data frame",
         type = n_rec_pt ~ "categorical"
       )
 
@@ -631,7 +638,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of CPTs per patient in cohort_ngs",
+        label = n_rec_pt ~ "Number of CPTs per patient in cohort_ngs
+        data frame",
         type = n_rec_pt ~ "categorical"
       )
 
@@ -655,7 +663,7 @@ create_analytic_cohort <- function(cohort,
             .data$cohort, .data$institution,
             .data$stage_dx, .data$ca_hist_adeno_squamous
           ),
-          list(
+          label = list(
             cohort ~ "Cohort (cohort)",
             institution ~ "Institution (institution)",
             stage_dx ~ "Stage at diagnosis (stage_dx)",
