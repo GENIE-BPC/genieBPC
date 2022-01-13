@@ -37,16 +37,20 @@ cancers to patients with multiple.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of
 "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-"MSK", "VICC" for CRC. Default selection is all institutions.}
+"MSK", "VICC" for CRC. Default selection is all institutions. This parameter
+corresponds to the variable `institution` in the Analytic Data Guide.}
 
 \item{stage_dx}{Stage at diagnosis. Must be one of "Stage I", "Stage II",
-"Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.}
+"Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+This parameter corresponds to the variable `stage_dx` in the
+Analytic Data Guide.}
 
 \item{histology}{Cancer histology. For all cancer cohorts except for BrCa
-(breast cancer), this corresponds to the variable `ca_hist_adeno_squamous`
-and must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma",
+(breast cancer), this parameter corresponds to the variable
+`ca_hist_adeno_squamous` and must be one of "Adenocarcinoma",
+"Squamous cell", "Sarcoma",
 "Small cell carcinoma", "Carcinoma", "Other histologies/mixed tumor".
- For BrCa, this corresponds to the variable
+ For BrCa, this parameter corresponds to the variable
 `ca_hist_brca` and must be one of
 "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 Default selection is all histologies.}
@@ -55,7 +59,8 @@ Default selection is all histologies.}
 separated by a comma. For example, to specify a regimen consisting of
 Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
 Pemetrexed". Acceptable values are found in the `drug_regimen_list`
-dataset provided with this package.}
+dataset provided with this package. This parameter
+corresponds to the variable `regimen_drugs` in the Analytic Data Guide.}
 
 \item{regimen_type}{Indicates whether the regimen(s) specified in
 `regimen_drugs` indicates the exact regimen to return, or if regimens
