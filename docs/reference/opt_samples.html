@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>genieBPC: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data — genieBPC-package • genieBPC</title>
+<title>opt_samples — opt_samples • GenieBPC</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="genieBPC: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data — genieBPC-package" />
-<meta property="og:description" content="The genieBPC package provides a seamless way to obtain the data corresponding to each release from Synapse and to prepare datasets for analysis." />
+<meta property="og:title" content="opt_samples — opt_samples" />
+<meta property="og:description" content="Get the best samples for analysis following several user define criterions." />
 
 
 
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">genieBPC</a>
+        <a class="navbar-link" href="../index.html">GenieBPC</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -95,29 +95,20 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/clinical_data_structure_vignette.html">Tutorial: GENIE BPC Data Structure</a>
+      <a href="../articles/create_cohort_vignette.html">Tutorial: create_cohort</a>
     </li>
     <li>
-      <a href="../articles/create_analytic_cohort_vignette.html">Tutorial: create_analytic_cohort</a>
-    </li>
-    <li>
-      <a href="../articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
-    </li>
-    <li>
-      <a href="../articles/processing_genie_genomic_data.html">Processing GENIE genomic data</a>
+      <a href="../articles/data_structure_vignette.html">Tutorial: GENIE BPC Data Structure</a>
     </li>
     <li>
       <a href="../articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
-    </li>
-    <li>
-      <a href="../articles/select_unique_ngs_vignette.html">Tutorial: select_unique_ngs</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/">
+  <a href="https://github.com/AxelitoMartin/GenieBPC/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -135,35 +126,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>genieBPC: Data Processing Pipeline for the AACR Project GENIE Biopharma Collaborative Data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GENIE-BPC/genieBPC/blob/master/R/genieBPC-package.R'><code>R/genieBPC-package.R</code></a></small>
-    <div class="hidden name"><code>genieBPC-package.Rd</code></div>
+    <h1>opt_samples</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AxelitoMartin/GenieBPC/blob/master/R/opt_samples.R'><code>R/opt_samples.R</code></a></small>
+    <div class="hidden name"><code>opt_samples.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The genieBPC package provides a seamless way to obtain the data corresponding to each release from Synapse and to prepare datasets for analysis.</p>
+    <p>Get the best samples for analysis following several user define criterions.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>opt_samples</span><span class='op'>(</span>
+  <span class='va'>samples_object</span>,
+  histology <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample_type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min_max_time <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>samples_object</th>
+      <td><p>output object of the fetch_samples function.</p></td>
+    </tr>
+    <tr>
+      <th>histology</th>
+      <td><p>character vector specifying which sample histologies to keep. See "cpt_oncotree_code" column
+of samples_object argument above to get options.</p></td>
+    </tr>
+    <tr>
+      <th>sample_type</th>
+      <td><p>character specifying which type of sample to prioritize, options are "Primary" and "Metastasis".
+Default is either.</p></td>
+    </tr>
+    <tr>
+      <th>min_max_time</th>
+      <td><p>character specifying if the first or last sample recorded should be kept.
+Options are "min" (first) and "max" (last).</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p>Report bugs at <a href='https://github.com/GENIE-BPC/genieBPC/issues'>https://github.com/GENIE-BPC/genieBPC/issues</a></p></li>
-</ul>
+    <p>returns the sample object list inputted with an additional dataset named "samples_data".</p>
 
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Jessica Lavery <a href='mailto:laveryj@mskcc.org'>laveryj@mskcc.org</a> (<a href='https://orcid.org/0000-0002-2746-5647'>ORCID</a>)</p>
-<p>Authors:</p><ul>
-<li><p>Michael A. Curry (<a href='https://orcid.org/0000-0002-0261-4044'>ORCID</a>)</p></li>
-<li><p>Samantha Brown</p></li>
-<li><p>Axel Martin</p></li>
-</ul>
-
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Example 1 ----------------------------------</span>
+<span class='co'># Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma</span>
+<span class='co'># out &lt;- create_cohort(cohort = "NSCLC",</span>
+<span class='co'>#      stage_dx = c("Stage IV"),</span>
+<span class='co'>#      ca_hist_adeno_squamous = "Adenocarcinoma")</span>
+<span class='co'># samples_data &lt;- fetch_samples(cohort = "NSCLC", cohort_object = out)</span>
+<span class='co'># opt_samples &lt;- opt_samples(samples_object = samples_data)</span>
+<span class='co'># Example 2 ----------------------------------</span>
+<span class='co'># Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin,</span>
+<span class='co'># Etoposide as their first drug regimen</span>
+<span class='co'># out &lt;- create_cohort(cohort = "NSCLC",</span>
+<span class='co'>#     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),</span>
+<span class='co'>#     regimen_order = 1,</span>
+<span class='co'>#     regimen_order_type = "within regimen")</span>
+<span class='co'># samples_data &lt;- fetch_samples(cohort = "NSCLC", cohort_object = out)</span>
+<span class='co'># opt_samples &lt;- opt_samples(samples_object = samples_data, histology = "LUAD", sample_type = "Metastasis",min_max_time = "max")</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -175,7 +199,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p>Developed by Jessica Lavery, Michael Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">

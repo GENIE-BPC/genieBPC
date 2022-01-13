@@ -5,9 +5,9 @@
 [![Codecov test
 coverage](https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master)
 <!-- badges: end -->
-<!--
-# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="20" /></a>
- -->
+
+# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
+
 The {genieBPC} package provides a seamless way to obtain the data
 corresponding to each release from Synapse and to create datasets for
 analysis.
@@ -37,9 +37,7 @@ The datasets obtained through {genieBPC} can be input directly into
 You can install the development version of {genieBPC} with the following
 code:
 
-``` r
-remotes::install_github("GENIE-BPC/genieBPC")
-```
+    remotes::install_github("GENIE-BPC/genieBPC")
 
 ## Obtaining Data Access
 
