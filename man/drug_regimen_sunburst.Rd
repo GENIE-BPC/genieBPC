@@ -4,7 +4,7 @@
 \alias{drug_regimen_sunburst}
 \title{drug_regimen_sunburst}
 \usage{
-drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens)
+drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL)
 }
 \arguments{
 \item{data_synapse}{The list returned from the `pull_data_synapse()`
