@@ -15,7 +15,14 @@ pull_data_synapse(cohort, version)
 Returns clinical and genomic data corresponding to the specified cohort(s). Data frames have the suffix indicating the cohort appended to their name, e.g. pt_char_NSCLC for the pt_char dataset of the NSCLC cohort.
 }
 \description{
-The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide.
+The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide:
+\itemize{
+  \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+}
 }
 \examples{
 # Example 1 ----------------------------------

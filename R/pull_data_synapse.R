@@ -1,6 +1,13 @@
 #' Obtain Clinical Data Files for GENIE BPC Project
 #'
-#' The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide.
+#' The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide:
+#' \itemize{
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+#' }
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or "CRC" (Colorectal Cancer).
 #' @param version Vector or list specifying the version of the data. By default, the most recent version is pulled. Currently, only version 1.1 is available. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data. See examples below.
