@@ -265,7 +265,7 @@ test_that("no regimen specified", {
   )
 
   # should match all regimens given for a patients first index cancer
-  test_1b <- left_join(nsclc_data$ca_dx_index_NSCLC %>%
+  test_1b <- inner_join(nsclc_data$ca_dx_index_NSCLC %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup(),

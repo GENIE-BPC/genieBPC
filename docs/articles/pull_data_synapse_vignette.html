@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">genieBPC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -63,9 +59,6 @@
       <a href="../articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
     </li>
     <li>
-      <a href="../articles/processing_genie_genomic_data.html">Processing GENIE genomic data</a>
-    </li>
-    <li>
       <a href="../articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
     </li>
     <li>
@@ -76,7 +69,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/">
+  <a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,61 +84,62 @@
 
       
 
-      </header><script src="pull_data_synapse_vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial: pull_data_synapse</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/master/vignettes/pull_data_synapse_vignette.Rmd"><code>vignettes/pull_data_synapse_vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/HEAD/vignettes/pull_data_synapse_vignette.Rmd" class="external-link"><code>vignettes/pull_data_synapse_vignette.Rmd</code></a></small>
       <div class="hidden name"><code>pull_data_synapse_vignette.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function accesses the specified version of the clinical and genomic GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164">Synapse</a> and reads it into the R environment.  </p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function accesses the specified version of the clinical and genomic GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164" class="external-link">Synapse</a> and reads it into the R environment.  </p>
 <p>This vignette will walk a user through the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function.</p>
 </div>
-<div id="setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#setup" class="anchor"></a>Setup</h2>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
 <p>Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:</p>
 <ol style="list-style-type: decimal">
-<li>Register for a <a href="https://www.synapse.org/#!Reigster0">Synapse account</a>
+<li>Register for a <a href="https://www.synapse.org/#!Reigster0" class="external-link">Synapse account</a>
 </li>
-<li>Use <a href="https://www.synapse.org/#!Team:3399797">this link</a> to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</li>
-<li>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493">GENIE Biopharma collaborative projects</a>.</li>
+<li>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</li>
+<li>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma collaborative projects</a>.</li>
 </ol>
 <p><em>Note: Please allow up to a week to review and grant access.</em></p>
 <p> </p>
 <p>Install and load {synapser}.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("synapser")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.synapse.org">synapser</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.synapse.org" class="external-link">synapser</a></span><span class="op">)</span></code></pre></div>
 <p> </p>
-<p>After loading the {synapser} package, log into Synapse using the <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin()</a></code> function.</p>
+<p>After loading the {synapser} package, log into Synapse using the <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code> function.</p>
 <p>Users have the option to log in during each session or to store their login information. To log in during each session, call:</p>
-<p><code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin(email = "your_email", password = "your_password")</a></code></p>
+<p><code>synLogin(email = "your_email", password = "your_password")</code></p>
 <p> </p>
 <p>For users to store their login information, call:</p>
-<p><code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)</a></code></p>
-<p>Using the <code>rememberMe</code> argument caches the authentication information in your operating system’s credential storage. This way, the user only needs to enter your credentials once. In future uses, <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html">synLogin()</a></code> will be called within the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function and will not require the user’s email and password.</p>
+<p><code>synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)</code></p>
+<p>Using the <code>rememberMe</code> argument caches the authentication information in your operating system’s credential storage. This way, the user only needs to enter your credentials once. In future uses, <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code> will be called within the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function and will not require the user’s email and password.</p>
 <p> </p>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>Let’s start by reviewing the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> arguments.</p>
-<div id="cegslfwwsh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<pre><code><span class="co">#&gt; Welcome, Michael Curry!</span></code></pre>
+<div id="xgppemzrel" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cegslfwwsh .gt_table {
+#xgppemzrel .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -170,7 +164,7 @@
   border-left-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_heading {
+#xgppemzrel .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -182,7 +176,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_title {
+#xgppemzrel .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -192,7 +186,7 @@
   border-bottom-width: 0;
 }
 
-#cegslfwwsh .gt_subtitle {
+#xgppemzrel .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -202,13 +196,13 @@
   border-top-width: 0;
 }
 
-#cegslfwwsh .gt_bottom_border {
+#xgppemzrel .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_col_headings {
+#xgppemzrel .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -223,7 +217,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_col_heading {
+#xgppemzrel .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -243,7 +237,7 @@
   overflow-x: hidden;
 }
 
-#cegslfwwsh .gt_column_spanner_outer {
+#xgppemzrel .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -255,15 +249,15 @@
   padding-right: 4px;
 }
 
-#cegslfwwsh .gt_column_spanner_outer:first-child {
+#xgppemzrel .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cegslfwwsh .gt_column_spanner_outer:last-child {
+#xgppemzrel .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cegslfwwsh .gt_column_spanner {
+#xgppemzrel .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -275,7 +269,7 @@
   width: 100%;
 }
 
-#cegslfwwsh .gt_group_heading {
+#xgppemzrel .gt_group_heading {
   padding: 1px;
   color: #333333;
   background-color: #FFFFFF;
@@ -297,7 +291,7 @@
   vertical-align: middle;
 }
 
-#cegslfwwsh .gt_empty_group_heading {
+#xgppemzrel .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -312,15 +306,15 @@
   vertical-align: middle;
 }
 
-#cegslfwwsh .gt_from_md > :first-child {
+#xgppemzrel .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cegslfwwsh .gt_from_md > :last-child {
+#xgppemzrel .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cegslfwwsh .gt_row {
+#xgppemzrel .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -339,7 +333,7 @@
   overflow-x: hidden;
 }
 
-#cegslfwwsh .gt_stub {
+#xgppemzrel .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -351,7 +345,7 @@
   padding-left: 12px;
 }
 
-#cegslfwwsh .gt_summary_row {
+#xgppemzrel .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -361,7 +355,7 @@
   padding-right: 5px;
 }
 
-#cegslfwwsh .gt_first_summary_row {
+#xgppemzrel .gt_first_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -371,7 +365,7 @@
   border-top-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_grand_summary_row {
+#xgppemzrel .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -381,7 +375,7 @@
   padding-right: 5px;
 }
 
-#cegslfwwsh .gt_first_grand_summary_row {
+#xgppemzrel .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -391,11 +385,11 @@
   border-top-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_striped {
+#xgppemzrel .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cegslfwwsh .gt_table_body {
+#xgppemzrel .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -404,7 +398,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_footnotes {
+#xgppemzrel .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -418,13 +412,13 @@
   border-right-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_footnote {
+#xgppemzrel .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 1px;
 }
 
-#cegslfwwsh .gt_sourcenotes {
+#xgppemzrel .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -438,41 +432,41 @@
   border-right-color: #D3D3D3;
 }
 
-#cegslfwwsh .gt_sourcenote {
+#xgppemzrel .gt_sourcenote {
   font-size: 90%;
   padding: 1px;
 }
 
-#cegslfwwsh .gt_left {
+#xgppemzrel .gt_left {
   text-align: left;
 }
 
-#cegslfwwsh .gt_center {
+#xgppemzrel .gt_center {
   text-align: center;
 }
 
-#cegslfwwsh .gt_right {
+#xgppemzrel .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cegslfwwsh .gt_font_normal {
+#xgppemzrel .gt_font_normal {
   font-weight: normal;
 }
 
-#cegslfwwsh .gt_font_bold {
+#xgppemzrel .gt_font_bold {
   font-weight: bold;
 }
 
-#cegslfwwsh .gt_font_italic {
+#xgppemzrel .gt_font_italic {
   font-style: italic;
 }
 
-#cegslfwwsh .gt_super {
+#xgppemzrel .gt_super {
   font-size: 65%;
 }
 
-#cegslfwwsh .gt_footnote_marks {
+#xgppemzrel .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -501,22 +495,22 @@
 </div>
 <p> </p>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<div id="example-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-1" class="anchor"></a>Example 1</h3>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<div class="section level3">
+<h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h3>
 <p>Pull version 2.1 of the NSCLC data from Synapse and store in the local environment.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1"</span><span class="op">)</span></code></pre></div>
 <p>The resulting <code>nsclc_data</code> object is a list of elements, such that each element represents a dataset:</p>
-<div id="qfmvcpcgjc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="sdjgqmubyg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qfmvcpcgjc .gt_table {
+#sdjgqmubyg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -541,7 +535,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_heading {
+#sdjgqmubyg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -553,7 +547,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_title {
+#sdjgqmubyg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -563,7 +557,7 @@
   border-bottom-width: 0;
 }
 
-#qfmvcpcgjc .gt_subtitle {
+#sdjgqmubyg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -573,13 +567,13 @@
   border-top-width: 0;
 }
 
-#qfmvcpcgjc .gt_bottom_border {
+#sdjgqmubyg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_col_headings {
+#sdjgqmubyg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -594,7 +588,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_col_heading {
+#sdjgqmubyg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -614,7 +608,7 @@
   overflow-x: hidden;
 }
 
-#qfmvcpcgjc .gt_column_spanner_outer {
+#sdjgqmubyg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -626,15 +620,15 @@
   padding-right: 4px;
 }
 
-#qfmvcpcgjc .gt_column_spanner_outer:first-child {
+#sdjgqmubyg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qfmvcpcgjc .gt_column_spanner_outer:last-child {
+#sdjgqmubyg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qfmvcpcgjc .gt_column_spanner {
+#sdjgqmubyg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -646,7 +640,7 @@
   width: 100%;
 }
 
-#qfmvcpcgjc .gt_group_heading {
+#sdjgqmubyg .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -668,7 +662,7 @@
   vertical-align: middle;
 }
 
-#qfmvcpcgjc .gt_empty_group_heading {
+#sdjgqmubyg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -683,15 +677,15 @@
   vertical-align: middle;
 }
 
-#qfmvcpcgjc .gt_from_md > :first-child {
+#sdjgqmubyg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qfmvcpcgjc .gt_from_md > :last-child {
+#sdjgqmubyg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qfmvcpcgjc .gt_row {
+#sdjgqmubyg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -710,7 +704,7 @@
   overflow-x: hidden;
 }
 
-#qfmvcpcgjc .gt_stub {
+#sdjgqmubyg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -722,7 +716,7 @@
   padding-left: 12px;
 }
 
-#qfmvcpcgjc .gt_summary_row {
+#sdjgqmubyg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -732,7 +726,7 @@
   padding-right: 5px;
 }
 
-#qfmvcpcgjc .gt_first_summary_row {
+#sdjgqmubyg .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -742,7 +736,7 @@
   border-top-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_grand_summary_row {
+#sdjgqmubyg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -752,7 +746,7 @@
   padding-right: 5px;
 }
 
-#qfmvcpcgjc .gt_first_grand_summary_row {
+#sdjgqmubyg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -762,11 +756,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_striped {
+#sdjgqmubyg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qfmvcpcgjc .gt_table_body {
+#sdjgqmubyg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -775,7 +769,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_footnotes {
+#sdjgqmubyg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -789,13 +783,13 @@
   border-right-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_footnote {
+#sdjgqmubyg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qfmvcpcgjc .gt_sourcenotes {
+#sdjgqmubyg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -809,41 +803,41 @@
   border-right-color: #D3D3D3;
 }
 
-#qfmvcpcgjc .gt_sourcenote {
+#sdjgqmubyg .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qfmvcpcgjc .gt_left {
+#sdjgqmubyg .gt_left {
   text-align: left;
 }
 
-#qfmvcpcgjc .gt_center {
+#sdjgqmubyg .gt_center {
   text-align: center;
 }
 
-#qfmvcpcgjc .gt_right {
+#sdjgqmubyg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qfmvcpcgjc .gt_font_normal {
+#sdjgqmubyg .gt_font_normal {
   font-weight: normal;
 }
 
-#qfmvcpcgjc .gt_font_bold {
+#sdjgqmubyg .gt_font_bold {
   font-weight: bold;
 }
 
-#qfmvcpcgjc .gt_font_italic {
+#sdjgqmubyg .gt_font_italic {
   font-style: italic;
 }
 
-#qfmvcpcgjc .gt_super {
+#sdjgqmubyg .gt_super {
   font-size: 65%;
 }
 
-#qfmvcpcgjc .gt_footnote_marks {
+#sdjgqmubyg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -903,25 +897,25 @@
 </table>
 </div>
 </div>
-<div id="example-2" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-2" class="anchor"></a>Example 2</h3>
+<div class="section level3">
+<h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
+</h3>
 <p>Pull version 2.1 of the NSCLC data and version 2.1 of the CRC data.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>, version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"2.1"</span>,<span class="st">"1.1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="example-3" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-3" class="anchor"></a>Example 3</h3>
-<p>Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,
-                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1.1"</span>, <span class="st">"1.1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>, version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2.1"</span>,<span class="st">"1.1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
+</h3>
+<p>Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,
+                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.1"</span>, <span class="st">"1.1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="future-work" class="section level2">
-<h2 class="hasAnchor">
-<a href="#future-work" class="anchor"></a>Future Work</h2>
+<div class="section level2">
+<h2 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>
+</h2>
 <ul>
 <li>As of July 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.</li>
 </ul>
@@ -939,11 +933,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p></p>
+<p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -951,6 +947,8 @@
 
   
 
+
+  
 
   </body>
 </html>

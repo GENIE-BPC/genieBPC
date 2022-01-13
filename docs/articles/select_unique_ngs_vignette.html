@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">genieBPC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -63,9 +59,6 @@
       <a href="../articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
     </li>
     <li>
-      <a href="../articles/processing_genie_genomic_data.html">Processing GENIE genomic data</a>
-    </li>
-    <li>
       <a href="../articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
     </li>
     <li>
@@ -76,7 +69,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/">
+  <a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,13 +84,13 @@
 
       
 
-      </header><script src="select_unique_ngs_vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial: select_unique_ngs</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/master/vignettes/select_unique_ngs_vignette.Rmd"><code>vignettes/select_unique_ngs_vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/HEAD/vignettes/select_unique_ngs_vignette.Rmd" class="external-link"><code>vignettes/select_unique_ngs_vignette.Rmd</code></a></small>
       <div class="hidden name"><code>select_unique_ngs_vignette.Rmd</code></div>
 
     </div>
@@ -105,10 +98,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span></code></pre></div>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">genieBPC</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>The <code>genieBPC</code> package allows users to link the clinical data to patients’ corresponding genomic samples.</p>
 <p>This tutorial will utilize the data downloaded in the <code>Tutorial: pull_data_synapse()</code> vignette and processed in the <code>Tutorial: create_analytic_cohort()</code> vignette, as shown below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -116,18 +109,18 @@
 
 <span class="va">nsclc_stg_iv_adeno</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
                                    data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
+                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
                                    histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="modifying-function-arguments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modifying-function-arguments" class="anchor"></a>Modifying Function Arguments</h2>
-<div id="mhxjsvzulj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="section level2">
+<h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
+</h2>
+<div id="jaflhmxrdf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#mhxjsvzulj .gt_table {
+#jaflhmxrdf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -152,7 +145,7 @@
   border-left-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_heading {
+#jaflhmxrdf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -164,7 +157,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_title {
+#jaflhmxrdf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -174,7 +167,7 @@
   border-bottom-width: 0;
 }
 
-#mhxjsvzulj .gt_subtitle {
+#jaflhmxrdf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -184,13 +177,13 @@
   border-top-width: 0;
 }
 
-#mhxjsvzulj .gt_bottom_border {
+#jaflhmxrdf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_col_headings {
+#jaflhmxrdf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -205,7 +198,7 @@
   border-right-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_col_heading {
+#jaflhmxrdf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -225,7 +218,7 @@
   overflow-x: hidden;
 }
 
-#mhxjsvzulj .gt_column_spanner_outer {
+#jaflhmxrdf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -237,15 +230,15 @@
   padding-right: 4px;
 }
 
-#mhxjsvzulj .gt_column_spanner_outer:first-child {
+#jaflhmxrdf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mhxjsvzulj .gt_column_spanner_outer:last-child {
+#jaflhmxrdf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mhxjsvzulj .gt_column_spanner {
+#jaflhmxrdf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -257,7 +250,7 @@
   width: 100%;
 }
 
-#mhxjsvzulj .gt_group_heading {
+#jaflhmxrdf .gt_group_heading {
   padding: 1px;
   color: #333333;
   background-color: #FFFFFF;
@@ -279,7 +272,7 @@
   vertical-align: middle;
 }
 
-#mhxjsvzulj .gt_empty_group_heading {
+#jaflhmxrdf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -294,15 +287,15 @@
   vertical-align: middle;
 }
 
-#mhxjsvzulj .gt_from_md > :first-child {
+#jaflhmxrdf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mhxjsvzulj .gt_from_md > :last-child {
+#jaflhmxrdf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mhxjsvzulj .gt_row {
+#jaflhmxrdf .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -321,7 +314,7 @@
   overflow-x: hidden;
 }
 
-#mhxjsvzulj .gt_stub {
+#jaflhmxrdf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -333,7 +326,7 @@
   padding-left: 12px;
 }
 
-#mhxjsvzulj .gt_summary_row {
+#jaflhmxrdf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -343,7 +336,7 @@
   padding-right: 5px;
 }
 
-#mhxjsvzulj .gt_first_summary_row {
+#jaflhmxrdf .gt_first_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -353,7 +346,7 @@
   border-top-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_grand_summary_row {
+#jaflhmxrdf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -363,7 +356,7 @@
   padding-right: 5px;
 }
 
-#mhxjsvzulj .gt_first_grand_summary_row {
+#jaflhmxrdf .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -373,11 +366,11 @@
   border-top-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_striped {
+#jaflhmxrdf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mhxjsvzulj .gt_table_body {
+#jaflhmxrdf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -386,7 +379,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_footnotes {
+#jaflhmxrdf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -400,13 +393,13 @@
   border-right-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_footnote {
+#jaflhmxrdf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 1px;
 }
 
-#mhxjsvzulj .gt_sourcenotes {
+#jaflhmxrdf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -420,41 +413,41 @@
   border-right-color: #D3D3D3;
 }
 
-#mhxjsvzulj .gt_sourcenote {
+#jaflhmxrdf .gt_sourcenote {
   font-size: 90%;
   padding: 1px;
 }
 
-#mhxjsvzulj .gt_left {
+#jaflhmxrdf .gt_left {
   text-align: left;
 }
 
-#mhxjsvzulj .gt_center {
+#jaflhmxrdf .gt_center {
   text-align: center;
 }
 
-#mhxjsvzulj .gt_right {
+#jaflhmxrdf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mhxjsvzulj .gt_font_normal {
+#jaflhmxrdf .gt_font_normal {
   font-weight: normal;
 }
 
-#mhxjsvzulj .gt_font_bold {
+#jaflhmxrdf .gt_font_bold {
   font-weight: bold;
 }
 
-#mhxjsvzulj .gt_font_italic {
+#jaflhmxrdf .gt_font_italic {
   font-style: italic;
 }
 
-#mhxjsvzulj .gt_super {
+#jaflhmxrdf .gt_super {
   font-size: 65%;
 }
 
-#mhxjsvzulj .gt_footnote_marks {
+#jaflhmxrdf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -498,9 +491,9 @@
 </div>
 <p><em>Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.</em></p>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient’s earliest sample.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/select_unique_ngs.html">select_unique_ngs</a></span><span class="op">(</span>
@@ -522,11 +515,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p></p>
+<p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -534,6 +529,8 @@
 
   
 
+
+  
 
   </body>
 </html>

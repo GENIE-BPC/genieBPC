@@ -86,7 +86,7 @@ test_that("function returns unique sample for each record", {
       test5$record_id == "GENIE-DFCI-004022",
       c("dx_cpt_rep_mos", "sample_type")
     ]),
-    c("31.5131578947368", "Local recurrence")
+    c("44.0789473684211", "Local recurrence")
   )
 
 
@@ -106,6 +106,6 @@ test_that("function returns unique sample for each record", {
       test6$record_id == "GENIE-DFCI-004022",
       c("dx_cpt_rep_mos", "sample_type")
     ]),
-    c("44.0789473684211", "Metastasis site unspecified")
+    c("31.5131578947368", "Metastasis site unspecified")
   )
 })

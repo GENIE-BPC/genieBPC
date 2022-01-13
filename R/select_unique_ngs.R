@@ -126,7 +126,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
           }
           if (min_max_time == "max") {
             temp <- temp %>%
-              filter(.data$dx_cpt_rep_days == max(dx_cpt_rep_days))
+              filter(.data$dx_cpt_rep_days == max(.data$dx_cpt_rep_days))
           }
         }
 
@@ -134,14 +134,14 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
         # select the sample with largest panel number
         if (nrow(temp) > 1) {
           temp <- temp %>%
-            filter(.data$cpt_seq_assay_id %in% genie_panels$Sequence.Assay.ID) %>%
+            filter(.data$cpt_seq_assay_id %in% genieBPC::genie_panels$Sequence.Assay.ID) %>%
             rowwise() %>%
             mutate(panel_size =
-                     genie_panels[match(.data$cpt_seq_assay_id,
-                                        genie_panels$Sequence.Assay.ID),
+                     genieBPC::genie_panels[match(.data$cpt_seq_assay_id,
+                                                  genieBPC::genie_panels$Sequence.Assay.ID),
                                   "Genes"]) %>%
             ungroup() %>%
-            filter(panel_size == max(.data$panel_size)) %>%
+            filter(.data$panel_size == max(.data$panel_size)) %>%
             select(-one_of("panel_size"))
         }
 

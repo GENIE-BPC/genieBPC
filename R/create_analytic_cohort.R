@@ -33,14 +33,18 @@
 #' cancers to patients with multiple.
 #' @param institution GENIE BPC participating institution. Must be one of
 #' "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-#' "MSK", "VICC" for CRC. Default selection is all institutions.
+#' "MSK", "VICC" for CRC. Default selection is all institutions. This parameter
+#' corresponds to the variable `institution` in the Analytic Data Guide.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
 #' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+#' This parameter corresponds to the variable `stage_dx` in the
+#' Analytic Data Guide.
 #' @param histology Cancer histology. For all cancer cohorts except for BrCa
-#' (breast cancer), this corresponds to the variable `ca_hist_adeno_squamous`
-#' and must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma",
+#' (breast cancer), this parameter corresponds to the variable
+#' `ca_hist_adeno_squamous` and must be one of "Adenocarcinoma",
+#' "Squamous cell", "Sarcoma",
 #' "Small cell carcinoma", "Carcinoma", "Other histologies/mixed tumor".
-#'  For BrCa, this corresponds to the variable
+#'  For BrCa, this parameter corresponds to the variable
 #' `ca_hist_brca` and must be one of
 #' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 #' Default selection is all histologies.
@@ -48,7 +52,8 @@
 #' separated by a comma. For example, to specify a regimen consisting of
 #' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
 #' Pemetrexed". Acceptable values are found in the `drug_regimen_list`
-#' dataset provided with this package.
+#' dataset provided with this package. This parameter
+#' corresponds to the variable `regimen_drugs` in the Analytic Data Guide.
 #' @param regimen_type Indicates whether the regimen(s) specified in
 #' `regimen_drugs` indicates the exact regimen to return, or if regimens
 #' containing the drugs listed in `regimen_drugs` should be returned. Must be
@@ -121,8 +126,14 @@ create_analytic_cohort <- function(cohort,
                                    regimen_order_type,
                                    return_summary = FALSE) {
 
-  # apply to all variables (alt would be r language)
-  cohort_temp <- stringr::str_to_upper(cohort)
+  # get cohort from data_synapse object
+  # position of cohort in unique list of cohorts returned in pull_data_synapse object
+  # in the case that multiple cohorts were pulled
+  coh_position <- grep(stringr::str_to_upper(cohort),
+                       unique(word(names(data_synapse), -1, sep = "_")),
+                       ignore.case = TRUE)
+  # get that cohort name and how it is capitalized in the data_synapse object
+  cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))[coh_position]
 
   # alphabetize drugs in regimen to match how they are stored in variable
   # regimen_drugs
@@ -138,7 +149,7 @@ create_analytic_cohort <- function(cohort,
   }
 
   if (!(stringr::str_to_upper(cohort) %in% c("NSCLC", "CRC", "BRCA"))) {
-    stop("Select from available cancer cohorts: NSCLC, CRC, BrCa")
+    stop("Select from available cancer cohorts: NSCLC, CRC, BrCa (not case sensitive)")
   }
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
@@ -216,7 +227,7 @@ create_analytic_cohort <- function(cohort,
 
   # to account for unspecified histology
   if (missing(histology)) {
-    if (cohort_temp != "BRCA") {
+    if (cohort_temp != "BrCa") {
       histology_temp <- pull(pluck(data_synapse, paste0(
         "ca_dx_index_",
         cohort_temp
@@ -239,7 +250,7 @@ create_analytic_cohort <- function(cohort,
 
   # histology mis-specified
   if (!missing(histology) &&
-    cohort_temp != "BRCA" &&
+    cohort_temp != "BrCa" &&
     sum(!grepl(
       c("^adenocarcinoma$|^squamous cell$|^sarcoma$|^small cell
                  carcinoma$|^carcinoma$|^other histologies/mixed tumor$"),
@@ -250,7 +261,7 @@ create_analytic_cohort <- function(cohort,
          tumor")
   }
   if (!missing(histology) &&
-    cohort_temp == "BRCA" &&
+    cohort_temp == "BrCa" &&
     sum(!grepl(
       c("^invasive lobular carcinoma$|^invasive ductal carcinoma$|
                  ^Other histology$"),
@@ -309,7 +320,7 @@ create_analytic_cohort <- function(cohort,
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  if (cohort_temp != "BRCA") {
+  if (cohort_temp != "BrCa") {
     cohort_ca_dx <- pluck(data_synapse, paste0("ca_dx_index_", cohort_temp)) %>%
       # re-number index cancer diagnoses
       dplyr::group_by(.data$cohort, .data$record_id) %>%
@@ -380,12 +391,12 @@ create_analytic_cohort <- function(cohort,
       by = c("record_id", "regimen_number")
     ) %>%
     dplyr::left_join(.,
-      regimen_abbreviations,
+                     genieBPC::regimen_abbreviations,
       by = c("regimen_drugs")
     )
 
   # option 2: all "first line" drug regimens (regimens of a certain number,
-  # within a cancer diganosis)
+  # within a cancer diagnosis)
   # specific regimen number to all pts in cohort, any regimen name
   # regimen_drugs is not specified, regimen_order is specified and
   # regimen_type = "within cancer"
@@ -601,7 +612,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of diagnoses per patient on cohort_ca_dx",
+        label = n_rec_pt ~ "Number of diagnoses per patient in cohort_ca_dx
+        data frame",
         type = n_rec_pt ~ "categorical"
       ) %>%
       gtsummary::modify_header(
@@ -616,7 +628,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs",
+        label = n_rec_pt ~ "Number of regimens per patient in cohort_ca_drugs
+        data frame",
         type = n_rec_pt ~ "categorical"
       )
 
@@ -625,7 +638,8 @@ create_analytic_cohort <- function(cohort,
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
         include = .data$n_rec_pt,
-        label = n_rec_pt ~ "Number of CPTs per patient in cohort_ngs",
+        label = n_rec_pt ~ "Number of CPTs per patient in cohort_ngs
+        data frame",
         type = n_rec_pt ~ "categorical"
       )
 
@@ -636,9 +650,10 @@ create_analytic_cohort <- function(cohort,
         n_rec_cpt_dset
       ),
       quiet = TRUE
-    )
+    ) %>%
+    gtsummary::bold_labels()
 
-    if (cohort_temp != "BRCA") {
+    if (cohort_temp != "BrCa") {
       tbl_cohort <- cohort_ca_dx %>%
         # dplyr::group_by(.data$record_id) %>%
         # dplyr::mutate(n_rec_pt = n()) %>%
@@ -647,8 +662,15 @@ create_analytic_cohort <- function(cohort,
           include = c(
             .data$cohort, .data$institution,
             .data$stage_dx, .data$ca_hist_adeno_squamous
+          ),
+          label = list(
+            cohort ~ "Cohort (cohort)",
+            institution ~ "Institution (institution)",
+            stage_dx ~ "Stage at diagnosis (stage_dx)",
+            ca_hist_adeno_squamous ~ "Histology (ca_hist_adeno_squamous)"
           )
         ) %>%
+        gtsummary::bold_labels() %>%
         gtsummary::modify_header(
           update = list(
             stat_0 ~ "**N = {N} Diagnoses**"
@@ -664,8 +686,15 @@ create_analytic_cohort <- function(cohort,
           include = c(
             .data$cohort, .data$institution,
             .data$stage_dx, .data$ca_hist_brca
+          ),
+          label = list(
+            cohort ~ "Cohort (cohort)",
+            institution ~ "Institution (institution)",
+            stage_dx ~ "Stage at diagnosis (stage_dx)",
+            ca_hist_brca ~ "Histology (ca_hist_brca)"
           )
         ) %>%
+        gtsummary::bold_labels() %>%
         gtsummary::modify_header(
           update = list(
             stat_0 ~ "**N = {N} Diagnoses**"
@@ -683,8 +712,14 @@ create_analytic_cohort <- function(cohort,
         include = c(
           .data$cohort, .data$institution,
           .data$regimen_drugs
+        ),
+        label = list(
+          .data$cohort ~ "Cohort (cohort)",
+          .data$institution ~ "Institution (institution)",
+          .data$regimen_drugs ~ "Drugs in regimen (regimen_drugs)"
         )
       ) %>%
+      gtsummary::bold_labels() %>%
       gtsummary::modify_header(
         update = list(
           stat_0 ~ "**N = {N} Regimens**"
@@ -697,8 +732,15 @@ create_analytic_cohort <- function(cohort,
         include = c(
           .data$cohort, .data$institution, .data$cpt_oncotree_code,
           .data$cpt_seq_assay_id
+        ),
+        label = list(
+          cohort ~ "Cohort (cohort)",
+          institution ~ "Institution (institution)",
+          cpt_oncotree_code ~ "OncoTree code (cpt_oncotree_code)",
+          cpt_seq_assay_id ~ "Sequence assay ID (cpt_seq_assay_id)"
         )
       ) %>%
+      gtsummary::bold_labels() %>%
       gtsummary::modify_header(
         update = list(
           stat_0 ~ "**N = {N} Cancer Panel Tests**"

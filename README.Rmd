@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
 
+
 The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to create datasets for analysis.
 
 - **Pull a specified version of a phenomic data release** from Synapse directly into the R environment. The most recent version is automatically pulled, but a specific version can be specified for the purposes of reproducing analyses. The phenomic data are recorded in multiple datasets, including: patient characteristics (vital status), cancer diagnosis, cancer-directed drug regimens, pathology, imaging, medical oncologist assessment, tumor markers and cancer panel test.

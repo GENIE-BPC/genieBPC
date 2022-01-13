@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 library(genieBPC)
 library(dplyr)
 library(synapser)
+library(tidyverse)
 library(gt)
 synLogin()
 ```
