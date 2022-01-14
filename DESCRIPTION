@@ -41,11 +41,14 @@ Imports:
     pak
 Suggests:
     covr (>= 3.5.1),
+    ggplot2 (>= 3.3.5),
     gt (>= 0.3.0),
     gtsummary (>= 1.4.1),
     knitr (>= 1.33),
-    synapser,
+    magrittr (>= 2.0.1),
+    plotly (>= 4.10.0),
     rmarkdown (>= 2.8),
+    synapser,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr

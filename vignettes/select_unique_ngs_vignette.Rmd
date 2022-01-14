@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
 )
 
 library(genieBPC)
-library(tidyverse)
+library(tibble)
+library(magrittr)
 library(dplyr)
 library(synapser)
 library(gt)
@@ -31,11 +32,6 @@ gt_compact_fun <- function(x) {
 }
 
 synLogin()
-```
-
-
-```{r setup}
-library(genieBPC)
 ```
 
 
