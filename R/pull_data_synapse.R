@@ -57,17 +57,21 @@ pull_data_synapse <- function(cohort, version) {
       if (missing(cohort)) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa'")
       }
-      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", stringr::str_to_upper(cohort))) > 0) {
+      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", stringr::str_to_upper(cohort)))
+          > 0) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa")
       }
       if (missing(version)) {
-        stop("Version needs to be specified. Use `synapse_version()` to see what data is available.")
+        stop("Version needs to be specified. Use `synapse_version()` to see
+             what data is available.")
       }
       if (sum(!grepl("^1.1$|^1.2$|^2.1$", version)) > 0) {
-        stop("Select an appropriate version number. Use `synapse_version()` to see what data is available.")
+        stop("Select an appropriate version number. Use `synapse_version()`
+             to see what data is available.")
       }
       if(length(cohort) < length(version)){
-        warning("You have selected more versions than cancer cohorts. This might cause unreliable results. Make sure cohort and version inputs have the same length")
+        stop("You have selected more versions than cancer cohorts.
+             Make sure cohort and version inputs have the same length")
       }
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))

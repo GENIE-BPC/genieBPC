@@ -8,3 +8,8 @@ test_that("Testing synapse version", {
                  dplyr::distinct(n) %>%
                  as.data.frame(), data.frame(n = 1))
 })
+
+test_that("Test most_recent argument", {
+  expect_error(synapse_version(most_recent = "ABC"))
+  expect_error(synapse_version(most_recent = 123))
+})

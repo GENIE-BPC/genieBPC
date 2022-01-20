@@ -17,9 +17,6 @@ synapse_version <- function(most_recent = FALSE) {
   if (!is.logical(most_recent)) {
     stop("Please provide TRUE or FALSE for the most_recent argument")
   }
-  if (is.na(most_recent)) {
-    stop("Please provide TRUE or FALSE for the most_recent argument")
-  }
 
   if (most_recent == FALSE) {
     genieBPC::synapse_tables %>%
