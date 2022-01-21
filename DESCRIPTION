@@ -49,7 +49,8 @@ Suggests:
     plotly (>= 4.10.0),
     rmarkdown (>= 2.8),
     synapser,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    markdown
 VignetteBuilder: 
     knitr
 Additional_repositories: 
