@@ -55,18 +55,19 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
   }
   if (!is.null(oncotree_code) && sum(data_cohort$cpt_oncotree_code %in%
                                      oncotree_code) == 0) {
-    warning("The OncoTree code inputted do not exist in the samples data
+    warning("The OncoTree code inputted does not exist in the data
             and thus will be ignored.")
     oncotree_code <- NULL
   }
-  if (!is.null(min_max_time) && !(min_max_time %in% c("min", "max")) &&
-      length(min_max_time) > 1) {
+  if (!is.null(min_max_time) && (!(min_max_time %in% c("min", "max")) ||
+      length(min_max_time) > 1)) {
     stop("The 'min_max_time' argument should be either 'min' or 'max'
          (only one of the two).")
   }
   if (!is.null(sample_type) &&
-      (length(sample_type) > 1 || !(sample_type %in% c("Primary",
-                                                       "Local", "Metastasis"))))
+      (length(sample_type) > 1 ||
+       !(stringr::str_to_lower(sample_type) %in%
+         c("primary", "local", "metastasis"))))
     {
     stop("Please input a single sample of type of interest out of 'Primary',
          'Local' or 'Metastasis'")

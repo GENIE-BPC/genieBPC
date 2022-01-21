@@ -1,6 +1,13 @@
 #' Obtain Clinical Data Files for GENIE BPC Project
 #'
-#' The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide.
+#' The `pull_data_synapse` function accesses the specified version of the clinical and genomic GENIE BPC data from \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse} and reads it into the R environment. Documentation corresponding to the clinical data files can also be found on Synapse in the Analytic Data Guide:
+#' \itemize{
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+#' }
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or "CRC" (Colorectal Cancer).
 #' @param version Vector or list specifying the version of the data. By default, the most recent version is pulled. Currently, only version 1.1 is available. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data. See examples below.
@@ -50,17 +57,21 @@ pull_data_synapse <- function(cohort, version) {
       if (missing(cohort)) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa'")
       }
-      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", stringr::str_to_upper(cohort))) > 0) {
+      if (sum(!grepl("^CRC$|^NSCLC$|^BRCA$", stringr::str_to_upper(cohort)))
+          > 0) {
         stop("Select cohort from 'NSCLC', 'CRC' or 'BrCa")
       }
       if (missing(version)) {
-        stop("Version needs to be specified. Use `synapse_version()` to see what data is available.")
+        stop("Version needs to be specified. Use `synapse_version()` to see
+             what data is available.")
       }
       if (sum(!grepl("^1.1$|^1.2$|^2.1$", version)) > 0) {
-        stop("Select an appropriate version number. Use `synapse_version()` to see what data is available.")
+        stop("Select an appropriate version number. Use `synapse_version()`
+             to see what data is available.")
       }
       if(length(cohort) < length(version)){
-        warning("You have selected more versions than cancer cohorts. This might cause unreliable results. Make sure cohort and version inputs have the same length")
+        stop("You have selected more versions than cancer cohorts.
+             Make sure cohort and version inputs have the same length")
       }
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))

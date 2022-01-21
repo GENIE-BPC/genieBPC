@@ -1,4 +1,6 @@
-
+test_that("Missing cohort parameter", {
+  expect_error(pull_data_synapse())
+})
 
 test_that("Test class and length of list for NSCLC", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
@@ -38,8 +40,6 @@ test_that("Number of columns and rows for each NSCLC dataset", {
   expect_equal(row_length, c(1849, 1874, 810, 4032, 8329, 35113, 24950, 2026, 930, 821, 17574))
 })
 
-
-
 test_that("Number of columns and rows for each CRC dataset", {
   crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
   col_length <- sapply(crc_data, length)
@@ -50,20 +50,13 @@ test_that("Number of columns and rows for each CRC dataset", {
   expect_equal(row_length, c(1500, 1510, 353, 5459, 7216, 26500, 28467, 24708, 1576, 930, 406, 23445))
 })
 
-test_that("Testing synapse version", {
-  expect_equal(class(synapse_version(FALSE)), c("grouped_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(synapse_version(TRUE)), c("grouped_df", "tbl_df", "tbl", "data.frame"))
-
-  expect_equal(synapse_version(TRUE) %>%
-  dplyr::count(cohort) %>%
-  dplyr::ungroup() %>%
-  dplyr::distinct(n) %>%
-  as.data.frame(), data.frame(n = 1))
-})
-
-
 test_that("Test synget equals pulldata synapse", {
   ptchar_nsclc_synget <- read.csv(synapser::synGet("syn22418979")$path) # version 1.1
   ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC", "1.1")[[1]]
   expect_equal(ptchar_nsclc_synget, ptchar_nsclc_pulldata)
+})
+
+test_that("More versions than cancer cohorts selected", {
+  expect_error(pull_data_synapse(cohort = c("NSCLC", "CRC"),
+                                   version = c("1.1", "1.1", "2.1")))
 })

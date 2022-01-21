@@ -30,9 +30,6 @@ drug_regimen_sunburst <- function(data_synapse,
                                   data_cohort,
                                   max_n_regimens = NULL) {
 
-  # get the name of the cohort from the data_synapse object naming convention
-  cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
-
   # make sure all required parameters are specified
   if (missing(data_synapse) | class(data_synapse) != "list") {
     stop("Specify the list object returned from pull_data_synapse in the
@@ -53,6 +50,9 @@ drug_regimen_sunburst <- function(data_synapse,
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter.")
   }
+
+  # get the name of the cohort from the data_synapse object naming convention
+  cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
 
   # if the data_cohort parameter is a list but not the right list
   # checking the names of the list inputs

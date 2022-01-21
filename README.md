@@ -1,9 +1,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/AxelitoMartin/genieBPC/actions)
+[![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master)
+coverage](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/GENIE-BPC/genieBPC?branch=master)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -62,8 +62,13 @@ order to use this function. To obtain access:
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
-[NSCLC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
-
-[CRC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)
+-   [NSCLC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23002641)
+-   [NSCLC v2.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26008058)
+-   [CRC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23764204)
+-   [CRC v1.2-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077308)
+-   [BrCa v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077313)
