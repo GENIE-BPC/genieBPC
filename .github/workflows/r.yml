@@ -34,7 +34,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          synapser::synLogin(email = , password=)
+          synapser::synLogin(email = ${{ secrets.GITHUB_TOKEN.USERNAME }} , password=${{ secrets.GITHUB_TOKEN.SYNAPSER_PAS }})
         shell: Rscript {0}
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
