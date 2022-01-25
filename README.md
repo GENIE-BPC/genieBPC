@@ -6,7 +6,7 @@
 coverage](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/GENIE-BPC/genieBPC?branch=master)
 <!-- badges: end -->
 
-# genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
+# {genieBPC} <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
 
 The {genieBPC} package provides a seamless way to obtain the data
 corresponding to each release from Synapse and to create datasets for
@@ -30,7 +30,7 @@ analysis.
     multiple, based on user-specified criteria.
 
 The datasets obtained through {genieBPC} can be input directly into
-{gnomeR} to prepare the genomics data for analysis.
+{gnomeR} or other genomics data analysis & visualization packages to prepare the genomics data for analysis.
 
 ## Installation
 
@@ -60,7 +60,9 @@ order to use this function. To obtain access:
 ## Analytic Data Guides
 
 The analytic data guides provide details on each analytic dataset and
-its corresponding variables for each data release.
+its corresponding variables for each data release. Note that consoritum 
+data releases are limited to contributors and funders of GENIE BPC, 
+but public data are available to any user upon request.
 
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
