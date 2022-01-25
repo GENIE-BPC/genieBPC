@@ -30,7 +30,7 @@ analysis.
     multiple, based on user-specified criteria.
 
 The datasets obtained through {genieBPC} can be input directly into
-{gnomeR} or other genomics data analysis & visualization packages to prepare the genomics data for analysis.
+[{gnomeR}](https://github.com/AxelitoMartin/gnomeR/) or other genomics data analysis & visualization packages to prepare the genomics data for analysis.
 
 ## Installation
 
