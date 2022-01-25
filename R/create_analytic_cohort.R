@@ -580,7 +580,9 @@ create_analytic_cohort <- function(cohort,
       # patients)
       dplyr::inner_join(.,
                  cohort_ca_dx %>%
-                   dplyr::select(cohort, record_id, ca_seq),
+                   dplyr::select(.data$cohort,
+                                 .data$record_id,
+                                 .data$ca_seq),
                  by = c("cohort", "record_id", "ca_seq")) %>%
       # create blank variables (dropped below, not having them is unique to
       # regimen_order_type = 'containing')
