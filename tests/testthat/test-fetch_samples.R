@@ -2,6 +2,19 @@
 nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
 crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
 
+test_that("missing input parameters", {
+  # cohort name not specified
+  expect_error(fetch_samples())
+
+  # record_id object not specified
+  expect_error(fetch_samples(cohort = "NSCLC"))
+
+  # record_id object specified, but doesn't have variable record_id
+  expect_error(fetch_samples(cohort = "NSCLC",
+                             df_record_ids = tibble(cohort = "NSCLC",
+                                                    record_id = "123")))
+})
+
 test_that("function returns correct number of samples", {
 
   # NSCLC #

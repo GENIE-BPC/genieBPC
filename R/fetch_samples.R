@@ -1,7 +1,8 @@
 #' fetch_samples
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
-#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".
+#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
+#' or "BrCa"
 #' @param data_synapse the list object outputted by the `pull_data_synapse()` function.
 #' @param df_record_ids output object of the create_cohort function.
 #' @return returns the cohort object list inputted with an additional dataset named "samples_data".
@@ -27,9 +28,10 @@
 
 fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   if (missing(cohort)) {
-    stop("You must provide a cohort name ('NSCLC' or 'CRC') function
+    stop("You must provide a cohort name ('NSCLC', 'CRC', 'BrCa')
          in the `cohort` argument.")
   }
+
   cohort_temp <- cohort
 
   if (missing(df_record_ids)) {

@@ -13,7 +13,7 @@
 #' @param version Vector or list specifying the version of the data. By default, the most recent version is pulled. Currently, only version 1.1 is available. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data. See examples below.
 #'
 #' @return Returns clinical and genomic data corresponding to the specified cohort(s). Data frames have the suffix indicating the cohort appended to their name, e.g. pt_char_NSCLC for the pt_char dataset of the NSCLC cohort.
-#' @author Mike Curry
+#' @author Michael Curry
 #' @export
 #'
 #' @examples
@@ -65,13 +65,24 @@ pull_data_synapse <- function(cohort, version) {
         stop("Version needs to be specified. Use `synapse_version()` to see
              what data is available.")
       }
-      if (sum(!grepl("^1.1$|^1.2$|^2.1$", version)) > 0) {
-        stop("Select an appropriate version number. Use `synapse_version()`
-             to see what data is available.")
-      }
       if(length(cohort) < length(version)){
         stop("You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length")
+      }
+
+      versionnum <- dplyr::distinct(synapse_tables,cohort, version)
+
+      versionnum <- dplyr::mutate(versionnum,
+                                  version = substr(version,2,nchar(version)),
+                                  cohort = toupper(.data$cohort))
+
+      cohortval <- toupper(cohort)
+
+      versionnum <- dplyr::filter(versionnum, cohort == cohortval)
+
+      if(!version %in% versionnum$version){
+        stop("You have selected a version that is not avaialable for this cohort.
+             Please use `synapse_tables` to see what versions are available.")
       }
       # get lists of available versions for Synapse tables and corresponding file names, appended with cohort name
       synapse_tables$version <- substr(synapse_tables$version, 2, nchar(synapse_tables$version))
@@ -87,9 +98,9 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- sapply(1:nrow(synapse_tables2), function(x) {
+      synapse_tables2$path <- vapply(1:nrow(synapse_tables2), function(x) {
         synapser::synGet(synapse_tables2$synapse_id[x])$path
-      })
+      }, character(1))
 
       # read Synapse tables
       readcsvfile <- stats::setNames(
