@@ -32,9 +32,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
+          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
         shell: Rscript {0}
       - name: Check
         run: |
