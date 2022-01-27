@@ -38,9 +38,6 @@ jobs:
         shell: Rscript {0}
       - name: Check
         run: |
-          remove.packages("rlang") 
-          remove.packages("tidyselect")
-          remove.packages("tidyverse")
           install.packages("rlang", dependencies = TRUE)
           install.packages("tidyselect", dependencies = TRUE)
           install.packages("tidyverse", dependencies = TRUE)
