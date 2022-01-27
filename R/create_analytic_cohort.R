@@ -369,9 +369,8 @@ create_analytic_cohort <- function(cohort,
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
-                                         dplyr::select(.data$cohort,
-                                                       .data$record_id,
-                                                       .data$ca_seq),
+                                         dplyr::select(cohort, record_id,
+                                                       ca_seq),
     pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "ca_seq")
   ) %>%
