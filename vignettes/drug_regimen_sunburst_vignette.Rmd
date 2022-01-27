@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: drug_regimen_sunburst"
+title: "drug_regimen_sunburst() tutorial"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial: drug_regimen_sunburst}
+  %\VignetteIndexEntry{drug_regimen_sunburst() tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,6 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>")
+
 library(genieBPC)
 library(dplyr)
 library(synapser)
@@ -19,7 +20,6 @@ library(plotly)
 library(gt)
 library(magrittr)
 library(tibble)
-
 
 synLogin()
 ```
@@ -80,29 +80,37 @@ Note that the innermost circle of the sunburst plot indicates the first therapie
 
 ## Example
 
-The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. This example utilizes the data downloaded using the `pull_data_synapse()` function and processed in the `create_analytic_cohort()` function.
-
+The example below creates a sunburst plot of the first the first 4 regimens received by patients diagnosed with stage IV adenocarcinoma NSCLC that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis:
 
 ```{r, results = 'hide'}
-library(genieBPC)
+nsclc_cohort <- pull_data_synapse("NSCLC", version = "2.1")
 
-nsclc_data = pull_data_synapse("NSCLC", version = "1.1")
+nsclc_stg_iv_adeno <- create_analytic_cohort(
+  cohort = "NSCLC",
+  data_synapse = nsclc_cohort,
+  stage_dx = "Stage IV",
+  histology = "Adenocarcinoma",
+  regimen_drugs = c("Carboplatin, Pemetrexed Disodium",
+                    "Cisplatin, Pemetrexed Disodium",
+                    "Bevacizumab, Carboplatin, Pemetrexed Disodium",
+                    "Bevacizumab, Cisplatin, Pemetrexed Disodium"),
+  regimen_type = "Exact",
+  regimen_order = 1,
+  regimen_order_type = "within cancer",
+  return_summary = FALSE
+)
 
-nsclc_cohort = create_analytic_cohort(cohort = "NSCLC",
-                                      data_synapse = nsclc_data,
-                                      stage_dx = c("Stage IV"))
-
-nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_data,
-                      data_cohort = nsclc_cohort,
-                      max_n_regimens = 3)
+sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
+                             data_cohort = nsclc_stg_iv_adeno,
+                             max_n_regimens = 4)
 ```
 
 
 ```{r}
-head(nsclc_treatment$treatment_history)
+head(sunplot$treatment_history)
 ```
 
 ```{r, fig.height=8, fig.width=8}
-nsclc_treatment$sunburst_plot
+sunplot$sunburst_plot
 ```
 

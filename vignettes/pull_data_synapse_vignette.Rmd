@@ -1,9 +1,9 @@
 ---
-title: "Tutorial: pull_data_synapse"
+title: "pull_data_synapse() tutorial"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{Tutorial: pull_data_synapse}
+  %\VignetteIndexEntry{pull_data_synapse() tutorial}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -106,19 +106,19 @@ Pull version 2.1 of the NSCLC data from Synapse and store in the local environme
 
 
 ```{r, eval = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_cohort = pull_data_synapse("NSCLC", version = "2.1")
 ```
 
 
-The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
+The resulting `nsclc_cohort` object is a list of elements, such that each element represents a dataset:
 
 ```{r, include = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_cohort = pull_data_synapse("NSCLC", version = "2.1")
 ```
 
 
 ```{r, echo = FALSE, message = FALSE}
-ls(nsclc_data) %>% 
+ls(nsclc_cohort ) %>% 
   as.data.frame() %>% 
   mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
                                                   "mutations_extended_NSCLC") ~ "Genomic Data",
