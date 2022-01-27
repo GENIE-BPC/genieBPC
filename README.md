@@ -1,45 +1,108 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/AxelitoMartin/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/AxelitoMartin/genieBPC/actions)
+[![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/AxelitoMartin/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/AxelitoMartin/genieBPC?branch=master)
+coverage](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/GENIE-BPC/genieBPC?branch=master)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
 
-The {genieBPC} package provides a seamless way to obtain the data
-corresponding to each release from Synapse and to create datasets for
-analysis.
+The American Association for Cancer Research Project Genomics Evidence
+Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an
+effort to aggregate comprehensive clinical data linked to genomic
+sequencing data to create a pan-cancer, publicly available data
+repository. These data detail clinical characteristics and drug
+treatment regimen information, along with high-throughput sequencing
+data and clinical outcomes, for cancer patients across international
+institutions. The GENIE BPC data repository forms a unique observational
+database of comprehensive clinical annotation with molecularly
+characterized tumors that can be used to advance precision medicine
+research in oncology. Linking multiple clinical and genomic datasets
+that vary in structure introduces an inherent complexity for data users.
+Therefore, use of the GENIE BPC data requires a rigorous process for
+preparing and merging the data to build analytic models. The {genieBPC}
+package is a user-friendly data processing pipeline to streamline the
+process for developing analytic cohorts that are ready for
+clinico-genomic analyses.
 
--   **Pull a specified version of a phenomic data release** from Synapse
-    directly into the R environment. The most recent version is
-    automatically pulled, but a specific version can be specified for
-    the purposes of reproducing analyses. The phenomic data are recorded
-    in multiple datasets, including: patient characteristics (vital
-    status), cancer diagnosis, cancer-directed drug regimens, pathology,
-    imaging, medical oncologist assessment, tumor markers and cancer
-    panel test.
+## Overview
 
--   **Create a cohort for analysis** based on specified diagnosis or
-    regimen inclusion criteria.
+-   **Data import:** `pull_data_synapse()` imports GENIE BPC data from
+    Synapse into the R environment
 
--   **Pull GENIE genomic data** corresponding to the analytic cohort
-    directly into the R environment, including selection of a single
-    next-generation sequencing test in the case that the patient has
-    multiple, based on user-specified criteria.
+-   **Data processing**
 
-The datasets obtained through {genieBPC} can be input directly into
-{gnomeR} to prepare the genomics data for analysis.
+    -   `create_analytic_cohort()` selects an analytic cohort based on
+        cancer diagnosis information and/or cancer-directed drug regimen
+        information
+    -   `select_unique_ngs()` selects a unique next generation
+        sequencing (NGS) test corresponding to the selected diagnoses
+
+-   **Data visualization:** `drug_regimen_sunburst()` creates a sunburst
+    figure of drug regimen information corresponding to the selected
+    diagnoses in the order that the regimens were administered
 
 ## Installation
 
-You can install the development version of {genieBPC} with the following
-code:
+You can install {genieBPC} with the following code:
 
     remotes::install_github("GENIE-BPC/genieBPC")
 
-## Obtaining Data Access
+## Example
+
+The following example creates an analytic cohort of patients diagnosed
+with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or
+Cisplatin and Pemetrexed, with and without Bevacizumab,
+
+*Pull data for NSCLC version 2.1:*
+
+    nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
+
+*Select stage IV adenocarcinoma NSCLC diagnoses that were treated with
+Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without
+Bevacizumab as the first regimen following diagnosis:*
+
+    nsclc_stg_iv_adeno <- create_analytic_cohort(
+      cohort = "NSCLC",
+      data_synapse = nsclc_cohort,
+      stage_dx = "Stage IV",
+      histology = "Adenocarcinoma",
+      regimen_drugs = c("Carboplatin, Pemetrexed Disodium",
+                        "Cisplatin, Pemetrexed Disodium",
+                        "Bevacizumab, Carboplatin, Pemetrexed Disodium",
+                        "Bevacizumab, Cisplatin, Pemetrexed Disodium"),
+      regimen_type = "Exact",
+      regimen_order = 1,
+      regimen_order_type = "within cancer",
+      return_summary = FALSE
+    )
+
+*Select one unique metastatic lung adenocarcinoma genomic sample per
+patient in the analytic cohort returned above:*
+
+    nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs( 
+      data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
+      oncotree_code = "LUAD",
+      sample_type = "Metastasis"
+    )
+
+*Create a visualization of the treatment patterns for the first 4
+regimens received by patients diagnosed with stage IV adenocarcinoma
+NSCLC that were treated with Carboplatin/Pemetrexed or
+Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen
+following diagnosis:*
+
+    sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
+                                 data_cohort = nsclc_stg_iv_adeno,
+                                 max_n_regimens = 4)
+
+*Example of a sunburst plot showing 4 lines of treatment, Highlighting
+First Treatment Regimen:*
+
+# <img src="man/figures/genieBPC_sunburst.png" height="400" /></a>
+
+## Obtaining Access to GENIE BPC Data
 
 Access to the GENIE BPC data release folders on Synapse is required in
 order to use this function. To obtain access:
@@ -59,11 +122,16 @@ order to use this function. To obtain access:
 
 ## Analytic Data Guides
 
-The analytic data guides provide details on each analytic dataset and
-its corresponding variables for each data release.
+Documentation corresponding to the clinical data files can be found on
+Synapse in the Analytic Data Guides:
 
-[NSCLC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_NSCLC_v1.1-consortium_Analytic_Data_Guide.pdf)
-
-[CRC V1.1 Analtyic Data
-Guide](https://github.com/AxelitoMartin/genieBPC/blob/development/files/BPC_CRC_v1.1-consortium_Analytic_Data_Guide.pdf)
+-   [NSCLC V1.1 Analtyic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23002641)
+-   [NSCLC V2.1 Analtyic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26008058)
+-   [CRC V1.1 Analtyic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23764204)
+-   [CRC V1.2 Analtyic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077308)
+-   [BrCa V1.1 Analtyic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077313)
