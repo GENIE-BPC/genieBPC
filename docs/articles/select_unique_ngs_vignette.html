@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutorial: select_unique_ngs • genieBPC</title>
+<title>select_unique_ngs() tutorial • genieBPC</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial: select_unique_ngs">
+<script src="../pkgdown.js"></script><meta property="og:title" content="select_unique_ngs() tutorial">
 <meta property="og:description" content="genieBPC">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,12 +31,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">genieBPC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -50,26 +54,29 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/clinical_data_structure_vignette.html">Tutorial: GENIE BPC Data Structure</a>
+      <a href="../articles/clinical_data_structure_vignette.html">GENIE BPC Data Structure Overview</a>
     </li>
     <li>
-      <a href="../articles/create_analytic_cohort_vignette.html">Tutorial: create_analytic_cohort</a>
+      <a href="../articles/create_analytic_cohort_vignette.html">create_analytic_cohort() tutorial</a>
     </li>
     <li>
-      <a href="../articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
+      <a href="../articles/drug_regimen_sunburst_vignette.html">drug_regimen_sunburst() tutorial</a>
     </li>
     <li>
-      <a href="../articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
+      <a href="../articles/pull_data_synapse_vignette.html">pull_data_synapse() tutorial</a>
     </li>
     <li>
-      <a href="../articles/select_unique_ngs_vignette.html">Tutorial: select_unique_ngs</a>
+      <a href="../articles/select_unique_ngs_vignette.html">select_unique_ngs() tutorial</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GENIE-BPC/genieBPC/" class="external-link">
+  <a href="https://github.com/GENIE-BPC/genieBPC/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,43 +91,51 @@
 
       
 
-      </header><div class="row">
+      </header><script src="select_unique_ngs_vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Tutorial: select_unique_ngs</h1>
+      <h1 data-toc-skip>select_unique_ngs() tutorial</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/HEAD/vignettes/select_unique_ngs_vignette.Rmd" class="external-link"><code>vignettes/select_unique_ngs_vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/master/vignettes/select_unique_ngs_vignette.Rmd"><code>vignettes/select_unique_ngs_vignette.Rmd</code></a></small>
       <div class="hidden name"><code>select_unique_ngs_vignette.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">genieBPC</span><span class="op">)</span></code></pre></div>
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>The <code>genieBPC</code> package allows users to link the clinical data to patients’ corresponding genomic samples.</p>
-<p>This tutorial will utilize the data downloaded in the <code>Tutorial: pull_data_synapse()</code> vignette and processed in the <code>Tutorial: create_analytic_cohort()</code> vignette, as shown below:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1"</span><span class="op">)</span>
+<p>This tutorial will utilize the data downloaded in the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> vignette and processed in the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> vignettes, as shown below:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1"</span><span class="op">)</span>
 
-<span class="va">nsclc_stg_iv_adeno</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
-                                   data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
-                                   histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></code></pre></div>
+<span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>
+  cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
+  data_synapse <span class="op">=</span> <span class="va">nsclc_cohort</span>,
+  stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>,
+  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span>,
+  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Carboplatin, Pemetrexed Disodium"</span>,
+                    <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,
+                    <span class="st">"Bevacizumab, Carboplatin, Pemetrexed Disodium"</span>,
+                    <span class="st">"Bevacizumab, Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
+  regimen_type <span class="op">=</span> <span class="st">"Exact"</span>,
+  regimen_order <span class="op">=</span> <span class="fl">1</span>,
+  regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span>,
+  return_summary <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
-</h2>
-<div id="jaflhmxrdf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="modifying-function-arguments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#modifying-function-arguments" class="anchor"></a>Modifying Function Arguments</h2>
+<div id="wfhzprhqlg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jaflhmxrdf .gt_table {
+#wfhzprhqlg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -145,7 +160,7 @@
   border-left-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_heading {
+#wfhzprhqlg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -157,7 +172,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_title {
+#wfhzprhqlg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -167,7 +182,7 @@
   border-bottom-width: 0;
 }
 
-#jaflhmxrdf .gt_subtitle {
+#wfhzprhqlg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -177,13 +192,13 @@
   border-top-width: 0;
 }
 
-#jaflhmxrdf .gt_bottom_border {
+#wfhzprhqlg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_col_headings {
+#wfhzprhqlg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -198,7 +213,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_col_heading {
+#wfhzprhqlg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -218,7 +233,7 @@
   overflow-x: hidden;
 }
 
-#jaflhmxrdf .gt_column_spanner_outer {
+#wfhzprhqlg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -230,15 +245,15 @@
   padding-right: 4px;
 }
 
-#jaflhmxrdf .gt_column_spanner_outer:first-child {
+#wfhzprhqlg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jaflhmxrdf .gt_column_spanner_outer:last-child {
+#wfhzprhqlg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jaflhmxrdf .gt_column_spanner {
+#wfhzprhqlg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -250,7 +265,7 @@
   width: 100%;
 }
 
-#jaflhmxrdf .gt_group_heading {
+#wfhzprhqlg .gt_group_heading {
   padding: 1px;
   color: #333333;
   background-color: #FFFFFF;
@@ -272,7 +287,7 @@
   vertical-align: middle;
 }
 
-#jaflhmxrdf .gt_empty_group_heading {
+#wfhzprhqlg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -287,15 +302,15 @@
   vertical-align: middle;
 }
 
-#jaflhmxrdf .gt_from_md > :first-child {
+#wfhzprhqlg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jaflhmxrdf .gt_from_md > :last-child {
+#wfhzprhqlg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jaflhmxrdf .gt_row {
+#wfhzprhqlg .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -314,7 +329,7 @@
   overflow-x: hidden;
 }
 
-#jaflhmxrdf .gt_stub {
+#wfhzprhqlg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -326,7 +341,7 @@
   padding-left: 12px;
 }
 
-#jaflhmxrdf .gt_summary_row {
+#wfhzprhqlg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -336,7 +351,7 @@
   padding-right: 5px;
 }
 
-#jaflhmxrdf .gt_first_summary_row {
+#wfhzprhqlg .gt_first_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -346,7 +361,7 @@
   border-top-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_grand_summary_row {
+#wfhzprhqlg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -356,7 +371,7 @@
   padding-right: 5px;
 }
 
-#jaflhmxrdf .gt_first_grand_summary_row {
+#wfhzprhqlg .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -366,11 +381,11 @@
   border-top-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_striped {
+#wfhzprhqlg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jaflhmxrdf .gt_table_body {
+#wfhzprhqlg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -379,7 +394,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_footnotes {
+#wfhzprhqlg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -393,13 +408,13 @@
   border-right-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_footnote {
+#wfhzprhqlg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 1px;
 }
 
-#jaflhmxrdf .gt_sourcenotes {
+#wfhzprhqlg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -413,41 +428,41 @@
   border-right-color: #D3D3D3;
 }
 
-#jaflhmxrdf .gt_sourcenote {
+#wfhzprhqlg .gt_sourcenote {
   font-size: 90%;
   padding: 1px;
 }
 
-#jaflhmxrdf .gt_left {
+#wfhzprhqlg .gt_left {
   text-align: left;
 }
 
-#jaflhmxrdf .gt_center {
+#wfhzprhqlg .gt_center {
   text-align: center;
 }
 
-#jaflhmxrdf .gt_right {
+#wfhzprhqlg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jaflhmxrdf .gt_font_normal {
+#wfhzprhqlg .gt_font_normal {
   font-weight: normal;
 }
 
-#jaflhmxrdf .gt_font_bold {
+#wfhzprhqlg .gt_font_bold {
   font-weight: bold;
 }
 
-#jaflhmxrdf .gt_font_italic {
+#wfhzprhqlg .gt_font_italic {
   font-style: italic;
 }
 
-#jaflhmxrdf .gt_super {
+#wfhzprhqlg .gt_super {
   font-size: 65%;
 }
 
-#jaflhmxrdf .gt_footnote_marks {
+#wfhzprhqlg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -491,16 +506,16 @@
 </div>
 <p><em>Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.</em></p>
 </div>
-<div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
-<p>Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient’s earliest sample.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/select_unique_ngs.html">select_unique_ngs</a></span><span class="op">(</span>
-        data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span><span class="op">$</span><span class="va">cohort_ngs</span>,
-        oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>,
-        sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,
-        min_max_time <span class="op">=</span> <span class="st">"min"</span><span class="op">)</span></code></pre></div>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>Select one unique metastatic lung adenocarcinoma genomic sample per patient.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno_unique_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_unique_ngs.html">select_unique_ngs</a></span><span class="op">(</span> 
+  data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span><span class="op">$</span><span class="va">cohort_ngs</span>, 
+  oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>,
+  sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>
+<span class="op">)</span></code></pre></div>
 </div>
   </div>
 
@@ -515,13 +530,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p>Developed by Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -529,8 +542,6 @@
 
   
 
-
-  
 
   </body>
 </html>
