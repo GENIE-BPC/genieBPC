@@ -13,10 +13,13 @@ knitr::opts_chunk$set(
   comment = "#>")
 library(genieBPC)
 library(dplyr)
-library(tidyverse)
 library(synapser)
+library(ggplot2)
 library(plotly)
 library(gt)
+library(magrittr)
+library(tibble)
+
 
 synLogin()
 ```

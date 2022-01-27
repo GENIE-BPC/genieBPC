@@ -1,6 +1,39 @@
 # run here to avoid having to run within each test
 nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+
+nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
+                                       data_synapse = nsclc_data)
+
 crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
+
+test_that("missing data_cohort", {
+  expect_error(select_unique_ngs())
+})
+
+test_that("non-existant oncotree code", {
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+                                 oncotree_code = "GENIE"))
+})
+
+test_that("min/max time", {
+  # a valid value is given
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+                                 min_max_time = "abc"))
+
+  # only 1 value is given
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+                                 min_max_time = c("min", "max")))
+})
+
+test_that("sample_type", {
+  # a valid value is given
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+                                 sample_type = "abc"))
+
+  # only 1 value is given
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+                                 sample_type = c("primary", "local")))
+})
 
 test_that("function returns unique sample for each record", {
 

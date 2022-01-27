@@ -13,12 +13,6 @@ knitr::opts_chunk$set(
   comment = "#>", 
   message = FALSE
 )
-
-library(genieBPC)
-library(tidyverse)
-library(synapser)
-
-synLogin()
 ```
 
 ## Introduction
@@ -48,6 +42,8 @@ synLogin()
 ```{r, include = FALSE}
 library(gt)
 library(dplyr)
+library(magrittr)
+library(tibble)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x,
