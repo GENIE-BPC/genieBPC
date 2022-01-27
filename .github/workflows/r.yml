@@ -33,6 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           install.packages(c("remotes", "rcmdcheck"))
+          remotes::install_github("r-lib/rlang")
           remotes::install_deps(dependencies = TRUE)
           synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
         shell: Rscript {0}
