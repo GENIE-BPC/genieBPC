@@ -111,24 +111,24 @@ Synapse." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/clinical_data_structure_vignette.html">Tutorial: GENIE BPC Data Structure</a>
+      <a href="../articles/clinical_data_structure_vignette.html">GENIE BPC Data Structure Overview</a>
     </li>
     <li>
-      <a href="../articles/create_analytic_cohort_vignette.html">Tutorial: create_analytic_cohort</a>
+      <a href="../articles/create_analytic_cohort_vignette.html">create_analytic_cohort() tutorial</a>
     </li>
     <li>
-      <a href="../articles/drug_regimen_sunburst_vignette.html">Tutorial: drug_regimen_sunburst</a>
+      <a href="../articles/drug_regimen_sunburst_vignette.html">drug_regimen_sunburst() tutorial</a>
     </li>
     <li>
-      <a href="../articles/processing_genie_genomic_data.html">Processing GENIE genomic data</a>
+      <a href="../articles/pull_data_synapse_vignette.html">pull_data_synapse() tutorial</a>
     </li>
     <li>
-      <a href="../articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a>
-    </li>
-    <li>
-      <a href="../articles/select_unique_ngs_vignette.html">Tutorial: select_unique_ngs</a>
+      <a href="../articles/select_unique_ngs_vignette.html">select_unique_ngs() tutorial</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -219,20 +219,24 @@ cancers to patients with multiple.</p></td>
       <th>institution</th>
       <td><p>GENIE BPC participating institution. Must be one of
 "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-"MSK", "VICC" for CRC. Default selection is all institutions.</p></td>
+"MSK", "VICC" for CRC. Default selection is all institutions. This parameter
+corresponds to the variable `institution` in the Analytic Data Guide.</p></td>
     </tr>
     <tr>
       <th>stage_dx</th>
       <td><p>Stage at diagnosis. Must be one of "Stage I", "Stage II",
-"Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.</p></td>
+"Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+This parameter corresponds to the variable `stage_dx` in the
+Analytic Data Guide.</p></td>
     </tr>
     <tr>
       <th>histology</th>
       <td><p>Cancer histology. For all cancer cohorts except for BrCa
-(breast cancer), this corresponds to the variable `ca_hist_adeno_squamous`
-and must be one of "Adenocarcinoma", "Squamous cell", "Sarcoma",
+(breast cancer), this parameter corresponds to the variable
+`ca_hist_adeno_squamous` and must be one of "Adenocarcinoma",
+"Squamous cell", "Sarcoma",
 "Small cell carcinoma", "Carcinoma", "Other histologies/mixed tumor".
- For BrCa, this corresponds to the variable
+ For BrCa, this parameter corresponds to the variable
 `ca_hist_brca` and must be one of
 "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 Default selection is all histologies.</p></td>
@@ -243,7 +247,8 @@ Default selection is all histologies.</p></td>
 separated by a comma. For example, to specify a regimen consisting of
 Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
 Pemetrexed". Acceptable values are found in the `drug_regimen_list`
-dataset provided with this package.</p></td>
+dataset provided with this package. This parameter
+corresponds to the variable `regimen_drugs` in the Analytic Data Guide.</p></td>
     </tr>
     <tr>
       <th>regimen_type</th>
