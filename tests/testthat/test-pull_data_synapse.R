@@ -32,26 +32,30 @@ test_that("Misspecified cohort or version", {
 
 test_that("Number of columns and rows for each NSCLC dataset", {
   nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
-  col_length <- sapply(nsclc_data, length)
-  row_length <- sapply(nsclc_data, nrow)
+  col_length <- vapply(nsclc_data, length, FUN.VALUE = numeric(1))
+  row_length <- vapply(nsclc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
   names(row_length) <- NULL
   expect_equal(col_length, c(33, 110, 83, 114, 195, 42, 11, 19, 1782, 9, 54))
-  expect_equal(row_length, c(1849, 1874, 810, 4032, 8329, 35113, 24950, 2026, 930, 821, 17574))
+  expect_equal(row_length, c(1849, 1874, 810, 4032, 8329,
+                             35113, 24950, 2026, 930, 821, 17574))
 })
 
 test_that("Number of columns and rows for each CRC dataset", {
   crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
-  col_length <- sapply(crc_data, length)
-  row_length <- sapply(crc_data, nrow)
+  col_length <- vapply(crc_data, length, FUN.VALUE = numeric(1))
+  row_length <- vapply(crc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
   names(row_length) <- NULL
-  expect_equal(col_length, c(37, 111, 87, 102, 340, 42, 11, 12, 25, 1505, 9, 54))
-  expect_equal(row_length, c(1500, 1510, 353, 5459, 7216, 26500, 28467, 24708, 1576, 930, 406, 23445))
+  expect_equal(col_length, c(37, 111, 87, 102, 340, 42,
+                             11, 12, 25, 1505, 9, 54))
+  expect_equal(row_length, c(1500, 1510, 353, 5459, 7216,
+                             26500, 28467, 24708, 1576, 930, 406, 23445))
 })
 
 test_that("Test synget equals pulldata synapse", {
-  ptchar_nsclc_synget <- read.csv(synapser::synGet("syn22418979")$path) # version 1.1
+  ptchar_nsclc_synget <- read.csv(
+    synapser::synGet("syn22418979")$path) # version 1.1
   ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC", "1.1")[[1]]
   expect_equal(ptchar_nsclc_synget, ptchar_nsclc_pulldata)
 })

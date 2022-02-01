@@ -7,14 +7,17 @@
 fetch_samples(cohort, data_synapse, df_record_ids)
 }
 \arguments{
-\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC" or "CRC".}
+\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
+or "BrCa"}
 
-\item{data_synapse}{the list object outputted by the `pull_data_synapse()` function.}
+\item{data_synapse}{the list object outputted by the
+`pull_data_synapse()` function.}
 
 \item{df_record_ids}{output object of the create_cohort function.}
 }
 \value{
-returns the cohort object list inputted with an additional dataset named "samples_data".
+returns the cohort object list inputted with an
+ additional dataset named "samples_data".
 }
 \description{
 Subset cancer panel test data to patients in the cohort of interest
@@ -22,16 +25,22 @@ Subset cancer panel test data to patients in the cohort of interest
 \author{
 Axel Martin
 #' # Example 1 ----------------------------------
-# Create a cohort of all patients with stage IV NSCLC of histology adenocarcinoma
-out <- create_cohort(cohort = "NSCLC",
-     stage_dx = c("Stage IV"),
-     ca_hist_adeno_squamous = "Adenocarcinoma")
-samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
+# Create a cohort of all patients with stage
+# IV NSCLC of histology adenocarcinoma
+out <- create_analytic_cohort(cohort = "NSCLC",
+data_synapse = data_lung, stage_dx = c("Stage IV"),
+histology = "Adenocarcinoma")
+samples_data <- fetch_samples(cohort = "NSCLC",
+data_synapse = data_lung,df_record_ids = out$cohort_ngs)
 # Example 2 ----------------------------------
-# Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+# Create a cohort of all NSCLC patients who
+# received Cisplatin, Pemetrexed Disodium or Cisplatin,
+# Etoposide as their first drug regimen
 out <- create_cohort(cohort = "NSCLC",
-     regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
+     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
+      "Cisplatin, Etoposide"),
      regimen_order = 1,
      regimen_order_type = "within regimen")
-samples_data <- fetch_samples(cohort = "NSCLC", data_synapse = out$cohort_ca_dx)
+samples_data <- fetch_samples(cohort = "NSCLC",
+ data_synapse = out$cohort_ca_dx)
 }

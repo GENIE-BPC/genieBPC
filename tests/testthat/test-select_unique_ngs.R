@@ -46,11 +46,13 @@ test_that("function returns unique sample for each record", {
     return_summary = FALSE
   )
 
-  expect_warning(test1 <- select_unique_ngs(data_cohort = cohort_temp$cohort_ngs))
+  expect_warning(test1 <- select_unique_ngs(
+    data_cohort = cohort_temp$cohort_ngs))
   expect_true(tibble::is_tibble(test1))
   expect_equal(ncol(test1), 20)
   expect_equal(nrow(test1), 1849)
-  expect_equal(length(unique(test1$cpt_genie_sample_id)), length(unique(test1$record_id)))
+  expect_equal(length(unique(test1$cpt_genie_sample_id)),
+               length(unique(test1$record_id)))
 
 
   ### Stage IV ###
@@ -62,11 +64,13 @@ test_that("function returns unique sample for each record", {
   )
 
 
-  expect_warning(test2 <- select_unique_ngs(data_cohort = cohort_temp$cohort_ngs))
+  expect_warning(test2 <- select_unique_ngs(
+    data_cohort = cohort_temp$cohort_ngs))
   expect_true(tibble::is_tibble(test2))
   expect_equal(ncol(test2), 20)
   expect_equal(nrow(test2), 793)
-  expect_equal(length(unique(test2$cpt_genie_sample_id)), length(unique(test2$record_id)))
+  expect_equal(length(unique(test2$cpt_genie_sample_id)),
+               length(unique(test2$record_id)))
 
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
@@ -76,7 +80,8 @@ test_that("function returns unique sample for each record", {
     institution = "DFCI"
   )
 
-  expect_warning(test3 <- select_unique_ngs(data_cohort = cohort_temp$cohort_ngs))
+  expect_warning(test3 <- select_unique_ngs(
+    data_cohort = cohort_temp$cohort_ngs))
   expect_true(tibble::is_tibble(test3))
   expect_equal(ncol(test3), 20)
   expect_equal(nrow(test3), 699)

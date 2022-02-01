@@ -23,11 +23,13 @@ test_that("Test class and length of list for sunburst plot", {
 test_that("Test class and length of list for elements of sunburst data frame", {
 
   expect_equal(length(plot1$treatment_history), 2)
-  expect_equal(class(plot1$treatment_history), c("tbl_df", "tbl" , "data.frame"))
+  expect_equal(class(plot1$treatment_history),
+               c("tbl_df", "tbl" , "data.frame"))
 })
 
 
-test_that("Test class and length of list for elements of sunburst plotly element", {
+test_that("Test class and length of list for elements
+          of sunburst plotly element", {
 
   expect_equal(length(plot1$sunburst_plot), 8)
   expect_equal(class(plot1$sunburst_plot), c("sunburst","htmlwidget"))

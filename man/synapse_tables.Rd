@@ -21,6 +21,7 @@ A lookup table for Synapse clinical data table IDs:
 synapse_tables
 }
 \description{
-A dataset containing the Synapse table IDs for each clinical dataset in GENIE BPC.
+A dataset containing the Synapse table IDs for
+each clinical dataset in GENIE BPC.
 }
 \keyword{datasets}

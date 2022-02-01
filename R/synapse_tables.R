@@ -1,6 +1,7 @@
 #' Synapse table IDs
 #'
-#' A dataset containing the Synapse table IDs for each clinical dataset in GENIE BPC.
+#' A dataset containing the Synapse table IDs for
+#' each clinical dataset in GENIE BPC.
 #'
 #' @format A lookup table for Synapse clinical data table IDs:
 #' \describe{

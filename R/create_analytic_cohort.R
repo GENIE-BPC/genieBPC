@@ -134,7 +134,8 @@ create_analytic_cohort <- function(cohort,
   }
 
   if (!(stringr::str_to_upper(cohort) %in% c("NSCLC", "CRC", "BRCA"))) {
-    stop("Select from available cancer cohorts: NSCLC, CRC, BrCa (not case sensitive)")
+    stop("Select from available cancer cohorts:
+         NSCLC, CRC, BrCa (not case sensitive)")
   }
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
@@ -153,7 +154,8 @@ create_analytic_cohort <- function(cohort,
   }
 
   # get cohort from data_synapse object
-  # position of cohort in unique list of cohorts returned in pull_data_synapse object
+  # position of cohort in unique list of cohorts returned
+  # in pull_data_synapse object
   # in the case that multiple cohorts were pulled
   coh_position <- grep(stringr::str_to_upper(cohort),
                        unique(word(names(data_synapse), -1, sep = "_")),
@@ -161,11 +163,14 @@ create_analytic_cohort <- function(cohort,
   # get that cohort name and how it is capitalized in the data_synapse object
   cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))[coh_position]
 
-  # alphabetize drugs in regimen to match how they are stored in variable
+  # alphabetize drugs in regimen to match
+  # how they are stored in variable
   # regimen_drugs
   if (!missing(regimen_drugs)) {
-    regimen_drugs_sorted <- map_chr(strsplit(regimen_drugs, ","), ~
-                                      toString(str_to_lower(str_sort((str_trim(.x))))))
+    regimen_drugs_sorted <- map_chr(
+      strsplit(regimen_drugs, ","), ~
+        toString(str_to_lower(str_sort(
+          (str_trim(.x))))))
   }
 
   # index cancer sequence
@@ -526,9 +531,11 @@ create_analytic_cohort <- function(cohort,
                        by = c("regimen_drugs")
       ) %>%
       # create new order b/c this is regimen CONTAINING drugs listed
-      # order drugs w/in regimen, have to account for structure of data which is
+      # order drugs w/in regimen, have to account for
+      # structure of data which is
       # 1 reg:assoc ca dx
-      # (may have more than one row for a drug regimen even if it's the first time
+      # (may have more than one row for a drug regimen even
+      # if it's the first time
       # that drug regimen was received)
       # have to filter on containing regimens first, then re-number
       dplyr::filter(grepl(
@@ -568,7 +575,8 @@ create_analytic_cohort <- function(cohort,
                            .data$record_id, .data$regimen_number,
                            .data$regimen_drugs
                          ) %>%
-                         dplyr::mutate(order_within_containing_regimen = 1:n()) %>%
+                         dplyr::mutate(
+                           order_within_containing_regimen = 1:n()) %>%
                          dplyr::ungroup() %>%
                          dplyr::select(-.data$regimen_drugs),
                        by = c("record_id", "regimen_number")

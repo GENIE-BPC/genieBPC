@@ -98,8 +98,11 @@ drug_regimen_sunburst <- function(data_synapse,
   # prepare the data for the sunburst function
   # 1 column per regimen (R1, R2, R3, etc.)
   cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
-    dplyr::select(.data$record_id, .data$order_within_cancer, .data$regimen_drugs) %>%
-    dplyr::mutate(order_within_cancer = paste0("R", .data$order_within_cancer)) %>%
+    dplyr::select(.data$record_id,
+                  .data$order_within_cancer,
+                  .data$regimen_drugs) %>%
+    dplyr::mutate(order_within_cancer =
+                    paste0("R", .data$order_within_cancer)) %>%
     tidyr::pivot_wider(
       names_from = .data$order_within_cancer,
       values_from = .data$regimen_drugs
@@ -116,7 +119,7 @@ drug_regimen_sunburst <- function(data_synapse,
   # set up drug regimen data for sunburst
   # concatenate drug regimens separated by "-" into variable path
   path <- c()
-  for (i in 1:nrow(cohort_for_sunburst)) {
+  for (i in seq_along(cohort_for_sunburst[,1])) {
     temp_path <- as.character(
       unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
     path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
