@@ -1,6 +1,8 @@
 test_that("Testing synapse version", {
-  expect_equal(class(synapse_version(FALSE)), c("grouped_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(synapse_version(TRUE)), c("grouped_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(class(synapse_version(FALSE)),
+               c("grouped_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(class(synapse_version(TRUE)),
+               c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
   expect_equal(synapse_version(TRUE) %>%
                  dplyr::count(cohort) %>%

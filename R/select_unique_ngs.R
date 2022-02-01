@@ -1,15 +1,21 @@
 #' select_unique_ngs
 #'
-#' Get a unique next generation sequencing sample for each patient for analysis following several user define criterions.
+#' Get a unique next generation sequencing sample
+#' for each patient for analysis following several
+#' user define criterions.
 #' @param data_cohort output object of the create_analytic_cohort function.
-#' @param oncotree_code character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
+#' @param oncotree_code character vector specifying which sample
+#' OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of data_cohort argument above to get options.
-#' @param sample_type character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
+#' @param sample_type character specifying which type of genomic sample
+#' to prioritize, options are "Primary", "Local" and "Metastasis".
 #' Default is to not select a NGS sample based on the sample type.
-#' @param min_max_time character specifying if the first or last genomic sample recorded should be kept.
+#' @param min_max_time character specifying if the first or last genomic
+#' sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
 #'
-#' @return returns the sample object list inputted with an additional dataset named "samples_data".
+#' @return returns the sample object list inputted with an
+#' additional dataset named "samples_data".
 #' @export
 #'
 #' @examples
@@ -135,11 +141,13 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
         # select the sample with largest panel number
         if (nrow(temp) > 1) {
           temp <- temp %>%
-            filter(.data$cpt_seq_assay_id %in% genieBPC::genie_panels$Sequence.Assay.ID) %>%
+            filter(.data$cpt_seq_assay_id %in%
+                     genieBPC::genie_panels$Sequence.Assay.ID) %>%
             rowwise() %>%
             mutate(panel_size =
-                     genieBPC::genie_panels[match(.data$cpt_seq_assay_id,
-                                                  genieBPC::genie_panels$Sequence.Assay.ID),
+                     genieBPC::genie_panels[match(
+                       .data$cpt_seq_assay_id,
+                       genieBPC::genie_panels$Sequence.Assay.ID),
                                   "Genes"]) %>%
             ungroup() %>%
             filter(.data$panel_size == max(.data$panel_size)) %>%
@@ -154,7 +162,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
                          a sample was selected at random."))
           # Set seed so this is reproducible #
           set.seed(210793)
-          temp <- temp[sample(1:nrow(temp), size = 1), ]
+          temp <- temp[sample(seq_along(temp[,1]), size = 1), ]
         }
 
         return(temp)

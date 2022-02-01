@@ -14,20 +14,26 @@ select_unique_ngs(
 \arguments{
 \item{data_cohort}{output object of the create_analytic_cohort function.}
 
-\item{oncotree_code}{character vector specifying which sample OncoTree codes to keep. See "cpt_oncotree_code" column
+\item{oncotree_code}{character vector specifying which sample
+OncoTree codes to keep. See "cpt_oncotree_code" column
 of data_cohort argument above to get options.}
 
-\item{sample_type}{character specifying which type of genomic sample to prioritize, options are "Primary", "Local" and "Metastasis".
+\item{sample_type}{character specifying which type of genomic sample
+to prioritize, options are "Primary", "Local" and "Metastasis".
 Default is to not select a NGS sample based on the sample type.}
 
-\item{min_max_time}{character specifying if the first or last genomic sample recorded should be kept.
+\item{min_max_time}{character specifying if the first or last genomic
+sample recorded should be kept.
 Options are "min" (first) and "max" (last).}
 }
 \value{
-returns the sample object list inputted with an additional dataset named "samples_data".
+returns the sample object list inputted with an
+additional dataset named "samples_data".
 }
 \description{
-Get a unique next generation sequencing sample for each patient for analysis following several user define criterions.
+Get a unique next generation sequencing sample
+for each patient for analysis following several
+user define criterions.
 }
 \examples{
 # Example 1 ----------------------------------

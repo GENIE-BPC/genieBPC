@@ -7,7 +7,8 @@
 \format{
 A data frame with 12 rows and 3 variables:
 \describe{
-  \item{Sequence.Assay.ID}{Next-generation sequencing targeted panel assay identifier}
+  \item{Sequence.Assay.ID}{Next-generation
+  sequencing targeted panel assay identifier}
   \item{Panel}{Panel name}
   \item{Genes}{Number of genes included}
   ...

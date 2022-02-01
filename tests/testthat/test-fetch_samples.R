@@ -128,4 +128,10 @@ test_that("function returns correct number of samples", {
   expect_equal(nrow(test3), 577)
   expect_equal(length(unique(test3$record_id)), 570)
   expect_equal(unique(test3$institution), "DFCI")
+
+  expect_error(test4 <- fetch_samples(
+    cohort = "CRC", data_synapse = crc_data,
+    df_record_ids = cohort_temp$cohort_ca_dx %>%
+      rename(some_name = record_id)
+  ))
 })
