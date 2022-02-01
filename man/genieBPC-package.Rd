@@ -20,10 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jessica Lavery \email{laveryj@mskcc.org} (\href{https://orcid.org/0000-0002-2746-5647}{ORCID})
+\strong{Maintainer}: Statistical Core GENIE-BPC \email{bstgeniebpc@mskcc.org}
 
 Authors:
 \itemize{
+  \item Jessica Lavery \email{laveryj@mskcc.org} (\href{https://orcid.org/0000-0002-2746-5647}{ORCID})
   \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown (\href{https://orcid.org/0000-0001-5352-974X}{ORCID})
   \item Axel Martin

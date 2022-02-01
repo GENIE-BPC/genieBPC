@@ -4,9 +4,15 @@ Title: Data Processing Pipeline for the AACR Project GENIE Biopharma
     Collaborative Data
 Version: 0.1.0
 Authors@R: 
-    c(person(given = "Jessica",
-             family = "Lavery",
+    c(
+    person(given = "Statistical Core",
+             family = "GENIE-BPC",
              role = c("aut", "cre"),
+             email = "bstgeniebpc@mskcc.org",
+             comment = ""),
+    person(given = "Jessica",
+             family = "Lavery",
+             role = "aut",
              email = "laveryj@mskcc.org",
              comment = c(ORCID = "0000-0002-2746-5647")),
       person(given = "Michael A.",

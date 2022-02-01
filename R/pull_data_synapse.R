@@ -128,7 +128,7 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- vapply(1:nrow(synapse_tables2), function(x) {
+      synapse_tables2$path <- vapply(seq_along(as.data.frame(synapse_tables2)[,1]), function(x) {
         synapser::synGet(synapse_tables2$synapse_id[x])$path
       }, character(1))
 
