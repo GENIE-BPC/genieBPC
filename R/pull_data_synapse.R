@@ -65,8 +65,9 @@ pull_data_synapse <- function(cohort, version) {
     synapser::synLogin(),
     error =
       function(e) {
-        cli::cli_alert_warning("There was an error pulling the data.
-                               See error message below.")
+        cli::cli_alert_warning(
+          paste("There was an error pulling the data.",
+                "See error message below."))
         paste("You are not logged into your synapse account",
               "Please set credentials by using 'synapser::synLogin()'",
               sep = "\n"
@@ -104,21 +105,22 @@ pull_data_synapse <- function(cohort, version) {
       versionnum <- dplyr::filter(versionnum, cohort == cohortval)
 
       if(!version %in% versionnum$version){
-        stop("You have selected a version that is not avaialable
-        for this cohort. Please use `synapse_tables` to
-             see what versions are available.")
+        stop("You have selected a version that is not
+        available for this cohort. Please use `synapse_tables`
+             to see what versions are available.")
       }
       # get lists of available versions for Synapse tables and
       # corresponding file names, appended with cohort name
-      synapse_tables$version <- substr(synapse_tables$version,
-                                       2, nchar(synapse_tables$version))
-      synapse_tables$filenames <- paste(synapse_tables$df,
-                                        synapse_tables$cohort, sep = "_")
+      synapse_tables$version <- substr(
+        synapse_tables$version, 2,
+        nchar(synapse_tables$version))
+      synapse_tables$filenames <- paste(
+        synapse_tables$df, synapse_tables$cohort, sep = "_")
 
       cohort_version <- Map(
         function(x, y) {
-          synapse_tables[stringr::str_to_upper(synapse_tables$cohort)
-                         %in% x & synapse_tables$version %in% y, ]
+          synapse_tables[stringr::str_to_upper(
+            synapse_tables$cohort) %in% x & synapse_tables$version %in% y, ]
         },
         stringr::str_to_upper(cohort),
         version
@@ -126,26 +128,22 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- vapply(seq_along(synapse_tables2[,1]),
-                                     function(x) {
-                                       synapser::synGet(
-                                         synapse_tables2$synapse_id[x])$path
-                                     }, character(1))
+      synapse_tables2$path <- vapply(1:nrow(synapse_tables2), function(x) {
+        synapser::synGet(synapse_tables2$synapse_id[x])$path
+      }, character(1))
 
       # read Synapse tables
       readcsvfile <- stats::setNames(
-        lapply(synapse_tables2$path[grepl(".csv",
-                                          synapse_tables2$path)],
+        lapply(synapse_tables2$path[grepl(".csv", synapse_tables2$path)],
                utils::read.csv),
-        synapse_tables2$filenames[grepl(".csv",
-                                        synapse_tables2$path)]
+        synapse_tables2$filenames[grepl(".csv", synapse_tables2$path)]
       )
 
 
 
       readtxtfile <- stats::setNames(
-        lapply(synapse_tables2$path[grepl(".txt",
-                                          synapse_tables2$path)], function(x) {
+        lapply(synapse_tables2$path[grepl(".txt", synapse_tables2$path)],
+               function(x) {
           utils::read.delim(x, sep = "\t")
         }),
         synapse_tables2$filenames[grepl(".txt", synapse_tables2$path)]
@@ -161,8 +159,8 @@ pull_data_synapse <- function(cohort, version) {
 
     # return error messages
     error = function(e) {
-      cli::cli_alert_warning("There was an error pulling the data.
-                             See error message below.")
+      cli::cli_alert_warning(paste("There was an error pulling the data.",
+      "See error message below."))
       stop(e)
     }
   )
