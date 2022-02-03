@@ -26,9 +26,16 @@ Authors@R:
       person(given = "Axel",
              family = "Martin",
              role = "aut"))
-Description: The {genieBPC} package provides a seamless way to obtain the
+Description: The American Association Research Project 
+    Genomics Evidence Neoplasia Information Exchange (GENIE) BioPharma 
+    Collaborative represents a multi-year, multi-institution effort
+    to build a pan-cancer repository of linked clinico-genomic data. 
+    The genomic and clinical data are provided in multiple releases (separate
+    releases for each cancer cohort with updates following data corrections), 
+    which are stored on the data sharing platform Synapse. 
+    The {genieBPC} package provides a seamless way to obtain the
     data corresponding to each release from Synapse and to prepare
-    datasets for analysis.
+    datasets for analysis. 
 License: MIT + file LICENSE
 BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
@@ -65,5 +72,5 @@ Additional_repositories:
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://genie-bpc.github.io/genieBPC/
