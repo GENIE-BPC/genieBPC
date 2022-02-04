@@ -4,15 +4,24 @@
 #' based on cancer diagnosis information such as cancer cohort, treating
 #' institution, histology, and stage at diagnosis, as well as cancer-directed
 #' regimen information including regimen name and regimen order.
-#' This function returns two datasets:
-#' (1) `cohort_ca_dx` will contain cancer diagnosis information for patients
+#' This function returns three datasets:
+#' \enumerate{
+#'   \item `cohort_ca_dx` will contain cancer diagnosis information for patients
 #' matching the specified criteria. This dataset is structured as one record per
 #'  patient per associated cancer diagnosis.
-#' (2) `cohort_ca_drugs` will return the drug-regimen information for patients
+#'   \item `cohort_ca_drugs` will return the drug-regimen information for patients
 #' matching the specified criteria. This dataset is structured as one record per
 #'  patient, per regimen and associated cancer diagnosis. For example, a drug
 #'  regimen associated with treating two cancer diagnoses will have two records
 #'  in this dataset.
+#'  \item `cohort_ngs` is the next generation sequencing report information
+#'  for patients matching the specified criteria. This dataset is structured
+#'   as one record per next generation sequencing report, per associated
+#'   diagnosis. If it is unknown which cancer sequence is associated with the
+#'   next generation sequencing report, it will have two records in this
+#'   dataset. This dataset contains the key to merge the clinical and genomic
+#'   data.
+#'   }
 #' The function inputs `cohort`, `institution`, `stage_dx`,
 #' and `regimen_drugs` correspond to the variable
 #' names in the GENIE BPC Analytic Data Guide, available on
