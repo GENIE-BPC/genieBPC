@@ -40,6 +40,13 @@ The `pull_data_synapse` function accesses the specified
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 }
+Users must log in to Synapse to access the data successfully.
+To log into Synapse during each session, call:
+`synLogin(email = "your_email", password = "your_password")`
+To store authentication information in your operating system, call:
+`synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+Upon calling the `rememberMe = TRUE` argument, the user can call:
+`synLogin()` in future uses without specifying login credentials.
 }
 \examples{
 # Example 1 ----------------------------------
