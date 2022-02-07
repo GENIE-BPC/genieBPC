@@ -77,6 +77,10 @@ pull_data_synapse <- function(cohort, version) {
                 "See error message below."))
         paste("You are not logged into your synapse account",
               "Please set credentials by using 'synapser::synLogin()'",
+              "To store login credentials in your operating system, call:",
+              "`synLogin(email, password, rememberMe = TRUE)`",
+              "Note: Upon calling `rememberMe = TRUE`, the user can call:",
+              "`synLogin()` in future uses without specifying credentials.",
               sep = "\n"
         ) %>%
           stop(call. = FALSE)
