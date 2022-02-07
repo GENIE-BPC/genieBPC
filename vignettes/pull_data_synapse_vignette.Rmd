@@ -47,7 +47,7 @@ Before beginning this tutorial, be sure to have a Synapse account. If you do not
 Install and load {synapser}.
 
 ```{r message = FALSE, warning = FALSE}
-# install.packages("synapser")
+# install.packages("synapser",repos = "http://ran.synapse.org")
 library(synapser)
 ```
 
