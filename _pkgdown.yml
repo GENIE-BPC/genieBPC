@@ -1,2 +1,6 @@
 url: https://genie-bpc.github.io/genieBPC/
 
+template:
+  bootstrap: 5
+  bootswatch: lux
+
