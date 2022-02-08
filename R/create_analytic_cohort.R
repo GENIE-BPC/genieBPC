@@ -83,7 +83,14 @@
 #' returned. Default is FALSE. The `gtsummary` package is required to return a
 #' summary table.
 #'
-#' @return Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
+#' @value A list of data frames containing cancer diagnosis (`cohort_ca_dx`),
+#' cancer-directed regimen (`cohort_ca_drugs`) and next generation sequencing
+#' (`cohort_ngs`) information for patients that met the specified criteria.
+#' Optionally, if return_summary = TRUE, the list also includes summary
+#' tables for the number of records per dataset (`tbl_overall_summary`)
+#' as well as tables of key cancer diagnosis (`tbl_cohort`),
+#' cancer-directed regimen (`tbl_drugs`) and next generation sequencing
+#' (`tbl_ngs`) variables.
 #'
 #' @author Jessica Lavery
 #' @export
@@ -383,8 +390,9 @@ create_analytic_cohort <- function(cohort,
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
-                                         dplyr::select(cohort, record_id,
-                                                       ca_seq),
+                                         dplyr::select(.data$cohort,
+                                                       .data$record_id,
+                                                       .data$ca_seq),
     pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "ca_seq")
   ) %>%

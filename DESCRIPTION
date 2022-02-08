@@ -7,7 +7,7 @@ Authors@R:
     c(
     person(given = "Statistical Core",
              family = "GENIE-BPC",
-             role = c("aut", "cre"),
+             role = c("aut", "cre", "cph"),
              email = "bstgeniebpc@mskcc.org",
              comment = ""),
     person(given = "Jessica",
@@ -64,7 +64,8 @@ Suggests:
     rmarkdown (>= 2.8),
     synapser,
     testthat (>= 3.0.0),
-    markdown
+    markdown,
+    spelling
 VignetteBuilder: 
     knitr
 Additional_repositories: 
@@ -74,3 +75,4 @@ Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.2
 URL: https://genie-bpc.github.io/genieBPC/
+Language: en-US
