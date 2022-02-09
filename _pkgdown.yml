@@ -1,2 +1,50 @@
 url: https://genie-bpc.github.io/genieBPC/
 
+template:
+  bootswatch: lux
+
+authors:
+  Jessica Lavery
+  Michael A. Curry
+  Samantha Brown
+  Axel Martin
+
+navbar:
+  type: default
+  left:
+  - icon: fa-home
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: "GENIE BPC Data Structure Overview"
+      href: articles/clinical_data_structure_vignette.html
+    - text: "create_analytic_cohort() tutorial"
+      href: articles/create_analytic_cohort_vignette.html
+    - text: "drug_regimen_sunburst() tutorial"
+      href: articles/drug_regimen_sunburst_vignette.html
+    - text: "pull_data_synapse() tutorial"
+      href: articles/pull_data_synapse_vignette.html
+    - text: "select_unique_ngs() tutorial"
+      href: articles/select_unique_ngs_vignette.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/GENIE-BPC/genieBPC
+
+reference:
+  - title: Functions
+  - contents:
+      - clinical_data_structure
+      - create_analytic_cohort
+      - drug_regimen_sunburst
+      - pull_data_synapse
+      - select_unique_ngs
+  - title: Data
+  - contents:
+      - drug_regimen_list
+      - genie_panels
+      - regimen_abbreviations
+      - synapse_tables
