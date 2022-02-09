@@ -22,7 +22,6 @@
 #' dplyr
 #' TraMineR
 #' sunburstR
-#' pipeR
 #' tidyr
 
 

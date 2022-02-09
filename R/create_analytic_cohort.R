@@ -83,7 +83,7 @@
 #' returned. Default is FALSE. The `gtsummary` package is required to return a
 #' summary table.
 #'
-#' @value A list of data frames containing cancer diagnosis (`cohort_ca_dx`),
+#' @return A list of data frames containing cancer diagnosis (`cohort_ca_dx`),
 #' cancer-directed regimen (`cohort_ca_drugs`) and next generation sequencing
 #' (`cohort_ngs`) information for patients that met the specified criteria.
 #' Optionally, if return_summary = TRUE, the list also includes summary

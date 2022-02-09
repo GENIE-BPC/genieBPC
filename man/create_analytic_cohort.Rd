@@ -86,7 +86,14 @@ returned. Default is FALSE. The `gtsummary` package is required to return a
 summary table.}
 }
 \value{
-Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
+A list of data frames containing cancer diagnosis (`cohort_ca_dx`),
+cancer-directed regimen (`cohort_ca_drugs`) and next generation sequencing
+(`cohort_ngs`) information for patients that met the specified criteria.
+Optionally, if return_summary = TRUE, the list also includes summary
+tables for the number of records per dataset (`tbl_overall_summary`)
+as well as tables of key cancer diagnosis (`tbl_cohort`),
+cancer-directed regimen (`tbl_drugs`) and next generation sequencing
+(`tbl_ngs`) variables.
 }
 \description{
 This function allows the user to create a cohort from the GENIE BPC data
