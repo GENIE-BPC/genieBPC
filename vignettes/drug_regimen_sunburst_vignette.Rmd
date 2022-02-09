@@ -12,16 +12,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>")
 
-library(genieBPC)
 library(dplyr)
-library(synapser)
 library(ggplot2)
 library(plotly)
 library(gt)
 library(magrittr)
 library(tibble)
-
-synLogin()
 ```
 
 ```{r, include = FALSE}
@@ -82,7 +78,12 @@ Note that the innermost circle of the sunburst plot indicates the first therapie
 
 The example below creates a sunburst plot of the first the first 4 regimens received by patients diagnosed with stage IV adenocarcinoma NSCLC that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis:
 
-```{r, results = 'hide'}
+```{r, results = 'hide', warning = FALSE}
+library(genieBPC)
+library(synapser)
+
+synLogin()
+
 nsclc_cohort <- pull_data_synapse("NSCLC", version = "2.1")
 
 nsclc_stg_iv_adeno <- create_analytic_cohort(
