@@ -35,7 +35,8 @@
 
 #' List of Drug Regimen Abbreviations
 #'
-#' A dataset containing the cancer-directed drug regimens and their common abbreviations
+#' A dataset containing the cancer-directed
+#' drug regimens and their common abbreviations
 #'
 #' @format A table for cancer-directed drug regimens and
 #' their common abbreviations

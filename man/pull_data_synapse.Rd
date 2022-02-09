@@ -44,7 +44,7 @@ Users must log in to Synapse to access the data successfully.
 To log into Synapse during each session, call:
 `synLogin(email = "your_email", password = "your_password")`
 To store authentication information in your operating system, call:
-`synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+`synLogin(email="your_email",password="your_password",rememberMe=TRUE)`
 Upon calling the `rememberMe = TRUE` argument, the user can call:
 `synLogin()` in future uses without specifying login credentials.
 }

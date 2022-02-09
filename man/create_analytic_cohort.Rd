@@ -29,9 +29,10 @@ will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
 BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
-cancer that met the eligibility criteria for the project and was selected
-at random for PRISSMM phenomic data curation. Specifying multiple index
-cancer sequences, e.g. index_ca_seq = c(1, 2) will return index cancers to
+cancer that met the eligibility criteria for the project and was
+selected at random for PRISSMM phenomic data curation.
+Specifying multiple index cancer sequences, e.g.
+index_ca_seq = c(1, 2) will return index cancers to
 patients with 1 index cancer and will return the first AND second index
 cancers to patients with multiple.}
 
@@ -85,9 +86,6 @@ regimen"). Acceptable values are "within cancer" and "within regimen".}
 returned. Default is FALSE. The `gtsummary` package is required to return a
 summary table.}
 }
-\value{
-Returns data frames `cohort_ca_dx` and `cohort_ca_drugs`
-}
 \description{
 This function allows the user to create a cohort from the GENIE BPC data
 based on cancer diagnosis information such as cancer cohort, treating
@@ -96,12 +94,15 @@ regimen information including regimen name and regimen order.
 This function returns three datasets:
 \enumerate{
   \item `cohort_ca_dx` will contain cancer diagnosis information for patients
-matching the specified criteria. This dataset is structured as one record per
+ matching the specified criteria.
+ This dataset is structured as one record per
  patient per associated cancer diagnosis.
-  \item `cohort_ca_drugs` will return the drug-regimen information for patients
-matching the specified criteria. This dataset is structured as one record per
- patient, per regimen and associated cancer diagnosis. For example, a drug
- regimen associated with treating two cancer diagnoses will have two records
+ \item `cohort_ca_drugs` will return the drug-regimen information
+ for patients matching the specified criteria.
+ This dataset is structured as one record per
+ patient, per regimen and associated cancer diagnosis.
+ For example, a drug regimen associated with treating
+ two cancer diagnoses will have two records
  in this dataset.
  \item `cohort_ngs` is the next generation sequencing report information
  for patients matching the specified criteria. This dataset is structured

@@ -17,7 +17,7 @@
 #' To log into Synapse during each session, call:
 #' `synLogin(email = "your_email", password = "your_password")`
 #' To store authentication information in your operating system, call:
-#' `synLogin(email = "your_email", password = "your_password", rememberMe = TRUE)`
+#' `synLogin(email="your_email",password="your_password",rememberMe=TRUE)`
 #' Upon calling the `rememberMe = TRUE` argument, the user can call:
 #' `synLogin()` in future uses without specifying login credentials.
 #'
@@ -139,7 +139,8 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- vapply(seq_along(as.data.frame(synapse_tables2)[,1]), function(x) {
+      synapse_tables2$path <- vapply(seq_along(
+        as.data.frame(synapse_tables2)[,1]), function(x) {
         synapser::synGet(synapse_tables2$synapse_id[x])$path
       }, character(1))
 

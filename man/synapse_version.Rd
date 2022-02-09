@@ -25,3 +25,7 @@ and reads it into the R environment.
 
 To obtain version numbers and pull the correct one for each cohort
 }
+\examples{
+synapse_version()
+synapse_version(most_recent = TRUE)
+}
