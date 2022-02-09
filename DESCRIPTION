@@ -57,7 +57,7 @@ Suggests:
     covr (>= 3.5.1),
     ggplot2 (>= 3.3.5),
     gt (>= 0.3.0),
-    gtsummary (>= 1.5.1),
+    gtsummary (>= 1.5.2),
     knitr (>= 1.33),
     magrittr (>= 2.0.1),
     plotly (>= 4.10.0),
