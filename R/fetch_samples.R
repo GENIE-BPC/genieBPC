@@ -10,7 +10,7 @@
 #' @param data_synapse the list object outputted by the
 #' `pull_data_synapse()` function.
 #' @param df_record_ids output object of the create_cohort function.
-#' @value returns the 'cohort_ngs' object of the create_analytic_cohort
+#' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with the genomic samples taken from each patients.
 #' @export
 #' @author Axel Martin

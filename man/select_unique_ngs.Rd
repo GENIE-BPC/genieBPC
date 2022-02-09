@@ -26,6 +26,10 @@ Default is to not select a NGS sample based on the sample type.}
 sample recorded should be kept.
 Options are "min" (first) and "max" (last).}
 }
+\value{
+returns the 'cohort_ngs' object of the create_analytic_cohort
+with an unique genomic samples taken from each patients.
+}
 \description{
 Get a unique next generation sequencing sample
 for each patient for analysis following several

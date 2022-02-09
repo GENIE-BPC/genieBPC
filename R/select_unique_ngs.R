@@ -14,7 +14,7 @@
 #' sample recorded should be kept.
 #' Options are "min" (first) and "max" (last).
 #'
-#' @value returns the 'cohort_ngs' object of the create_analytic_cohort
+#' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with an unique genomic samples taken from each patients.
 #' @export
 #'

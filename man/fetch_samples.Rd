@@ -15,6 +15,10 @@ or "BrCa"}
 
 \item{df_record_ids}{output object of the create_cohort function.}
 }
+\value{
+returns the 'cohort_ngs' object of the create_analytic_cohort
+with the genomic samples taken from each patients.
+}
 \description{
 This function links patients in a cohort (created by
 create_analytic_cohort()) with their corresponding

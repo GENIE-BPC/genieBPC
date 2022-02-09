@@ -15,6 +15,10 @@ function call}
 
 \item{max_n_regimens}{The number of regimens displayed in the sunburst plot}
 }
+\value{
+Returns data frame `treatment_history` and interactive
+plot `sunburst_plot`
+}
 \description{
 This function allows the user to visualize the complete treatment
 course for selected diagnoses.

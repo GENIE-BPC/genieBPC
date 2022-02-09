@@ -7,7 +7,7 @@
 #' @param data_cohort The list returned from the `create_analytic_cohort()`
 #' function call
 #' @param max_n_regimens The number of regimens displayed in the sunburst plot
-#' @value Returns data frame `treatment_history` and interactive
+#' @return Returns data frame `treatment_history` and interactive
 #' plot `sunburst_plot`
 #' @export
 #'

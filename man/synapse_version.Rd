@@ -10,6 +10,10 @@ synapse_version(most_recent = FALSE)
 \item{most_recent}{TRUE/FALSE indicator if  you only want the most recent
 version number for each cohort}
 }
+\value{
+Returns a table containing the different
+available versions for each cohort types.
+}
 \description{
 Data is updated periodically and each time it is
 updated the cohort will get a new version number.
