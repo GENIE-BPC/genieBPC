@@ -15,32 +15,35 @@ or "BrCa"}
 
 \item{df_record_ids}{output object of the create_cohort function.}
 }
-\value{
-returns the cohort object list inputted with an
- additional dataset named "samples_data".
-}
 \description{
+This function links patients in a cohort (created by
+create_analytic_cohort()) with their corresponding
+genomic samples available in GENIE.
+}
+\details{
 Subset cancer panel test data to patients in the cohort of interest
 }
-\author{
-Axel Martin
+\examples{
 #' # Example 1 ----------------------------------
 # Create a cohort of all patients with stage
 # IV NSCLC of histology adenocarcinoma
-out <- create_analytic_cohort(cohort = "NSCLC",
-data_synapse = data_lung, stage_dx = c("Stage IV"),
-histology = "Adenocarcinoma")
-samples_data <- fetch_samples(cohort = "NSCLC",
-data_synapse = data_lung,df_record_ids = out$cohort_ngs)
+# out <- create_analytic_cohort(cohort = "NSCLC",
+# data_synapse = data_lung, stage_dx = c("Stage IV"),
+# histology = "Adenocarcinoma")
+# samples_data <- fetch_samples(cohort = "NSCLC",
+# data_synapse = data_lung,df_record_ids = out$cohort_ngs)
 # Example 2 ----------------------------------
 # Create a cohort of all NSCLC patients who
 # received Cisplatin, Pemetrexed Disodium or Cisplatin,
 # Etoposide as their first drug regimen
-out <- create_cohort(cohort = "NSCLC",
-     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
-      "Cisplatin, Etoposide"),
-     regimen_order = 1,
-     regimen_order_type = "within regimen")
-samples_data <- fetch_samples(cohort = "NSCLC",
- data_synapse = out$cohort_ca_dx)
+# out <- create_analytic_cohort(cohort = "NSCLC",
+# data_synapse = data_lung,regimen_drugs =
+# c("Cisplatin, Pemetrexed Disodium",
+# "Cisplatin, Etoposide"), regimen_order = 1,
+# regimen_order_type = "within regimen")
+# samples_data <- fetch_samples(cohort = "NSCLC",
+# data_synapse = data_lung,df_record_ids = out$cohort_ngs)
+}
+\author{
+Axel Martin
 }

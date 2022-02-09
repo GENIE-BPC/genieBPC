@@ -26,32 +26,28 @@ Default is to not select a NGS sample based on the sample type.}
 sample recorded should be kept.
 Options are "min" (first) and "max" (last).}
 }
-\value{
-returns the sample object list inputted with an
-additional dataset named "samples_data".
-}
 \description{
 Get a unique next generation sequencing sample
 for each patient for analysis following several
 user define criterions.
 }
 \examples{
-# Example 1 ----------------------------------
-# Create a cohort of all patients with stage IV NSCLC of histology
-# adenocarcinoma
+#' # Example 1 ----------------------------------
+# Create a cohort of all patients with stage
+# IV NSCLC of histology adenocarcinoma
 # out <- create_analytic_cohort(cohort = "NSCLC",
-#      stage_dx = c("Stage IV"),
-#      ca_hist_adeno_squamous = "Adenocarcinoma")
-# select_unique_ngs <- select_unique_ngs(data_cohort = out)
+# data_synapse = data_lung, stage_dx = c("Stage IV"),
+# histology = "Adenocarcinoma")
+# samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
 # Example 2 ----------------------------------
-# Create a cohort of all NSCLC patients who received Cisplatin,
-# Pemetrexed Disodium or Cisplatin,
+# Create a cohort of all NSCLC patients who
+# received Cisplatin, Pemetrexed Disodium or Cisplatin,
 # Etoposide as their first drug regimen
 # out <- create_analytic_cohort(cohort = "NSCLC",
-#     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
-# "Cisplatin, Etoposide"),
-#     regimen_order = 1,
-#     regimen_order_type = "within regimen")
-# select_unique_ngs <- select_unique_ngs(data_cohort = out,
+# data_synapse = data_lung,
+# regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
+# "Cisplatin, Etoposide"), regimen_order = 1,
+# regimen_order_type = "within regimen")
+# samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs,
 # oncotree_code = "LUAD", sample_type = "Metastasis",min_max_time = "max")
 }
