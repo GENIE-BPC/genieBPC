@@ -68,8 +68,9 @@ drug_regimen_sunburst <- function(data_synapse,
   # }
 
   # get all regimens to diagnoses in cohort
-  cohort_all_drugs <- dplyr::inner_join(pluck(data_cohort, "cohort_ca_dx"),
-    pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
+  cohort_all_drugs <- dplyr::inner_join(purrr::pluck(data_cohort,
+                                                     "cohort_ca_dx"),
+    purrr::pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
     by = c("cohort", "record_id", "ca_seq", "institution")
   ) %>%
     # create drug regimen order WITHIN the cancer diagnosis
@@ -118,7 +119,7 @@ drug_regimen_sunburst <- function(data_synapse,
   # set up drug regimen data for sunburst
   # concatenate drug regimens separated by "-" into variable path
   path <- c()
-  for (i in seq_along(cohort_for_sunburst[,1])) {
+  for (i in seq_len(nrow(cohort_for_sunburst))) {
     temp_path <- as.character(
       unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
     path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
