@@ -13,6 +13,15 @@ knitr::opts_chunk$set(
   comment = "#>", 
   message = FALSE
 )
+
+# exit if synapser package is not installed
+if(!requireNamespace("synapser")) knitr::knit_exit()
+
+# if user does not have login do not build vignette
+trylogin <- try(synapser::synLogin())
+
+if(inherits(trylogin,"try-error")) knitr::knit_exit()
+
 ```
 
 ## Introduction
