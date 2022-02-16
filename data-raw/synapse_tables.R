@@ -18,11 +18,11 @@ synapse_tables <- tidyr::tibble(
       "prissmm_pathology", "prissmm_imaging", "prissmm_md", "cpt",
       "cna", "fusions", "mutations_extended", "variable_synopsis"), 1)
   ),
-  version = c(rep("v1.1", 12),
-              rep("v2.1", 12),
-              rep("v1.1", 13),
-              rep("v1.2", 13),
-              rep("v1.1", 12)),
+  version = c(rep("v1.1-consortium", 12),
+              rep("v2.1-consortium", 12),
+              rep("v1.1-consortium", 13),
+              rep("v1.2-consortium", 13),
+              rep("v1.1-consortium", 12)),
   synapse_id = c(
     # NSCLC 1.1-consortium
     "syn22418979", "syn22418974", "syn22418975", "syn22418980", "syn22418982",
