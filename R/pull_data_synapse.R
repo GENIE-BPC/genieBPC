@@ -41,23 +41,26 @@
 #' @export
 #'
 #' @examples
+#' if(genieBPC:::check_synapse_login() == FALSE){
 #' # Example 1 ----------------------------------
-#' # Pull the most recent non-small cell lung cancer data
-#' # pull_data_synapse(cohort = "NSCLC", version = "2.1")
+#' # Pull non-small cell lung cancer data
+#'
+#'  pull_data_synapse(cohort = "NSCLC", version = "2.1-consortium")
 #'
 #' # Example 2 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer
 #' # data and the most recent colorectal cancer data
-#' # pull_data_synapse(cohort = c("NSCLC", "CRC"),
-#' # version = c("2.1", "1.2"))
+#'  pull_data_synapse(cohort = c("NSCLC", "CRC"),
+#'  version = c("2.1-consortium", "1.2-consortium"))
 #'
 #' # Example 3 ----------------------------------
 #' # Pull version 2.1 for non-small cell lung cancer
-#' # and version 1.1 for colorectal cancer data
-#' # pull_data_synapse(
-#' #  cohort = c("NSCLC", "CRC"),
-#' #  version = c("2.1", "1.1")
-#' # )
+#'  #and version 1.1 for colorectal cancer data
+#'  pull_data_synapse(
+#'   cohort = c("NSCLC", "CRC"),
+#'   version = c("2.1-consortium", "1.1-consortium")
+#'  )
+#' }
 #' @import
 #' dplyr
 #' dtplyr
@@ -115,7 +118,7 @@ pull_data_synapse <- function(cohort, version) {
 
       versionnum <- dplyr::filter(versionnum, cohort == cohortval)
 
-      if(!version %in% versionnum$version){
+      if( !any(version %in% versionnum$version )){
         stop("You have selected a version that is not
         available for this cohort. Please use `synapse_tables`
              to see what versions are available.")
