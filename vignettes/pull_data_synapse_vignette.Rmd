@@ -15,14 +15,18 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-# exit if synapser package is not installed
-if(!requireNamespace("synapser")) knitr::knit_exit()
+# # exit if synapser package is not installed
+# if(!requireNamespace("synapser")) knitr::knit_exit()
+# 
+# # if user does not have login do not build vignette
+# trylogin <- try(synapser::synLogin())
+# 
+# if(inherits(trylogin,"try-error")) knitr::knit_exit()
 
-# if user does not have login do not build vignette
-trylogin <- try(synapser::synLogin())
+#exit if user doesn't have synapser, a log in, or access to data. 
+obj <- genieBPC:::check_synapse_login()
 
-if(inherits(trylogin,"try-error")) knitr::knit_exit()
-
+if(obj) knitr::knit_exit()
 
 ```
 
@@ -120,14 +124,14 @@ Pull version 2.1 of the NSCLC data from Synapse and store in the local environme
 
 
 ```{r, eval = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 
 The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
 
 ```{r, include = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 
@@ -150,7 +154,7 @@ ls(nsclc_data) %>%
 Pull version 2.1 of the NSCLC data and version 2.1 of the CRC data.
 
 ```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1","1.1"))
+pull_data_synapse(c("NSCLC", "CRC"), version = c("2.1-consortium","1.1-consortium"))
 ```
 
 
@@ -161,7 +165,7 @@ Pull version 1.1 of the NSCLC data and version 1.1 of the CRC cancer data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"),
-                  version = c("1.1", "1.1"))
+                  version = c("1.1-consortium", "1.1-consortium"))
 ```
 
 

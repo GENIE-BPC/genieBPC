@@ -9,10 +9,13 @@
 
 check_synapse_login <- function() {
   if("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
+     t1 <- FALSE
     #install.packages("synapser", repos = "http://ran.synapse.org")
     stop("Please install the package synapser from http://ran.synapse.org")
+  }else{
+    t1 <- TRUE
   }
-  tryCatch(
+ t2 <- tryCatch(
     synapser::synLogin(),
     error =
       function(e) {
@@ -30,7 +33,7 @@ check_synapse_login <- function() {
           stop(call. = FALSE)
       }
   )
-  tryCatch(
+  t3 <- tryCatch(
     synapser::synGet("syn26948075"),
     error =
       function(e) {
@@ -47,4 +50,10 @@ check_synapse_login <- function() {
   )
   print("Great job! You are logged into Synapse and
         can access the GENIE BPC data.")
+  return( if(t1 == FALSE || inherits(t2,"try-error")||inherits(t3,"try-error")) {
+    errorlist = TRUE
+  }else{
+    errorlist = FALSE
+        }
+)
 }

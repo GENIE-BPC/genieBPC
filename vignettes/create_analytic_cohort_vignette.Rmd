@@ -13,14 +13,19 @@ knitr::opts_chunk$set(
   comment = "#>", 
   message = FALSE
 )
+# 
+# # exit if synapser package is not installed
+# if(!requireNamespace("synapser")) knitr::knit_exit()
+# 
+# # if user does not have login do not build vignette
+# trylogin <- try(synapser::synLogin())
+# 
+# if(inherits(trylogin,"try-error")) knitr::knit_exit()
 
-# exit if synapser package is not installed
-if(!requireNamespace("synapser")) knitr::knit_exit()
+#exit if user doesn't have synapser, a log in, or access to data. 
+obj <- genieBPC:::check_synapse_login()
 
-# if user does not have login do not build vignette
-trylogin <- try(synapser::synLogin())
-
-if(inherits(trylogin,"try-error")) knitr::knit_exit()
+if(obj) knitr::knit_exit()
 
 ```
 
@@ -113,7 +118,7 @@ The examples below create analytic datasets based on the GENIE BPC NSCLC cohort.
 
 
 ```{r, results = 'hide'}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 ### Example 1

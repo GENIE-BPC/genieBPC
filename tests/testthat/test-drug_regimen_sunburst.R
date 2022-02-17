@@ -1,5 +1,9 @@
+#exit if user doesn't have synapser, a log in, or access to data.
+obj <- genieBPC:::check_synapse_login()
+
+if(obj == FALSE){
 # run at the top to use in all tests
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
+nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
 
 cohort <- create_analytic_cohort(cohort = "NSCLC", data_synapse = nsclc_data,
   stage_dx = c("Stage IV"),
@@ -85,3 +89,4 @@ test_that("lines of tx specified", {
 
   expect_equal(test1a, test1b)
 })
+}
