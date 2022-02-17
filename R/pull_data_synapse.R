@@ -118,7 +118,7 @@ pull_data_synapse <- function(cohort, version) {
 
       versionnum <- dplyr::filter(versionnum, cohort %in% cohortval)
 
-      if( !all(substr(version,2,nchar(version)) %in% unique(versionnum$version))){
+      if( !all(version %in% unique(versionnum$version))){
         stop("You have selected a version that is not
         available for this cohort. Please use `synapse_tables`
              to see what versions are available.")
