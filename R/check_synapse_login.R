@@ -10,7 +10,7 @@
 check_synapse_login <- function() {
   if("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
      t1 <- FALSE
-    #install.packages("synapser", repos = "http://ran.synapse.org")
+     return(TRUE)
     stop("Please install the package synapser from http://ran.synapse.org")
   }else{
     t1 <- TRUE
