@@ -128,36 +128,44 @@ names in the GENIE BPC Analytic Data Guide, available on
 \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 }
 \examples{
+if(genieBPC:::check_synapse_login() == FALSE){
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 # also return all of their corresponding cancer-directed drugs
-# pull_data_synapse("NSCLC")
-# create_analytic_cohort(cohort = "NSCLC",
-#   stage_dx = c("Stage IV"),
-#   histology = "Adenocarcinoma")
+nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+
+create_analytic_cohort(cohort = "NSCLC",
+  data_synapse = nsclc_2_1,
+  stage_dx = "Stage IV",
+  histology = "Adenocarcinoma")
 
 # Example 2 ----------------------------------
 # Create a cohort of all NSCLC patients who received Cisplatin,
 # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 # for their first index NSCLC
-# pull_data_synapse("NSCLC")
-# create_analytic_cohort(cohort = "NSCLC",
-#   regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin,
-#   Etoposide"),
-#   regimen_order = 1,
-#   regimen_order_type = "within cancer")
+nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+
+create_analytic_cohort(cohort = "NSCLC",
+    data_synapse = nsclc_2_1,
+    regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
+                      "Cisplatin, Etoposide"),
+    regimen_order = 1,
+    regimen_order_type = "within cancer")
 
 # Example 3 ----------------------------------
 # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed
-# Disodium
-# at any time throughout the course of treatment for their cancer diagnosis,
+# Disodium at any time throughout the course of treatment for their
+# cancer diagnosis,
 # but in the event that the patient received the drug multiple times,
 # only select the first time.
-# pull_data_synapse("NSCLC")
-# create_analytic_cohort(cohort = "NSCLC",
-#   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
-#   regimen_order = 1,
-#   regimen_order_type = "within regimen")
+nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+
+create_analytic_cohort(cohort = "NSCLC",
+    data_synapse = nsclc_2_1,
+    regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+    regimen_order = 1,
+    regimen_order_type = "within regimen")
+    }
 }
 \author{
 Jessica Lavery
