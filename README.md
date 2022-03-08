@@ -125,13 +125,13 @@ order to use this function. To obtain access:
 Documentation corresponding to the clinical data files can be found on
 Synapse in the Analytic Data Guides:
 
--   [NSCLC V1.1 Analtyic Data
+-   [NSCLC V1.1 Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
--   [NSCLC V2.1 Analtyic Data
+-   [NSCLC V2.1 Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
--   [CRC V1.1 Analtyic Data
+-   [CRC V1.1 Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
--   [CRC V1.2 Analtyic Data
+-   [CRC V1.2 Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
--   [BrCa V1.1 Analtyic Data
+-   [BrCa V1.1 Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
