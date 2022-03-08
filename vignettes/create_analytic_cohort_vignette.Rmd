@@ -1,8 +1,8 @@
 ---
-title: "create_analytic_cohort() tutorial"
+title: "Tutorial: create_analytic_cohort"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{create_analytic_cohort() tutorial}
+  %\VignetteIndexEntry{Tutorial: create_analytic_cohort}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,6 +13,20 @@ knitr::opts_chunk$set(
   comment = "#>", 
   message = FALSE
 )
+# 
+# # exit if synapser package is not installed
+# if(!requireNamespace("synapser")) knitr::knit_exit()
+# 
+# # if user does not have login do not build vignette
+# trylogin <- try(synapser::synLogin())
+# 
+# if(inherits(trylogin,"try-error")) knitr::knit_exit()
+
+#exit if user doesn't have synapser, a log in, or access to data. 
+obj <- genieBPC:::check_synapse_login()
+
+if(obj) knitr::knit_exit()
+
 ```
 
 ## Introduction
@@ -29,9 +43,9 @@ This vignette will walk a user through the `create_analytic_cohort()` function.
 
 ## Setup
 
-Before going through the tutorial, install and load the {genieBPC} and {synapser} packages and log into Synapse using the `synLogin()` function. For more information on `synLogin()`, refer to the pull_data_synapse vignette or [synapser documentation](https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html).
+Before going through the tutorial, install {genieBPC} and {synapser} and log into Synapse using the `synLogin()` function. For more information on `synLogin()`, refer to the pull_data_synapse vignette or [synapser documentation](https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html).
 
-```{r, results = 'hide', warning = FALSE}
+```{r, results = 'hide'}
 library(genieBPC)
 library(synapser)
 
@@ -104,28 +118,18 @@ The examples below create analytic datasets based on the GENIE BPC NSCLC cohort.
 
 
 ```{r, results = 'hide'}
-nsclc_cohort = pull_data_synapse("NSCLC", version = "2.1")
+nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 ### Example 1
 
-Create a cohort of all patients with stage IV adenocarcinoma NSCLC that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis.
+Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
 ```{r}
-nsclc_stg_iv_adeno <- create_analytic_cohort(
-  cohort = "NSCLC",
-  data_synapse = nsclc_cohort,
-  stage_dx = "Stage IV",
-  histology = "Adenocarcinoma",
-  regimen_drugs = c("Carboplatin, Pemetrexed Disodium",
-                    "Cisplatin, Pemetrexed Disodium",
-                    "Bevacizumab, Carboplatin, Pemetrexed Disodium",
-                    "Bevacizumab, Cisplatin, Pemetrexed Disodium"),
-  regimen_type = "Exact",
-  regimen_order = 1,
-  regimen_order_type = "within cancer",
-  return_summary = FALSE
-)
+nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
+                                   data_synapse = nsclc_data,
+                                   stage_dx = c("Stage IV"),
+                                   histology = "Adenocarcinoma")
 
 ls(nsclc_stg_iv_adeno)
 ```
@@ -136,7 +140,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, eval = FALSE}
 create_analytic_cohort(cohort = "NSCLC",
-              data_synapse = nsclc_cohort,
+              data_synapse = nsclc_data,
               regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
               regimen_order = 1,
               regimen_order_type = "within cancer")
@@ -148,7 +152,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 ```{r, warning = FALSE}
 nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
-                                        data_synapse = nsclc_cohort,
+                                        data_synapse = nsclc_data,
                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                         regimen_order = 1,
                                         regimen_order_type = "within regimen",
