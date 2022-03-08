@@ -40,25 +40,35 @@ The `pull_data_synapse` function accesses the specified
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 }
+Users must log in to Synapse to access the data successfully.
+To log into Synapse during each session, call:
+`synLogin(email = "your_email", password = "your_password")`
+To store authentication information in your operating system, call:
+`synLogin(email="your_email",password="your_password",rememberMe=TRUE)`
+Upon calling the `rememberMe = TRUE` argument, the user can call:
+`synLogin()` in future uses without specifying login credentials.
 }
 \examples{
+if(genieBPC:::check_synapse_login() == FALSE){
 # Example 1 ----------------------------------
-# Pull the most recent non-small cell lung cancer data
-# pull_data_synapse(cohort = "NSCLC", version = "2.1")
+# Pull non-small cell lung cancer data
+
+ pull_data_synapse(cohort = "NSCLC", version = "2.1-consortium")
 
 # Example 2 ----------------------------------
 # Pull the most recent non-small cell lung cancer
 # data and the most recent colorectal cancer data
-# pull_data_synapse(cohort = c("NSCLC", "CRC"),
-# version = c("2.1", "1.2"))
+ pull_data_synapse(cohort = c("NSCLC", "CRC"),
+ version = c("2.1-consortium", "1.2-consortium"))
 
 # Example 3 ----------------------------------
 # Pull version 2.1 for non-small cell lung cancer
-# and version 1.1 for colorectal cancer data
-# pull_data_synapse(
-#  cohort = c("NSCLC", "CRC"),
-#  version = c("2.1", "1.1")
-# )
+ #and version 1.1 for colorectal cancer data
+ pull_data_synapse(
+  cohort = c("NSCLC", "CRC"),
+  version = c("2.1-consortium", "1.1-consortium")
+ )
+}
 }
 \author{
 Michael Curry

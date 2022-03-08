@@ -13,6 +13,13 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 #' }
+#' Users must log in to Synapse to access the data successfully.
+#' To log into Synapse during each session, call:
+#' `synLogin(email = "your_email", password = "your_password")`
+#' To store authentication information in your operating system, call:
+#' `synLogin(email="your_email",password="your_password",rememberMe=TRUE)`
+#' Upon calling the `rememberMe = TRUE` argument, the user can call:
+#' `synLogin()` in future uses without specifying login credentials.
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest.
 #'  Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or
@@ -34,23 +41,26 @@
 #' @export
 #'
 #' @examples
+#' if(genieBPC:::check_synapse_login() == FALSE){
 #' # Example 1 ----------------------------------
-#' # Pull the most recent non-small cell lung cancer data
-#' # pull_data_synapse(cohort = "NSCLC", version = "2.1")
+#' # Pull non-small cell lung cancer data
+#'
+#'  pull_data_synapse(cohort = "NSCLC", version = "2.1-consortium")
 #'
 #' # Example 2 ----------------------------------
 #' # Pull the most recent non-small cell lung cancer
 #' # data and the most recent colorectal cancer data
-#' # pull_data_synapse(cohort = c("NSCLC", "CRC"),
-#' # version = c("2.1", "1.2"))
+#'  pull_data_synapse(cohort = c("NSCLC", "CRC"),
+#'  version = c("2.1-consortium", "1.2-consortium"))
 #'
 #' # Example 3 ----------------------------------
 #' # Pull version 2.1 for non-small cell lung cancer
-#' # and version 1.1 for colorectal cancer data
-#' # pull_data_synapse(
-#' #  cohort = c("NSCLC", "CRC"),
-#' #  version = c("2.1", "1.1")
-#' # )
+#'  #and version 1.1 for colorectal cancer data
+#'  pull_data_synapse(
+#'   cohort = c("NSCLC", "CRC"),
+#'   version = c("2.1-consortium", "1.1-consortium")
+#'  )
+#' }
 #' @import
 #' dplyr
 #' dtplyr
@@ -70,6 +80,10 @@ pull_data_synapse <- function(cohort, version) {
                 "See error message below."))
         paste("You are not logged into your synapse account",
               "Please set credentials by using 'synapser::synLogin()'",
+              "To store login credentials in your operating system, call:",
+              "`synLogin(email, password, rememberMe = TRUE)`",
+              "Note: Upon calling `rememberMe = TRUE`, the user can call:",
+              "`synLogin()` in future uses without specifying credentials.",
               sep = "\n"
         ) %>%
           stop(call. = FALSE)
@@ -102,9 +116,9 @@ pull_data_synapse <- function(cohort, version) {
 
       cohortval <- toupper(cohort)
 
-      versionnum <- dplyr::filter(versionnum, cohort == cohortval)
+      versionnum <- dplyr::filter(versionnum, cohort %in% cohortval)
 
-      if(!version %in% versionnum$version){
+      if( !all(version %in% unique(versionnum$version))){
         stop("You have selected a version that is not
         available for this cohort. Please use `synapse_tables`
              to see what versions are available.")
@@ -128,7 +142,8 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- vapply(seq_along(as.data.frame(synapse_tables2)[,1]), function(x) {
+      synapse_tables2$path <- vapply(seq_along(
+        as.data.frame(synapse_tables2)[,1]), function(x) {
         synapser::synGet(synapse_tables2$synapse_id[x])$path
       }, character(1))
 

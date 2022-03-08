@@ -17,6 +17,7 @@ their common abbreviations
 regimen_abbreviations
 }
 \description{
-A dataset containing the cancer-directed drug regimens and their common abbreviations
+A dataset containing the cancer-directed
+drug regimens and their common abbreviations
 }
 \keyword{datasets}

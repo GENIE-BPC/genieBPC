@@ -1,6 +1,10 @@
-# run here to avoid having to run within each test
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
-crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
+#exit if user doesn't have synapser, a log in, or access to data.
+obj <- genieBPC:::check_synapse_login()
+
+if(obj == FALSE){
+  # run here to avoid having to run within each test
+nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
 
 test_that("missing input parameters", {
   # cohort name not specified
@@ -135,3 +139,4 @@ test_that("function returns correct number of samples", {
       rename(some_name = record_id)
   ))
 })
+}

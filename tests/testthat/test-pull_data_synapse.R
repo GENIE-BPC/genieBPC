@@ -1,23 +1,27 @@
+#exit if user doesn't have synapser, a log in, or access to data.
+obj <- genieBPC:::check_synapse_login()
+
+if(obj == FALSE){
 test_that("Missing cohort parameter", {
   expect_error(pull_data_synapse())
 })
 
 test_that("Test class and length of list for NSCLC", {
-  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1-consortium")
   expect_equal(length(nsclc_data), 11)
   expect_equal(class(nsclc_data), "list")
 })
 #
 
 test_that("Test class length of list for CRC", {
-  crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
   expect_equal(length(crc_data), 12)
   expect_equal(class(crc_data), "list")
 })
 
 test_that("Case sensitivity of cohort", {
-  lung1 <- pull_data_synapse("NSCLC", version = "1.1")
-  lung2 <- pull_data_synapse("nsclc", version = "1.1")
+  lung1 <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  lung2 <- pull_data_synapse("nsclc", version = "1.1-consortium")
   expect_equal(lung1, lung2)
 })
 
@@ -27,11 +31,11 @@ test_that("Version not specified", {
 
 test_that("Misspecified cohort or version", {
   expect_error(pull_data_synapse(c("NSCLC"), version = "0.1"))
-  expect_error(pull_data_synapse(c("lung"), version = "1.1"))
+  expect_error(pull_data_synapse(c("lung"), version = "1.1-consortium"))
 })
 
 test_that("Number of columns and rows for each NSCLC dataset", {
-  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1-consortium")
   col_length <- vapply(nsclc_data, length, FUN.VALUE = numeric(1))
   row_length <- vapply(nsclc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
@@ -42,7 +46,7 @@ test_that("Number of columns and rows for each NSCLC dataset", {
 })
 
 test_that("Number of columns and rows for each CRC dataset", {
-  crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
   col_length <- vapply(crc_data, length, FUN.VALUE = numeric(1))
   row_length <- vapply(crc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
@@ -55,12 +59,13 @@ test_that("Number of columns and rows for each CRC dataset", {
 
 test_that("Test synget equals pulldata synapse", {
   ptchar_nsclc_synget <- read.csv(
-    synapser::synGet("syn22418979")$path) # version 1.1
-  ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC", "1.1")[[1]]
+    synapser::synGet("syn22418979")$path) # version 1.1-consortium
+  ptchar_nsclc_pulldata <- pull_data_synapse("NSCLC", "1.1-consortium")[[1]]
   expect_equal(ptchar_nsclc_synget, ptchar_nsclc_pulldata)
 })
 
 test_that("More versions than cancer cohorts selected", {
   expect_error(pull_data_synapse(cohort = c("NSCLC", "CRC"),
-                                   version = c("1.1", "1.1", "2.1")))
+                                   version = c("1.1-consortium", "1.1-consortium", "2.1-consortium")))
 })
+}
