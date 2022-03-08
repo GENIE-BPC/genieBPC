@@ -1,9 +1,9 @@
 ---
-title: 'Tutorial: GENIE BPC Data Structure'
+title: 'GENIE BPC Data Structure Overview'
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{Tutorial: GENIE BPC Data Structure}
+  %\VignetteIndexEntry{GENIE BPC Data Structure Overview}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
