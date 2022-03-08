@@ -1,9 +1,9 @@
 ---
-title: 'GENIE BPC Data Structure Overview'
+title: 'Tutorial: GENIE BPC Data Structure'
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{GENIE BPC Data Structure Overview}
+  %\VignetteIndexEntry{Tutorial: GENIE BPC Data Structure}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -14,6 +14,16 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+# # exit if synapser package is not installed
+# if(!requireNamespace("synapser")) knitr::knit_exit()
+# 
+# # if user does not have login do not build vignette
+# trylogin <- try(synapser::synLogin())
+# 
+# if(inherits(trylogin,"try-error")) knitr::knit_exit()
+#exit if user doesn't have synapser, a log in, or access to data. 
+obj <- genieBPC:::check_synapse_login()
+if(obj) knitr::knit_exit()
 ```
 
 ## AACR Project GENIE
@@ -182,4 +192,3 @@ The cancer panel test dataset can be linked to the following datasets:
 - PRISSMM Pathology dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
 *Note: this dataset cannot be linked to the non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.*
-
