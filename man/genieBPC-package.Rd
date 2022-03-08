@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Statistical Core GENIE-BPC \email{bstgeniebpc@mskcc.org}
+\strong{Maintainer}: Statistical Core GENIE-BPC \email{bstgeniebpc@mskcc.org} [copyright holder]
 
 Authors:
 \itemize{

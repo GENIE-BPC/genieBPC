@@ -1,12 +1,16 @@
+#exit if user doesn't have synapser, a log in, or access to data.
+obj <- genieBPC:::check_synapse_login()
+
+if(obj == FALSE){
 # run here to avoid having to run within each test
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1")
-crc_data <- pull_data_synapse(c("CRC"), version = "1.1")
-brca_data <- pull_data_synapse(c("BrCa"), version = "1.1")
+nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+brca_data <- pull_data_synapse(c("BrCa"), version = "1.1-consortium")
 
 # test that a list of three or seven datasets are returned
 # from create_analytic_cohort
 test_that("correct number of objects returned from create cohort", {
-  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1")
+  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1-consortium")
 
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -765,3 +769,4 @@ test_that("No patients met criteria", {
     regimen_order = 100,
     regimen_order_type = "within cancer"))
 })
+}

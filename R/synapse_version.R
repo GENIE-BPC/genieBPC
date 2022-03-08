@@ -15,6 +15,11 @@
 #'
 #' @param most_recent TRUE/FALSE indicator if  you only want the most recent
 #' version number for each cohort
+#' @return Returns a table containing the different
+#' available versions for each cohort types.
+#' @examples
+#' synapse_version()
+#' synapse_version(most_recent = TRUE)
 #' @export
 #' @import
 #'
