@@ -48,8 +48,8 @@ check_synapse_login <- function() {
           stop(call. = FALSE)
       }
   )
-  print("Great job! You are logged into Synapse and
-        can access the GENIE BPC data.")
+  # print("Great job! You are logged into Synapse and
+  #       can access the GENIE BPC data.")
   return( if(t1 == FALSE || inherits(t2,"try-error")||inherits(t3,"try-error")) {
     errorlist = TRUE
   }else{
