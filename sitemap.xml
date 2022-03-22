@@ -1,54 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//index.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/404.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/create_analytic_cohort.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/clinical_data_structure_vignette.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/drug_regimen_list.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/create_analytic_cohort_vignette.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/drug_regimen_sunburst.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/drug_regimen_sunburst_vignette.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/fetch_samples.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/genieBPC-package.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/genie_panels.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/articles/select_unique_ngs_vignette.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/pull_data_synapse.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/authors.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/regimen_abbreviations.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/index.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/select_unique_ngs.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/synapse_tables.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//reference/synapse_version.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/news/index.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//articles/clinical_data_structure_vignette.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//articles/create_analytic_cohort_vignette.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/check_synapse_login.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//articles/drug_regimen_sunburst_vignette.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/create_analytic_cohort.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//articles/pull_data_synapse_vignette.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/drug_regimen_list.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC//articles/select_unique_ngs_vignette.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/drug_regimen_sunburst.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/fetch_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/genieBPC-package.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/genie_panels.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/pull_data_synapse.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/regimen_abbreviations.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/select_unique_ngs.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/synapse_tables.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/synapse_version.html</loc>
   </url>
 </urlset>
