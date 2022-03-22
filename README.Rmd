@@ -52,7 +52,7 @@ order to use this function. To obtain access:
     request.
 
 3.  Once the request is accepted, you may access the data in the [GENIE
-    Biopharma collaborative
+    Biopharma Collaborative
     projects](https://www.synapse.org/#!Synapse:syn21226493).
 
 *Note: Please allow up to a week to review and grant access.*
