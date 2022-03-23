@@ -4,6 +4,7 @@
 [![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/master/graph/badge.svg)](https://codecov.io/gh/GENIE-BPC/genieBPC?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg)](https://app.codecov.io/gh/GENIE-BPC/genieBPC?branch=main)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
