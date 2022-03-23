@@ -1,7 +1,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
+[![R-cmd-check](https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml)
 -[![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://codecov.io/gh/GENIE-BPC/genieBPC)
 <!-- badges: end -->
 
