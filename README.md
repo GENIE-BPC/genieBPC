@@ -122,7 +122,13 @@ order to use this function. To obtain access:
 ## Analytic Data Guides
 
 Documentation corresponding to the clinical data files can be found on
-Synapse in the Analytic Data Guides:
+Synapse in the Analytic Data Guides.
+
+Data follow a staggered release schedule and are available to pharma partners
+and institutions that are a part of the Project GENIE consortium prior to being 
+publicly available.
+
+Consortium Releases:
 
 -   [NSCLC V1.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
@@ -134,3 +140,6 @@ Synapse in the Analytic Data Guides:
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
 -   [BrCa V1.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
+
+Public Releases:
+-   NSCLC V2.0-public Analytic Data Guide (To be released March 2022)
