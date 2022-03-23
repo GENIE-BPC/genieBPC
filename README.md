@@ -55,7 +55,7 @@ The following example creates an analytic cohort of patients diagnosed
 with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or
 Cisplatin and Pemetrexed, with and without Bevacizumab,
 
-*Pull data for NSCLC version 2.1:*
+*Pull data for NSCLC version 2.1-consortium:*
 
     nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
 
@@ -125,13 +125,13 @@ order to use this function. To obtain access:
 Documentation corresponding to the clinical data files can be found on
 Synapse in the Analytic Data Guides:
 
--   [NSCLC V1.1 Analytic Data
+-   [NSCLC V1.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
--   [NSCLC V2.1 Analytic Data
+-   [NSCLC V2.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
--   [CRC V1.1 Analytic Data
+-   [CRC V1.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
--   [CRC V1.2 Analytic Data
+-   [CRC V1.2-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
--   [BrCa V1.1 Analytic Data
+-   [BrCa V1.1-consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
