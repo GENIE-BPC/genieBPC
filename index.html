@@ -42,7 +42,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="index.html">genieBPC</a>
 
@@ -90,7 +90,7 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
+  <main id="main" class="col-md-9"><p><a href="https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml/badge.svg" alt="R-cmd-check"></a> -<a href="https://codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K" alt="codecov"></a> <!-- badges: end --></p>
 <div class="section level1">
 <div class="page-header"><h1 id="geniebpc-">genieBPC <img src="reference/figures/geniebpc_hex_sticker.png" align="right" height="120"><a class="anchor" aria-label="anchor" href="#geniebpc-"></a>
 </h1></div>
@@ -122,7 +122,7 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>The following example creates an analytic cohort of patients diagnosed with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or Cisplatin and Pemetrexed, with and without Bevacizumab,</p>
-<p><em>Pull data for NSCLC version 2.1:</em></p>
+<p><em>Pull data for NSCLC version 2.1-consortium:</em></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nsclc_cohort <span class="ot">&lt;-</span> <span class="fu">pull_data_synapse</span>(<span class="at">cohort =</span> <span class="st">"NSCLC"</span>, <span class="at">version =</span> <span class="st">"2.1"</span>)</span></code></pre></div>
 <p><em>Select stage IV adenocarcinoma NSCLC diagnoses that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis:</em></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nsclc_stg_iv_adeno <span class="ot">&lt;-</span> <span class="fu">create_analytic_cohort</span>(</span>
@@ -170,14 +170,17 @@
 <div class="section level2">
 <h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
 </h2>
-<p>Documentation corresponding to the clinical data files can be found on Synapse in the Analytic Data Guides:</p>
+<p>Documentation corresponding to the clinical data files can be found on Synapse in the Analytic Data Guides.</p>
+<p>Data follow a staggered release schedule and are available to pharma partners and institutions that are a part of the Project GENIE consortium prior to being publicly available.</p>
+<p>Consortium Releases:</p>
 <ul>
-<li><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC V1.1 Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC V2.1 Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC V1.1 Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26077308" class="external-link">CRC V1.2 Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa V1.1 Analytic Data Guide</a></li>
+<li><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC V1.1-consortium Analytic Data Guide</a></li>
+<li><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC V2.1-consortium Analytic Data Guide</a></li>
+<li><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC V1.1-consortium Analytic Data Guide</a></li>
+<li><a href="https://www.synapse.org/#!Synapse:syn26077308" class="external-link">CRC V1.2-consortium Analytic Data Guide</a></li>
+<li><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa V1.1-consortium Analytic Data Guide</a></li>
 </ul>
+<p>Public Releases: - NSCLC V2.0-public Analytic Data Guide (To be released March 2022)</p>
 </div>
 </div>
 
@@ -216,13 +219,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/GENIE-BPC/genieBPC/actions" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/GENIE-BPC/genieBPC?branch=master" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>
