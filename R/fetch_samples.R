@@ -12,7 +12,6 @@
 #' @param df_record_ids output object of the create_cohort function.
 #' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with the genomic samples taken from each patients.
-#' @export
 #' @author Axel Martin
 #' @examples
 #' if(genieBPC:::check_synapse_login() == FALSE){
@@ -23,7 +22,7 @@
 #' out <- create_analytic_cohort(cohort = "NSCLC",
 #' data_synapse = nsclc_data, stage_dx = c("Stage IV"),
 #' histology = "Adenocarcinoma")
-#' samples_data <- fetch_samples(cohort = "NSCLC",
+#' samples_data <- genieBPC:::fetch_samples(cohort = "NSCLC",
 #' data_synapse = nsclc_data,df_record_ids = out$cohort_ngs)
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who
@@ -34,7 +33,7 @@
 #' c("Cisplatin, Pemetrexed Disodium",
 #' "Cisplatin, Etoposide"), regimen_order = 1,
 #' regimen_order_type = "within regimen")
-#' samples_data <- fetch_samples(cohort = "NSCLC",
+#' samples_data <- genieBPC:::fetch_samples(cohort = "NSCLC",
 #' data_synapse = nsclc_data,df_record_ids = out$cohort_ngs)
 #' }
 #' @import

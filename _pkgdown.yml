@@ -3,3 +3,13 @@ url: https://genie-bpc.github.io/genieBPC/
 template:
   bootstrap: 5
   bootswatch: sandstone
+
+reference:
+- title: "genieBPC Functions"
+  desc: "Functions for abstracting and mainpulating geneie data"
+  contents:
+  - synapse_version
+  - pull_data_synapse
+  - create_analytic_cohort
+  - select_unique_ngs
+  - drug_regimen_sunburst

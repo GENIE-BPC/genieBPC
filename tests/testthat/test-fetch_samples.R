@@ -8,13 +8,13 @@ crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
 
 test_that("missing input parameters", {
   # cohort name not specified
-  expect_error(fetch_samples())
+  expect_error(genieBPC:::fetch_samples())
 
   # record_id object not specified
-  expect_error(fetch_samples(cohort = "NSCLC"))
+  expect_error(genieBPC:::fetch_samples(cohort = "NSCLC"))
 
   # record_id object specified, but doesn't have variable record_id
-  expect_error(fetch_samples(cohort = "NSCLC",
+  expect_error(genieBPC:::fetch_samples(cohort = "NSCLC",
                              df_record_ids = tibble(cohort = "NSCLC",
                                                     record_id = "123")))
 })
@@ -30,7 +30,7 @@ test_that("function returns correct number of samples", {
     return_summary = FALSE
   )
 
-  test1 <- fetch_samples(
+  test1 <- genieBPC:::fetch_samples(
     cohort = "NSCLC", data_synapse = nsclc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -48,7 +48,7 @@ test_that("function returns correct number of samples", {
     return_summary = FALSE
   )
 
-  test2 <- fetch_samples(
+  test2 <- genieBPC:::fetch_samples(
     cohort = "NSCLC", data_synapse = nsclc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -65,7 +65,7 @@ test_that("function returns correct number of samples", {
     institution = "DFCI"
   )
 
-  test3 <- fetch_samples(
+  test3 <- genieBPC:::fetch_samples(
     cohort = "NSCLC", data_synapse = nsclc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -88,7 +88,7 @@ test_that("function returns correct number of samples", {
     return_summary = FALSE
   )
 
-  test1 <- fetch_samples(
+  test1 <- genieBPC:::fetch_samples(
     cohort = "CRC", data_synapse = crc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -106,7 +106,7 @@ test_that("function returns correct number of samples", {
     return_summary = FALSE
   )
 
-  test2 <- fetch_samples(
+  test2 <- genieBPC:::fetch_samples(
     cohort = "CRC", data_synapse = crc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -123,7 +123,7 @@ test_that("function returns correct number of samples", {
     institution = "DFCI"
   )
 
-  test3 <- fetch_samples(
+  test3 <- genieBPC:::fetch_samples(
     cohort = "CRC", data_synapse = crc_data,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -133,7 +133,7 @@ test_that("function returns correct number of samples", {
   expect_equal(length(unique(test3$record_id)), 570)
   expect_equal(unique(test3$institution), "DFCI")
 
-  expect_error(test4 <- fetch_samples(
+  expect_error(test4 <- genieBPC:::fetch_samples(
     cohort = "CRC", data_synapse = crc_data,
     df_record_ids = cohort_temp$cohort_ca_dx %>%
       rename(some_name = record_id)

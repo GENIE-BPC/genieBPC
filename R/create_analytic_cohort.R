@@ -692,7 +692,7 @@ create_analytic_cohort <- function(cohort,
 
   # for patients meeting the specified criteria, also pull cancer panel
   # test information
-  cohort_ngs <- fetch_samples(
+  cohort_ngs <- genieBPC:::fetch_samples(
     cohort = cohort_temp,
     data_synapse = data_synapse,
     df_record_ids = cohort_ca_dx

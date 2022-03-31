@@ -2,7 +2,6 @@
 
 export(create_analytic_cohort)
 export(drug_regimen_sunburst)
-export(fetch_samples)
 export(pull_data_synapse)
 export(select_unique_ngs)
 export(synapse_version)
