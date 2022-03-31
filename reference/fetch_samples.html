@@ -105,7 +105,7 @@ with the genomic samples taken from each patients.</p>
 <span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
 <span class="r-in">data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>, stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,</span>
 <span class="r-in">histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">fetch_samples</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
+<span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu">fetch_samples</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
 <span class="r-in">data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,df_record_ids <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Example 2 ----------------------------------</span></span>
 <span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who</span></span>
@@ -116,7 +116,7 @@ with the genomic samples taken from each patients.</p>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span>
 <span class="r-in"><span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>, regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">fetch_samples</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
+<span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu">fetch_samples</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
 <span class="r-in">data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,df_record_ids <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
