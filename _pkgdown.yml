@@ -6,7 +6,7 @@ template:
 
 reference:
 - title: "genieBPC Functions"
-  desc: "Functions for abstracting and mainpulating geneie data"
+  desc: "Functions for abstracting and manipulating GENIE BPC data"
   contents:
   - synapse_version
   - pull_data_synapse
