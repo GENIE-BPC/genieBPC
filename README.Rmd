@@ -1,8 +1,23 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://codecov.io/gh/GENIE-BPC/genieBPC)
+![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -33,11 +48,20 @@ The datasets obtained through {genieBPC} can be input directly into
 
 ## Installation
 
-You can install the development version of {genieBPC} with the following
-code:
+You can install the released version of {genieBPC} from the R Universe
 
-    remotes::install_github("GENIE-BPC/genieBPC")
+```{r, eval = FALSE}
+install.packages('genieBPC', 
+                 repos = c(mskccepibio = 'https://mskcc-epi-bio.r-universe.dev',
+                           CRAN = 'https://cloud.r-project.org'))
+```
 
+and the development version with
+
+```{r, eval = FALSE}
+remotes::install_github("GENIE-BPC/genieBPC")
+```
+  
 ## Obtaining Data Access
 
 Access to the GENIE BPC data release folders on Synapse is required in
