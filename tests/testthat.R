@@ -1,4 +1,7 @@
 library(testthat)
 library(genieBPC)
 
-test_check("genieBPC")
+if(genieBPC:::check_synapse_login() == FALSE){
+  test_check("genieBPC")
+}
+
