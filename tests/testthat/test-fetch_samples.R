@@ -1,6 +1,6 @@
 test_pull_data <- function(){
   # exit if user doesn't have synapser, a log in, or access to data.
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
@@ -28,7 +28,7 @@ test_that("missing input parameters", {
 })
 
 test_that("function returns correct number of samples", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # NSCLC #
   ### all samples ###

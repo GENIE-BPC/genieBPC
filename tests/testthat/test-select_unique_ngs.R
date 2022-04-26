@@ -29,7 +29,7 @@ test_that("sample_type", {
 
 test_that("function returns unique sample for each record", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
