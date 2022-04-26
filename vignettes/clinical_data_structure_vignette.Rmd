@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 # if(inherits(trylogin,"try-error")) knitr::knit_exit()
 #exit if user doesn't have synapser, a log in, or access to data. 
 obj <- genieBPC:::check_synapse_login()
-if(obj) knitr::knit_exit()
+if(obj != TRUE) knitr::knit_exit()
 ```
 
 ## AACR Project GENIE
