@@ -1,4 +1,6 @@
-test_pull_data <- function(){
+# test that a list of three or seven datasets are returned
+# from create_analytic_cohort
+test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have synapser, a log in, or access to data.
   genieBPC:::check_synapse_login()
 
@@ -8,17 +10,10 @@ test_pull_data <- function(){
   brca_data <- pull_data_synapse(c("BrCa"), version = "1.1-consortium")
 
   objs <- list("nsclc_data" = nsclc_data,
-              "crc_data" = crc_data,
-              "brca_data" = brca_data)
+               "crc_data" = crc_data,
+               "brca_data" = brca_data)
 
   list2env(objs, envir = .GlobalEnv)
-}
-test_pull_data()
-
-# test that a list of three or seven datasets are returned
-# from create_analytic_cohort
-test_that("correct number of objects returned from create cohort", {
-  genieBPC:::check_synapse_login()
 
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",

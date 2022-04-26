@@ -24,13 +24,13 @@ knitr::opts_chunk$set(
 # if(inherits(trylogin,"try-error")) knitr::knit_exit()
 
 #exit if user doesn't have synapser, a log in, or access to data. 
-obj <- genieBPC:::check_synapse_login()
-
-if(obj != TRUE) knitr::knit_exit()
+# obj <- genieBPC:::check_synapse_login()
+# 
+# if(obj != TRUE) knitr::knit_exit()
 
 ```
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval=genieBPC:::check_synapse_login()}
 
 library(genieBPC)
 library(dplyr)
@@ -64,7 +64,7 @@ Before beginning this tutorial, be sure to have a Synapse account. If you do not
 
 Install and load {synapser}.
 
-```{r message = FALSE, warning = FALSE}
+```{r message = FALSE, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 # install.packages("synapser",repos = "http://ran.synapse.org")
 library(synapser)
 ```
@@ -96,7 +96,7 @@ Using the `rememberMe` argument caches the authentication information in your op
 Let's start by reviewing the `pull_data_synapse()` arguments.
 
 
-```{r echo = FALSE, warning = FALSE, message = FALSE}
+```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::check_synapse_login()}
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
@@ -130,12 +130,12 @@ nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 
 The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE, eval=genieBPC:::check_synapse_login()}
 ls(nsclc_data) %>% 
   as.data.frame() %>% 
   mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
@@ -172,4 +172,4 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of July 2021, the non-small cell lung cancer (NSCLC) and colorectal cancer (CRC) cohorts are available to access. Future cohorts will include breast, pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.
+* As of April 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2021.
