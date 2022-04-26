@@ -23,9 +23,9 @@ knitr::opts_chunk$set(
 # if(inherits(trylogin,"try-error")) knitr::knit_exit()
 
 #exit if user doesn't have synapser, a log in, or access to data. 
-obj <- genieBPC:::check_synapse_login()
-
-if(obj != TRUE) knitr::knit_exit()
+# obj <- genieBPC:::check_synapse_login()
+# 
+# if(obj != TRUE) knitr::knit_exit()
 
 ```
 
@@ -45,7 +45,7 @@ This vignette will walk a user through the `create_analytic_cohort()` function.
 
 Before going through the tutorial, install {genieBPC} and {synapser} and log into Synapse using the `synLogin()` function. For more information on `synLogin()`, refer to the pull_data_synapse vignette or [synapser documentation](https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html).
 
-```{r, results = 'hide'}
+```{r, results = 'hide', eval=genieBPC:::check_synapse_login()}
 library(genieBPC)
 library(synapser)
 
@@ -117,7 +117,7 @@ tbl_arguments
 The examples below create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the `pull_data_synapse` function:
 
 
-```{r, results = 'hide'}
+```{r, results = 'hide', eval=genieBPC:::check_synapse_login()}
 nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
@@ -125,7 +125,7 @@ nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 
 Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
-```{r}
+```{r, eval=genieBPC:::check_synapse_login()}
 nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
                                    data_synapse = nsclc_data,
                                    stage_dx = c("Stage IV"),
@@ -138,7 +138,7 @@ ls(nsclc_stg_iv_adeno)
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, eval=genieBPC:::check_synapse_login()}
 create_analytic_cohort(cohort = "NSCLC",
               data_synapse = nsclc_data,
               regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
@@ -150,7 +150,7 @@ create_analytic_cohort(cohort = "NSCLC",
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
                                         data_synapse = nsclc_data,
                                         regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
@@ -160,18 +160,18 @@ nsclc_cisplatin_pem_any = create_analytic_cohort(cohort = "NSCLC",
 ```
 
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_cisplatin_pem_any$tbl_cohort_summary
 ```
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_cisplatin_pem_any$tbl_cohort
 ```
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval=genieBPC:::check_synapse_login()}
 nsclc_cisplatin_pem_any$tbl_ngs
 ```
