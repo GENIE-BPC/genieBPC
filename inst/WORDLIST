@@ -1,5 +1,6 @@
 AACR
 BPC
+Bevacizumab
 BioPharma
 Biopharma
 BrCa
@@ -9,7 +10,6 @@ CPT
 CRC
 Carboplatin
 Cisplatin
-Codecov
 Colorectal
 DFCI
 Disodium
@@ -35,11 +35,12 @@ adeno
 brca
 carboplatin
 clinico
+cmd
+codecov
 colorectal
 cpt
 criterions
 curation
-df
 ductal
 dx
 genomically
@@ -50,9 +51,14 @@ immunotherapies
 institutions’
 investigational
 lobular
+molecularly
 ngs
 oncotree
 pemetrexed
+pharma
 phenomic
+rememberMe
 situ
+synLogin
 synapser
+tbl

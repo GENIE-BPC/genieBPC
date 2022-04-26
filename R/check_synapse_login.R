@@ -8,20 +8,23 @@
 #' Synapse and has permission to access the GENIE BPC data.
 
 check_synapse_login <- function() {
-  if("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
-     t1 <- FALSE
-     return(TRUE)
+  if ("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
+    t1 <- FALSE
+    return(TRUE)
     stop("Please install the package synapser from http://ran.synapse.org")
-  }else{
+  } else {
     t1 <- TRUE
   }
- t2 <- tryCatch(
+  t2 <- tryCatch(
     synapser::synLogin(),
     error =
       function(e) {
         cli::cli_alert_warning(
-          paste("There was an error accessing Synapse.",
-                "See error message below."))
+          paste(
+            "There was an error accessing Synapse.",
+            "See error message below."
+          )
+        )
         paste("You are not logged into your synapse account",
               "Please set credentials by using 'synapser::synLogin()'",
               "To store login credentials in your operating system, call:",
@@ -38,8 +41,11 @@ check_synapse_login <- function() {
     error =
       function(e) {
         cli::cli_alert_warning(
-          paste("There was an error pulling data from Synapse.",
-                "See error message below."))
+          paste(
+            "There was an error pulling data from Synapse.",
+            "See error message below."
+          )
+        )
         paste("You are not able to access the data.",
               "Please make sure you have permission to access",
               "the GENIE BPC data on Synapse.",
@@ -48,12 +54,10 @@ check_synapse_login <- function() {
           stop(call. = FALSE)
       }
   )
-  # print("Great job! You are logged into Synapse and
-  #       can access the GENIE BPC data.")
-  return( if(t1 == FALSE || inherits(t2,"try-error")||inherits(t3,"try-error")) {
-    errorlist = TRUE
-  }else{
-    errorlist = FALSE
-        }
-)
+
+  if (t1 == FALSE || inherits(t2, "try-error") || inherits(t3, "try-error")) {
+    testthat::skip("You do not have synapser installed or do not have access to the data.")
+  } else {
+    TRUE
+  }
 }

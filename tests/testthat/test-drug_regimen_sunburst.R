@@ -1,23 +1,31 @@
-#exit if user doesn't have synapser, a log in, or access to data.
-obj <- genieBPC:::check_synapse_login()
+test_pull_data <- function(){
+  # exit if user doesn't have synapser, a log in, or access to data.
+  genieBPC:::check_synapse_login()
 
-if(obj == FALSE){
-# run at the top to use in all tests
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  # run here to avoid having to run within each test
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
 
-cohort <- create_analytic_cohort(cohort = "NSCLC", data_synapse = nsclc_data,
-  stage_dx = c("Stage IV"),
-  histology = "Adenocarcinoma",
-  regimen_drugs = "Afatinib Dimaleate",
-  regimen_type = "Containing"
+  cohort <- create_analytic_cohort(cohort = "NSCLC", data_synapse = nsclc_data,
+                                   stage_dx = c("Stage IV"),
+                                   histology = "Adenocarcinoma",
+                                   regimen_drugs = "Afatinib Dimaleate",
+                                   regimen_type = "Containing"
   )
 
+  plot1 <- drug_regimen_sunburst( data_synapse = nsclc_data, data_cohort = cohort,
+                                  max_n_regimens = 4)
 
-plot1 <- drug_regimen_sunburst( data_synapse = nsclc_data, data_cohort = cohort,
-                       max_n_regimens = 4)
 
+  objs <- list("nsclc_data" = nsclc_data,
+               "cohort" = cohort,
+               "plot1" = plot1)
+
+  list2env(objs, envir = .GlobalEnv)
+}
+test_pull_data()
 
 test_that("Test class and length of list for sunburst plot", {
+  genieBPC:::check_synapse_login()
 
   expect_equal(length(plot1), 2)
   expect_equal(class(plot1), "list")
@@ -25,6 +33,7 @@ test_that("Test class and length of list for sunburst plot", {
 
 
 test_that("Test class and length of list for elements of sunburst data frame", {
+  genieBPC:::check_synapse_login()
 
   expect_equal(length(plot1$treatment_history), 2)
   expect_equal(class(plot1$treatment_history),
@@ -34,6 +43,7 @@ test_that("Test class and length of list for elements of sunburst data frame", {
 
 test_that("Test class and length of list for elements
           of sunburst plotly element", {
+  genieBPC:::check_synapse_login()
 
   expect_equal(length(plot1$sunburst_plot), 8)
   expect_equal(class(plot1$sunburst_plot), c("sunburst","htmlwidget"))
@@ -41,6 +51,8 @@ test_that("Test class and length of list for elements
 
 
 test_that("Test something is returned", {
+  genieBPC:::check_synapse_login()
+
   expect_error(plot1,NA)
 })
 
@@ -69,6 +81,8 @@ test_that("data_cohort parameter", {
 })
 
 test_that("lines of tx specified", {
+  genieBPC:::check_synapse_login()
+
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(data_synapse = nsclc_data,
                                   data_cohort = cohort)
@@ -89,4 +103,3 @@ test_that("lines of tx specified", {
 
   expect_equal(test1a, test1b)
 })
-}
