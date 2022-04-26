@@ -1,5 +1,5 @@
 test_that("Testing synapse version", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   expect_equal(class(synapse_version(FALSE)),
                c("grouped_df", "tbl_df", "tbl", "data.frame"))

@@ -4,7 +4,7 @@ test_that("Missing cohort parameter", {
 
 test_that("Test class and length of list for NSCLC", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # run at top to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
@@ -21,14 +21,14 @@ test_that("Test class and length of list for NSCLC", {
 #
 
 test_that("Test class length of list for CRC", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   expect_equal(length(crc_data), 12)
   expect_equal(class(crc_data), "list")
 })
 
 test_that("Case sensitivity of cohort", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   lung1 <- pull_data_synapse("NSCLC", version = "1.1-consortium")
   lung2 <- pull_data_synapse("nsclc", version = "1.1-consortium")
@@ -45,7 +45,7 @@ test_that("Misspecified cohort or version", {
 })
 
 test_that("Number of columns and rows for each NSCLC dataset", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   col_length <- vapply(nsclc_data, length, FUN.VALUE = numeric(1))
   row_length <- vapply(nsclc_data, nrow, FUN.VALUE = numeric(1))
@@ -57,7 +57,7 @@ test_that("Number of columns and rows for each NSCLC dataset", {
 })
 
 test_that("Number of columns and rows for each CRC dataset", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   col_length <- vapply(crc_data, length, FUN.VALUE = numeric(1))
   row_length <- vapply(crc_data, nrow, FUN.VALUE = numeric(1))
@@ -70,7 +70,7 @@ test_that("Number of columns and rows for each CRC dataset", {
 })
 
 test_that("Test synget equals pulldata synapse", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   ptchar_nsclc_synget <- read.csv(
     synapser::synGet("syn22418979")$path) # version 1.1-consortium

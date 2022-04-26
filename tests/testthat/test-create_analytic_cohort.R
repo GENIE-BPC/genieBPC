@@ -2,7 +2,7 @@
 # from create_analytic_cohort
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
@@ -57,7 +57,7 @@ test_that("pull data synapse object is missing", {
 })
 
 test_that("correct cohort returned from create cohort", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -82,7 +82,7 @@ test_that("correct cohort returned from create cohort", {
 })
 
 test_that("cohort and data_synapse", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
@@ -113,7 +113,7 @@ test_that("cohort and data_synapse", {
 })
 
 test_that("index_ca_seq", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # first and second index cancer is specified
   # if patient only has 1 index cancer, it should be returned
@@ -161,7 +161,7 @@ test_that("index_ca_seq", {
 })
 
 test_that("institution", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # institution is specified and correct institution is returned
   test_1a <- create_analytic_cohort(
@@ -209,7 +209,7 @@ test_that("institution", {
 })
 
 test_that("stage_dx", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # stage dx is specified and correct stage is returned
   test_1a <- create_analytic_cohort(
@@ -250,7 +250,7 @@ test_that("stage_dx", {
 })
 
 test_that("histology", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # no histology is specified, call are returned
   test0a <- create_analytic_cohort(
@@ -338,7 +338,7 @@ test_that("histology", {
 })
 
 test_that("no regimen specified", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # all regimens are returned
   test_1a <- create_analytic_cohort(
@@ -361,7 +361,7 @@ test_that("no regimen specified", {
 })
 
 test_that("drug regimen specified, order not specified", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
@@ -457,7 +457,7 @@ test_that("drug regimen specified, order not specified", {
 })
 
 test_that("drug regimen specified, order specified to be within cancer", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
@@ -601,7 +601,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # single regimen specified, want first time that regimen
   # was given for all cancers
@@ -695,7 +695,7 @@ test_that("exact drug regimen specified,
 test_that("containing drug regimen specified,
           order specified to be within regimen", {
 
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # specify regimen type to be containing (default is exact,
   # which is what is implemented in the above)
@@ -748,7 +748,7 @@ test_that("containing drug regimen specified,
 })
 
 test_that("regimen_type", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # invalid value provided for regimen_type
   expect_error(create_analytic_cohort(cohort = "NSCLC",
@@ -763,7 +763,7 @@ test_that("regimen_type", {
 })
 
 test_that("regimen_order", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # character value provided for regimen_order
   expect_error(create_analytic_cohort(cohort = "BrCa",
@@ -772,7 +772,7 @@ test_that("regimen_order", {
 })
 
 test_that("regimen_order_type", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   # invalid value provided for regimen_order_type
   expect_error(create_analytic_cohort(cohort = "BrCa",
@@ -794,7 +794,7 @@ test_that("regimen_order_type", {
 })
 
 test_that("No patients met criteria", {
-  genieBPC:::check_synapse_login()
+  skip_on_ci()
 
   expect_message(create_analytic_cohort(
     cohort = "NSCLC",
