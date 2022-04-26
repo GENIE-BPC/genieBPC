@@ -1,18 +1,3 @@
-test_pull_data <- function(){
-  # exit if user doesn't have synapser, a log in, or access to data.
-  genieBPC:::check_synapse_login()
-
-  # run here to avoid having to run within each test
-  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
-
-  objs <- list("nsclc_data" = nsclc_data,
-               "crc_data" = crc_data)
-
-  list2env(objs, envir = .GlobalEnv)
-}
-test_pull_data()
-
 test_that("missing data_cohort", {
   expect_error(select_unique_ngs())
 })
@@ -43,7 +28,17 @@ test_that("sample_type", {
 })
 
 test_that("function returns unique sample for each record", {
+  # exit if user doesn't have synapser, a log in, or access to data.
   genieBPC:::check_synapse_login()
+
+  # run here to avoid having to run within each test
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+
+  objs <- list("nsclc_data" = nsclc_data,
+               "crc_data" = crc_data)
+
+  list2env(objs, envir = .GlobalEnv)
 
   # NSCLC #
   ### all samples ###

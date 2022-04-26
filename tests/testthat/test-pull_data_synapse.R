@@ -1,8 +1,12 @@
-test_pull_data <- function(){
+test_that("Missing cohort parameter", {
+  expect_error(pull_data_synapse())
+})
+
+test_that("Test class and length of list for NSCLC", {
   # exit if user doesn't have synapser, a log in, or access to data.
   genieBPC:::check_synapse_login()
 
-  # run here to avoid having to run within each test
+  # run at top to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
   crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
 
@@ -10,15 +14,6 @@ test_pull_data <- function(){
                "crc_data" = crc_data)
 
   list2env(objs, envir = .GlobalEnv)
-}
-test_pull_data()
-
-test_that("Missing cohort parameter", {
-  expect_error(pull_data_synapse())
-})
-
-test_that("Test class and length of list for NSCLC", {
-  genieBPC:::check_synapse_login()
 
   expect_equal(length(nsclc_data), 11)
   expect_equal(class(nsclc_data), "list")
