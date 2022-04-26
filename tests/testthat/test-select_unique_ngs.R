@@ -1,14 +1,17 @@
-#exit if user doesn't have synapser, a log in, or access to data.
-obj <- genieBPC:::check_synapse_login()
+test_pull_data <- function(){
+  # exit if user doesn't have synapser, a log in, or access to data.
+  genieBPC:::check_synapse_login()
 
-if(obj == FALSE){
-# run here to avoid having to run within each test
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  # run here to avoid having to run within each test
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
 
-nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
-                                       data_synapse = nsclc_data)
+  objs <- list("nsclc_data" = nsclc_data,
+               "crc_data" = crc_data)
 
-crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+  list2env(objs, envir = .GlobalEnv)
+}
+test_pull_data()
 
 test_that("missing data_cohort", {
   expect_error(select_unique_ngs())
@@ -40,9 +43,9 @@ test_that("sample_type", {
 })
 
 test_that("function returns unique sample for each record", {
+  genieBPC:::check_synapse_login()
 
   # NSCLC #
-
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -151,4 +154,3 @@ test_that("function returns unique sample for each record", {
     c("31.5131578947368", "Metastasis site unspecified")
   )
 })
-}

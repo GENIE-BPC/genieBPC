@@ -41,7 +41,7 @@
 #' @export
 #'
 #' @examples
-#' if(genieBPC:::check_synapse_login() == FALSE){
+#' if(genieBPC:::check_synapse_login() != TRUE){
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
 #'

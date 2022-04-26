@@ -13,7 +13,6 @@
 #' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with the genomic samples taken from each patients.
 #' @author Axel Martin
-#' @examples
 #' @import
 #' dplyr
 #' dtplyr
