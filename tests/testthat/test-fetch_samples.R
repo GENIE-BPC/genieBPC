@@ -32,7 +32,12 @@ test_that("missing input parameters", {
 })
 
 test_that("function returns correct number of samples", {
-  skip_on_ci()
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   # NSCLC #
   ### all samples ###

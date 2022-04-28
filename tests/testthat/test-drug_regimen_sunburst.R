@@ -31,7 +31,12 @@ test_that("Test class and length of list for sunburst plot", {
 
 
 test_that("Test class and length of list for elements of sunburst data frame", {
-  skip_on_ci()
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   expect_equal(length(plot1$treatment_history), 2)
   expect_equal(class(plot1$treatment_history),
@@ -41,7 +46,12 @@ test_that("Test class and length of list for elements of sunburst data frame", {
 
 test_that("Test class and length of list for elements
           of sunburst plotly element", {
-  skip_on_ci()
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   expect_equal(length(plot1$sunburst_plot), 8)
   expect_equal(class(plot1$sunburst_plot), c("sunburst","htmlwidget"))
@@ -49,7 +59,12 @@ test_that("Test class and length of list for elements
 
 
 test_that("Test something is returned", {
-  skip_on_ci()
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   expect_error(plot1,NA)
 })
@@ -79,7 +94,12 @@ test_that("data_cohort parameter", {
 })
 
 test_that("lines of tx specified", {
-  skip_on_ci()
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(data_synapse = nsclc_data,
