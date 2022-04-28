@@ -29,7 +29,11 @@ test_that("sample_type", {
 
 test_that("function returns unique sample for each record", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  skip_on_ci()
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
