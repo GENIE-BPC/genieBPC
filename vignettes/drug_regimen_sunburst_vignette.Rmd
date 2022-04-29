@@ -11,19 +11,11 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>")
-# 
-# # exit if synapser package is not installed
-# if(!requireNamespace("synapser")) knitr::knit_exit()
-# 
-# # if user does not have login do not build vignette
-# trylogin <- try(synapser::synLogin())
-# 
-# if(inherits(trylogin,"try-error")) knitr::knit_exit()
 
-# exit if user doesn't have synapser, a log in, or access to data. 
-# if (genieBPC:::check_synapse_login() == FALSE){
-#   knitr::knit_exit()
-# }
+# exit if user doesn't have synapser, a log in, or access to data.
+if (genieBPC:::check_synapse_login() == FALSE){
+  knitr::knit_exit()
+}
 ```
 
 ```{r, include=FALSE, eval=genieBPC:::check_synapse_login()}
