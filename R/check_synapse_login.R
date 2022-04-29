@@ -12,7 +12,7 @@ check_synapse_login <- function() {
   if ("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
     t1 <- FALSE
     # return(TRUE)
-    stop("Please install the package synapser from http://ran.synapse.org")
+    print("Please install the package synapser from http://ran.synapse.org")
   } else { # if synapser is installed, try to login and access the data
     t1 <- TRUE
 
