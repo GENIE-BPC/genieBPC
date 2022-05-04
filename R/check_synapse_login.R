@@ -12,7 +12,8 @@ check_synapse_login <- function() {
   if ("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
     t1 <- FALSE
 
-  } else { # if synapser is installed, try to login and access the data
+    # if synapser is installed, try to login and access the data
+  } else {
     t1 <- TRUE
 
     t2 <- try(
