@@ -12,8 +12,10 @@ check_synapse_login <- function() {
   if ("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
     t1 <- FALSE
 
-    # if synapser is installed, try to login and access the data
-  } else {
+    # changed from stop() to print()
+    # can't be a stop bc then RUniverse returns an error with GH Actions
+    print("Please install the package synapser from http://ran.synapse.org")
+  } else { # if synapser is installed, try to login and access the data
     t1 <- TRUE
 
     t2 <- try(
