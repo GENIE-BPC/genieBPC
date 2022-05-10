@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          install.packages(c("remotes", "rcmdcheck", "covr"))
+          install.packages(c("remotes", "rcmdcheck", "covr"), repos='http://cran.us.r-project.org)
           remotes::install_deps(dependencies = TRUE)
           synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
         shell: Rscript {0}
