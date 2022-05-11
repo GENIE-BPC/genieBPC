@@ -29,5 +29,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov()
+        run: 
+          install.packages("covr", repos='http://cran.us.r-project.org')
+          covr::codecov()
         shell: Rscript {0}
