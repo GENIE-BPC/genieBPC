@@ -27,11 +27,14 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
         shell: Rscript {0}
-
-      - name: Test coverage
+        
+      - name: Setup dependencies
+        uses: r-lib/actions/setup-r-dependencies@main
         with:
           extra-packages: |
             curl
+
+      - name: Test coverage
         run: |
           install.packages("covr", repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
