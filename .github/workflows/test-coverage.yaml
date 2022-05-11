@@ -26,6 +26,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck", "covr"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
+          install.packages("synapser", repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))
           synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
         shell: Rscript {0}
         
