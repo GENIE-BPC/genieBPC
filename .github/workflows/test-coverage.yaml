@@ -29,7 +29,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: 
+        run: |
           install.packages(c("covr"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
           covr::codecov()
