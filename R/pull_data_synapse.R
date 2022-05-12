@@ -64,31 +64,17 @@
 #' @import
 #' dplyr
 #' dtplyr
+#' purrr
 
 
-pull_data_synapse <- function(cohort, version) {
-  if("synapser" %in% rownames(utils::installed.packages()) == FALSE) {
-    #install.packages("synapser", repos = "http://ran.synapse.org")
-    stop("Please install the package synapser from http://ran.synapse.org")
-  }
-  tryCatch(
-    synapser::synLogin(),
-    error =
-      function(e) {
-        cli::cli_alert_warning(
-          paste("There was an error pulling the data.",
-                "See error message below."))
-        paste("You are not logged into your synapse account",
-              "Please set credentials by using 'synapser::synLogin()'",
-              "To store login credentials in your operating system, call:",
-              "`synLogin(email, password, rememberMe = TRUE)`",
-              "Note: Upon calling `rememberMe = TRUE`, the user can call:",
-              "`synLogin()` in future uses without specifying credentials.",
-              sep = "\n"
-        ) %>%
-          stop(call. = FALSE)
-      }
-  )
+pull_data_synapse <- function(cohort, version,
+                              download_location = NULL,
+                              username = NULL, password = NULL) {
+
+
+  token <- get_synapse_token(username = username, password = password)
+  synapse_tables <- genieBPC::synapse_tables
+
   tryCatch(
     {
       # check parameters
@@ -118,7 +104,7 @@ pull_data_synapse <- function(cohort, version) {
 
       versionnum <- dplyr::filter(versionnum, cohort %in% cohortval)
 
-      if( !all(version %in% unique(versionnum$version))){
+      if(!all(version %in% unique(versionnum$version))){
         stop("You have selected a version that is not
         available for this cohort. Please use `synapse_tables`
              to see what versions are available.")
@@ -128,6 +114,7 @@ pull_data_synapse <- function(cohort, version) {
       synapse_tables$version <- substr(
         synapse_tables$version, 2,
         nchar(synapse_tables$version))
+
       synapse_tables$filenames <- paste(
         synapse_tables$df, synapse_tables$cohort, sep = "_")
 
@@ -142,34 +129,10 @@ pull_data_synapse <- function(cohort, version) {
 
       synapse_tables2 <- do.call(rbind, cohort_version)
 
-      synapse_tables2$path <- vapply(seq_along(
-        as.data.frame(synapse_tables2)[,1]), function(x) {
-        synapser::synGet(synapse_tables2$synapse_id[x])$path
-      }, character(1))
+      .pull_by_synapse_ids(synapse_ids_df = synapse_tables2['synapse_id'],
+                           token = token,
+                           download_location)
 
-      # read Synapse tables
-      readcsvfile <- stats::setNames(
-        lapply(synapse_tables2$path[grepl(".csv", synapse_tables2$path)],
-               utils::read.csv),
-        synapse_tables2$filenames[grepl(".csv", synapse_tables2$path)]
-      )
-
-
-
-      readtxtfile <- stats::setNames(
-        lapply(synapse_tables2$path[grepl(".txt", synapse_tables2$path)],
-               function(x) {
-          utils::read.delim(x, sep = "\t")
-        }),
-        synapse_tables2$filenames[grepl(".txt", synapse_tables2$path)]
-      )
-
-      readfiles <- c(readcsvfile, readtxtfile)
-
-
-
-      # return Synapse tables to list
-      return(readfiles)
     },
 
     # return error messages
@@ -180,3 +143,113 @@ pull_data_synapse <- function(cohort, version) {
     }
   )
 }
+
+
+.pull_by_synapse_ids <- function(synapse_ids_df, token, download_location) {
+
+  repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
+  file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
+
+  # Get file metadata (getEntityBundle) --------------------------------------
+
+  file_metadata <- synapse_ids_df %>%
+    mutate(query_url = paste0(repo_endpoint_url, synapse_id, "/bundle2")) %>%
+    mutate(file_info = map(query_url, function(x) {
+
+      requestedObjects <- list(
+        "includeEntity" = TRUE,
+        "includeAnnotations" = TRUE,
+        "includeFileHandles" = TRUE,
+        "includeRestrictionInformation" = TRUE
+      )
+
+      body_format <- jsonlite::toJSON(requestedObjects,
+        pretty = T,
+        auto_unbox = T
+      )
+
+      res_per_id <- httr::POST(
+        url = x,
+        body = body_format,
+        httr::add_headers(Authorization = paste("Bearer ",
+          token,
+          sep = ""
+        )),
+        httr::content_type("application/json")
+      )
+
+      entityBundle <- httr::content(res_per_id, "parsed", encoding = "UTF-8")
+      file_info <- entityBundle$fileHandles[[1]]
+
+      bind_cols(
+        type = file_info$contentType,
+        name = file_info$fileName,
+        file_handle_id = file_info$id
+      )
+    }))
+
+  # Get data by URL -----------------------------------------------------------
+
+  # files must being csv or txt
+  ids_txt_csv <- file_metadata %>%
+    tidyr::unnest(cols = file_info) %>%
+    filter(type %in% c("text/csv", "text/plain"))
+
+
+  t <- map2(
+    ids_txt_csv$file_handle_id,
+    ids_txt_csv$synapse_id,
+    function(x, y) {
+      body <- list(
+        "includeFileHandles" = TRUE,
+        "includePreSignedURLs" = TRUE,
+        "requestedFiles" = as.data.frame(list(
+          "fileHandleId" = x,
+          "associateObjectId" = y,
+          "associateObjectType" = "FileEntity"
+        ))
+      )
+
+      body_format <-
+        res <- httr::POST(
+          url = file_endpoint_url,
+          body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
+          httr::content_type("application/json"),
+          httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
+        )
+
+      parsed <- httr::content(res, "parsed", encoding = "UTF-8")
+      pre_signed_url <- parsed$requestedFiles[1][[1]]$preSignedURL
+      file_name <- parsed$requestedFiles[1][[1]]$fileHandle$fileName
+      file_type <- parsed$requestedFiles[1][[1]]$fileHandle$contentType
+
+      resolved_file_path <- download_location %||% tempdir() %>%
+        file.path(., file_name)
+
+      res2 <- httr::GET(
+        url = pre_signed_url,
+        httr::content_type("application/json"),
+        httr::write_disk(resolved_file_path, overwrite = TRUE)
+      )
+
+      if(is.null(download_location)) {
+        final_files <- file_type %>%
+          purrr::when(
+            . == "text/csv" ~ read.csv(resolved_file_path),
+            . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
+            TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
+                                  Try downloading directly to disk with {.code download_loaction}"))
+
+        return(final_files)
+      } else {
+        cli::cli_alert_success("{.field {file_name}} has been downloaded to {.val {resolved_folder_path}}")
+      }
+
+    }
+  )
+#
+#   t <- t %>%
+#     set_names(ids_txt_csv$name)
+}
+
+

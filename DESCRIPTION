@@ -44,6 +44,8 @@ Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
     dtplyr (>= 1.1.0),
+    httr,
+    jsonlite,
     purrr (>= 0.3.4),
     rlang (>= 1.0.0),
     stringr (>= 1.4.0),
