@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [ test ]
+    branches: [ main ]
   pull_request:
-    branches: [ test ]
+    branches: [ main ]
 
 name: test-coverage
 
@@ -30,7 +30,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: covr
+          extra-packages: covr, synapser
           
       - name: Test coverage
         run: covr::codecov()
