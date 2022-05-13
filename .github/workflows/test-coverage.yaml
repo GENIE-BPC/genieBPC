@@ -28,6 +28,10 @@ jobs:
           synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
         shell: Rscript {0}
 
+      - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: covr
+          
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
