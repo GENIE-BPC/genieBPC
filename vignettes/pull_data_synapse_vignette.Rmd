@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 )
 
 # exit if user doesn't have synapser, a log in, or access to data.
-if (genieBPC:::check_synapse_login() == FALSE){
+if (genieBPC:::.check_synapse_login() == FALSE){
   knitr::knit_exit()
 }
 ```
 
-```{r, include=FALSE, eval=genieBPC:::check_synapse_login()}
+```{r, include=FALSE, eval=genieBPC:::.check_synapse_login()}
 
 library(genieBPC)
 library(dplyr)
@@ -55,7 +55,7 @@ Before beginning this tutorial, be sure to have a Synapse account. If you do not
 
 Install and load {synapser}.
 
-```{r message = FALSE, warning = FALSE, eval=genieBPC:::check_synapse_login()}
+```{r message = FALSE, warning = FALSE, eval=genieBPC:::.check_synapse_login()}
 # install.packages("synapser",repos = "http://ran.synapse.org")
 library(synapser)
 ```
@@ -87,7 +87,7 @@ Using the `rememberMe` argument caches the authentication information in your op
 Let's start by reviewing the `pull_data_synapse()` arguments.
 
 
-```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::check_synapse_login()}
+```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::.check_synapse_login()}
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "specify the cohort of interest (NSCLC or CRC).",
@@ -121,12 +121,12 @@ nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 
 The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
 
-```{r, include = FALSE, eval=genieBPC:::check_synapse_login()}
+```{r, include = FALSE, eval=genieBPC:::.check_synapse_login()}
 nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
 ```
 
 
-```{r, echo = FALSE, message = FALSE, eval=genieBPC:::check_synapse_login()}
+```{r, echo = FALSE, message = FALSE, eval=genieBPC:::.check_synapse_login()}
 ls(nsclc_data) %>% 
   as.data.frame() %>% 
   mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",

@@ -1,4 +1,4 @@
-# ------------------------------------------------------------------------------
+# Create Package Environment ---------------------------------------------------
 # set environment in which to store URL variable that persists for that session
 genieBPC_env <- rlang::new_environment()
 
@@ -8,8 +8,10 @@ genieBPC_env <- rlang::new_environment()
 #' Connect to Synapse API
 #'
 #' This function sets Synapse credentials for the user's current session
-#' @param username Synapse username
-#' @param password Synapse password
+#' @param username Synapse username. If NULL, package will search environmental variables
+#' for `SYNAPSE_USERNAME`.
+#' @param password Synapse password. If NULL, package will search environmental variables
+#' for `SYNAPSE_PASSWORD`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -51,8 +53,11 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
 
 #' Check Access to GENIE Data
 #'
-#' @param username Synapse username
-#' @param password Synapse password
+#' @param username Synapse username. If NULL, package will search package environment for "username". If not found,
+#' package will look in environmental variables for `SYNAPSE_USERNAME`.
+#' @param password Synapse password. If NULL, package will search package environment
+#' for "password". If not found package will search environmental variables
+#' for `SYNAPSE_PASSWORD`.
 #' @return a success message if you are able to access genie data or a error
 #' @export
 #'
@@ -94,9 +99,18 @@ check_genie_access <- function(username = NULL, password = NULL) {
 }
 
 
-# Authorization Utility Functions -----------------------------------------
+#  Utility Functions for Authorization -----------------------------------------
 
-
+#' Get an object from the genieBPC package environment (`genieBPC_env`)
+#'
+#' @param thing_to_check
+#'
+#' @return The object
+#' @export
+#' @keywords internal
+#' \dontrun{
+#' .get_env("username")
+#' }
 .get_env <- function(thing_to_check) {
   thing <- tryCatch(
     {
@@ -108,10 +122,21 @@ check_genie_access <- function(username = NULL, password = NULL) {
       return(NULL)
     }
   )
-
   thing
 }
 
+#' Retrieve a synpase token using username and password
+#'
+#' @inheritParams check_genie_access
+#'
+#' @return a synapse token
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' .get_synapse_token(username = "test", password = "test")
+#' }
 .get_synapse_token <- function(username = NULL, password = NULL) {
   resolved_username <- username %||% .get_env("username") %||%
     Sys.getenv("SYNAPSE_USERNAME", unset = NA)
@@ -145,3 +170,23 @@ check_genie_access <- function(username = NULL, password = NULL) {
 
   return(token)
 }
+
+#' Check Synapse Login Status & Ability to Access Data
+#'
+#' The `.check_synapse_login()` function assesses whether the
+#' user is logged into Synapse and confirms whether the
+#' user has permission to access the GENIE BPC data.
+#'
+#' @keywords internal
+#' @return Returns message indicating user is logged into
+#' Synapse and has permission to access the GENIE BPC data.
+#' @examples
+#' .check_synapse_login()
+.check_synapse_login <- function() {
+
+  tryCatch(check_genie_access(),
+           error = function(e) FALSE,
+           message = function(m) TRUE)
+
+}
+

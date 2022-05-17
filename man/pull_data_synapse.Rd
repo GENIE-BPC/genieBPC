@@ -49,7 +49,7 @@ Upon calling the `rememberMe = TRUE` argument, the user can call:
 `synLogin()` in future uses without specifying login credentials.
 }
 \examples{
-if(genieBPC:::check_synapse_login() == TRUE){
+if(genieBPC:::.check_synapse_login() == TRUE){
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
 

@@ -26,8 +26,8 @@
 #' @param cohort Vector or list specifying the cohort(s) of interest.
 #'  Must be one of "NSCLC" (Non-Small Cell Lung Cancer),
 #'   "CRC" (Colorectal Cancer), or "BrCa" (Breast Cancer).
-#' @param version Vector specifying the version of the data. By default,
-#' the most recent version is pulled.When entering multiple cohorts, the order of the
+#' @param version Vector specifying the version of the data. Must be one of the following:
+#' "v1.1-consortium", "v2.1-consortium", "v1.2-consortium". When entering multiple cohorts, the order of the
 #' version numbers corresponds to the order that the cohorts
 #' are specified; the cohort and version number must be in
 #' the same order in order to pull the correct data. See examples below.
@@ -41,35 +41,34 @@
 #' indicating the cohort appended to their name,
 #' e.g. pt_char_NSCLC for the pt_char dataset of
 #' the NSCLC cohort.
-#' @author Michael Curry
+#' @author Karissa Whiting, Michael Curry
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   # Example 1 ----------------------------------
-#'   # Pull non-small cell lung cancer data
+#' # Example 1 ----------------------------------
+#' # Pull non-small cell lung cancer data
 #'
-#'   set_synapse_credentials(username = "your-username", password = "your-password")
-#'   pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
+#' set_synapse_credentials(username = "your-username",
+#'  password = "your-password")
+#' pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
 #'
-#'   # Example 2 ----------------------------------
-#'   # Pull the most recent non-small cell lung cancer
-#'   # data and the most recent colorectal cancer data
-#'   pull_data_synapse(
-#'     cohort = c("NSCLC", "CRC"),
-#'     version = c("v2.1-consortium", "v1.2-consortium")
-#'   )
+#' # Example 2 ----------------------------------
+#' # Pull the most recent non-small cell lung cancer
+#' # data and the most recent colorectal cancer data
+#' pull_data_synapse(
+#'   cohort = c("NSCLC", "CRC"),
+#'   version = c("v2.1-consortium", "v1.2-consortium")
+#' )
 #'
-#'   # Example 3 ----------------------------------
-#'   # Pull version 2.1 for non-small cell lung cancer
-#'   # and version 1.1 for colorectal cancer data
-#'   t <- pull_data_synapse(
-#'     cohort = c("CRC", "BrCa"),
-#'     version = c("v1.2-consortium", "v1.1-consortium")
-#'   )
-#'
+#' # Example 3 ----------------------------------
+#' # Pull version 2.1 for non-small cell lung cancer
+#' # and version 1.1 for colorectal cancer data
+#' t <- pull_data_synapse(
+#'   cohort = c("CRC", "BrCa"),
+#'   version = c("v1.2-consortium", "v1.1-consortium")
+#' )
 #' }
-#'
 #'
 #' @import
 #' dplyr
@@ -83,32 +82,33 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # Check parameters ---------------------------------------------------------
 
-  # Make sure credentials are available and get token
+  # Make sure credentials are available and get token ---
   token <- .get_synapse_token(username = username, password = password)
 
-  select_cohort <- rlang::arg_match(cohort, c('NSCLC', 'CRC','BrCa'),
-                                    multiple = TRUE)
+  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
+    multiple = TRUE
+  )
 
-  # check `version`
+  # check `version` ---
   version <- version %>%
     purrr::when(
-    is.null(.) ~ cli::cli_abort("Version needs to be specified.
+      is.null(.) ~ cli::cli_abort("Version needs to be specified.
                             Use {.code synapse_version()} to see what data is available."),
-    setdiff(., unique(synapse_tables$version)) > 0 ~
-            cli::cli_abort("{.code version} must be one of the following: {unique(synapse_tables$version)}"),
-    length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
+      setdiff(., unique(synapse_tables$version)) > 0 ~
+        cli::cli_abort("{.code version} must be one of the following: {unique(synapse_tables$version)}"),
+      length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available"),
-    TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE))
+      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE)
+    )
 
   sv <- genieBPC::synapse_tables %>%
     select(cohort, version) %>%
     distinct()
 
   version_num <-
-    purrr::cross_df(list("cohort" = cohort, "version" =  version)) %>%
-    inner_join(sv, .)
-
+    purrr::cross_df(list("cohort" = select_cohort, "version" = version)) %>%
+    inner_join(sv, ., by = c("cohort", "version"))
 
   if (!all(version %in% unique(version_num$version))) {
     cli::cli_abort("You have selected a version that is not
@@ -116,40 +116,40 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
              to see what versions are available.")
   }
 
-  # check download_location, adds folders for each cohort
-  download_location <- download_location %>%
+  # check download_location ---
+
+
+
+  # adds folders for each cohort/version if doesn't exist
+  download_location_resolved <- download_location %>%
     purrr::when(
       !is.null(.) ~ {
         switch(!dir.exists(.),
-               dir.create(.))
+          dir.create(.)
+        )
+        fp <- file.path(., unique(paste(version_num$cohort, version_num$version, sep = "_")))
+        dir.create(fp, showWarnings = FALSE)
+        fp
+      },
 
-        file.path(., unique(match_with_filenames$cohort))
-        },
-      TRUE ~ .)
+      # if download_location = NULL pass on as NULL
+      TRUE ~ .
+    )
 
+  # Prep data for query -----------------------------------------------------
 
-# Prep data for query -----------------------------------------------------
+  ids_to_lookup <-
+    select(genieBPC::synapse_tables, cohort, version, synapse_id) %>%
+    left_join(version_num, ., by = c("version", "cohort")) %>%
+    tidyr::nest(data = -c(cohort, version))
 
-  # match_with_filenames <- genieBPC::synapse_tables %>%
-  #   # mutate(version_trun =  substr(
-  #   # version, 2,
-  #   # nchar(version))) %>%
-  #   mutate(filenames = paste(
-  #     df, toupper(cohort),
-  #     sep = "_"
-  #   ))
+  results <-
+    purrr::map2(ids_to_lookup$data, download_location_resolved, ~ .pull_by_synapse_ids(
+      synapse_ids_df = .x,
+      token = token,
+      download_location = .y
+    ))
 
-  match_with_filenames <- genieBPC::synapse_tables %>%
-    left_join(version_num, .) %>%
-    select(cohort, synapse_id) %>%
-    tidyr::nest(data = -cohort)
-
-
-  results <- map2(match_with_filenames$data, download_location,
-       ~.pull_by_synapse_ids(
-        synapse_ids_df = .x,
-        token = token,
-        download_location = .y))
 
   return(results)
 }
@@ -167,23 +167,29 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'
 #' @examples
 #' syn_df <- data.frame(
-#'       synapse_id =
-#'           c("syn26046793", "syn26046791", "syn26046792"))
+#'   synapse_id =
+#'     c("syn26046793", "syn26046791", "syn26046792")
+#' )
 #'
-#'  .pull_by_synapse_ids(synapse_ids_df = syn_df,
-#'  token = .get_synapse_token(), download_location = NULL)
+#' .pull_by_synapse_ids(
+#'   synapse_ids_df = syn_df,
+#'   token = .get_synapse_token(), download_location = NULL
+#' )
 #'
-#'  .pull_by_synapse_ids(synapse_ids_df = syn_df,
-#'  token = .get_synapse_token(), download_location = here::here())
+#' .pull_by_synapse_ids(
+#'   synapse_ids_df = syn_df,
+#'   token = .get_synapse_token(), download_location = here::here()
+#' )
 #'
 .pull_by_synapse_ids <- function(synapse_ids_df,
                                  token,
                                  download_location) {
-
   repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
   file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
 
-  # Get file metadata (getEntityBundle) --------------------------------------
+  download_location <- download_location %||% file.path(tempdir())
+
+  # Get file metadata (python equivalent is getEntityBundle) -------------------
 
   file_metadata <- synapse_ids_df %>%
     mutate(query_url = paste0(repo_endpoint_url, synapse_id, "/bundle2")) %>%
@@ -195,18 +201,14 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
         "includeRestrictionInformation" = TRUE
       )
 
-      body_format <- jsonlite::toJSON(requestedObjects,
-        pretty = T,
-        auto_unbox = T
-      )
 
       res_per_id <- httr::POST(
         url = x,
-        body = body_format,
-        httr::add_headers(Authorization = paste("Bearer ",
-          token,
-          sep = ""
-        )),
+        body = jsonlite::toJSON(requestedObjects,
+          pretty = T,
+          auto_unbox = T
+        ),
+        httr::add_headers(Authorization = paste("Bearer ", token, sep = "")),
         httr::content_type("application/json")
       )
 
@@ -227,11 +229,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     tidyr::unnest(cols = file_info) %>%
     filter(type %in% c("text/csv", "text/plain"))
 
-
   files <- ids_txt_csv %>%
     select(.data$file_handle_id, .data$synapse_id, .data$name) %>%
     purrr::pmap(., function(file_handle_id, synapse_id, name) {
-
       body <- list(
         "includeFileHandles" = TRUE,
         "includePreSignedURLs" = TRUE,
@@ -242,20 +242,18 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
         ))
       )
 
-
-        res <- httr::POST(
-          url = file_endpoint_url,
-          body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
-          httr::content_type("application/json"),
-          httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
-        )
+      res <- httr::POST(
+        url = file_endpoint_url,
+        body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
+        httr::content_type("application/json"),
+        httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
+      )
 
       parsed <- httr::content(res, "parsed", encoding = "UTF-8")
       pre_signed_url <- parsed$requestedFiles[1][[1]]$preSignedURL
       file_type <- parsed$requestedFiles[1][[1]]$fileHandle$contentType
 
-      resolved_file_path <- download_location %||% tempdir() %>%
-        file.path(., name)
+      resolved_file_path <- file.path(download_location, name)
 
       res2 <- httr::GET(
         url = pre_signed_url,
@@ -263,23 +261,20 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
         httr::write_disk(resolved_file_path, overwrite = TRUE)
       )
 
-      if (is.null(download_location)) {
-
-        final_files <- file_type %>%
-          purrr::when(
-            . == "text/csv" ~ read.csv(resolved_file_path),
-            . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
-            TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
-                                  Try downloading directly to disk with {.code download_location}")
-          )
-
-
-      } else {
-        cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_location}}")
-      }
+      final_files <- purrr::when(
+        is.null(download_location) ~ {
+          file_type %>%
+            purrr::when(
+              . == "text/csv" ~ read.csv(resolved_file_path),
+              . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
+              TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
+                                    Try downloading directly to disk with {.code download_location}"))
+        },
+        TRUE ~ cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_location}}")
+      )
     })
 
   switch(is.null(download_location),
-         files %>% rlang::set_names(., ids_txt_csv$name))
-
+    final_files %>% rlang::set_names(., ids_txt_csv$name)
+  )
 }

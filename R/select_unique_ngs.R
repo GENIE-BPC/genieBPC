@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-#' if(genieBPC:::check_synapse_login() == TRUE){
+#' if(genieBPC:::.check_synapse_login() == TRUE){
 #' #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage
 #' # IV NSCLC of histology adenocarcinoma

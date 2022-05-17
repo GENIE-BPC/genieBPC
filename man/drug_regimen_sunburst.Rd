@@ -24,7 +24,7 @@ This function allows the user to visualize the complete treatment
 course for selected diagnoses.
 }
 \examples{
-if(genieBPC:::check_synapse_login() == TRUE){
+if(genieBPC:::.check_synapse_login() == TRUE){
 nsclc_data <- pull_data_synapse("NSCLC", version = "2.1-consortium")
 nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
 data_synapse = nsclc_data, stage = "Stage IV")
