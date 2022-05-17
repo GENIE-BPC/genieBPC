@@ -29,8 +29,7 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
 
   switch(any(is.na(c(resolved_username, resolved_password))),
     {
-      rlang::abort("No `username` or `password` specified and no `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`.
-        Try specifying `username` or `password` arguments or use `usethis::edit_r_environ()` to add to your global variables")
+      rlang::abort("No `username` or `password` specified and no `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`. Try specifying `username` or `password` arguments or use `usethis::edit_r_environ()` to add to your global variables")
     }
   )
 
@@ -48,7 +47,7 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
   # check the credentials with a call
   x <- .get_synapse_token(username = resolved_username, password = resolved_password)
 
-  cli::cli_alert_success("You are now connected to Synpase as {.field {resolved_username}} for this R session!")
+  cli::cli_alert_success("You are now connected to synapse as {.field {resolved_username}} for this R session!")
 }
 
 #' Check Access to GENIE Data
@@ -106,8 +105,9 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' @param thing_to_check
 #'
 #' @return The object
-#' @export
 #' @keywords internal
+#' @export
+#' @examples
 #' \dontrun{
 #' .get_env("username")
 #' }
@@ -125,7 +125,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
   thing
 }
 
-#' Retrieve a synpase token using username and password
+#' Retrieve a synapse token using username and password
 #'
 #' @inheritParams check_genie_access
 #'
@@ -176,10 +176,10 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' The `.check_synapse_login()` function assesses whether the
 #' user is logged into Synapse and confirms whether the
 #' user has permission to access the GENIE BPC data.
-#'
 #' @keywords internal
 #' @return Returns message indicating user is logged into
 #' Synapse and has permission to access the GENIE BPC data.
+#' @export
 #' @examples
 #' .check_synapse_login()
 .check_synapse_login <- function() {

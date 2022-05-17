@@ -99,8 +99,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available"),
-      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE)
-    )
+      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE))
 
   sv <- genieBPC::synapse_tables %>%
     select(cohort, version) %>%
@@ -118,10 +117,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # check download_location ---
 
-
-
   # adds folders for each cohort/version if doesn't exist
-  download_location_resolved <- download_location %>%
+  download_location <- download_location %>%
     purrr::when(
       !is.null(.) ~ {
         switch(!dir.exists(.),
@@ -139,19 +136,19 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # Prep data for query -----------------------------------------------------
 
   ids_to_lookup <-
-    select(genieBPC::synapse_tables, cohort, version, synapse_id) %>%
+    select(genieBPC::synapse_tables, .data$cohort, .data$version, .data$synapse_id) %>%
     left_join(version_num, ., by = c("version", "cohort")) %>%
-    tidyr::nest(data = -c(cohort, version))
+    tidyr::nest(data = -c(.data$cohort, .data$version))
 
-  results <-
-    purrr::map2(ids_to_lookup$data, download_location_resolved, ~ .pull_by_synapse_ids(
+  purrr::map(ids_to_lookup$data,
+             ~.pull_by_synapse_ids(
       synapse_ids_df = .x,
       token = token,
-      download_location = .y
-    ))
+      download_location = download_location
+    )) %>%
+    purrr::when(!is.null(.) ~
+                  set_names(., unique(paste(version_num$cohort, version_num$version, sep = "_"))))
 
-
-  return(results)
 }
 
 
@@ -163,7 +160,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
 #'
 #' @return downloaded synapse data as a list if `download_location`= `NULL, or to a local path
-#' @internal
+#' @keywords internal
+#' @export
 #'
 #' @examples
 #' syn_df <- data.frame(
@@ -184,16 +182,17 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 .pull_by_synapse_ids <- function(synapse_ids_df,
                                  token,
                                  download_location) {
+
   repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
   file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
 
-  download_location <- download_location %||% file.path(tempdir())
+  download_location_resolved <- download_location %||% file.path(tempdir())
 
   # Get file metadata (python equivalent is getEntityBundle) -------------------
 
   file_metadata <- synapse_ids_df %>%
     mutate(query_url = paste0(repo_endpoint_url, synapse_id, "/bundle2")) %>%
-    mutate(file_info = map(query_url, function(x) {
+    mutate(file_info = map(.data$query_url, function(x) {
       requestedObjects <- list(
         "includeEntity" = TRUE,
         "includeAnnotations" = TRUE,
@@ -253,7 +252,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       pre_signed_url <- parsed$requestedFiles[1][[1]]$preSignedURL
       file_type <- parsed$requestedFiles[1][[1]]$fileHandle$contentType
 
-      resolved_file_path <- file.path(download_location, name)
+      resolved_file_path <- file.path(download_location_resolved, name)
 
       res2 <- httr::GET(
         url = pre_signed_url,
@@ -261,20 +260,21 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
         httr::write_disk(resolved_file_path, overwrite = TRUE)
       )
 
-      final_files <- purrr::when(
-        is.null(download_location) ~ {
-          file_type %>%
+      if(is.null(download_location)) {
+        returned_files <- file_type %>%
             purrr::when(
-              . == "text/csv" ~ read.csv(resolved_file_path),
-              . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
-              TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
+            . == "text/csv" ~ read.csv(resolved_file_path),
+            . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
+            TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
                                     Try downloading directly to disk with {.code download_location}"))
-        },
-        TRUE ~ cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_location}}")
-      )
+        } else {
+          returned_files <- NULL
+          cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_location}}")
+          }
+
+      returned_files
     })
 
-  switch(is.null(download_location),
-    final_files %>% rlang::set_names(., ids_txt_csv$name)
-  )
+  switch(!is.null(files),
+         files %>% rlang::set_names(., ids_txt_csv$name))
 }

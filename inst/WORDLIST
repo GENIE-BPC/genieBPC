@@ -17,6 +17,7 @@ Etoposide
 FOLFOX
 Farber
 Investigational
+Karissa
 MMR
 MSI
 MSK
@@ -29,6 +30,7 @@ PANC
 PRISSMM
 Pemetrexed
 Phenomic
+Renviron
 UHN
 VICC
 adeno
@@ -43,6 +45,8 @@ criterions
 curation
 ductal
 dx
+env
+environ
 genomically
 gnomeR
 gtsummary
@@ -57,8 +61,7 @@ oncotree
 pemetrexed
 pharma
 phenomic
-rememberMe
 situ
-synLogin
 synapser
 tbl
+usethis

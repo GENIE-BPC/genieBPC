@@ -4,20 +4,31 @@
 \alias{pull_data_synapse}
 \title{Obtain Clinical Data Files for GENIE BPC Project}
 \usage{
-pull_data_synapse(cohort, version)
+pull_data_synapse(
+  cohort = NULL,
+  version = NULL,
+  download_location = NULL,
+  username = NULL,
+  password = NULL
+)
 }
 \arguments{
 \item{cohort}{Vector or list specifying the cohort(s) of interest.
-Must be one of "NSCLC" (Non-Small Cell Lung Cancer) or
- "CRC" (Colorectal Cancer).}
+Must be one of "NSCLC" (Non-Small Cell Lung Cancer),
+ "CRC" (Colorectal Cancer), or "BrCa" (Breast Cancer).}
 
-\item{version}{Vector or list specifying the version of the data.
-By default, the most recent version is pulled.
-Currently, only version 1.1 is available.
-When entering multiple cohorts, the order of the
+\item{version}{Vector specifying the version of the data. Must be one of the following:
+"v1.1-consortium", "v2.1-consortium", "v1.2-consortium". When entering multiple cohorts, the order of the
 version numbers corresponds to the order that the cohorts
 are specified; the cohort and version number must be in
 the same order in order to pull the correct data. See examples below.}
+
+\item{download_location}{if `NULL` (default), data will be returned as a list of dataframes with
+requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.}
+
+\item{username}{Synapse username}
+
+\item{password}{Synapse password}
 }
 \value{
 Returns clinical and genomic data corresponding to
@@ -41,35 +52,42 @@ The `pull_data_synapse` function accesses the specified
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 }
 Users must log in to Synapse to access the data successfully.
-To log into Synapse during each session, call:
-`synLogin(email = "your_email", password = "your_password")`
-To store authentication information in your operating system, call:
-`synLogin(email="your_email",password="your_password",rememberMe=TRUE)`
-Upon calling the `rememberMe = TRUE` argument, the user can call:
-`synLogin()` in future uses without specifying login credentials.
+To set your Synapse credentials during each session, call:
+`set_synapse_credentials(email = "your_email", password = "your_password")`
+To store authentication information in your environmental variables, add the
+following to your .Renviron file (tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+`SYNAPSE_USERNAME = <your-email>`
+`SYNAPSE_PASSWORD = <your-password>`
+Alternatively, you can pass your username and password to each individual data pull function if preferred,
+although it is recommended that you manage your passwords outside of your scripts for security purposes.
 }
 \examples{
-if(genieBPC:::.check_synapse_login() == TRUE){
+\dontrun{
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
 
- pull_data_synapse(cohort = "NSCLC", version = "2.1-consortium")
+set_synapse_credentials(username = "your-username",
+ password = "your-password")
+pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
 
 # Example 2 ----------------------------------
 # Pull the most recent non-small cell lung cancer
 # data and the most recent colorectal cancer data
- pull_data_synapse(cohort = c("NSCLC", "CRC"),
- version = c("2.1-consortium", "1.2-consortium"))
+pull_data_synapse(
+  cohort = c("NSCLC", "CRC"),
+  version = c("v2.1-consortium", "v1.2-consortium")
+)
 
 # Example 3 ----------------------------------
 # Pull version 2.1 for non-small cell lung cancer
- #and version 1.1 for colorectal cancer data
- pull_data_synapse(
-  cohort = c("NSCLC", "CRC"),
-  version = c("2.1-consortium", "1.1-consortium")
- )
+# and version 1.1 for colorectal cancer data
+t <- pull_data_synapse(
+  cohort = c("CRC", "BrCa"),
+  version = c("v1.2-consortium", "v1.1-consortium")
+)
 }
+
 }
 \author{
-Michael Curry
+Karissa Whiting, Michael Curry
 }
