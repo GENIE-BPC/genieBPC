@@ -62,7 +62,7 @@ Alternatively, you can pass your username and password to each individual data p
 although it is recommended that you manage your passwords outside of your scripts for security purposes.
 }
 \examples{
-\dontrun{
+if(genieBPC:::.check_synapse_login() == TRUE){
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
 

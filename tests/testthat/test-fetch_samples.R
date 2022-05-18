@@ -1,21 +1,17 @@
-test_pull_data <- function(){
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
-
-  # run here to avoid having to run within each test
-  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
-
-  objs <- list("nsclc_data" = nsclc_data,
-               "crc_data" = crc_data)
-
-  list2env(objs, envir = .GlobalEnv)
-}
-test_pull_data()
+# test_pull_data <- function(){
+#
+#   skip_if_not(genieBPC:::.check_synapse_login())
+#
+#   # run here to avoid having to run within each test
+#   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+#   crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+#
+#   objs <- list("nsclc_data" = nsclc_data,
+#                "crc_data" = crc_data)
+#
+#   list2env(objs, envir = .GlobalEnv)
+# }
+# test_pull_data()
 
 
 test_that("missing input parameters", {
@@ -32,12 +28,7 @@ test_that("missing input parameters", {
 })
 
 test_that("function returns correct number of samples", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   # NSCLC #
   ### all samples ###

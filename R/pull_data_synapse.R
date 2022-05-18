@@ -159,12 +159,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @export
 #'
 #' @examples
-#' syn_df <- data.frame(
-#'   synapse_id =
-#'     c("syn26046793", "syn26046791", "syn26046792"),
-#'     df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
-#'     version_num = c("CRC_v1.1", "CRC_v1.1", "CRC_v1.1")
-#' )
+#' if(genieBPC:::.check_synapse_login() == TRUE){
 #' syn_df <- data.frame(
 #'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
 #'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
@@ -178,9 +173,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'
 #' .pull_data_by_cohort(
 #'   version_num_df = syn_df,
-#'   token = .get_synapse_token(), download_location = here::here()
+#'   token = .get_synapse_token(), download_location = tempdir()
 #' )
-#'
+#' }
 #
 .pull_data_by_cohort <- function(version_num_df,
                                  token, download_location) {
@@ -194,7 +189,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # we need file handle ID and filename
   file_metadata <- version_num_df %>%
-    mutate(query_url = paste0(repo_endpoint_url, synapse_id, "/bundle2")) %>%
+    mutate(query_url = paste0(repo_endpoint_url, .data$synapse_id, "/bundle2")) %>%
     mutate(file_info = map(.data$query_url, function(x) {
       requestedObjects <- list(
         "includeEntity" = TRUE,
@@ -228,13 +223,14 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # file index- files must being csv or txt
   ids_txt_csv <- file_metadata %>%
-    tidyr::unnest(cols = file_info) %>%
-    filter(type %in% c("text/csv", "text/plain"))
+    tidyr::unnest(cols = .data$file_info) %>%
+    filter(.data$type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
     select(.data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
            .data$name, .data$download_folder) %>%
-    purrr::pmap(., .get_and_query_file_url, download_location)
+    purrr::pmap(., .get_and_query_file_url, download_location,
+                token, file_endpoint_url)
 
   return(files)
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
@@ -283,12 +279,15 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @param name file name from synapse
 #' @param version_num cohort name and version
 #' @param download_folder location to download data
+#' @param token Synapse token
+#' @param file_endpoint_url synapse endpoint for file info
 #'
-#' @return
+#' @return list of synapse data frames
 #' @keywords internal
 #' @export
 #'
 #' @examples
+#' if(genieBPC:::.check_synapse_login() == TRUE){
 #' file = data.frame(
 #' version_num = "NSCLC_v2.1",
 #' file_handle_id = c("79432768"),
@@ -297,10 +296,13 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' name = c("patient_level_dataset.csv"),
 #' download_folder = file.path(tempdir(), "NSCLC_v2.1"))
 #'
-#' pmap(file, .get_and_query_url)
+#' purrr::pmap(file, .get_and_query_url)
+#' }
 #'
 .get_and_query_file_url <- function(version_num, file_handle_id, synapse_id,
-                               df, name, download_folder, download_location) {
+                               df, name, download_folder, download_location,
+                               token, file_endpoint_url
+                               ) {
 
   body <- list(
     "includeFileHandles" = TRUE,

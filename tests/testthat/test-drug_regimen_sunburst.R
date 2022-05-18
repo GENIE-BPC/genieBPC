@@ -1,10 +1,6 @@
 test_that("Test class and length of list for sunburst plot", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
@@ -31,12 +27,8 @@ test_that("Test class and length of list for sunburst plot", {
 
 
 test_that("Test class and length of list for elements of sunburst data frame", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   expect_equal(length(plot1$treatment_history), 2)
   expect_equal(class(plot1$treatment_history),
@@ -46,12 +38,8 @@ test_that("Test class and length of list for elements of sunburst data frame", {
 
 test_that("Test class and length of list for elements
           of sunburst plotly element", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   expect_equal(length(plot1$sunburst_plot), 8)
   expect_equal(class(plot1$sunburst_plot), c("sunburst","htmlwidget"))
@@ -59,12 +47,8 @@ test_that("Test class and length of list for elements
 
 
 test_that("Test something is returned", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   expect_error(plot1,NA)
 })
@@ -94,12 +78,8 @@ test_that("data_cohort parameter", {
 })
 
 test_that("lines of tx specified", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(genieBPC:::.check_synapse_login())
 
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(data_synapse = nsclc_data,
