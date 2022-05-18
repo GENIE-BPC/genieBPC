@@ -272,6 +272,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 }
 
 
+
+
 #' Get URL for a given synapse file and download to local machine
 #'
 #' @param version_num synpase cohort_version
