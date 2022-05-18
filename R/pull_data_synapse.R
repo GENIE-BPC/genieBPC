@@ -85,6 +85,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # Make sure credentials are available and get token ---
   token <- .get_synapse_token(username = username, password = password)
 
+  # get `cohort` ---
   select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
     multiple = TRUE
   )
@@ -101,64 +102,54 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
          Use {.code synapse_version()} to see what data is available"),
       TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE))
 
-  sv <- genieBPC::synapse_tables %>%
-    select(cohort, version) %>%
+  # create `version-number` ---
+  sv <- select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
     distinct()
 
-  version_num <-
-    purrr::cross_df(list("cohort" = select_cohort, "version" = version)) %>%
-    inner_join(sv, ., by = c("cohort", "version"))
+  version_num <- bind_cols(list("cohort" = select_cohort, "version" = version))
 
-  if (!all(version %in% unique(version_num$version))) {
-    cli::cli_abort("You have selected a version that is not
-        available for this cohort. Please use `synapse_tables`
-             to see what versions are available.")
+  version_not_available <- anti_join(version_num, sv, by = c("cohort", "version"))
+
+  if (nrow(version_not_available) > 0) {
+    cli::cli_abort(c("You have selected a version that is not available for this cohort
+                   (use `synapse_tables` to see what versions are available):",
+    "x" = "{.val {version_not_available}}"))
   }
+
+  version_num <- version_num %>%
+    inner_join(sv, ., by = c("cohort", "version")) %>%
+    mutate(version_num = stringr::str_remove(paste(.data$cohort,
+                                                   .data$version,
+                                                   sep = "_"), "-consortium"))
 
   # check download_location ---
 
-  # adds folders for each cohort/version if doesn't exist
-  download_location <- download_location %>%
-    purrr::when(
-      !is.null(.) ~ {
-        switch(!dir.exists(.),
-          dir.create(.)
-        )
-        fp <- file.path(., unique(paste(version_num$cohort, version_num$version, sep = "_")))
-        dir.create(fp, showWarnings = FALSE)
-        fp
-      },
-
-      # if download_location = NULL pass on as NULL
-      TRUE ~ .
-    )
+  # adds folders for each cohort/version (if doesn't exist)
+  version_num <- version_num %>%
+    mutate(download_folder = .check_download_path(download_location = download_location,
+                                                 version_num))
 
   # Prep data for query -----------------------------------------------------
 
-  ids_to_lookup <-
+  # get synapse IDs
+  version_num_df <-
     genieBPC::synapse_tables %>%
     left_join(version_num, ., by = c("version", "cohort"))
 
- ids_to_lookup_nest <-  ids_to_lookup %>%
-    tidyr::nest(data = -c(.data$cohort, .data$version))
+  version_num_df_nest <-  version_num_df %>%
+   split(., .$version_num)
 
-  purrr::map2(ids_to_lookup_nest$cohort, ids_to_lookup_nest$data,
-             ~.pull_by_synapse_ids(
-               cohort = .x,
-      synapse_ids_df = .y,
-      token = token,
-      download_location = download_location
-    )) %>%
-    purrr::when(!is.null(.) ~ purrr::flatten(.) ,
-                TRUE ~ .)
+  return_items <- purrr::map(version_num_df_nest,
+             ~.pull_data_by_cohort(version_num_df = .x, token = token,
+                                   download_location = download_location))
 
-
+  switch(is.null(download_location), return(return_items))
 }
 
 
 #' Function to retrieve data by synapse ID
 #'
-#' @param synapse_ids_df a dataframe of synapse IDs
+#' @param version_num_df a dataframe of synapse IDs
 #' @param token a synapse token
 #' @param download_location if `NULL` (default), data will be returned as a list of dataframes with
 #' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
@@ -171,33 +162,38 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' syn_df <- data.frame(
 #'   synapse_id =
 #'     c("syn26046793", "syn26046791", "syn26046792"),
-#'     df = c("pt_char", "ca_dx_index", "ca_dx_non_index")
+#'     df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
+#'     version_num = c("CRC_v1.1", "CRC_v1.1", "CRC_v1.1")
+#' )
+#' syn_df <- data.frame(
+#'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
+#'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
+#'   version_num = c("NSCLC_v2.1", "NSCLC_v2.1", "NSCLC_v2.1"),
+#'   download_folder = c("/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1",
+#'                       "/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1",
+#'                       "/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1"),
+#'   df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
+#'   synapse_id = c("syn25985884", "syn25985882", "syn25985883")
 #' )
 #'
-#' .pull_by_synapse_ids(
-#'   synapse_ids_df = syn_df,
-#'   token = .get_synapse_token(), download_location = NULL
-#' )
-#'
-#' .pull_by_synapse_ids(
-#'   synapse_ids_df = syn_df,
+#' .pull_data_by_cohort(
+#'   version_num_df = syn_df,
 #'   token = .get_synapse_token(), download_location = here::here()
 #' )
 #'
-.pull_by_synapse_ids <- function(cohort,
-                                 synapse_ids_df,
-                                 token,
-                                 download_location) {
+#
+.pull_data_by_cohort <- function(version_num_df,
+                                 token, download_location) {
 
 
   repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
   file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
 
-  download_location_resolved <- download_location %||% file.path(tempdir())
 
   # Get file metadata (python equivalent is getEntityBundle) -------------------
 
-  file_metadata <- synapse_ids_df %>%
+  # we need file handle ID and filename
+  file_metadata <- version_num_df %>%
     mutate(query_url = paste0(repo_endpoint_url, synapse_id, "/bundle2")) %>%
     mutate(file_info = map(.data$query_url, function(x) {
       requestedObjects <- list(
@@ -236,54 +232,119 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     filter(type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
-    select(.data$file_handle_id, .data$synapse_id, .data$df, .data$name) %>%
-    purrr::pmap(., function(file_handle_id, synapse_id, df, name) {
+    select(.data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
+           .data$name, .data$download_folder) %>%
+    purrr::pmap(., .get_and_query_file_url, download_location)
 
-      body <- list(
-        "includeFileHandles" = TRUE,
-        "includePreSignedURLs" = TRUE,
-        "requestedFiles" = as.data.frame(list(
-          "fileHandleId" = file_handle_id,
-          "associateObjectId" = synapse_id,
-          "associateObjectType" = "FileEntity"
-        ))
-      )
-
-      res <- httr::POST(
-        url = file_endpoint_url,
-        body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
-        httr::content_type("application/json"),
-        httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
-      )
-
-      parsed <- httr::content(res, "parsed", encoding = "UTF-8")
-      pre_signed_url <- parsed$requestedFiles[1][[1]]$preSignedURL
-      file_type <- parsed$requestedFiles[1][[1]]$fileHandle$contentType
-
-      resolved_file_path <- file.path(download_location_resolved, name)
-
-      res2 <- httr::GET(
-        url = pre_signed_url,
-        httr::content_type("application/json"),
-        httr::write_disk(resolved_file_path, overwrite = TRUE)
-      )
-
-      if(is.null(download_location)) {
-        returned_files <- file_type %>%
-            purrr::when(
-            . == "text/csv" ~ read.csv(resolved_file_path),
-            . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
-            TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
-                                    Try downloading directly to disk with {.code download_location}"))
-        } else {
-          returned_files <- NULL
-          cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_location}}")
-          }
-
-      returned_files
-
-    })
-
-  switch(!is.null(files),
-         files %>% rlang::set_names(., paste(ids_txt_csv$df, cohort, sep = "_")))
+  return(files)
+  # maybe get rid of the _cohort?- would be nice to keep synapse file name
+  # switch(!is.null(files),
+  #        files %>% rlang::set_names(., paste(ids_txt_csv$df, cohort, sep = "_")))
 }
+
+# Synapse Utility Functions ----------------------------------------------------
+
+#' Check download_path user passed and create folder if needed
+#'
+#' @param download_location a local path or NULL
+#' @param version_num vector of cohort/version_number
+#'
+#' @return a vector of file paths. If download_location is NULL, will return
+#' temporary file path
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' .check_download_path(download_location = NULL, version_num = "CRC_v2.1")
+#'
+.check_download_path <- function(download_location, version_num) {
+
+  download_location_resolved <- download_location %||%
+    tempdir()
+
+  map_chr(version_num, function(single_version_num) {
+    folder_path <- file.path(download_location_resolved, single_version_num)
+    switch(!dir.exists(folder_path), dir.create(folder_path))
+    return(folder_path)
+  })
+
+
+}
+
+
+#' Get URL for a given synapse file and download to local machine
+#'
+#' @param version_num synpase cohort_version
+#' @param file_handle_id synapse file handle ID
+#' @param synapse_id synapse ID
+#' @param df package designated name of file
+#' @param name file name from synapse
+#' @param version_num cohort name and version
+#' @param download_folder location to download data
+#'
+#' @return
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' file = data.frame(
+#' version_num = "NSCLC_v2.1",
+#' file_handle_id = c("79432768"),
+#' synapse_id = c("syn25985884"),
+#' df = c("pt_char"),
+#' name = c("patient_level_dataset.csv"),
+#' download_folder = file.path(tempdir(), "NSCLC_v2.1"))
+#'
+#' pmap(file, .get_and_query_url)
+#'
+.get_and_query_file_url <- function(version_num, file_handle_id, synapse_id,
+                               df, name, download_folder, download_location) {
+
+  body <- list(
+    "includeFileHandles" = TRUE,
+    "includePreSignedURLs" = TRUE,
+    "requestedFiles" = as.data.frame(list(
+      "fileHandleId" = file_handle_id,
+      "associateObjectId" = synapse_id,
+      "associateObjectType" = "FileEntity"
+    ))
+  )
+
+  res <- httr::POST(
+    url = file_endpoint_url,
+    body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
+    httr::content_type("application/json"),
+    httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
+  )
+
+  parsed <- httr::content(res, "parsed", encoding = "UTF-8")
+  pre_signed_url <- parsed$requestedFiles[1][[1]]$preSignedURL
+  file_type <- parsed$requestedFiles[1][[1]]$fileHandle$contentType
+
+  resolved_file_path <- file.path(download_folder, name)
+
+  res2 <- httr::GET(
+    url = pre_signed_url,
+    httr::content_type("application/json"),
+    httr::write_disk(resolved_file_path, overwrite = TRUE)
+  )
+
+  # `download_location` from outside function
+  if(is.null(download_location)) {
+    returned_files <- file_type %>%
+      purrr::when(
+        . == "text/csv" ~ read.csv(resolved_file_path),
+        . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
+        TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
+                                    Try downloading directly to disk with {.code download_location}"))
+
+      cli::cli_alert_success("{.field {df}} has been imported for {.val {version_num}}")
+      return(returned_files)
+  } else {
+    cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_folder}}")
+    return(invisible(NULL))
+  }
+
+
+}
+

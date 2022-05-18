@@ -3,12 +3,8 @@ test_that("Missing cohort parameter", {
 })
 
 test_that("Test class and length of list for NSCLC", {
-  # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+
+  skip_if_not(.check_synapse_login())
 
   # run at top to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
