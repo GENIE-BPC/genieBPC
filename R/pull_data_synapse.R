@@ -45,7 +45,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if(genieBPC:::.check_synapse_login() == TRUE){
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
 #'
@@ -136,18 +136,22 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # Prep data for query -----------------------------------------------------
 
   ids_to_lookup <-
-    select(genieBPC::synapse_tables, .data$cohort, .data$version, .data$synapse_id) %>%
-    left_join(version_num, ., by = c("version", "cohort")) %>%
+    genieBPC::synapse_tables %>%
+    left_join(version_num, ., by = c("version", "cohort"))
+
+ ids_to_lookup_nest <-  ids_to_lookup %>%
     tidyr::nest(data = -c(.data$cohort, .data$version))
 
-  purrr::map(ids_to_lookup$data,
+  purrr::map2(ids_to_lookup_nest$cohort, ids_to_lookup_nest$data,
              ~.pull_by_synapse_ids(
-      synapse_ids_df = .x,
+               cohort = .x,
+      synapse_ids_df = .y,
       token = token,
       download_location = download_location
     )) %>%
-    purrr::when(!is.null(.) ~
-                  set_names(., unique(paste(version_num$cohort, version_num$version, sep = "_"))))
+    purrr::when(!is.null(.) ~ purrr::flatten(.) ,
+                TRUE ~ .)
+
 
 }
 
@@ -166,7 +170,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @examples
 #' syn_df <- data.frame(
 #'   synapse_id =
-#'     c("syn26046793", "syn26046791", "syn26046792")
+#'     c("syn26046793", "syn26046791", "syn26046792"),
+#'     df = c("pt_char", "ca_dx_index", "ca_dx_non_index")
 #' )
 #'
 #' .pull_by_synapse_ids(
@@ -179,9 +184,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'   token = .get_synapse_token(), download_location = here::here()
 #' )
 #'
-.pull_by_synapse_ids <- function(synapse_ids_df,
+.pull_by_synapse_ids <- function(cohort,
+                                 synapse_ids_df,
                                  token,
                                  download_location) {
+
 
   repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
   file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
@@ -229,8 +236,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     filter(type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
-    select(.data$file_handle_id, .data$synapse_id, .data$name) %>%
-    purrr::pmap(., function(file_handle_id, synapse_id, name) {
+    select(.data$file_handle_id, .data$synapse_id, .data$df, .data$name) %>%
+    purrr::pmap(., function(file_handle_id, synapse_id, df, name) {
+
       body <- list(
         "includeFileHandles" = TRUE,
         "includePreSignedURLs" = TRUE,
@@ -273,8 +281,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
           }
 
       returned_files
+
     })
 
   switch(!is.null(files),
-         files %>% rlang::set_names(., ids_txt_csv$name))
+         files %>% rlang::set_names(., paste(ids_txt_csv$df, cohort, sep = "_")))
 }
