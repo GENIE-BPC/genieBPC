@@ -232,10 +232,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     purrr::pmap(., .get_and_query_file_url, download_location,
                 token, file_endpoint_url)
 
-  return(files)
+
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
-  # switch(!is.null(files),
-  #        files %>% rlang::set_names(., paste(ids_txt_csv$df, cohort, sep = "_")))
+  files <- switch(!is.null(files),
+          rlang::set_names(files, paste(ids_txt_csv$df, ids_txt_csv$cohort, sep = "_")))
+  return(files)
 }
 
 # Synapse Utility Functions ----------------------------------------------------
