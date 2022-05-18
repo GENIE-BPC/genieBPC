@@ -347,7 +347,5 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
 
 
-
-
 }
 
