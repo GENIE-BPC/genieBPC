@@ -61,6 +61,12 @@ order to use this function. To obtain access:
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
+**Public Releases**
+-   [NSCLC v2.0-Public Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30557304)
+    
+**Consortium Releases**  
+*Note that only GENIE BPC Consortium users have access to the consortium releases.*  
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
 -   [NSCLC v2.1-Consortium Analytic Data
