@@ -1,42 +1,78 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://codecov.io/gh/GENIE-BPC/genieBPC)
+![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
 
-The {genieBPC} package provides a seamless way to obtain the data
-corresponding to each release from Synapse and to create datasets for
-analysis.
-
--   **Pull a specified version of a phenomic data release** from Synapse
-    directly into the R environment. The most recent version is
-    automatically pulled, but a specific version can be specified for
-    the purposes of reproducing analyses. The phenomic data are recorded
-    in multiple datasets, including: patient characteristics (vital
-    status), cancer diagnosis, cancer-directed drug regimens, pathology,
-    imaging, medical oncologist assessment, tumor markers and cancer
-    panel test.
-
--   **Create a cohort for analysis** based on specified diagnosis or
-    regimen inclusion criteria.
-
--   **Pull GENIE genomic data** corresponding to the analytic cohort
-    directly into the R environment, including selection of a single
-    next-generation sequencing test in the case that the patient has
-    multiple, based on user-specified criteria.
-
-The datasets obtained through {genieBPC} can be input directly into
-{gnomeR} to prepare the genomics data for analysis.
+The American Association for Cancer Research Project Genomics Evidence
+Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an
+effort to aggregate comprehensive clinical data linked to genomic
+sequencing data to create a pan-cancer, publicly available data
+repository. These data detail clinical characteristics and drug
+treatment regimen information, along with high-throughput sequencing
+data and clinical outcomes, for cancer patients across international
+institutions. The GENIE BPC data repository forms a unique observational
+database of comprehensive clinical annotation with molecularly
+characterized tumors that can be used to advance precision medicine
+research in oncology. Linking multiple clinical and genomic datasets
+that vary in structure introduces an inherent complexity for data users.
+Therefore, use of the GENIE BPC data requires a rigorous process for
+preparing and merging the data to build analytic models. The {genieBPC}
+package is a user-friendly data processing pipeline to streamline the
+process for developing analytic cohorts that are ready for
+clinico-genomic analyses.
 
 ## Installation
 
-You can install the development version of {genieBPC} with the following
-code:
+You can install the released version of {genieBPC} from the R Universe
 
-    remotes::install_github("GENIE-BPC/genieBPC")
+```{r, eval = FALSE}
+install.packages('genieBPC', 
+                 repos = c(mskccepibio = 'https://mskcc-epi-bio.r-universe.dev',
+                           CRAN = 'https://cloud.r-project.org'))
+```
+
+and the development version with
+
+```{r, eval = FALSE}
+remotes::install_github("GENIE-BPC/genieBPC")
+```
+  
+## Overview of {genieBPC} Functions
+
+-   **Data import:** `pull_data_synapse()` imports GENIE BPC data from
+    Synapse into the R environment
+
+-   **Data processing**
+
+    -   `create_analytic_cohort()` selects an analytic cohort based on
+        cancer diagnosis information and/or cancer-directed drug regimen
+        information  
+    -   `select_unique_ngs()` selects a unique next generation
+        sequencing (NGS) test corresponding to the selected diagnoses
+
+-   **Data visualization:** `drug_regimen_sunburst()` creates a sunburst
+    figure of drug regimen information corresponding to the selected
+    diagnoses in the order that the regimens were administered
+
 
 ## Obtaining Data Access
 
@@ -71,3 +107,68 @@ its corresponding variables for each data release.
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
 -   [BrCa v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
+
+## Example
+
+The following example creates an analytic cohort of patients diagnosed
+with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or
+Cisplatin and Pemetrexed, with and without Bevacizumab,
+
+*Pull data for NSCLC version 2.1-consortium:*
+
+```{r, eval=FALSE}
+nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
+```
+
+
+*Select stage IV adenocarcinoma NSCLC diagnoses that were treated with
+Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without
+Bevacizumab as the first regimen following diagnosis:*
+
+```{r, eval=FALSE}
+nsclc_stg_iv_adeno <- create_analytic_cohort(
+      cohort = "NSCLC",
+      data_synapse = nsclc_cohort,
+      stage_dx = "Stage IV",
+      histology = "Adenocarcinoma",
+      regimen_drugs = c("Carboplatin, Pemetrexed Disodium",
+                        "Cisplatin, Pemetrexed Disodium",
+                        "Bevacizumab, Carboplatin, Pemetrexed Disodium",
+                        "Bevacizumab, Cisplatin, Pemetrexed Disodium"),
+      regimen_type = "Exact",
+      regimen_order = 1,
+      regimen_order_type = "within cancer",
+      return_summary = FALSE
+    )
+```
+
+
+*Select one unique metastatic lung adenocarcinoma genomic sample per
+patient in the analytic cohort returned above:*
+
+```{r, eval=FALSE}
+nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs( 
+      data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
+      oncotree_code = "LUAD",
+      sample_type = "Metastasis"
+    )
+```
+
+
+*Create a visualization of the treatment patterns for the first 4
+regimens received by patients diagnosed with stage IV adenocarcinoma
+NSCLC that were treated with Carboplatin/Pemetrexed or
+Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen
+following diagnosis:*
+
+```{r, eval=FALSE}
+sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
+                                 data_cohort = nsclc_stg_iv_adeno,
+                                 max_n_regimens = 4)
+```
+
+
+*Example of a sunburst plot showing 4 lines of treatment, Highlighting
+First Treatment Regimen:*
+
+# <img src="man/figures/genieBPC_sunburst.png" height="400" /></a>
