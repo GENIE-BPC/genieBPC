@@ -87,7 +87,8 @@ order to use this function. To obtain access:
 
 3. Select *Request Access*, review the terms of data use and select *Accept*
 
-*For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners)*
+*For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):*
+
 1.  Register for a [Synapse account](https://www.synapse.org/#)
 
 2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
@@ -112,7 +113,8 @@ its corresponding variables for each data release.
     Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May 2023*
     
 **Consortium Data Releases**  
-*Note that only GENIE BPC consortium users have access to the consortium releases.*  
+*Note that only GENIE BPC consortium users have access to the consortium releases.*   
+
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
     

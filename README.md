@@ -80,8 +80,9 @@ order to use this function. To obtain access:
     *Accept*
 
 *For consortium data releases (restricted to GENIE consortium members &
-BPC pharmaceutical partners)* 1. Register for a [Synapse
-account](https://www.synapse.org/#)
+BPC pharmaceutical partners)*
+
+1.  Register for a [Synapse account](https://www.synapse.org/#)
 
 2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
     the GENIE BPC team list and request to join the team. Please include
@@ -99,17 +100,18 @@ account](https://www.synapse.org/#)
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
-**Public Releases**
+**Public Data Releases**
 
 -   [NSCLC v2.0-Public Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May
     2023*
 
-**Consortium Releases**  
-*Note that only GENIE BPC Consortium users have access to the consortium
-releases.*  
-- [NSCLC v1.1-Consortium Analytic Data
-Guide](https://www.synapse.org/#!Synapse:syn23002641)
+**Consortium Data Releases**  
+*Note that only GENIE BPC consortium users have access to the consortium
+releases.*
+
+-   [NSCLC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23002641)
 
 -   [NSCLC v2.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
