@@ -70,9 +70,9 @@ test_that("Number of columns and rows for each NSCLC dataset", {
   row_length <- vapply(nsclc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
   names(row_length) <- NULL
-  expect_equal(col_length, c(33, 110, 83, 114, 195, 42, 11, 19, 1782, 9, 54))
-  expect_equal(row_length, c(1849, 1874, 810, 4032, 8329,
-                             35113, 24950, 2026, 930, 821, 17574))
+  expect_equal(col_length, c(33, 110, 83, 114, 42, 195, 11, 19, 9, 1782, 54))
+  expect_equal(row_length, c(1849, 1874, 810, 4032,
+                             35113, 8329, 24950, 2026, 821, 930, 17574))
 })
 
 test_that("Number of columns and rows for each CRC dataset", {
@@ -87,10 +87,10 @@ test_that("Number of columns and rows for each CRC dataset", {
   row_length <- vapply(crc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
   names(row_length) <- NULL
-  expect_equal(col_length, c(37, 111, 87, 102, 340, 42,
-                             11, 12, 25, 1505, 9, 54))
-  expect_equal(row_length, c(1500, 1510, 353, 5459, 7216,
-                             26500, 28467, 24708, 1576, 930, 406, 23445))
+  expect_equal(col_length, c(37, 111, 87, 102, 42, 340,
+                             11, 12, 25, 9, 1505, 54))
+  expect_equal(row_length, c(1500, 1510, 353, 5459,
+                             26500, 7216, 28467, 24708, 1576, 406, 930, 23445))
 })
 
 test_that("Test synget equals pulldata synapse", {
