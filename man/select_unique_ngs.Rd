@@ -36,7 +36,7 @@ for each patient for analysis following several
 user define criterions.
 }
 \examples{
-if(genieBPC:::check_synapse_login() == FALSE){
+if(genieBPC:::check_synapse_login() == TRUE){
 #' # Example 1 ----------------------------------
 # Create a cohort of all patients with stage
 # IV NSCLC of histology adenocarcinoma

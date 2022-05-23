@@ -1,10 +1,22 @@
-#exit if user doesn't have synapser, a log in, or access to data.
-obj <- genieBPC:::check_synapse_login()
+test_pull_data <- function(){
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
-if(obj == FALSE){
   # run here to avoid having to run within each test
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+
+  objs <- list("nsclc_data" = nsclc_data,
+               "crc_data" = crc_data)
+
+  list2env(objs, envir = .GlobalEnv)
+}
+test_pull_data()
+
 
 test_that("missing input parameters", {
   # cohort name not specified
@@ -20,9 +32,14 @@ test_that("missing input parameters", {
 })
 
 test_that("function returns correct number of samples", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
 
   # NSCLC #
-
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -139,4 +156,3 @@ test_that("function returns correct number of samples", {
       rename(some_name = record_id)
   ))
 })
-}

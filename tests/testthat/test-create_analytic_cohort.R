@@ -1,16 +1,23 @@
-#exit if user doesn't have synapser, a log in, or access to data.
-obj <- genieBPC:::check_synapse_login()
-
-if(obj == FALSE){
-# run here to avoid having to run within each test
-nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
-brca_data <- pull_data_synapse(c("BrCa"), version = "1.1-consortium")
-
 # test that a list of three or seven datasets are returned
 # from create_analytic_cohort
 test_that("correct number of objects returned from create cohort", {
-  nsclc_data <- pull_data_synapse(c("NSCLC"), version = "1.1-consortium")
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
+  # run here to avoid having to run within each test
+  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
+  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
+  brca_data <- pull_data_synapse(c("BrCa"), version = "1.1-consortium")
+
+  objs <- list("nsclc_data" = nsclc_data,
+               "crc_data" = crc_data,
+               "brca_data" = brca_data)
+
+  list2env(objs, envir = .GlobalEnv)
 
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -54,6 +61,13 @@ test_that("pull data synapse object is missing", {
 })
 
 test_that("correct cohort returned from create cohort", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   test1 <- create_analytic_cohort(
     cohort = "NSCLC",
     data_synapse = nsclc_data,
@@ -77,6 +91,13 @@ test_that("correct cohort returned from create cohort", {
 })
 
 test_that("cohort and data_synapse", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
   # incl criteria
@@ -106,6 +127,13 @@ test_that("cohort and data_synapse", {
 })
 
 test_that("index_ca_seq", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # first and second index cancer is specified
   # if patient only has 1 index cancer, it should be returned
   # if patient has 2+ index cancers, the first two should be returned
@@ -152,6 +180,13 @@ test_that("index_ca_seq", {
 })
 
 test_that("institution", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # institution is specified and correct institution is returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -198,6 +233,13 @@ test_that("institution", {
 })
 
 test_that("stage_dx", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # stage dx is specified and correct stage is returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -237,6 +279,13 @@ test_that("stage_dx", {
 })
 
 test_that("histology", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # no histology is specified, call are returned
   test0a <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -323,6 +372,13 @@ test_that("histology", {
 })
 
 test_that("no regimen specified", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # all regimens are returned
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -344,6 +400,13 @@ test_that("no regimen specified", {
 })
 
 test_that("drug regimen specified, order not specified", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
     cohort = "NSCLC",
@@ -438,6 +501,13 @@ test_that("drug regimen specified, order not specified", {
 })
 
 test_that("drug regimen specified, order specified to be within cancer", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
   test_0a <- create_analytic_cohort(
@@ -580,6 +650,13 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # single regimen specified, want first time that regimen
   # was given for all cancers
   test_1a <- create_analytic_cohort(
@@ -671,6 +748,14 @@ test_that("exact drug regimen specified,
 
 test_that("containing drug regimen specified,
           order specified to be within regimen", {
+
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # specify regimen type to be containing (default is exact,
   # which is what is implemented in the above)
   test_1c <- create_analytic_cohort(
@@ -722,6 +807,13 @@ test_that("containing drug regimen specified,
 })
 
 test_that("regimen_type", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # invalid value provided for regimen_type
   expect_error(create_analytic_cohort(cohort = "NSCLC",
                                       data_synapse = nsclc_data,
@@ -735,6 +827,13 @@ test_that("regimen_type", {
 })
 
 test_that("regimen_order", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # character value provided for regimen_order
   expect_error(create_analytic_cohort(cohort = "BrCa",
                                       data_synapse = brca_data,
@@ -742,6 +841,13 @@ test_that("regimen_order", {
 })
 
 test_that("regimen_order_type", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   # invalid value provided for regimen_order_type
   expect_error(create_analytic_cohort(cohort = "BrCa",
                                       data_synapse = brca_data,
@@ -762,6 +868,13 @@ test_that("regimen_order_type", {
 })
 
 test_that("No patients met criteria", {
+  # exit if user doesn't have synapser, a log in, or access to data.
+  skip_if_not_installed("synapser", minimum_version = NULL)
+  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
+          "Not logged into Synapse")
+  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
+          "Not able to access the data")
+
   expect_message(create_analytic_cohort(
     cohort = "NSCLC",
     data_synapse = nsclc_data,
@@ -769,4 +882,3 @@ test_that("No patients met criteria", {
     regimen_order = 100,
     regimen_order_type = "within cancer"))
 })
-}
