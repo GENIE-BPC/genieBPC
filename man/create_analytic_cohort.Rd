@@ -128,7 +128,7 @@ names in the GENIE BPC Analytic Data Guide, available on
 \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
 }
 \examples{
-if(genieBPC:::check_synapse_login() == FALSE){
+if(genieBPC:::check_synapse_login() == TRUE){
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 # also return all of their corresponding cancer-directed drugs
