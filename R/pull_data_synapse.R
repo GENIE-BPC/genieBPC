@@ -136,6 +136,19 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     genieBPC::synapse_tables %>%
     left_join(version_num, ., by = c("version", "cohort"))
 
+      if( !all(version %in% unique(versionnum$version))){
+        stop("You have selected a version that is not
+        available for this cohort. Please use `synapse_tables`
+             to see what versions are available.")
+      }
+      # get lists of available versions for Synapse tables and
+      # corresponding file names, appended with cohort name
+      synapse_tables$version <- substr(
+        synapse_tables$version, 2,
+        nchar(synapse_tables$version))
+      synapse_tables$filenames <- paste(
+        synapse_tables$dataset, synapse_tables$cohort, sep = "_")
+
   version_num_df_nest <-  version_num_df %>%
    split(., .$version_num)
 

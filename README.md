@@ -1,8 +1,10 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R-cmd-check](https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml)
--[![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://codecov.io/gh/GENIE-BPC/genieBPC)
+[![R-CMD-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
+[![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://codecov.io/gh/GENIE-BPC/genieBPC)
+![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -25,7 +27,23 @@ package is a user-friendly data processing pipeline to streamline the
 process for developing analytic cohorts that are ready for
 clinico-genomic analyses.
 
-## Overview
+## Installation
+
+You can install the released version of {genieBPC} from the R Universe
+
+``` r
+install.packages('genieBPC', 
+                 repos = c(mskccepibio = 'https://mskcc-epi-bio.r-universe.dev',
+                           CRAN = 'https://cloud.r-project.org'))
+```
+
+and the development version with
+
+``` r
+remotes::install_github("GENIE-BPC/genieBPC")
+```
+
+## Overview of {genieBPC} Functions
 
 -   **Data import:** `pull_data_synapse()` imports GENIE BPC data from
     Synapse into the R environment
@@ -34,7 +52,7 @@ clinico-genomic analyses.
 
     -   `create_analytic_cohort()` selects an analytic cohort based on
         cancer diagnosis information and/or cancer-directed drug regimen
-        information
+        information  
     -   `select_unique_ngs()` selects a unique next generation
         sequencing (NGS) test corresponding to the selected diagnoses
 
@@ -42,11 +60,70 @@ clinico-genomic analyses.
     figure of drug regimen information corresponding to the selected
     diagnoses in the order that the regimens were administered
 
-## Installation
+## Obtaining Data Access
 
-You can install {genieBPC} with the following code:
+Access to the GENIE BPC data release folders on Synapse is required in
+order to use this function. To obtain access:
 
-    remotes::install_github("GENIE-BPC/genieBPC")
+*For public data releases:*
+
+1.  Register for a [Synapse account](https://www.synapse.org/#)
+
+2.  Navigate to the data release and request accept terms of use (e.g.,
+    for the NSCLC 2.0-public data release, navigate to the [Synapse
+    page](https://www.synapse.org/#!Synapse:syn27056697) for the data
+    release). Towards the top of the page, there is information
+    including the *Synapse ID*, *DOI*, *Item count*, and *Access.* Next
+    to *Access* is a link that reads *Request Access*.
+
+3.  Select *Request Access*, review the terms of data use and select
+    *Accept*
+
+*For consortium data releases (restricted to GENIE consortium members &
+BPC pharmaceutical partners)*
+
+1.  Register for a [Synapse account](https://www.synapse.org/#)
+
+2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
+    the GENIE BPC team list and request to join the team. Please include
+    your full name and affiliation in the message before sending out the
+    request.
+
+3.  Once the request is accepted, you may access the data in the [GENIE
+    Biopharma Collaborative
+    projects](https://www.synapse.org/#!Synapse:syn21226493).
+
+*Note: Please allow up to a week to review and grant access.*
+
+## Analytic Data Guides
+
+The analytic data guides provide details on each analytic dataset and
+its corresponding variables for each data release.
+
+**Public Data Releases**
+
+-   [NSCLC v2.0-Public Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May
+    2023*
+
+**Consortium Data Releases**  
+*Note that only GENIE BPC consortium users have access to the consortium
+releases.*
+
+-   [NSCLC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23002641)
+
+-   [NSCLC v2.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26008058)
+
+-   [CRC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn23764204)
+
+-   [CRC v1.2-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077308)
+
+-   [BrCa v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn26077313)
 
 ## Example
 
@@ -56,13 +133,16 @@ Cisplatin and Pemetrexed, with and without Bevacizumab,
 
 *Pull data for NSCLC version 2.1-consortium:*
 
-    nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
+``` r
+nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
+```
 
 *Select stage IV adenocarcinoma NSCLC diagnoses that were treated with
 Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without
 Bevacizumab as the first regimen following diagnosis:*
 
-    nsclc_stg_iv_adeno <- create_analytic_cohort(
+``` r
+nsclc_stg_iv_adeno <- create_analytic_cohort(
       cohort = "NSCLC",
       data_synapse = nsclc_cohort,
       stage_dx = "Stage IV",
@@ -76,15 +156,18 @@ Bevacizumab as the first regimen following diagnosis:*
       regimen_order_type = "within cancer",
       return_summary = FALSE
     )
+```
 
 *Select one unique metastatic lung adenocarcinoma genomic sample per
 patient in the analytic cohort returned above:*
 
-    nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs( 
+``` r
+nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs( 
       data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
       oncotree_code = "LUAD",
       sample_type = "Metastasis"
     )
+```
 
 *Create a visualization of the treatment patterns for the first 4
 regimens received by patients diagnosed with stage IV adenocarcinoma
@@ -92,54 +175,13 @@ NSCLC that were treated with Carboplatin/Pemetrexed or
 Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen
 following diagnosis:*
 
-    sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
+``` r
+sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
                                  data_cohort = nsclc_stg_iv_adeno,
                                  max_n_regimens = 4)
+```
 
 *Example of a sunburst plot showing 4 lines of treatment, Highlighting
 First Treatment Regimen:*
 
 # <img src="man/figures/genieBPC_sunburst.png" height="400" /></a>
-
-## Obtaining Access to GENIE BPC Data
-
-Access to the GENIE BPC data release folders on Synapse is required in
-order to use this function. To obtain access:
-
-1.  Register for a [Synapse account](https://www.synapse.org/#)
-
-2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
-    the GENIE BPC team list and request to join the team. Please include
-    your full name and affiliation in the message before sending out the
-    request.
-
-3.  Once the request is accepted, you may access the data in the [GENIE
-    Biopharma collaborative
-    projects](https://www.synapse.org/#!Synapse:syn21226493).
-
-*Note: Please allow up to a week to review and grant access.*
-
-## Analytic Data Guides
-
-Documentation corresponding to the clinical data files can be found on
-Synapse in the Analytic Data Guides.
-
-Data follow a staggered release schedule and are available to pharma partners
-and institutions that are a part of the Project GENIE consortium prior to being 
-publicly available.
-
-Consortium Releases:
-
--   [NSCLC V1.1-consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23002641)
--   [NSCLC V2.1-consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26008058)
--   [CRC V1.1-consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23764204)
--   [CRC V1.2-consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077308)
--   [BrCa V1.1-consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077313)
-
-Public Releases:
--   NSCLC V2.0-public Analytic Data Guide (To be released March 2022)
