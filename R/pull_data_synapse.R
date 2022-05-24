@@ -129,7 +129,7 @@ pull_data_synapse <- function(cohort, version) {
         synapse_tables$version, 2,
         nchar(synapse_tables$version))
       synapse_tables$filenames <- paste(
-        synapse_tables$df, synapse_tables$cohort, sep = "_")
+        synapse_tables$dataset, synapse_tables$cohort, sep = "_")
 
       cohort_version <- Map(
         function(x, y) {

@@ -79,6 +79,16 @@ remotes::install_github("GENIE-BPC/genieBPC")
 Access to the GENIE BPC data release folders on Synapse is required in
 order to use this function. To obtain access:
 
+*For public data releases:*
+
+1.  Register for a [Synapse account](https://www.synapse.org/#)
+
+2.  Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the [Synapse page](https://www.synapse.org/#!Synapse:syn27056697) for the data release). Towards the top of the page, there is information including the *Synapse ID*, *DOI*, *Item count*, and *Access.* Next to *Access* is a link that reads *Request Access*. 
+
+3. Select *Request Access*, review the terms of data use and select *Accept*
+
+*For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):*
+
 1.  Register for a [Synapse account](https://www.synapse.org/#)
 
 2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
@@ -97,14 +107,26 @@ order to use this function. To obtain access:
 The analytic data guides provide details on each analytic dataset and
 its corresponding variables for each data release.
 
+**Public Data Releases**
+
+-   [NSCLC v2.0-Public Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May 2023*
+    
+**Consortium Data Releases**  
+*Note that only GENIE BPC consortium users have access to the consortium releases.*   
+
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
+    
 -   [NSCLC v2.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
+    
 -   [CRC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
+    
 -   [CRC v1.2-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
+    
 -   [BrCa v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
 
