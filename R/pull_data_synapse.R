@@ -104,7 +104,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # create `version-number` ---
   sv <- dplyr::select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
-    distinct()
+    dplyr::distinct()
 
   version_num <- dplyr::bind_cols(list("cohort" = select_cohort, "version" = version))
 
@@ -118,7 +118,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%
-    mutate(version_num = case_when(
+    dplyr::mutate(version_num = case_when(
       grepl("consortium", version) ~ stringr::str_remove(paste(.data$cohort,
                                                    .data$version,
                                                    sep = "_"), "-consortium"),
@@ -194,8 +194,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # we need file handle ID and filename
   file_metadata <- version_num_df %>%
-    mutate(query_url = paste0(repo_endpoint_url, .data$synapse_id, "/bundle2")) %>%
-    mutate(file_info = map(.data$query_url, function(x) {
+    dplyr::mutate(query_url = paste0(repo_endpoint_url, .data$synapse_id, "/bundle2")) %>%
+    dplyr::mutate(file_info = map(.data$query_url, function(x) {
       requestedObjects <- list(
         "includeEntity" = TRUE,
         "includeAnnotations" = TRUE,
@@ -232,7 +232,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     filter(.data$type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
-    select(.data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
+    dplyr::select(.data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
            .data$name, .data$download_folder) %>%
     purrr::pmap(., .get_and_query_file_url, download_location,
                 token, file_endpoint_url)
