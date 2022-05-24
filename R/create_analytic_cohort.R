@@ -27,14 +27,11 @@
 #'   }
 #' The function inputs `cohort`, `institution`, `stage_dx`,
 #' and `regimen_drugs` correspond to the variable
-#' names in the GENIE BPC Analytic Data Guide, available on
-#' \href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
+#' names in the GENIE BPC Analytic Data Guide (see README and vignettes
+#' for links to data guides).
 #'
-#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC"
-#' (non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts
-#' will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
-#' "Prostate" (prostate cancer).
-#' @param data_synapse The list returned from pull_data_synapse().
+#' @param data_synapse The item from the nested list returned from pull_data_synapse()
+#' corresponding to the cancer cohort of interest.
 #' @param index_ca_seq Index cancer sequence. Default is 1, indicating the
 #' patient's first index cancer. The index cancer is also referred to as the
 #' BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
@@ -142,8 +139,7 @@
 #' dplyr
 #' purrr
 #' stringr
-create_analytic_cohort <- function(cohort,
-                                   data_synapse,
+create_analytic_cohort <- function(data_synapse,
                                    index_ca_seq = 1,
                                    institution,
                                    stage_dx,
@@ -156,40 +152,28 @@ create_analytic_cohort <- function(cohort,
 
   # check parameters
   # cancer cohort
-  if (length(cohort) > 1) {
+  # trying to check that the pull_data_synapse object returned is specific to the cohort
+  if (min(grepl("pt_char", paste0(names(res$NSCLC_v2.1)))) == 1) {
     stop("Specify only one cohort at a time, even if there are multiple cohorts
          in the data_synapse object.")
   }
 
-  if (!(stringr::str_to_upper(cohort) %in% c("NSCLC", "CRC", "BRCA"))) {
-    stop("Select from available cancer cohorts:
-         NSCLC, CRC, BrCa (not case sensitive)")
-  }
+  # if (!(stringr::str_to_upper(cohort) %in% c("NSCLC", "CRC", "BRCA"))) {
+  #   stop("Select from available cancer cohorts:
+  #        NSCLC, CRC, BrCa (not case sensitive)")
+  # }
+
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
   # cohort object
   if (missing(data_synapse)) {
-    stop("Specify the object created by pull_data_synapse() function.")
+    stop("Specify the cohort object from the nested list returned by the
+         pull_data_synapse() function.")
   }
 
-  # cohort matches a cohort available in data_synapse object
-  # e.g., if cohort = NSCLC then the data_synapse object has NSCLC data
-  if (grepl(cohort, unique(data_synapse$pt_char$cohort),
-            ignore.case = TRUE) == FALSE){
-    stop("Data for the specified cohort is not available in the data_synapse
-         object specified. Check the cohort and data_synapse parameters.")
-  }
-
-  # get cohort from data_synapse object
-  # position of cohort in unique list of cohorts returned
-  # in pull_data_synapse object
-  # in the case that multiple cohorts were pulled
-  coh_position <- grep(stringr::str_to_upper(cohort),
-                       unique(word(names(data_synapse), -1, sep = "_")),
-                       ignore.case = TRUE)
-  # get that cohort name and how it is capitalized in the data_synapse object
-  cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))[coh_position]
+  # get cohort name and how it is capitalized in the data_synapse object
+  cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))
 
   # alphabetize drugs in regimen to match
   # how they are stored in variable
