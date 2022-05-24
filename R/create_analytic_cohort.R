@@ -101,10 +101,9 @@
 #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
-#' nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#' create_analytic_cohort(cohort = "NSCLC",
-#'   data_synapse = nsclc_2_1,
+#' create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #'   stage_dx = "Stage IV",
 #'   histology = "Adenocarcinoma")
 #'
@@ -112,10 +111,9 @@
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
-#' nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#' create_analytic_cohort(cohort = "NSCLC",
-#'     data_synapse = nsclc_2_1,
+#' create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #'     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
 #'                       "Cisplatin, Etoposide"),
 #'     regimen_order = 1,
@@ -127,10 +125,9 @@
 #' # cancer diagnosis,
 #' # but in the event that the patient received the drug multiple times,
 #' # only select the first time.
-#' nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#' create_analytic_cohort(cohort = "NSCLC",
-#'     data_synapse = nsclc_2_1,
+#' create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #'     regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #'     regimen_order = 1,
 #'     regimen_order_type = "within regimen")
@@ -153,7 +150,7 @@ create_analytic_cohort <- function(data_synapse,
   # check parameters
   # cancer cohort
   # trying to check that the pull_data_synapse object returned is specific to the cohort
-  if (min(grepl("pt_char", paste0(names(res$NSCLC_v2.1)))) == 1) {
+  if (min(grepl("pt_char", paste0(names(data_synapse)))) == 1) {
     stop("Specify only one cohort at a time, even if there are multiple cohorts
          in the data_synapse object.")
   }
