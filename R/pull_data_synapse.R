@@ -9,6 +9,7 @@
 #' \itemize{
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
@@ -33,14 +34,13 @@
 #' the same order in order to pull the correct data. See examples below.
 #' @param download_location if `NULL` (default), data will be returned as a list of dataframes with
 #' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
+#' When a path is specified, data are not read into the R environment.
 #' @param username Synapse username
 #' @param password Synapse password
 #'
-#' @return Returns clinical and genomic data corresponding to
-#' the specified cohort(s). Data frames have the suffix
-#' indicating the cohort appended to their name,
-#' e.g. pt_char_NSCLC for the pt_char dataset of
-#' the NSCLC cohort.
+#' @return Returns a nested list of clinical and genomic data corresponding to
+#' the specified cohort(s).
+#'
 #' @author Karissa Whiting, Michael Curry
 #' @export
 #'
@@ -103,12 +103,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE))
 
   # create `version-number` ---
-  sv <- select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
+  sv <- dplyr::select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
     distinct()
 
-  version_num <- bind_cols(list("cohort" = select_cohort, "version" = version))
+  version_num <- dplyr::bind_cols(list("cohort" = select_cohort, "version" = version))
 
-  version_not_available <- anti_join(version_num, sv, by = c("cohort", "version"))
+  version_not_available <- dplyr::anti_join(version_num, sv, by = c("cohort", "version"))
 
   if (nrow(version_not_available) > 0) {
     cli::cli_abort(c("You have selected a version that is not available for this cohort
@@ -117,16 +117,21 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   }
 
   version_num <- version_num %>%
-    inner_join(sv, ., by = c("cohort", "version")) %>%
-    mutate(version_num = stringr::str_remove(paste(.data$cohort,
+    dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%
+    mutate(version_num = case_when(
+      grepl("consortium", version) ~ stringr::str_remove(paste(.data$cohort,
                                                    .data$version,
-                                                   sep = "_"), "-consortium"))
+                                                   sep = "_"), "-consortium"),
+      grepl("public", version) ~ stringr::str_remove(paste(.data$cohort,
+                                                               .data$version,
+                                                               sep = "_"),
+                                                         "-public")))
 
   # check download_location ---
 
   # adds folders for each cohort/version (if doesn't exist)
   version_num <- version_num %>%
-    mutate(download_folder = .check_download_path(download_location = download_location,
+    dplyr::mutate(download_folder = .check_download_path(download_location = download_location,
                                                  version_num))
 
   # Prep data for query -----------------------------------------------------
@@ -135,19 +140,6 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   version_num_df <-
     genieBPC::synapse_tables %>%
     left_join(version_num, ., by = c("version", "cohort"))
-
-      if( !all(version %in% unique(versionnum$version))){
-        stop("You have selected a version that is not
-        available for this cohort. Please use `synapse_tables`
-             to see what versions are available.")
-      }
-      # get lists of available versions for Synapse tables and
-      # corresponding file names, appended with cohort name
-      synapse_tables$version <- substr(
-        synapse_tables$version, 2,
-        nchar(synapse_tables$version))
-      synapse_tables$filenames <- paste(
-        synapse_tables$dataset, synapse_tables$cohort, sep = "_")
 
   version_num_df_nest <-  version_num_df %>%
    split(., .$version_num)

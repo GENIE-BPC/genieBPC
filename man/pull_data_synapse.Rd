@@ -24,18 +24,16 @@ are specified; the cohort and version number must be in
 the same order in order to pull the correct data. See examples below.}
 
 \item{download_location}{if `NULL` (default), data will be returned as a list of dataframes with
-requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.}
+requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
+When a path is specified, data are not read into the R environment.}
 
 \item{username}{Synapse username}
 
 \item{password}{Synapse password}
 }
 \value{
-Returns clinical and genomic data corresponding to
-the specified cohort(s). Data frames have the suffix
-indicating the cohort appended to their name,
-e.g. pt_char_NSCLC for the pt_char dataset of
-the NSCLC cohort.
+Returns a nested list of clinical and genomic data corresponding to
+the specified cohort(s).
 }
 \description{
 The `pull_data_synapse` function accesses the specified
@@ -47,6 +45,7 @@ The `pull_data_synapse` function accesses the specified
 \itemize{
   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}

@@ -9,11 +9,12 @@ synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
     dataset == "imaging_level_dataset" ~ "prissmm_imaging",
     dataset == "pathology_report_level_dataset" ~ "prissmm_pathology",
     dataset == "med_onc_note_level_dataset" ~ "prissmm_md",
-    dataset == "tm_level_dataset" ~ "tm",
+    dataset == "tm_level_dataset" ~ "tumor_marker",
     dataset == "cancer_panel_test_level_dataset" ~ "cpt",
     dataset == "data_cna" ~ "cna",
     dataset == "data_fusions" ~ "fusions",
     dataset == "data_mutations_extended" ~ "mutations_extended"
-  ))
+  )) %>%
+  rename(df = dataset)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
