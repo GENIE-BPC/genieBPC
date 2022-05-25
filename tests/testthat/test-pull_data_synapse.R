@@ -23,11 +23,7 @@ test_that("Test class and length of list for NSCLC", {
 
 test_that("Test class length of list for CRC", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  skip_if_not_installed("synapser", minimum_version = NULL)
-  skip_if(inherits(try(synapser::synLogin(), silent = TRUE), "try-error"),
-          "Not logged into Synapse")
-  skip_if(inherits(try(synapser::synGet("syn26948075"), silent = TRUE), "try-error"),
-          "Not able to access the data")
+  skip_if_not(.check_synapse_login())
 
   expect_equal(length(crc_data[[1]]), 12)
   expect_equal(class(crc_data), "list")
