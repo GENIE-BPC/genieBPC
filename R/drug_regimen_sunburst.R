@@ -37,6 +37,11 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_synapse` parameter.")
   }
 
+  if (missing(data_cohort) | class(data_cohort) != "list") {
+    stop("Specify the list object returned from create_analytic_cohort in the
+         `data_cohort` parameter.")
+  }
+
   # if the data_synapse parameter is a list but not the right list
   if (is.null(names(data_synapse)) |
     min(grepl(
@@ -47,10 +52,7 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_synapse` parameter.")
   }
 
-  if (missing(data_cohort) | class(data_cohort) != "list") {
-    stop("Specify the list object returned from create_analytic_cohort in the
-         `data_cohort` parameter.")
-  }
+
 
   # get the name of the cohort from the data_synapse object naming convention
   cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")
