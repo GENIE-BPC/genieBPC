@@ -148,6 +148,14 @@ create_analytic_cohort <- function(data_synapse,
                                    return_summary = FALSE) {
 
   # check parameters
+  # cohort object
+  if (missing(data_synapse)) {
+    stop("Specify the cohort object from the nested list returned by the
+         pull_data_synapse() function.")
+  } else if (is.null(data_synapse)) {
+    stop("The object specified for data_synapse does not exist.")
+  }
+
   # cancer cohort
   # trying to check that the pull_data_synapse object returned is specific to the cohort
   if (min(grepl("pt_char", paste0(names(data_synapse)))) == 1) {
@@ -162,12 +170,6 @@ create_analytic_cohort <- function(data_synapse,
 
   #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
-
-  # cohort object
-  if (missing(data_synapse)) {
-    stop("Specify the cohort object from the nested list returned by the
-         pull_data_synapse() function.")
-  }
 
   # get cohort name and how it is capitalized in the data_synapse object
   cohort_temp <- unique(word(names(data_synapse), -1, sep = "_"))
@@ -197,7 +199,7 @@ create_analytic_cohort <- function(data_synapse,
     ))
   }
   # participating institutions by cohort
-  if (sum(!missing(institution), grepl("^NSCLC$", stringr::str_to_upper(cohort))
+  if (sum(!missing(institution), grepl("^NSCLC$", stringr::str_to_upper(cohort_temp))
           > 0) > 1) {
     if (sum(!grepl(
       c("^DFCI$|^MSK$|^VICC$|^UHN$"),
@@ -209,7 +211,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   if (sum(!missing(institution), grepl("^CRC$|^BRCA$",
-                                       stringr::str_to_upper(cohort)) > 0) > 1)
+                                       stringr::str_to_upper(cohort_temp)) > 0) > 1)
     {
     if (sum(!grepl(c("^DFCI$|^MSK$|^VICC$"), stringr::str_to_upper(institution))
     > 0) > 0) {
@@ -218,10 +220,10 @@ create_analytic_cohort <- function(data_synapse,
     }
   }
 
-  if (missing(institution) & stringr::str_to_upper(cohort) == "NSCLC") {
+  if (missing(institution) & stringr::str_to_upper(cohort_temp) == "NSCLC") {
     institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
   } else if (missing(institution) &
-             stringr::str_to_upper(cohort) %in% c("CRC", "BRCA")) {
+             stringr::str_to_upper(cohort_temp) %in% c("CRC", "BRCA")) {
     institution_temp <- c("DFCI", "MSK", "VICC")
   } else {
     institution_temp <- stringr::str_to_upper({{ institution }})
