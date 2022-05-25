@@ -1,29 +1,45 @@
+
+
 test_that("missing data_cohort", {
+
+  testthat::skip_if_not(genieBPC:::.check_synapse_login())
+  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
+  nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_data$NSCLC_v1.1)
+  crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
+
+  # run here to avoid having to run within each test
+
+
+  objs <- list("nsclc_data" = nsclc_data,
+               "crc_data" = crc_data)
+
+  list2env(objs, envir = .GlobalEnv)
+
   expect_error(select_unique_ngs())
 })
 
 test_that("non-existant oncotree code", {
-  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort,
                                  oncotree_code = "GENIE"))
 })
 
 test_that("min/max time", {
   # a valid value is given
-  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort,
                                  min_max_time = "abc"))
 
   # only 1 value is given
-  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort,
                                  min_max_time = c("min", "max")))
 })
 
 test_that("sample_type", {
   # a valid value is given
-  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort,
                                  sample_type = "abc"))
 
   # only 1 value is given
-  expect_error(select_unique_ngs(data_cohort = nsclc_cohort$cohort_ca,
+  expect_error(select_unique_ngs(data_cohort = nsclc_cohort,
                                  sample_type = c("primary", "local")))
 })
 
@@ -31,25 +47,16 @@ test_that("function returns unique sample for each record", {
 
   skip_if_not(genieBPC:::.check_synapse_login())
 
-  # run here to avoid having to run within each test
-  nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-  crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
-
-  objs <- list("nsclc_data" = nsclc_data,
-               "crc_data" = crc_data)
-
-  list2env(objs, envir = .GlobalEnv)
 
   # NSCLC #
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
-    data_synapse = nsclc_data,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE
   )
 
-  expect_warning(test1 <- select_unique_ngs(
-    data_cohort = cohort_temp$cohort_ngs))
+ test1 <- select_unique_ngs(
+   data_cohort = cohort_temp$cohort_ngs)
   expect_true(tibble::is_tibble(test1))
   expect_equal(ncol(test1), 20)
   expect_equal(nrow(test1), 1849)
@@ -59,15 +66,15 @@ test_that("function returns unique sample for each record", {
 
   ### Stage IV ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
+
     stage_dx = c("Stage IV"),
-    data_synapse = nsclc_data,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE
   )
 
 
-  expect_warning(test2 <- select_unique_ngs(
-    data_cohort = cohort_temp$cohort_ngs))
+  test2 <- select_unique_ngs(
+    data_cohort = cohort_temp$cohort_ngs)
   expect_true(tibble::is_tibble(test2))
   expect_equal(ncol(test2), 20)
   expect_equal(nrow(test2), 793)
@@ -76,14 +83,14 @@ test_that("function returns unique sample for each record", {
 
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
-    data_synapse = nsclc_data,
+
+    data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE,
     institution = "DFCI"
   )
 
-  expect_warning(test3 <- select_unique_ngs(
-    data_cohort = cohort_temp$cohort_ngs))
+  test3 <- select_unique_ngs(
+    data_cohort = cohort_temp$cohort_ngs)
   expect_true(tibble::is_tibble(test3))
   expect_equal(ncol(test3), 20)
   expect_equal(nrow(test3), 699)
@@ -92,12 +99,12 @@ test_that("function returns unique sample for each record", {
 
   ### Check patient ###
   ##### Local min #####
-  expect_warning(test4 <- select_unique_ngs(
+  test4 <- select_unique_ngs(
     data_cohort = cohort_temp$cohort_ngs,
     oncotree_code = "LUAD",
     sample_type = "Local",
     min_max_time = "min"
-  ))
+  )
   expect_true(tibble::is_tibble(test4))
   expect_equal(ncol(test4), 20)
   expect_equal(nrow(test4), 699)
@@ -111,12 +118,12 @@ test_that("function returns unique sample for each record", {
   )
 
   ##### Local max #####
-  expect_warning(test5 <- select_unique_ngs(
+ test5 <- select_unique_ngs(
     data_cohort = cohort_temp$cohort_ngs,
     oncotree_code = "LUAD",
     sample_type = "Local",
     min_max_time = "max"
-  ))
+  )
   expect_true(tibble::is_tibble(test5))
   expect_equal(ncol(test5), 20)
   expect_equal(nrow(test5), 699)
@@ -131,12 +138,12 @@ test_that("function returns unique sample for each record", {
 
 
   ##### Met min/max (are the same) #####
-  expect_warning(test6 <- select_unique_ngs(
+  test6 <- select_unique_ngs(
     data_cohort = cohort_temp$cohort_ngs,
     oncotree_code = "LUAD",
     sample_type = "Metastasis",
     min_max_time = "max"
-  ))
+  )
   expect_true(tibble::is_tibble(test6))
   expect_equal(ncol(test6), 20)
   expect_equal(nrow(test6), 699)
