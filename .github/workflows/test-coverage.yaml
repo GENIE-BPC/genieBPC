@@ -25,7 +25,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck", "covr"))
           remotes::install_deps(dependencies = TRUE)
-          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
+          genieBPC::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
         shell: Rscript {0}
 
       - name: Test coverage
