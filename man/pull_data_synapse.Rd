@@ -18,7 +18,7 @@ Must be one of "NSCLC" (Non-Small Cell Lung Cancer),
  "CRC" (Colorectal Cancer), or "BrCa" (Breast Cancer).}
 
 \item{version}{Vector specifying the version of the data. Must be one of the following:
-"v1.1-consortium", "v2.1-consortium", "v1.2-consortium". When entering multiple cohorts, the order of the
+"v1.1-consortium", "v1.2-consortium", "v2.1-consortium", "v2.0-public". When entering multiple cohorts, the order of the
 version numbers corresponds to the order that the cohorts
 are specified; the cohort and version number must be in
 the same order in order to pull the correct data. See examples below.}
@@ -52,10 +52,10 @@ The `pull_data_synapse` function accesses the specified
 }
 Users must log in to Synapse to access the data successfully.
 To set your Synapse credentials during each session, call:
-`set_synapse_credentials(email = "your_email", password = "your_password")`
+`set_synapse_credentials(username = "your_username", password = "your_password")`
 To store authentication information in your environmental variables, add the
 following to your .Renviron file (tip: you can use usethis::edit_r_environ() to easily open/edit this file):
-`SYNAPSE_USERNAME = <your-email>`
+`SYNAPSE_USERNAME = <your-username>`
 `SYNAPSE_PASSWORD = <your-password>`
 Alternatively, you can pass your username and password to each individual data pull function if preferred,
 although it is recommended that you manage your passwords outside of your scripts for security purposes.
