@@ -13,10 +13,10 @@
 #'
 #' @examples
 #' if(genieBPC:::.check_synapse_login() == TRUE){
-#' nsclc_data <- pull_data_synapse("NSCLC", version = "2.1-consortium")
-#' nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
-#' data_synapse = nsclc_data, stage = "Stage IV")
-#' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data,
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "2.0-public")
+#' nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+#' stage = "Stage IV")
+#' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #' data_cohort = nsclc_cohort,
 #' max_n_regimens = 3)
 #' }
