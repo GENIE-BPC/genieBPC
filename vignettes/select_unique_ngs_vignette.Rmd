@@ -24,7 +24,6 @@ library(genieBPC)
 library(tibble)
 library(magrittr)
 library(dplyr)
-library(synapser)
 library(gt)
 
 gt_compact_fun <- function(x) {
@@ -37,8 +36,6 @@ gt_compact_fun <- function(x) {
                   source_notes.padding = gt::px(1),
                   row_group.padding = gt::px(1))
 }
-
-synLogin()
 ```
 
 
@@ -46,28 +43,16 @@ synLogin()
 
 The `genieBPC` package allows users to link the clinical data to patients' corresponding genomic samples. 
 
-This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette and processed in the `Tutorial: create_analytic_cohort()` vignette, as shown below:
-
-```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
-nsclc_data = pull_data_synapse("NSCLC", version = "2.1-consortium")
-
-nsclc_stg_iv_adeno = create_analytic_cohort(cohort = "NSCLC",
-                                   data_synapse = nsclc_data,
-                                   stage_dx = c("Stage IV"),
-                                   histology = "Adenocarcinoma")
-```
-
-
 ## Modifying Function Arguments
 
 
 ```{r, include = FALSE, eval=genieBPC:::.check_synapse_login()}
 tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
-  "`data_cohort`",       "List of samples collected for each cancer. Defined by ‘cohort_ngs’ object returned by create_analytic_cohort() function. Only required parameter for this function.",
-  "`oncotree_code`",       "Prioritizes samples defined by any OncoTree code value (e.g.: “LUAD”, “CRC”). Default is NULL.",
-  "`sample_type`",        "Prioritizes sample type. Must be one of 'Primary' or 'Metastatic'. Default is NULL.",
-  "`min_max_time`",        "Prioritize the patient's first or last sample recorded, if multiple are available. Can take values 'min' or 'max'. Default is NULL.") %>%
+  "`data_cohort`",       "Output object of the create_analytic_cohort function.",
+  "`oncotree_code`",       "Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.",
+  "`sample_type`",        "Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type.",
+  "`min_max_time`",        "Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last).") %>%
   gt::gt() %>%
   gt::tab_header(title = "`select_unique_ngs()` Function Arguments") %>% 
   gt::fmt_markdown(columns = c(Argument)) %>%
@@ -88,18 +73,53 @@ tbl_arguments
 tbl_arguments
 ```
 
+The `select_unique_ngs()` function returns the 'cohort_ngs' object of the create_analytic_cohort with an unique genomic samples taken from each patients.
 
-*Note: If multiple samples for a patient meet the criteria of all parameters selected, the sample with the largest panel size for sequence assay will be chosen.*
+## Setup
 
-## Example
-
-Select metastatic lung adenocarcinoma samples. If multiple samples are available for a patient, select the patient's earliest sample.
+Before going through the tutorial, install and load the {genieBPC} library and log into Synapse using the `set_synapse_credentials()` function. For more information on `set_synapse_credentials()`, refer to the `Tutorial: pull_data_synapse()` vignette.
 
 ```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
-select_unique_ngs(
-		data_cohort = nsclc_stg_iv_adeno$cohort_ngs,
-		oncotree_code = "LUAD",
-		sample_type = "Metastasis",
-		min_max_time = "min")
+library(genieBPC)
+
+set_synapse_credentials()
 ```
+
+This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette, as shown below:
+
+
+```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
+nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+```
+
+## Examples
+
+### Example 1
+
+Select unique genomic samples from patients with stage IV NSCLC of histology adenocarcinoma
+
+```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
+out <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1, 
+                                             stage_dx = c("Stage IV"), 
+                                             histology = "Adenocarcinoma")
+
+samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
+```
+
+
+### Example 2
+
+Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen, and select corresponding genomic samples.
+
+```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
+out <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+                              regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"), 
+                              regimen_order = 1, regimen_order_type = "within regimen")
+
+samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs,
+                                  oncotree_code = "LUAD", 
+                                  sample_type = "Metastasis", 
+                                  min_max_time = "max")
+```
+
 
