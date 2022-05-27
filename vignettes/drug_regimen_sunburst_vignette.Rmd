@@ -10,6 +10,7 @@ vignette: >
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  message = FALSE,
   comment = "#>")
 
 # exit if user doesn't have synapser, a log in, or access to data.
@@ -21,15 +22,11 @@ if (genieBPC:::.check_synapse_login() == FALSE){
 ```{r, include=FALSE, eval=genieBPC:::.check_synapse_login()}
 library(genieBPC)
 library(dplyr)
-library(synapser)
 library(ggplot2)
 library(plotly)
 library(gt)
 library(magrittr)
 library(tibble)
-
-
-synLogin()
 ```
 
 ```{r, include = FALSE, eval=genieBPC:::.check_synapse_login()}
@@ -56,7 +53,7 @@ The `drug_regimen_sunburst()` function creates a visualization of the treatment 
 ```{r, include = FALSE, results = 'hide', eval=genieBPC:::.check_synapse_login()}
 tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
-  "`data_synapse`",       "The list returned from the `pull_data_synapse()` function call.",
+  "`data_synapse`",       "The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.",
   "`data_cohort`",       "The list returned from the `create_analytic_cohort()` function call.",
   "`max_n_regimens`",        "The number of lines of treatment displayed in the sunburst plot.") %>%
   gt::gt() %>%
@@ -78,11 +75,6 @@ tbl_arguments
 tbl_arguments
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, eval=genieBPC:::.check_synapse_login()}
-tbl_arguments
-```
-
-
 Note that the innermost circle of the sunburst plot indicates the first therapies that patients received following diagnosis. The circle is divided proportionally based on the percentage of patients that received a particular treatment. Each subsequent ring of the sunburst corresponds to a subsequent treatment regimen, such that the inner rings represent earlier treatments. Together, the rings illustrate the distribution and patterns of various treatment regimens.
 
 
@@ -91,17 +83,14 @@ Note that the innermost circle of the sunburst plot indicates the first therapie
 The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. This example utilizes the data downloaded using the `pull_data_synapse()` function and processed in the `create_analytic_cohort()` function.
 
 
-```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
-library(genieBPC)
+```{r, results = 'hide', message = FALSE, eval=genieBPC:::.check_synapse_login()}
+nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
 
-nsclc_data = pull_data_synapse("NSCLC", version = "1.1-consortium")
+nsclc_stg_iv = create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+                                      stage = c("Stage IV"))
 
-nsclc_cohort = create_analytic_cohort(cohort = "NSCLC",
-                                      data_synapse = nsclc_data,
-                                      stage_dx = c("Stage IV"))
-
-nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_data,
-                      data_cohort = nsclc_cohort,
+nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_2_1$NSCLC_v2.1,
+                      data_cohort = nsclc_stg_iv,
                       max_n_regimens = 3)
 ```
 
