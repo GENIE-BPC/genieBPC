@@ -7,8 +7,8 @@
 drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL)
 }
 \arguments{
-\item{data_synapse}{The list returned from the `pull_data_synapse()`
-function call}
+\item{data_synapse}{The item from the nested list returned from
+`pull_data_synapse()` corresponding to the cancer cohort of interest.}
 
 \item{data_cohort}{The list returned from the `create_analytic_cohort()`
 function call}
@@ -26,10 +26,10 @@ course for selected diagnoses.
 \examples{
 if(genieBPC:::.check_synapse_login() == TRUE){
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "2.0-public")
-nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+nsclc_stg_iv <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 stage = "Stage IV")
 ex1 <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
-data_cohort = nsclc_cohort,
+data_cohort = nsclc_stg_iv,
 max_n_regimens = 3)
 }
 }
