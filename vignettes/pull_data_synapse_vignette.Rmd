@@ -57,7 +57,7 @@ Users must log in to Synapse to access the data successfully.
 
   `set_synapse_credentials(username = "your_username", password = "your_password")`
   
-- To store authentication information in your environmental variables, add the following to your .Renviron file (tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+- To store authentication information in your environmental variables, add the following to your .Renviron file (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
   `SYNAPSE_USERNAME = <your-username>`
   `SYNAPSE_PASSWORD = <your-password>`
@@ -148,4 +148,4 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of May 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers. The breast cancer cohort will be available to access late 2022.
+* As of May 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.

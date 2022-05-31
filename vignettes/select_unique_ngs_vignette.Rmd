@@ -77,7 +77,7 @@ The `select_unique_ngs()` function returns the 'cohort_ngs' object of the create
 
 ## Setup
 
-Before going through the tutorial, install and load the {genieBPC} library and log into Synapse using the `set_synapse_credentials()` function. For more information on `set_synapse_credentials()`, refer to the `Tutorial: pull_data_synapse()` vignette.
+Before going through the tutorial, load the {genieBPC} library and log into Synapse using the `set_synapse_credentials()` function. For more information on `set_synapse_credentials()`, refer to the `Tutorial: pull_data_synapse()` vignette.
 
 ```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
 library(genieBPC)
