@@ -34,10 +34,10 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
+          genieBPC::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
         shell: Rscript {0}
       - name: Check
         run: |
-          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
+         genieBPC::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
