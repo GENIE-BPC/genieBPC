@@ -60,6 +60,7 @@
 #'   \item{df}{Clinical dataset}
 #'   \item{version}{Release version}
 #'   \item{synapse_id}{Synapse table ID for each dataset}
+#'   \item{release_date}{Month and year of data release}
 #'   ...
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
