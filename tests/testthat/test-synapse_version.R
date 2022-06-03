@@ -1,17 +1,22 @@
 test_that("Testing synapse version", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(.check_synapse_login())
+  testthat::skip_if_not(check_genie_access())
 
-  expect_equal(class(synapse_version(FALSE)),
-               c("grouped_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(synapse_version(TRUE)),
-               c("grouped_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(
+    class(synapse_version(FALSE)),
+    c("grouped_df", "tbl_df", "tbl", "data.frame")
+  )
+
+  expect_equal(
+    class(synapse_version(TRUE)),
+    c("grouped_df", "tbl_df", "tbl", "data.frame")
+  )
 
   expect_equal(synapse_version(TRUE) %>%
-                 dplyr::count(cohort) %>%
-                 dplyr::ungroup() %>%
-                 dplyr::distinct(n) %>%
-                 as.data.frame(), data.frame(n = 1))
+    dplyr::count(cohort) %>%
+    dplyr::ungroup() %>%
+    dplyr::distinct(n) %>%
+    as.data.frame(), data.frame(n = 1))
 })
 
 test_that("Test most_recent argument", {

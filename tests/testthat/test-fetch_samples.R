@@ -1,19 +1,3 @@
-# test_pull_data <- function(){
-#
-#   skip_if_not(genieBPC:::.check_synapse_login())
-#
-#   # run here to avoid having to run within each test
-#   nsclc_data <- pull_data_synapse("NSCLC", version = "1.1-consortium")
-#   crc_data <- pull_data_synapse(c("CRC"), version = "1.1-consortium")
-#
-#   objs <- list("nsclc_data" = nsclc_data,
-#                "crc_data" = crc_data)
-#
-#   list2env(objs, envir = .GlobalEnv)
-# }
-# test_pull_data()
-
-
 test_that("missing input parameters", {
   # cohort name not specified
   expect_error(genieBPC:::fetch_samples())
@@ -22,26 +6,34 @@ test_that("missing input parameters", {
   expect_error(genieBPC:::fetch_samples(cohort = "NSCLC"))
 
   # record_id object specified, but doesn't have variable record_id
-  expect_error(genieBPC:::fetch_samples(cohort = "NSCLC",
-                             df_record_ids = tibble(cohort = "NSCLC",
-                                                    record_id = "123")))
+  expect_error(genieBPC:::fetch_samples(
+    cohort = "NSCLC",
+    df_record_ids = tibble(
+      cohort = "NSCLC",
+      record_id = "123"
+    )
+  ))
 })
 
 test_that("function returns correct number of samples", {
-  skip_if_not(genieBPC:::.check_synapse_login())
+  skip_if_not(genieBPC:::check_genie_access())
+
+  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
+  crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
 
   # NSCLC #
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
-    data_synapse = nsclc_data,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE
   )
 
   test1 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC", data_synapse = nsclc_data,
+    cohort = "NSCLC",
+    data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
+
   expect_true(tibble::is_tibble(test1))
   expect_equal(ncol(test1), 20)
   expect_equal(nrow(test1), 1992)
@@ -50,16 +42,17 @@ test_that("function returns correct number of samples", {
 
   ### Stage IV ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
+    data_synapse = nsclc_data$NSCLC_v1.1,
     stage_dx = c("Stage IV"),
-    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
   test2 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC", data_synapse = nsclc_data,
+    cohort = "NSCLC",
+    data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
+
   expect_true(tibble::is_tibble(test2))
   expect_equal(ncol(test2), 20)
   expect_equal(nrow(test2), 873)
@@ -67,14 +60,13 @@ test_that("function returns correct number of samples", {
 
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "NSCLC",
-    data_synapse = nsclc_data,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE,
     institution = "DFCI"
   )
 
   test3 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC", data_synapse = nsclc_data,
+    cohort = "NSCLC", data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test3))
@@ -91,13 +83,12 @@ test_that("function returns correct number of samples", {
 
   ### all samples ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "CRC",
-    data_synapse = crc_data,
+    data_synapse = crc_data$CRC_v1.1,
     return_summary = FALSE
   )
 
   test1 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data,
+    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test1))
@@ -108,14 +99,13 @@ test_that("function returns correct number of samples", {
 
   ### Stage IV ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "CRC",
     stage_dx = c("Stage IV"),
-    data_synapse = crc_data,
+    data_synapse = crc_data$CRC_v1.1,
     return_summary = FALSE
   )
 
   test2 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data,
+    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test2))
@@ -125,16 +115,16 @@ test_that("function returns correct number of samples", {
 
   ### DFCI only ###
   cohort_temp <- create_analytic_cohort(
-    cohort = "CRC",
-    data_synapse = crc_data,
+    data_synapse = crc_data$CRC_v1.1,
     return_summary = FALSE,
     institution = "DFCI"
   )
 
   test3 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data,
+    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
+
   expect_true(tibble::is_tibble(test3))
   expect_equal(ncol(test3), 26)
   expect_equal(nrow(test3), 577)
@@ -142,7 +132,7 @@ test_that("function returns correct number of samples", {
   expect_equal(unique(test3$institution), "DFCI")
 
   expect_error(test4 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data,
+    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx %>%
       rename(some_name = record_id)
   ))

@@ -5,7 +5,6 @@
 \title{create_analytic_cohort}
 \usage{
 create_analytic_cohort(
-  cohort,
   data_synapse,
   index_ca_seq = 1,
   institution,
@@ -19,12 +18,8 @@ create_analytic_cohort(
 )
 }
 \arguments{
-\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC"
-(non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts
-will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
-"Prostate" (prostate cancer).}
-
-\item{data_synapse}{The list returned from pull_data_synapse().}
+\item{data_synapse}{The item from the nested list returned from pull_data_synapse()
+corresponding to the cancer cohort of interest.}
 
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
@@ -124,18 +119,17 @@ This function returns three datasets:
   }
 The function inputs `cohort`, `institution`, `stage_dx`,
 and `regimen_drugs` correspond to the variable
-names in the GENIE BPC Analytic Data Guide, available on
-\href{https://www.synapse.org/#!Synapse:syn21241322}{Synapse}.
+names in the GENIE BPC Analytic Data Guide (see README and vignettes
+for links to data guides).
 }
 \examples{
-if(genieBPC:::.check_synapse_login() == TRUE){
+if(genieBPC:::check_genie_access() == TRUE){
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 # also return all of their corresponding cancer-directed drugs
-nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
-create_analytic_cohort(cohort = "NSCLC",
-  data_synapse = nsclc_2_1,
+create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
   stage_dx = "Stage IV",
   histology = "Adenocarcinoma")
 
@@ -143,10 +137,9 @@ create_analytic_cohort(cohort = "NSCLC",
 # Create a cohort of all NSCLC patients who received Cisplatin,
 # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 # for their first index NSCLC
-nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
-create_analytic_cohort(cohort = "NSCLC",
-    data_synapse = nsclc_2_1,
+create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
     regimen_drugs = c("Cisplatin, Pemetrexed Disodium",
                       "Cisplatin, Etoposide"),
     regimen_order = 1,
@@ -158,10 +151,9 @@ create_analytic_cohort(cohort = "NSCLC",
 # cancer diagnosis,
 # but in the event that the patient received the drug multiple times,
 # only select the first time.
-nsclc_2_1 <- pull_data_synapse("NSCLC", version = "2.1-consortium")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
-create_analytic_cohort(cohort = "NSCLC",
-    data_synapse = nsclc_2_1,
+create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
     regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
     regimen_order = 1,
     regimen_order_type = "within regimen")
