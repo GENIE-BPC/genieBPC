@@ -43,6 +43,13 @@ fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
     distinct() %>%
+    purrr::when(
+      (any(names(.) == "sample_type") &
+        !any(names(.) == "cpt_sample_type")) ~ dplyr::rename(., "cpt_sample_type" = sample_type),
+      TRUE ~ .
+    )
+
+  cohort_cpt <- cohort_cpt %>%
     mutate(sample_type = case_when(
       str_to_lower(.data$cpt_sample_type)
       %in% c("1", "primary", "primary tumor") ~ "Primary tumor",

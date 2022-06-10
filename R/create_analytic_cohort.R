@@ -97,8 +97,14 @@
 #' @export
 #'
 #' @examples
+#'
+#' # Example 1 -----------------------------------
+#' # Example using package test data
+#'
+#' create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
+#'
 #' if(genieBPC:::check_genie_access() == TRUE){
-#' # Example 1 ----------------------------------
+#' # Example 2 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
 #' # also return all of their corresponding cancer-directed drugs
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
@@ -107,10 +113,11 @@
 #'   stage_dx = "Stage IV",
 #'   histology = "Adenocarcinoma")
 #'
-#' # Example 2 ----------------------------------
+#' # Example 3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
+#'
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
 #' create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
@@ -119,7 +126,7 @@
 #'     regimen_order = 1,
 #'     regimen_order_type = "within cancer")
 #'
-#' # Example 3 ----------------------------------
+#' # Example 4 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed
 #' # Disodium at any time throughout the course of treatment for their
 #' # cancer diagnosis,
@@ -199,8 +206,8 @@ create_analytic_cohort <- function(data_synapse,
     ))
   }
   # participating institutions by cohort
-  if (sum(!missing(institution), grepl("^NSCLC$", stringr::str_to_upper(cohort_temp))
-          > 0) > 1) {
+  if (sum(!missing(institution),
+          grepl("^NSCLC$", stringr::str_to_upper(cohort_temp)) > 0) > 1) {
     if (sum(!grepl(
       c("^DFCI$|^MSK$|^VICC$|^UHN$"),
       stringr::str_to_upper(institution)

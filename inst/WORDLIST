@@ -4,7 +4,6 @@ Bevacizumab
 BioPharma
 Biopharma
 BrCa
-CEA
 CMD
 CPT
 CRC
@@ -12,7 +11,9 @@ Carboplatin
 Cisplatin
 Colorectal
 DFCI
+DOI
 Disodium
+Dx
 Etoposide
 FOLFOX
 Farber
@@ -30,6 +31,7 @@ PANC
 PRISSMM
 Pemetrexed
 Phenomic
+README
 Renviron
 UHN
 VICC
@@ -37,7 +39,6 @@ adeno
 brca
 carboplatin
 clinico
-cmd
 codecov
 colorectal
 cpt
@@ -48,7 +49,6 @@ dx
 env
 environ
 genomically
-gnomeR
 gtsummary
 histologies
 immunotherapies
@@ -59,9 +59,7 @@ molecularly
 ngs
 oncotree
 pemetrexed
-pharma
 phenomic
 situ
-synapser
 tbl
 usethis

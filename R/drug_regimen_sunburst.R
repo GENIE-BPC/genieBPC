@@ -12,14 +12,23 @@
 #' @export
 #'
 #' @examples
-#' if(genieBPC:::.check_synapse_login() == TRUE){
-#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "2.0-public")
+#'
+#' nsclc_sub <- create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
+#'
+#' ex1 <- drug_regimen_sunburst(
+#'   data_synapse = nsclc_test_data,
+#'   data_cohort = nsclc_sub,
+#'   max_n_regimens = 3)
+#'
+#' if(genieBPC:::check_genie_access()){
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #' nsclc_stg_iv <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #' stage = "Stage IV")
 #' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 #' data_cohort = nsclc_stg_iv,
 #' max_n_regimens = 3)
 #' }
+#'
 #' @import
 #' dplyr
 #' TraMineR

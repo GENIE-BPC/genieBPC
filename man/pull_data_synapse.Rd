@@ -61,12 +61,11 @@ Alternatively, you can pass your username and password to each individual data p
 although it is recommended that you manage your passwords outside of your scripts for security purposes.
 }
 \examples{
-if(genieBPC:::.check_synapse_login() == TRUE){
+\dontshow{if (genieBPC::check_genie_access()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
-
-set_synapse_credentials(username = "your-username",
- password = "your-password")
+set_synapse_credentials()
 pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
 
 # Example 2 ----------------------------------
@@ -84,8 +83,8 @@ t <- pull_data_synapse(
   cohort = c("CRC", "BrCa"),
   version = c("v1.2-consortium", "v1.1-consortium")
 )
-}
 
+\dontshow{\}) # examplesIf}
 }
 \author{
 Karissa Whiting, Michael Curry

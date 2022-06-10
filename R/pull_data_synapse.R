@@ -44,13 +44,11 @@
 #' @author Karissa Whiting, Michael Curry
 #' @export
 #'
-#' @examples
-#' if(genieBPC:::.check_synapse_login() == TRUE){
+#' @examplesIf genieBPC::check_genie_access()
+#'
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
-#'
-#' set_synapse_credentials(username = "your-username",
-#'  password = "your-password")
+#' set_synapse_credentials()
 #' pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
 #'
 #' # Example 2 ----------------------------------
@@ -68,7 +66,7 @@
 #'   cohort = c("CRC", "BrCa"),
 #'   version = c("v1.2-consortium", "v1.1-consortium")
 #' )
-#' }
+#'
 #'
 #' @import
 #' dplyr
@@ -164,7 +162,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @export
 #'
 #' @examples
-#' if(genieBPC:::.check_synapse_login() == TRUE){
+#' if(genieBPC::check_genie_access()){
 #' syn_df <- data.frame(
 #'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
 #'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
@@ -180,7 +178,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'   version_num_df = syn_df,
 #'   token = .get_synapse_token(), download_location = tempdir()
 #' )
-#' }
+#'
 #
 .pull_data_by_cohort <- function(version_num_df,
                                  token, download_location) {
@@ -215,6 +213,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       )
 
       entityBundle <- httr::content(res_per_id, "parsed", encoding = "UTF-8")
+
+      # if(entityBundle$restrictionInformation$restrictionLevel == "RESTRICTED_BY_TERMS_OF_USE") {
+      #   cli::cli_abort("You are restricted from accessing this data. Have you signed the 'Terms of Use'? See README for details." )
+      # }
+
       file_info <- entityBundle$fileHandles[[1]]
 
       bind_cols(
@@ -292,18 +295,18 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @keywords internal
 #' @export
 #'
-#' @examples
-#' if(genieBPC:::.check_synapse_login() == TRUE){
-#' file = data.frame(
-#' version_num = "NSCLC_v2.1",
-#' file_handle_id = c("79432768"),
-#' synapse_id = c("syn25985884"),
-#' df = c("pt_char"),
-#' name = c("patient_level_dataset.csv"),
-#' download_folder = file.path(tempdir(), "NSCLC_v2.1"))
+#' @examplesIf FALSE
 #'
-#' purrr::pmap(file, .get_and_query_url)
-#' }
+#' file = data.frame(
+#'    version_num = "NSCLC_v2.1",
+#'    file_handle_id = c("79432768"),
+#'    synapse_id = c("syn25985884"),
+#'    df = c("pt_char"),
+#'    name = c("patient_level_dataset.csv"),
+#'    download_folder = file.path(tempdir(), "NSCLC_v2.1"))
+#'
+#' purrr::pmap(file, .get_and_query_file_url)
+#'
 #'
 .get_and_query_file_url <- function(version_num, file_handle_id, synapse_id,
                                df, name, download_folder, download_location,

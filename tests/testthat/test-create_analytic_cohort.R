@@ -1,5 +1,42 @@
+# Tests - No GENIE Access Required ---------------------------------------------
+test_that("No specifications- runs with no error", {
+
+  expect_error(create_analytic_cohort(
+    data_synapse = genieBPC::nsclc_test_data), NA)
+
+})
+
+test_that("Institution- argument check", {
+
+  expect_error(create_analytic_cohort(
+    data_synapse = genieBPC::nsclc_test_data,
+    institution = "DFCI"), NA)
+
+  expect_error(create_analytic_cohort(
+    data_synapse = genieBPC::nsclc_test_data,
+    institution = "non-existant"), "*")
+
+})
+
+
+test_that("stage_dx- argument check", {
+
+  expect_error(create_analytic_cohort(
+    data_synapse = genieBPC::nsclc_test_data,
+    stage_dx = "Stage IV"), NA)
+
+  expect_error(create_analytic_cohort(
+    data_synapse = genieBPC::nsclc_test_data,
+    stage_dx = "none"), "*")
+
+})
+
+
+
+# Tests - Requiring GENIE Access ------------------------------------------------
 # # test that a list of three or seven datasets are returned
 # # from create_analytic_cohort
+
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have synapser, a log in, or access to data.
   testthat::skip_if_not(check_genie_access())

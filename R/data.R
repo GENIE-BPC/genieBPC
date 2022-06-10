@@ -65,3 +65,17 @@
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
 "synapse_tables"
+
+
+#' Simulated fake synapse data for function examples and tests
+#'
+#' A named list of simulated NSCLC data
+#'
+#' @format A list of cohort data frames
+#' \describe{
+#'     \item{pt_char_NSCLC}{Patient characteristic data.frame}
+#'     \item{ca_dx_index_NSCLC}{Cancer Dx data.frame}
+#'     \item{ca_drugs_NSCLC}{Drug data.frame}
+#'     \item{cpt_NSCLC}{CPT data.frame}
+#' }
+"nsclc_test_data"
