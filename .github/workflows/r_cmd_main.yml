@@ -38,6 +38,6 @@ jobs:
         shell: Rscript {0}
       - name: Check
         run: |
-         genieBPC::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
+         genieBPC:::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
