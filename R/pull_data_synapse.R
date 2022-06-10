@@ -161,8 +161,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @keywords internal
 #' @export
 #'
-#' @examples
-#' if(genieBPC::check_genie_access()){
+#' @examplesIf genieBPC::check_genie_access()
 #' syn_df <- data.frame(
 #'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
 #'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),

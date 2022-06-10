@@ -1,8 +1,9 @@
 # Create fake example data set derived from NSCLC public
+library(genieBPC)
 
-set_synapse_credentials()
+genieBPC::set_synapse_credentials()
 
-nsclc_data <- pull_data_synapse("NSCLC", version = "v2.0-public")
+nsclc_data <- genieBPC::pull_data_synapse("NSCLC", version = "v2.0-public")
 nsclc_data <- nsclc_data$NSCLC_v2.0
 
 nsclc_data <- nsclc_data %>%
@@ -14,9 +15,9 @@ nsclc_data <- nsclc_data %>%
 
 set.seed(10)
 
-nsclc_test_data <- map(nsclc_data, function(df) {
+nsclc_test_data <- purrr::map(nsclc_data, function(df) {
 
-  new_df <- map_df(df, function(vec) {
+  new_df <- purrr::map_df(df, function(vec) {
     y <- vec %>%
       purrr::when(
         is.character(.) ~ sample(x = levels(as.factor(.)), size = length(.), replace = TRUE),
