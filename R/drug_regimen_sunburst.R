@@ -2,8 +2,8 @@
 #'
 #' This function allows the user to visualize the complete treatment
 #' course for selected diagnoses.
-#' @param data_synapse The list returned from the `pull_data_synapse()`
-#' function call
+#' @param data_synapse The item from the nested list returned from
+#' `pull_data_synapse()` corresponding to the cancer cohort of interest.
 #' @param data_cohort The list returned from the `create_analytic_cohort()`
 #' function call
 #' @param max_n_regimens The number of regimens displayed in the sunburst plot
@@ -12,14 +12,23 @@
 #' @export
 #'
 #' @examples
-#' if(genieBPC:::check_synapse_login() == TRUE){
-#' nsclc_data <- pull_data_synapse("NSCLC", version = "2.1-consortium")
-#' nsclc_cohort <- create_analytic_cohort(cohort = "NSCLC",
-#' data_synapse = nsclc_data, stage = "Stage IV")
-#' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_data,
-#' data_cohort = nsclc_cohort,
+#'
+#' nsclc_sub <- create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
+#'
+#' ex1 <- drug_regimen_sunburst(
+#'   data_synapse = nsclc_test_data,
+#'   data_cohort = nsclc_sub,
+#'   max_n_regimens = 3)
+#'
+#' if(genieBPC:::check_genie_access()){
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
+#' nsclc_stg_iv <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+#' stage = "Stage IV")
+#' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
+#' data_cohort = nsclc_stg_iv,
 #' max_n_regimens = 3)
 #' }
+#'
 #' @import
 #' dplyr
 #' TraMineR
@@ -37,6 +46,11 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_synapse` parameter.")
   }
 
+  if (missing(data_cohort) | class(data_cohort) != "list") {
+    stop("Specify the list object returned from create_analytic_cohort in the
+         `data_cohort` parameter.")
+  }
+
   # if the data_synapse parameter is a list but not the right list
   if (is.null(names(data_synapse)) |
     min(grepl(
@@ -47,10 +61,7 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_synapse` parameter.")
   }
 
-  if (missing(data_cohort) | class(data_cohort) != "list") {
-    stop("Specify the list object returned from create_analytic_cohort in the
-         `data_cohort` parameter.")
-  }
+
 
   # get the name of the cohort from the data_synapse object naming convention
   cohort_temp <- word(names(data_synapse)[1], 3, sep = "_")

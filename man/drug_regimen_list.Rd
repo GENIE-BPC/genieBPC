@@ -9,9 +9,10 @@ A table for cancer-directed drug names associated with each
 cancer cohort:
 \describe{
   \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC"
-  (non-small cell lung cancer) or "CRC" (colorectal cancer).
-  Future cohorts will include "BrCa" (breast cancer), "PANC"
-  (pancreatic cancer), "Prostate" (prostate cancer).}
+  (non-small cell lung cancer), "CRC" (colorectal cancer), or
+  "BrCa" (breast cancer). Future cohorts will include "PANC"
+  (pancreatic cancer), "Prostate" (prostate cancer), and "BLADDER"
+  (bladder cancer).}
   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
   \item{drug_name_full}{Name of generic/ingredient cancer-directed drug
   with associated synonyms in parentheses}
