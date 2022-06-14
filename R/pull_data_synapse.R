@@ -162,20 +162,21 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @export
 #'
 #' @examplesIf genieBPC::check_genie_access()
+#'
+#' temp_directory <- tempdir()
+#'
 #' syn_df <- data.frame(
 #'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
 #'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
 #'   version_num = c("NSCLC_v2.1", "NSCLC_v2.1", "NSCLC_v2.1"),
-#'   download_folder = c("/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1",
-#'                       "/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1",
-#'                       "/Users/kwhiting/Repositories/github-repos/genieBPC/NSCLC_v2.1"),
+#'   download_folder = c(temp_directory, temp_directory, temp_directory),
 #'   df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
 #'   synapse_id = c("syn25985884", "syn25985882", "syn25985883")
 #' )
 #'
 #' .pull_data_by_cohort(
 #'   version_num_df = syn_df,
-#'   token = .get_synapse_token(), download_location = tempdir()
+#'   token = .get_synapse_token(), download_location = NULL
 #' )
 #'
 #
