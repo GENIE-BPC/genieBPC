@@ -37,7 +37,10 @@ jobs:
           remotes::install_github("GENIE-BPC/genieBPC")
         shell: Rscript {0}
       - name: Check
+        env:
+          username_chk: ${{ secrets.USERNAME }}
+          password: ${{ secrets.SYNAPSER_PAS }}
         run: |
-         genieBPC::set_synapse_credentials(username = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }})
+         genieBPC::set_synapse_credentials(username = username_chk , password = pasword_chk)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
