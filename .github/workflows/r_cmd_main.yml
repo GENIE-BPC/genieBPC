@@ -21,6 +21,9 @@ jobs:
       matrix:
         r-version: ['4.1.1']
 
+    env:
+      SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
+      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
     steps:
       - uses: r-lib/actions/setup-pandoc@v1
       - uses: actions/checkout@v2
@@ -36,11 +39,9 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("GENIE-BPC/genieBPC")
         shell: Rscript {0}
+
       - name: Check
-        env:
-          username_chk: ${{ secrets.USERNAME }}
-          password_chk: ${{ secrets.SYNAPSER_PAS }}
         run: |
-         genieBPC::set_synapse_credentials(username = username_chk , password = pasword_chk)
-          rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+         genieBPC::set_synapse_credentials()
+         rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
