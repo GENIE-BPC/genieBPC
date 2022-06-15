@@ -7,20 +7,17 @@ on:
 name: test-coverage
 
 jobs:
-  test-coverage:
+  test-coverage:jh
     runs-on: ubuntu-18.04
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
       SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
-
     steps:
       - uses: actions/checkout@v2
-
       - uses: r-lib/actions/setup-r@v1
         id: install-r
-
       - name: Install dependencies
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,9 +25,13 @@ jobs:
           install.packages(c("remotes", "rcmdcheck", "covr"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("GENIE-BPC/genieBPC")
-          genieBPC::set_synapse_credentials()
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov()
+        env:
+          SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
+          SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
+        run: |
+          genieBPC::set_synapse_credentials()
+          covr::codecov()
         shell: Rscript {0}
