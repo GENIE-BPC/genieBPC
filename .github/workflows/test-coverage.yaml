@@ -8,7 +8,7 @@ name: test-coverage
 
 jobs:
   test-coverage:
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
