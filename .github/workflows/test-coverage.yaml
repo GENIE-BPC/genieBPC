@@ -9,9 +9,9 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: ubuntu-18.04
+
     env:
-      RSPM: https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
       SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
 
@@ -22,9 +22,12 @@ jobs:
         id: install-r
 
       - name: Install dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           install.packages(c("remotes", "rcmdcheck", "covr"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("GENIE-BPC/genieBPC")
           genieBPC::set_synapse_credentials()
         shell: Rscript {0}
 
