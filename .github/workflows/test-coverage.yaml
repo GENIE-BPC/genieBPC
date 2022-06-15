@@ -7,9 +7,8 @@ on:
 name: test-coverage
 
 jobs:
-  test-coverage:jh
+  test-coverage:
     runs-on: ubuntu-18.04
-
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
