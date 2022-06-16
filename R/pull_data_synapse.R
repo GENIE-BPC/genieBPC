@@ -242,8 +242,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
 
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
-  files <- switch(!is.null(files),
-          rlang::set_names(files, paste(ids_txt_csv$df, ids_txt_csv$cohort, sep = "_")))
+  files <- rlang::set_names(files, ids_txt_csv$df)
+
   return(files)
 }
 
