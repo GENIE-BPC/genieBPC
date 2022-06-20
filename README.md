@@ -80,7 +80,7 @@ order to use this function. To obtain access:
     *Accept*
 
 *For consortium data releases (restricted to GENIE consortium members &
-BPC pharmaceutical partners)*
+BPC pharmaceutical partners):*
 
 1.  Register for a [Synapse account](https://www.synapse.org/#)
 
@@ -116,6 +116,9 @@ releases.*
 -   [NSCLC v2.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
 
+-   [NSCLC v2.0-public Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30557337)
+
 -   [CRC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
 
@@ -134,54 +137,35 @@ Cisplatin and Pemetrexed, with and without Bevacizumab,
 *Pull data for NSCLC version 2.1-consortium:*
 
 ``` r
-nsclc_cohort <- pull_data_synapse(cohort = "NSCLC", version = "2.1")
+nsclc_2_1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
 ```
 
-*Select stage IV adenocarcinoma NSCLC diagnoses that were treated with
-Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without
-Bevacizumab as the first regimen following diagnosis:*
+*Select stage IV adenocarcinoma NSCLC diagnoses:*
 
 ``` r
-nsclc_stg_iv_adeno <- create_analytic_cohort(
-      cohort = "NSCLC",
-      data_synapse = nsclc_cohort,
-      stage_dx = "Stage IV",
-      histology = "Adenocarcinoma",
-      regimen_drugs = c("Carboplatin, Pemetrexed Disodium",
-                        "Cisplatin, Pemetrexed Disodium",
-                        "Bevacizumab, Carboplatin, Pemetrexed Disodium",
-                        "Bevacizumab, Cisplatin, Pemetrexed Disodium"),
-      regimen_type = "Exact",
-      regimen_order = 1,
-      regimen_order_type = "within cancer",
-      return_summary = FALSE
-    )
+nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1, 
+                                             stage_dx = "Stage IV", 
+                                             histology = "Adenocarcinoma")
 ```
 
 *Select one unique metastatic lung adenocarcinoma genomic sample per
 patient in the analytic cohort returned above:*
 
 ``` r
-nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs( 
-      data_cohort = nsclc_stg_iv_adeno$cohort_ngs, 
-      oncotree_code = "LUAD",
-      sample_type = "Metastasis"
-    )
+nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs(
+  data_cohort = nsclc_stg_iv_adeno$cohort_ngs)
 ```
 
-*Create a visualization of the treatment patterns for the first 4
-regimens received by patients diagnosed with stage IV adenocarcinoma
-NSCLC that were treated with Carboplatin/Pemetrexed or
-Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen
-following diagnosis:*
+*Create a visualization of the treatment patterns for the first 3
+regimens received by patients diagnosed with stage IV adenocarcinoma:*
 
 ``` r
-sunplot <- drug_regimen_sunburst(data_synapse = nsclc_cohort,
+sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_1$NSCLC_v2.1,
                                  data_cohort = nsclc_stg_iv_adeno,
-                                 max_n_regimens = 4)
+                                 max_n_regimens = 3)
 ```
 
-*Example of a sunburst plot showing 4 lines of treatment, Highlighting
+*Example of a sunburst plot showing 3 lines of treatment, Highlighting
 First Treatment Regimen:*
 
-# <img src="man/figures/genieBPC_sunburst.png" height="400" /></a>
+# <img src="man/figures/genieBPC_sunburst2.png" height="400" /></a>
