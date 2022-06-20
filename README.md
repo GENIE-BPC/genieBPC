@@ -104,7 +104,7 @@ its corresponding variables for each data release.
 
 -   [NSCLC v2.0-Public Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May
-    2023*
+    2022*
 
 **Consortium Data Releases**  
 *Note that only GENIE BPC consortium users have access to the consortium
@@ -115,9 +115,6 @@ releases.*
 
 -   [NSCLC v2.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
-
--   [NSCLC v2.0-public Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30557337)
 
 -   [CRC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
