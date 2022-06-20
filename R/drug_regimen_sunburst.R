@@ -68,10 +68,9 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # if the data_cohort parameter is a list but not the right list
   # checking the names of the list inputs
-  if (is.null(names(data_cohort)) |
-    min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs",
-              names(data_cohort)[1:3]))
-    == 0) {
+  if (is.null(data_cohort$cohort_pt_char) |
+      is.null(data_cohort$cohort_ca_dx) |
+      is.null(data_cohort$cohort_ngs)) {
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter")
   }
@@ -83,7 +82,7 @@ drug_regimen_sunburst <- function(data_synapse,
   # get all regimens to diagnoses in cohort
   cohort_all_drugs <- dplyr::inner_join(purrr::pluck(data_cohort,
                                                      "cohort_ca_dx"),
-    purrr::pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
+    purrr::pluck(data_synapse, "ca_drugs"),
     by = c("cohort", "record_id", "ca_seq", "institution")
   ) %>%
     # create drug regimen order WITHIN the cancer diagnosis
