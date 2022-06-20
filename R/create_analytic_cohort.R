@@ -179,7 +179,9 @@ create_analytic_cohort <- function(data_synapse,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
   # get cohort name and how it is capitalized in the data_synapse object
-  cohort_temp <- pull(pluck(data_synapse, "pt_char") %>% distinct(cohort), cohort)
+  cohort_temp <- pull(pluck(data_synapse, "pt_char") %>%
+                        distinct(.data$cohort),
+                      .data$cohort)
 
   # alphabetize drugs in regimen to match
   # how they are stored in variable
