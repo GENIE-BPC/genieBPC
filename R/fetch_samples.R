@@ -39,7 +39,7 @@ fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   # keep records based on patient ID + cancer sequence of interest
   cohort_cpt <- dplyr::inner_join(df_record_ids %>%
     dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
-  pluck(data_synapse, paste0("cpt_", cohort_temp)),
+  pluck(data_synapse, "cpt"),
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
     distinct() %>%
