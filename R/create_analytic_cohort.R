@@ -688,38 +688,38 @@ create_analytic_cohort <- function(data_synapse,
   # for patients meeting the specified criteria, also pull related datasets
   # patient characteristics
   cohort_pt_char <- dplyr::inner_join(cohort_ca_dx %>%
-                                        dplyr::select(cohort, record_id),
+                                        dplyr::select(.data$cohort, .data$record_id),
                                pluck(data_synapse, "pt_char"),
                                by = c("cohort", "record_id"))
 
   # non-index cancer
   cohort_ca_dx_non_index <- dplyr::inner_join(cohort_ca_dx %>%
-                                                dplyr::select(cohort, record_id),
+                                                dplyr::select(.data$cohort, .data$record_id),
                                        pluck(data_synapse, "ca_dx_non_index"),
                                        by = c("cohort", "record_id"))
 
   # PRISSMM Path
   cohort_prissmm_pathology <- dplyr::inner_join(cohort_ca_dx %>%
-                                                  dplyr::select(cohort, record_id),
+                                                  dplyr::select(.data$cohort, .data$record_id),
                                          pluck(data_synapse, "prissmm_pathology"),
                                          by = c("cohort", "record_id"))
 
   # PRISSMM Imaging
   cohort_prissmm_imaging <- dplyr::inner_join(cohort_ca_dx %>%
-                                                dplyr::select(cohort, record_id),
+                                                dplyr::select(.data$cohort, .data$record_id),
                                        pluck(data_synapse, "prissmm_imaging"),
                                        by = c("cohort", "record_id"))
 
   # PRISSMM Med Onc
   cohort_prissmm_md <- dplyr::inner_join(cohort_ca_dx %>%
-                                           dplyr::select(cohort, record_id),
+                                           dplyr::select(.data$cohort, .data$record_id),
                                   pluck(data_synapse, "prissmm_md"),
                                   by = c("cohort", "record_id"))
 
   # TM (if applicable)
   if (!is.null(pluck(data_synapse, "tumor_marker"))) {
     cohort_tumor_marker <- dplyr::inner_join(cohort_ca_dx %>%
-                                               dplyr::select(cohort, record_id),
+                                               dplyr::select(.data$cohort, .data$record_id),
                                       pluck(data_synapse, "tumor_marker"),
                                       by = c("cohort", "record_id"))
   }
@@ -736,14 +736,14 @@ create_analytic_cohort <- function(data_synapse,
   if (!is.null(pluck(data_synapse, "fusions"))) {
   cohort_fusions <- dplyr::inner_join(pluck(data_synapse, "fusions"),
                                cohort_ngs %>%
-                                 dplyr::select(cohort, cpt_genie_sample_id),
+                                 dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
                                by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id"))
   }
 
   if (!is.null(pluck(data_synapse, "mutations_extended"))) {
   cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse, "mutations_extended"),
                                           cohort_ngs %>%
-                                            dplyr::select(cohort, cpt_genie_sample_id),
+                                            dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
                                           by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id"))
   }
 
@@ -752,11 +752,12 @@ create_analytic_cohort <- function(data_synapse,
     # get list of IDs to keep
     cpt_barcode_keep <- pluck(data_synapse, "cpt") %>%
       mutate(Tumor_Sample_Barcode =
-               str_replace_all(cpt_genie_sample_id, pattern = "-", replace = "\\.")) %>%
-      pull(Tumor_Sample_Barcode)
+               stringr::str_replace_all(.data$cpt_genie_sample_id, pattern = "-",
+                                        replacement = "\\.")) %>%
+      pull(.data$Tumor_Sample_Barcode)
 
     cohort_cna <- pluck(data_synapse, "cna") %>%
-      select(Hugo_Symbol, any_of(cpt_barcode_keep))
+      select(.data$Hugo_Symbol, any_of(cpt_barcode_keep))
   }
 
   # if 0 patients are returned
