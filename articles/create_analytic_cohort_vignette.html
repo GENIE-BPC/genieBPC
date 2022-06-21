@@ -26,14 +26,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -70,6 +70,9 @@
   </div>
 </nav><div class="container template-article">
 
+
+
+
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: create_analytic_cohort</h1>
@@ -84,34 +87,56 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. The function returns three datasets:</p>
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to
+create a cohort from the GENIE BPC data based on cancer diagnosis
+information such as cancer cohort, treating institution, histology, and
+stage at diagnosis, as well as cancer-directed regimen information
+including regimen name and regimen order. The function returns three
+datasets:</p>
 <ol style="list-style-type: decimal">
-<li><p><code>cohort_ca_dx</code> contains cancer diagnosis information for patients matching the specified criteria. This dataset is structured as one record per patient per associated cancer diagnosis.</p></li>
-<li><p><code>cohort_ca_drugs</code> returns the drug-regimen information for patients matching the specified criteria. This dataset is structured as one record per patient, per regimen and associated cancer diagnosis.</p></li>
-<li><p><code>cohort_ngs</code> contains next generation sequencing information that can linked to the genomic data from Project GENIE. This dataset is structured as one record per cancer panel test and associated diagnosis, per patient.</p></li>
+<li><p><code>cohort_ca_dx</code> contains cancer diagnosis information
+for patients matching the specified criteria. This dataset is structured
+as one record per patient per associated cancer diagnosis.</p></li>
+<li><p><code>cohort_ca_drugs</code> returns the drug-regimen information
+for patients matching the specified criteria. This dataset is structured
+as one record per patient, per regimen and associated cancer diagnosis.
+For example, a drug regimen associated with treating two cancer
+diagnoses will have two records in this dataset.</p></li>
+<li><p><code>cohort_ngs</code> contains the next generation sequencing
+report information for patients matching the specified criteria. This
+dataset is structured as one record per next generation sequencing
+report, per associated diagnosis. If it is unknown which cancer sequence
+is associated with the next generation sequencing report, it will have
+two records in this dataset. This dataset contains the key to merge the
+clinical and genomic data.</p></li>
 </ol>
-<p>This vignette will walk a user through the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
+<p>This vignette will walk a user through the
+<code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Before going through the tutorial, install {genieBPC} and {synapser} and log into Synapse using the <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code> function. For more information on <code><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin()</a></code>, refer to the pull_data_synapse vignette or <a href="https://rdrr.io/github/Sage-Bionetworks/synapser/man/synLogin.html" class="external-link">synapser documentation</a>.</p>
+<p>Before going through the tutorial, install and load the {genieBPC}
+library and log into Synapse using the
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the
+<code>Tutorial: pull_data_synapse()</code> vignette.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.synapse.org" class="external-link">synapser</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/synapser/man/synLogin.html" class="external-link">synLogin</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several input parameters:</p>
-<div id="akzydwwhwg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several
+input parameters:</p>
+<div id="nhxufvohzz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#akzydwwhwg .gt_table {
+#nhxufvohzz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -136,7 +161,7 @@
   border-left-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_heading {
+#nhxufvohzz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -148,33 +173,37 @@
   border-right-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_title {
+#nhxufvohzz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#akzydwwhwg .gt_subtitle {
+#nhxufvohzz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#akzydwwhwg .gt_bottom_border {
+#nhxufvohzz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_col_headings {
+#nhxufvohzz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -189,7 +218,7 @@
   border-right-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_col_heading {
+#nhxufvohzz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -209,7 +238,7 @@
   overflow-x: hidden;
 }
 
-#akzydwwhwg .gt_column_spanner_outer {
+#nhxufvohzz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -221,15 +250,15 @@
   padding-right: 4px;
 }
 
-#akzydwwhwg .gt_column_spanner_outer:first-child {
+#nhxufvohzz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#akzydwwhwg .gt_column_spanner_outer:last-child {
+#nhxufvohzz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#akzydwwhwg .gt_column_spanner {
+#nhxufvohzz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -241,8 +270,11 @@
   width: 100%;
 }
 
-#akzydwwhwg .gt_group_heading {
-  padding: 1px;
+#nhxufvohzz .gt_group_heading {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -263,7 +295,7 @@
   vertical-align: middle;
 }
 
-#akzydwwhwg .gt_empty_group_heading {
+#nhxufvohzz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -278,15 +310,15 @@
   vertical-align: middle;
 }
 
-#akzydwwhwg .gt_from_md > :first-child {
+#nhxufvohzz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#akzydwwhwg .gt_from_md > :last-child {
+#nhxufvohzz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#akzydwwhwg .gt_row {
+#nhxufvohzz .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -305,7 +337,7 @@
   overflow-x: hidden;
 }
 
-#akzydwwhwg .gt_stub {
+#nhxufvohzz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -314,10 +346,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#akzydwwhwg .gt_summary_row {
+#nhxufvohzz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nhxufvohzz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nhxufvohzz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -327,17 +378,26 @@
   padding-right: 5px;
 }
 
-#akzydwwhwg .gt_first_summary_row {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
+#nhxufvohzz .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_grand_summary_row {
+#nhxufvohzz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nhxufvohzz .gt_last_summary_row {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nhxufvohzz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -347,7 +407,7 @@
   padding-right: 5px;
 }
 
-#akzydwwhwg .gt_first_grand_summary_row {
+#nhxufvohzz .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -357,11 +417,11 @@
   border-top-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_striped {
+#nhxufvohzz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#akzydwwhwg .gt_table_body {
+#nhxufvohzz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -370,7 +430,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_footnotes {
+#nhxufvohzz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -384,13 +444,16 @@
   border-right-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_footnote {
+#nhxufvohzz .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 1px;
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#akzydwwhwg .gt_sourcenotes {
+#nhxufvohzz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -404,44 +467,80 @@
   border-right-color: #D3D3D3;
 }
 
-#akzydwwhwg .gt_sourcenote {
+#nhxufvohzz .gt_sourcenote {
   font-size: 90%;
-  padding: 1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#akzydwwhwg .gt_left {
+#nhxufvohzz .gt_left {
   text-align: left;
 }
 
-#akzydwwhwg .gt_center {
+#nhxufvohzz .gt_center {
   text-align: center;
 }
 
-#akzydwwhwg .gt_right {
+#nhxufvohzz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#akzydwwhwg .gt_font_normal {
+#nhxufvohzz .gt_font_normal {
   font-weight: normal;
 }
 
-#akzydwwhwg .gt_font_bold {
+#nhxufvohzz .gt_font_bold {
   font-weight: bold;
 }
 
-#akzydwwhwg .gt_font_italic {
+#nhxufvohzz .gt_font_italic {
   font-style: italic;
 }
 
-#akzydwwhwg .gt_super {
+#nhxufvohzz .gt_super {
   font-size: 65%;
 }
 
-#akzydwwhwg .gt_footnote_marks {
+#nhxufvohzz .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#nhxufvohzz .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#nhxufvohzz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nhxufvohzz .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#nhxufvohzz .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#nhxufvohzz .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -452,39 +551,41 @@
 <tbody class="gt_table_body">
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
-<p><code>cohort</code></p>
+<p><code>data_synapse</code></p>
 </div></td>
-<td class="gt_row gt_left">GENIE BPC Project cancer. Must be one of 'NSCLC' (non-small cell lung cancer) or 'CRC' (colorectal cancer). Future cohorts will include 'BrCa' (breast cancer), 'PANC' (pancreatic cancer), 'Prostate' (prostate cancer).</td>
+<td class="gt_row gt_left">The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>index_ca_seq</code></p>
 </div></td>
-<td class="gt_row gt_left">Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation.</td>
+<td class="gt_row gt_left">Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. Specifying multiple index cancer sequences, e.g. index_ca_seq = c(1, 2), will return index cancers to patients with 1 index cancer and will return the first AND second index cancers to patients with multiple.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>institution</code></p>
 </div></td>
-<td class="gt_row gt_left">GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for    NSCLC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC. Default selection is all institutions.</td>
+<td class="gt_row gt_left">GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for    NSCLC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC and BrCa. Default selection is all institutions. This parameter corresponds to the variable `institution` in the Analytic Data Guide.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>stage_dx</code></p>
 </div></td>
-<td class="gt_row gt_left">Stage at diagnosis. Must be one of 'Stage I', 'Stage II', 'Stage III', 'Stage I-III NOS', 'Stage IV'. Default selection is all stages.</td>
+<td class="gt_row gt_left">Stage at diagnosis. Must be one of 'Stage I', 'Stage II', 'Stage III', 'Stage I-III NOS', 'Stage IV'. Default selection is all stages. This parameter corresponds to the variable `stage_dx` in the
+ Analytic Data Guide.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>histology</code></p>
 </div></td>
-<td class="gt_row gt_left">Cancer histology. Must be one of 'Adenocarcinoma', 'Squamous cell', 'Sarcoma', 'Small cell carcinoma', 'Other histologies/mixed tumor'. Default selection is all histologies.</td>
+<td class="gt_row gt_left">Cancer histology. For all cancer cohorts except for BrCa
+ (breast cancer), this parameter corresponds to the variable `ca_hist_adeno_squamous` and must be one of 'Adenocarcinoma', 'Squamous cell', 'Sarcoma', 'Small cell carcinoma', 'Carcinoma', 'Other histologies/mixed tumor'. For BrCa, this parameter corresponds to the variable `ca_hist_brca` and must be one of 'Invasive lobular carcinoma', 'Invasive ductal carcinoma', 'Other histology'. Default selection is all histologies.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>regimen_drugs</code></p>
 </div></td>
-<td class="gt_row gt_left">Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = 'Carboplatin, Pemetrexed'.</td>
+<td class="gt_row gt_left">Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = 'Carboplatin, Pemetrexed'. Acceptable values are found in the `drug_regimen_list` dataset provided with this package. This parameter corresponds to the variable `regimen_drugs` in the Analytic Data Guide.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
@@ -496,13 +597,13 @@
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>regimen_order</code></p>
 </div></td>
-<td class="gt_row gt_left">Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimens.</td>
+<td class="gt_row gt_left">Order of cancer-directed regimen. If multiple drugs are specified, `regimen_order` indicates the regimen order for all drugs; different values of `regimen_order` cannot be specified for different drug regimen. If multiple values are specified, e.g. c(1, 2), then drug regimens that met either order criteria are returned.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>regimen_order_type</code></p>
 </div></td>
-<td class="gt_row gt_left">Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens) or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed).</td>
+<td class="gt_row gt_left">Specifies whether the `regimen_order` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens; 'within cancer') or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed; 'within regimen'). Acceptable values are 'within cancer' and 'within regimen'.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
@@ -510,32 +611,38 @@
 </div></td>
 <td class="gt_row gt_left">Specifies whether a summary table for the cohort is returned. Default is FALSE. The `gtsummary` package is required to return a summary table.</td>
 </tr>
-<tr>
-<td class="gt_row gt_left"><div class="gt_from_md">
-<p><code>lines_keep</code></p>
-</div></td>
-<td class="gt_row gt_left">When `return_summary` set to TRUE, will set regimen number
-#' to be kept to create the summary of the treatment history..</td>
-</tr>
 </tbody>
 </table>
 </div>
+<p>This function returns a list of data frames containing cancer
+diagnosis (<code>cohort_ca_dx</code>), cancer-directed regimen
+(<code>cohort_ca_drugs</code>) and next generation sequencing
+(<code>cohort_ngs</code>) information for patients that met the
+specified criteria. Optionally, if return_summary = TRUE, the list also
+includes summary tables for the number of records per dataset
+(<code>tbl_overall_summary</code>) as well as tables of key cancer
+diagnosis (<code>tbl_cohort</code>), cancer-directed regimen
+(<code>tbl_drugs</code>) and next generation sequencing
+(<code>tbl_ngs</code>) variables.</p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>The examples below create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the <code>pull_data_synapse</code> function:</p>
+<p>The examples below create analytic datasets based on the GENIE BPC
+NSCLC cohort. To begin, the user must first pull the NSCLC data from
+Synapse and save it to the local environment, as shown below using the
+<code>pull_data_synapse</code> function:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1-consortium"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></code></pre></div>
 <div class="section level3">
 <h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h3>
-<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs</p>
+<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma
+and also return all of their corresponding cancer-directed drugs</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
-                                   data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                   stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,
-                                   histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>, 
+                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, 
+                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span>
 <span class="co">#&gt; [1] "cohort_ca_drugs" "cohort_ca_dx"    "cohort_ngs"</span></code></pre></div>
@@ -543,36 +650,101 @@
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin,
+Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+for their first index NSCLC</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
-              data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-              regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
-              regimen_order <span class="op">=</span> <span class="fl">1</span>,
-              regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
+                       regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
+                       regimen_order <span class="op">=</span> <span class="fl">1</span>,
+                       regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span>
+<span class="co">#&gt; $cohort_ca_dx</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 232 x 152</span></span>
+<span class="co">#&gt;    cohort record_id     institution ca_seq redcap_ca_index ca_cadx_int ca_dx_how</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-0~ DFCI             2 Yes                   <span style="text-decoration: underline;">24</span>328 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">18</span>631 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>329 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>538 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">21</span>627 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">20</span>393 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-0~ DFCI             2 Yes                   <span style="text-decoration: underline;">24</span>298 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>107 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>189 Pathology</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>758 Pathology</span>
+<span class="co">#&gt; <span style="color: #949494;"># ... with 222 more rows, and 145 more variables: dob_next_ca_days &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   tt_first_index_ca &lt;int&gt;, naaccr_first_contact_int &lt;int&gt;, ca_age &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   age_dx &lt;int&gt;, naaccr_site_cd &lt;chr&gt;, ca_site &lt;chr&gt;, ca_d_site &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   site_recode &lt;chr&gt;, ca_type &lt;chr&gt;, naaccr_histology_cd &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ca_hist_adeno_squamous &lt;chr&gt;, naaccr_behavior_cd &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   naaccr_laterality_cd &lt;chr&gt;, naaccr_grade &lt;int&gt;, ca_grade_diff &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ca_grade &lt;chr&gt;, best_ajcc_stage_cd &lt;chr&gt;, ca_stage_iv &lt;chr&gt;, ...</span></span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $cohort_ca_drugs</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 232 x 101</span></span>
+<span class="co">#&gt;    cohort record_id  ca_seq institution regimen_number redcap_ca_index drugs_num</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFC~      2 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFC~      2 DFCI                     2 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
+<span class="co">#&gt; <span style="color: #949494;"># ... with 222 more rows, and 94 more variables: drugs_inst &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   drugs_firstinst &lt;chr&gt;, drugs_ct_yn &lt;chr&gt;, drugs_dc_ynu &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   regimen_drugs &lt;chr&gt;, drugs_drug_1 &lt;chr&gt;, drugs_drug_2 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_3 &lt;chr&gt;, drugs_drug_4 &lt;chr&gt;, drugs_drug_5 &lt;lgl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_oth_1 &lt;chr&gt;, drugs_drug_oth_2 &lt;chr&gt;, drugs_drug_oth_3 &lt;lgl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_oth_4 &lt;chr&gt;, drugs_drug_oth_5 &lt;lgl&gt;, drugs_startdt_int_1 &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   drugs_startdt_int_2 &lt;int&gt;, drugs_startdt_int_3 &lt;int&gt;, ...</span></span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $cohort_ngs</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 248 x 27</span></span>
+<span class="co">#&gt;    cohort record_id         ca_seq institution cpt_number cpt_report_int</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-000142      2 DFCI                 1          <span style="text-decoration: underline;">24</span>373</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-000263      0 DFCI                 1          <span style="text-decoration: underline;">18</span>689</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-000583      0 DFCI                 1          <span style="text-decoration: underline;">25</span>932</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-000675      0 DFCI                 1          <span style="text-decoration: underline;">22</span>604</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-000735      0 DFCI                 1          <span style="text-decoration: underline;">21</span>698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-000735      0 DFCI                 2          <span style="text-decoration: underline;">22</span>371</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-001095      0 DFCI                 1          <span style="text-decoration: underline;">20</span>576</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-001305      2 DFCI                 1          <span style="text-decoration: underline;">24</span>496</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-001514      0 DFCI                 1          <span style="text-decoration: underline;">23</span>148</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-002274      0 DFCI                 1          <span style="text-decoration: underline;">24</span>349</span>
+<span class="co">#&gt; <span style="color: #949494;"># ... with 238 more rows, and 21 more variables: path_proc_number &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   path_rep_number &lt;int&gt;, cpt_genie_sample_id &lt;chr&gt;, cpt_oncotree_code &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   cpt_sample_type &lt;chr&gt;, cpt_seq_assay_id &lt;chr&gt;, cpt_order_int &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   cpt_seq_date &lt;int&gt;, dob_cpt_report_days &lt;int&gt;, cpt_report_post_death &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   dx_cpt_rep_days &lt;int&gt;, dx_cpt_rep_mos &lt;dbl&gt;, dx_cpt_rep_yrs &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   dx_path_proc_cpt_days &lt;int&gt;, dx_path_proc_cpt_mos &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   dx_path_proc_cpt_yrs &lt;dbl&gt;, path_proc_cpt_rep_days &lt;int&gt;, ...</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin,
+Pemetrexed Disodium at any time throughout the course of treatment for
+their cancer diagnosis, but in the event that the patient received the
+drug multiple times, only select the first time.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
-                                        data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                        regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
-                                        regimen_order <span class="op">=</span> <span class="fl">1</span>,
-                                        regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,
-                                        return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
+                                                 regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
+                                                 regimen_order <span class="op">=</span> <span class="fl">1</span>,
+                                                 regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,
+                                                 return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort_summary</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></code></pre></div>
-<div id="avomhuvulv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_overall_summary</span></code></pre></div>
+<div id="idyusaawgk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#avomhuvulv .gt_table {
+#idyusaawgk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -597,7 +769,7 @@
   border-left-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_heading {
+#idyusaawgk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -609,33 +781,37 @@
   border-right-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_title {
+#idyusaawgk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#avomhuvulv .gt_subtitle {
+#idyusaawgk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#avomhuvulv .gt_bottom_border {
+#idyusaawgk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_col_headings {
+#idyusaawgk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -650,7 +826,7 @@
   border-right-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_col_heading {
+#idyusaawgk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -670,7 +846,7 @@
   overflow-x: hidden;
 }
 
-#avomhuvulv .gt_column_spanner_outer {
+#idyusaawgk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -682,15 +858,15 @@
   padding-right: 4px;
 }
 
-#avomhuvulv .gt_column_spanner_outer:first-child {
+#idyusaawgk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#avomhuvulv .gt_column_spanner_outer:last-child {
+#idyusaawgk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#avomhuvulv .gt_column_spanner {
+#idyusaawgk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -702,8 +878,11 @@
   width: 100%;
 }
 
-#avomhuvulv .gt_group_heading {
-  padding: 8px;
+#idyusaawgk .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -724,7 +903,7 @@
   vertical-align: middle;
 }
 
-#avomhuvulv .gt_empty_group_heading {
+#idyusaawgk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -739,15 +918,15 @@
   vertical-align: middle;
 }
 
-#avomhuvulv .gt_from_md > :first-child {
+#idyusaawgk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#avomhuvulv .gt_from_md > :last-child {
+#idyusaawgk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#avomhuvulv .gt_row {
+#idyusaawgk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -766,7 +945,7 @@
   overflow-x: hidden;
 }
 
-#avomhuvulv .gt_stub {
+#idyusaawgk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -775,10 +954,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avomhuvulv .gt_summary_row {
+#idyusaawgk .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#idyusaawgk .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#idyusaawgk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -788,17 +986,26 @@
   padding-right: 5px;
 }
 
-#avomhuvulv .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#idyusaawgk .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_grand_summary_row {
+#idyusaawgk .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#idyusaawgk .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#idyusaawgk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -808,7 +1015,7 @@
   padding-right: 5px;
 }
 
-#avomhuvulv .gt_first_grand_summary_row {
+#idyusaawgk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -818,11 +1025,11 @@
   border-top-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_striped {
+#idyusaawgk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#avomhuvulv .gt_table_body {
+#idyusaawgk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -831,7 +1038,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_footnotes {
+#idyusaawgk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -845,13 +1052,16 @@
   border-right-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_footnote {
+#idyusaawgk .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avomhuvulv .gt_sourcenotes {
+#idyusaawgk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -865,44 +1075,544 @@
   border-right-color: #D3D3D3;
 }
 
-#avomhuvulv .gt_sourcenote {
+#idyusaawgk .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#avomhuvulv .gt_left {
+#idyusaawgk .gt_left {
   text-align: left;
 }
 
-#avomhuvulv .gt_center {
+#idyusaawgk .gt_center {
   text-align: center;
 }
 
-#avomhuvulv .gt_right {
+#idyusaawgk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#avomhuvulv .gt_font_normal {
+#idyusaawgk .gt_font_normal {
   font-weight: normal;
 }
 
-#avomhuvulv .gt_font_bold {
+#idyusaawgk .gt_font_bold {
   font-weight: bold;
 }
 
-#avomhuvulv .gt_font_italic {
+#idyusaawgk .gt_font_italic {
   font-style: italic;
 }
 
-#avomhuvulv .gt_super {
+#idyusaawgk .gt_super {
   font-size: 65%;
 }
 
-#avomhuvulv .gt_footnote_marks {
+#idyusaawgk .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#idyusaawgk .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#idyusaawgk .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#idyusaawgk .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#idyusaawgk .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#idyusaawgk .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="table gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
+<strong>N = 181 patients</strong><sup class="gt_footnote_marks">1</sup>
+</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td class="gt_row gt_left" style="font-weight: bold;">Number of diagnoses per patient in cohort_ca_dx
+        data frame</td>
+<td class="gt_row gt_center"></td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">181 (100%)</td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="font-weight: bold;">Number of regimens per patient in cohort_ca_drugs
+        data frame</td>
+<td class="gt_row gt_center"></td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">181 (100%)</td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="font-weight: bold;">Number of CPTs per patient in cohort_ngs
+        data frame</td>
+<td class="gt_row gt_center"></td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">170 (94%)</td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">10 (5.5%)</td>
+</tr>
+<tr>
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">1 (0.6%)</td>
+</tr>
+</tbody>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="2">
+<sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr></tfoot>
+</table>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></code></pre></div>
+<div id="luhuommijp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#luhuommijp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#luhuommijp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#luhuommijp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#luhuommijp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#luhuommijp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#luhuommijp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#luhuommijp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#luhuommijp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#luhuommijp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#luhuommijp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#luhuommijp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#luhuommijp .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#luhuommijp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#luhuommijp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#luhuommijp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#luhuommijp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#luhuommijp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#luhuommijp .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#luhuommijp .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#luhuommijp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#luhuommijp .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#luhuommijp .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#luhuommijp .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#luhuommijp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#luhuommijp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#luhuommijp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#luhuommijp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#luhuommijp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#luhuommijp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#luhuommijp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#luhuommijp .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#luhuommijp .gt_left {
+  text-align: left;
+}
+
+#luhuommijp .gt_center {
+  text-align: center;
+}
+
+#luhuommijp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#luhuommijp .gt_font_normal {
+  font-weight: normal;
+}
+
+#luhuommijp .gt_font_bold {
+  font-weight: bold;
+}
+
+#luhuommijp .gt_font_italic {
+  font-style: italic;
+}
+
+#luhuommijp .gt_super {
   font-size: 65%;
+}
+
+#luhuommijp .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#luhuommijp .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#luhuommijp .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#luhuommijp .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#luhuommijp .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#luhuommijp .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -990,26 +1700,20 @@
 <td class="gt_row gt_center">1 (0.6%)</td>
 </tr>
 </tbody>
-<tfoot><tr class="gt_footnotes">
-<td colspan="2">
-        <p class="gt_footnote">
-          <sup class="gt_footnote_marks"><em>1</em>
-          </sup>
-           
-          n (%)
-          <br></p>
-      </td>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="2">
+<sup class="gt_footnote_marks">1</sup> n (%)</td>
     </tr></tfoot>
 </table>
 </div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></code></pre></div>
-<div id="uqsbywvowe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qtfbmjyswg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uqsbywvowe .gt_table {
+#qtfbmjyswg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1034,7 +1738,7 @@
   border-left-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_heading {
+#qtfbmjyswg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1046,33 +1750,37 @@
   border-right-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_title {
+#qtfbmjyswg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#uqsbywvowe .gt_subtitle {
+#qtfbmjyswg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#uqsbywvowe .gt_bottom_border {
+#qtfbmjyswg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_col_headings {
+#qtfbmjyswg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1087,7 +1795,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_col_heading {
+#qtfbmjyswg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1107,7 +1815,7 @@
   overflow-x: hidden;
 }
 
-#uqsbywvowe .gt_column_spanner_outer {
+#qtfbmjyswg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1119,15 +1827,15 @@
   padding-right: 4px;
 }
 
-#uqsbywvowe .gt_column_spanner_outer:first-child {
+#qtfbmjyswg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uqsbywvowe .gt_column_spanner_outer:last-child {
+#qtfbmjyswg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uqsbywvowe .gt_column_spanner {
+#qtfbmjyswg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1139,8 +1847,11 @@
   width: 100%;
 }
 
-#uqsbywvowe .gt_group_heading {
-  padding: 8px;
+#qtfbmjyswg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1161,7 +1872,7 @@
   vertical-align: middle;
 }
 
-#uqsbywvowe .gt_empty_group_heading {
+#qtfbmjyswg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1176,15 +1887,15 @@
   vertical-align: middle;
 }
 
-#uqsbywvowe .gt_from_md > :first-child {
+#qtfbmjyswg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uqsbywvowe .gt_from_md > :last-child {
+#qtfbmjyswg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uqsbywvowe .gt_row {
+#qtfbmjyswg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1203,7 +1914,7 @@
   overflow-x: hidden;
 }
 
-#uqsbywvowe .gt_stub {
+#qtfbmjyswg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1212,10 +1923,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#uqsbywvowe .gt_summary_row {
+#qtfbmjyswg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qtfbmjyswg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qtfbmjyswg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1225,17 +1955,26 @@
   padding-right: 5px;
 }
 
-#uqsbywvowe .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#qtfbmjyswg .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_grand_summary_row {
+#qtfbmjyswg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qtfbmjyswg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qtfbmjyswg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1245,7 +1984,7 @@
   padding-right: 5px;
 }
 
-#uqsbywvowe .gt_first_grand_summary_row {
+#qtfbmjyswg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1255,11 +1994,11 @@
   border-top-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_striped {
+#qtfbmjyswg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uqsbywvowe .gt_table_body {
+#qtfbmjyswg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1268,7 +2007,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_footnotes {
+#qtfbmjyswg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1282,13 +2021,16 @@
   border-right-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_footnote {
+#qtfbmjyswg .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#uqsbywvowe .gt_sourcenotes {
+#qtfbmjyswg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1302,44 +2044,80 @@
   border-right-color: #D3D3D3;
 }
 
-#uqsbywvowe .gt_sourcenote {
+#qtfbmjyswg .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#uqsbywvowe .gt_left {
+#qtfbmjyswg .gt_left {
   text-align: left;
 }
 
-#uqsbywvowe .gt_center {
+#qtfbmjyswg .gt_center {
   text-align: center;
 }
 
-#uqsbywvowe .gt_right {
+#qtfbmjyswg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uqsbywvowe .gt_font_normal {
+#qtfbmjyswg .gt_font_normal {
   font-weight: normal;
 }
 
-#uqsbywvowe .gt_font_bold {
+#qtfbmjyswg .gt_font_bold {
   font-weight: bold;
 }
 
-#uqsbywvowe .gt_font_italic {
+#qtfbmjyswg .gt_font_italic {
   font-style: italic;
 }
 
-#uqsbywvowe .gt_super {
+#qtfbmjyswg .gt_super {
   font-size: 65%;
 }
 
-#uqsbywvowe .gt_footnote_marks {
+#qtfbmjyswg .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#qtfbmjyswg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#qtfbmjyswg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qtfbmjyswg .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#qtfbmjyswg .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#qtfbmjyswg .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -1387,26 +2165,20 @@
 <td class="gt_row gt_center">181 (100%)</td>
 </tr>
 </tbody>
-<tfoot><tr class="gt_footnotes">
-<td colspan="2">
-        <p class="gt_footnote">
-          <sup class="gt_footnote_marks"><em>1</em>
-          </sup>
-           
-          n (%)
-          <br></p>
-      </td>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="2">
+<sup class="gt_footnote_marks">1</sup> n (%)</td>
     </tr></tfoot>
 </table>
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></code></pre></div>
-<div id="rgrfvifmta" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qyyhaokwlj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rgrfvifmta .gt_table {
+#qyyhaokwlj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1431,7 +2203,7 @@
   border-left-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_heading {
+#qyyhaokwlj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1443,33 +2215,37 @@
   border-right-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_title {
+#qyyhaokwlj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#rgrfvifmta .gt_subtitle {
+#qyyhaokwlj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#rgrfvifmta .gt_bottom_border {
+#qyyhaokwlj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_col_headings {
+#qyyhaokwlj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1484,7 +2260,7 @@
   border-right-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_col_heading {
+#qyyhaokwlj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1504,7 +2280,7 @@
   overflow-x: hidden;
 }
 
-#rgrfvifmta .gt_column_spanner_outer {
+#qyyhaokwlj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1516,15 +2292,15 @@
   padding-right: 4px;
 }
 
-#rgrfvifmta .gt_column_spanner_outer:first-child {
+#qyyhaokwlj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rgrfvifmta .gt_column_spanner_outer:last-child {
+#qyyhaokwlj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rgrfvifmta .gt_column_spanner {
+#qyyhaokwlj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1536,8 +2312,11 @@
   width: 100%;
 }
 
-#rgrfvifmta .gt_group_heading {
-  padding: 8px;
+#qyyhaokwlj .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1558,7 +2337,7 @@
   vertical-align: middle;
 }
 
-#rgrfvifmta .gt_empty_group_heading {
+#qyyhaokwlj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1573,15 +2352,15 @@
   vertical-align: middle;
 }
 
-#rgrfvifmta .gt_from_md > :first-child {
+#qyyhaokwlj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rgrfvifmta .gt_from_md > :last-child {
+#qyyhaokwlj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rgrfvifmta .gt_row {
+#qyyhaokwlj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1600,7 +2379,7 @@
   overflow-x: hidden;
 }
 
-#rgrfvifmta .gt_stub {
+#qyyhaokwlj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1609,10 +2388,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#rgrfvifmta .gt_summary_row {
+#qyyhaokwlj .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qyyhaokwlj .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qyyhaokwlj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1622,17 +2420,26 @@
   padding-right: 5px;
 }
 
-#rgrfvifmta .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#qyyhaokwlj .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_grand_summary_row {
+#qyyhaokwlj .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qyyhaokwlj .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qyyhaokwlj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1642,7 +2449,7 @@
   padding-right: 5px;
 }
 
-#rgrfvifmta .gt_first_grand_summary_row {
+#qyyhaokwlj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1652,11 +2459,11 @@
   border-top-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_striped {
+#qyyhaokwlj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rgrfvifmta .gt_table_body {
+#qyyhaokwlj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1665,7 +2472,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_footnotes {
+#qyyhaokwlj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1679,13 +2486,16 @@
   border-right-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_footnote {
+#qyyhaokwlj .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#rgrfvifmta .gt_sourcenotes {
+#qyyhaokwlj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1699,44 +2509,80 @@
   border-right-color: #D3D3D3;
 }
 
-#rgrfvifmta .gt_sourcenote {
+#qyyhaokwlj .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#rgrfvifmta .gt_left {
+#qyyhaokwlj .gt_left {
   text-align: left;
 }
 
-#rgrfvifmta .gt_center {
+#qyyhaokwlj .gt_center {
   text-align: center;
 }
 
-#rgrfvifmta .gt_right {
+#qyyhaokwlj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rgrfvifmta .gt_font_normal {
+#qyyhaokwlj .gt_font_normal {
   font-weight: normal;
 }
 
-#rgrfvifmta .gt_font_bold {
+#qyyhaokwlj .gt_font_bold {
   font-weight: bold;
 }
 
-#rgrfvifmta .gt_font_italic {
+#qyyhaokwlj .gt_font_italic {
   font-style: italic;
 }
 
-#rgrfvifmta .gt_super {
+#qyyhaokwlj .gt_super {
   font-size: 65%;
 }
 
-#rgrfvifmta .gt_footnote_marks {
+#qyyhaokwlj .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#qyyhaokwlj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#qyyhaokwlj .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qyyhaokwlj .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#qyyhaokwlj .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#qyyhaokwlj .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -1844,15 +2690,9 @@
 <td class="gt_row gt_center">8 (4.1%)</td>
 </tr>
 </tbody>
-<tfoot><tr class="gt_footnotes">
-<td colspan="2">
-        <p class="gt_footnote">
-          <sup class="gt_footnote_marks"><em>1</em>
-          </sup>
-           
-          n (%)
-          <br></p>
-      </td>
+<tfoot class="gt_footnotes"><tr>
+<td class="gt_footnote" colspan="2">
+<sup class="gt_footnote_marks">1</sup> n (%)</td>
     </tr></tfoot>
 </table>
 </div>
@@ -1871,7 +2711,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>

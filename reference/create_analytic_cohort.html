@@ -24,8 +24,8 @@ This function returns three datasets:
   data.
 The function inputs `cohort`, `institution`, `stage_dx`,
 and `regimen_drugs` correspond to the variable
-names in the GENIE BPC Analytic Data Guide, available on
-Synapse."><title>create_analytic_cohort — create_analytic_cohort • genieBPC</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="create_analytic_cohort — create_analytic_cohort"><meta property="og:description" content="This function allows the user to create a cohort from the GENIE BPC data
+names in the GENIE BPC Analytic Data Guide (see README and vignettes
+for links to data guides)."><title>create_analytic_cohort — create_analytic_cohort • genieBPC</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="create_analytic_cohort — create_analytic_cohort"><meta property="og:description" content="This function allows the user to create a cohort from the GENIE BPC data
 based on cancer diagnosis information such as cancer cohort, treating
 institution, histology, and stage at diagnosis, as well as cancer-directed
 regimen information including regimen name and regimen order.
@@ -50,8 +50,8 @@ This function returns three datasets:
   data.
 The function inputs `cohort`, `institution`, `stage_dx`,
 and `regimen_drugs` correspond to the variable
-names in the GENIE BPC Analytic Data Guide, available on
-Synapse."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+names in the GENIE BPC Analytic Data Guide (see README and vignettes
+for links to data guides)."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -62,14 +62,14 @@ Synapse."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -132,14 +132,13 @@ This function returns three datasets:</p><ol><li><p>`cohort_ca_dx` will contain 
   data.</p></li>
 </ol><p>The function inputs `cohort`, `institution`, `stage_dx`,
 and `regimen_drugs` correspond to the variable
-names in the GENIE BPC Analytic Data Guide, available on
-<a href="https://www.synapse.org/#!Synapse:syn21241322" class="external-link">Synapse</a>.</p>
+names in the GENIE BPC Analytic Data Guide (see README and vignettes
+for links to data guides).</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_analytic_cohort</span><span class="op">(</span>
-  <span class="va">cohort</span>,
   <span class="va">data_synapse</span>,
   index_ca_seq <span class="op">=</span> <span class="fl">1</span>,
   <span class="va">institution</span>,
@@ -155,13 +154,9 @@ names in the GENIE BPC Analytic Data Guide, available on
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>cohort</dt>
-<dd><p>GENIE BPC Project cancer. Must be one of "NSCLC"
-(non-small cell lung cancer) or "CRC" (colorectal cancer). Future cohorts
-will include "BrCa" (breast cancer), "PANC" (pancreatic cancer),
-"Prostate" (prostate cancer).</p></dd>
-<dt>data_synapse</dt>
-<dd><p>The list returned from pull_data_synapse().</p></dd>
+    <dl><dt>data_synapse</dt>
+<dd><p>The item from the nested list returned from pull_data_synapse()
+corresponding to the cancer cohort of interest.</p></dd>
 <dt>index_ca_seq</dt>
 <dd><p>Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
@@ -241,118 +236,109 @@ cancer-directed regimen (`tbl_drugs`) and next generation sequencing
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu"><a href="check_synapse_login.html">check_synapse_login</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in"><span class="co"># Example 1 ----------------------------------</span></span>
-<span class="r-in"><span class="co"># Create a cohort of all patients with stage IV NSCLC adenocarcinoma and</span></span>
-<span class="r-in"><span class="co"># also return all of their corresponding cancer-directed drugs</span></span>
-<span class="r-in"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1-consortium"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+<span class="r-in"><span class="co"># Example 1 -----------------------------------</span></span>
+<span class="r-in"><span class="co"># Example using package test data</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
-<span class="r-in">  data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span>,</span>
-<span class="r-in">  stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>,</span>
-<span class="r-in">  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ca_dx</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 x 141</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cohort record_id       institution release_version tr_eligible ca_seq</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-0001 DFCI        2.0-public                1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-0002 DFCI        2.0-public                1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-0003 DFCI        2.0-public                1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-0004 DFCI        2.0-public                1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-0005 DFCI        2.0-public                1      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-0006 DFCI        2.0-public                1      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-0007 DFCI        2.0-public                1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-0008 DFCI        2.0-public                1      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-0009 DFCI        2.0-public                1      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-0010 DFCI        2.0-public                1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 135 more variables: redcap_ca_index &lt;chr&gt;, dob_ca_dx_days &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dob_ca_dx_mos &lt;dbl&gt;, dob_ca_dx_yrs &lt;dbl&gt;, ca_dx_how &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dob_next_ca_days &lt;int&gt;, dob_next_ca_mos &lt;dbl&gt;, dob_next_ca_yrs &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   first_index_ca_days &lt;int&gt;, first_index_ca_mos &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   first_index_ca_yrs &lt;int&gt;, naaccr_first_contact_int &lt;int&gt;, age_dx &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ca_d_site &lt;chr&gt;, ca_type &lt;chr&gt;, naaccr_histology_cd &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ca_hist_adeno_squamous &lt;chr&gt;, naaccr_behavior_cd &lt;int&gt;, ...</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ca_drugs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 x 102</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cohort record_id       ca_seq institution regimen_number regimen_number_withi~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> NSCLC  GENIE-DFCI-0002      3 DFCI                     3                     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> NSCLC  GENIE-DFCI-0006      1 DFCI                     1                     6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 96 more variables: redcap_ca_index &lt;chr&gt;, drugs_num &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_inst &lt;chr&gt;, drugs_firstinst &lt;chr&gt;, drugs_ct_yn &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_dc_ynu &lt;chr&gt;, regimen_drugs &lt;chr&gt;, drugs_drug_1 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_drug_2 &lt;chr&gt;, drugs_drug_3 &lt;chr&gt;, drugs_drug_4 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_drug_5 &lt;lgl&gt;, drugs_startdt_int_1 &lt;int&gt;, drugs_startdt_int_2 &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_startdt_int_3 &lt;lgl&gt;, drugs_startdt_int_4 &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_startdt_int_5 &lt;lgl&gt;, dx_drug_start_int_1 &lt;int&gt;, ...</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ngs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 x 28</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cohort record_id      ca_seq institution cpt_number cpt_n_ca_seq cpt_order_int</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> NSCLC  GENIE-DFCI-00~      3 DFCI                 2            1         <span style="text-decoration: underline;">23</span>505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> NSCLC  GENIE-DFCI-00~      4 DFCI                 3            1         <span style="text-decoration: underline;">27</span>288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 21 more variables: cpt_seq_date &lt;int&gt;, dob_cpt_report_days &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dob_cpt_report_mos &lt;dbl&gt;, dob_cpt_report_yrs &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cpt_report_post_death &lt;int&gt;, dx_cpt_rep_days &lt;int&gt;, dx_cpt_rep_mos &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dx_cpt_rep_yrs &lt;dbl&gt;, dx_path_proc_cpt_days &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dx_path_proc_cpt_mos &lt;int&gt;, dx_path_proc_cpt_yrs &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   path_proc_cpt_rep_days &lt;int&gt;, path_proc_cpt_rep_mos &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   path_proc_cpt_rep_yrs &lt;dbl&gt;, path_proc_number &lt;int&gt;, ...</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Example 2 ----------------------------------</span></span>
+<span class="r-in"><span class="co"># Create a cohort of all patients with stage IV NSCLC adenocarcinoma and</span></span>
+<span class="r-in"><span class="co"># also return all of their corresponding cancer-directed drugs</span></span>
+<span class="r-in"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(., file_info = map(.data$query_url, function(x) {    requestedObjects &lt;- list(includeEntity = TRUE, includeAnnotations = TRUE,         includeFileHandles = TRUE, includeRestrictionInformation = TRUE)    res_per_id &lt;- httr::POST(url = x, body = jsonlite::toJSON(requestedObjects,         pretty = T, auto_unbox = T), httr::add_headers(Authorization = paste("Bearer ",         token, sep = "")), httr::content_type("application/json"))    entityBundle &lt;- httr::content(res_per_id, "parsed", encoding = "UTF-8")    file_info &lt;- entityBundle$fileHandles[[1]]    bind_cols(type = file_info$contentType, name = file_info$fileName,         file_handle_id = file_info$id)})):</span> Problem while computing `file_info = map(...)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `entityBundle$fileHandles[[1]]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> subscript out of bounds</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
+<span class="r-in">  stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>,</span>
+<span class="r-in">  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, stage_dx = "Stage IV",     histology = "Adenocarcinoma"):</span> object 'nsclc_2_0' not found</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Example 3 ----------------------------------</span></span>
 <span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin,</span></span>
 <span class="r-in"><span class="co"># Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen</span></span>
 <span class="r-in"><span class="co"># for their first index NSCLC</span></span>
-<span class="r-in"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1-consortium"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
-<span class="r-in">    data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span>,</span>
+<span class="r-in"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(., file_info = map(.data$query_url, function(x) {    requestedObjects &lt;- list(includeEntity = TRUE, includeAnnotations = TRUE,         includeFileHandles = TRUE, includeRestrictionInformation = TRUE)    res_per_id &lt;- httr::POST(url = x, body = jsonlite::toJSON(requestedObjects,         pretty = T, auto_unbox = T), httr::add_headers(Authorization = paste("Bearer ",         token, sep = "")), httr::content_type("application/json"))    entityBundle &lt;- httr::content(res_per_id, "parsed", encoding = "UTF-8")    file_info &lt;- entityBundle$fileHandles[[1]]    bind_cols(type = file_info$contentType, name = file_info$fileName,         file_handle_id = file_info$id)})):</span> Problem while computing `file_info = map(...)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `entityBundle$fileHandles[[1]]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> subscript out of bounds</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
 <span class="r-in">    regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span>
 <span class="r-in">                      <span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,</span>
 <span class="r-in">    regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">    regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, regimen_drugs = c("Cisplatin, Pemetrexed Disodium",     "Cisplatin, Etoposide"), regimen_order = 1, regimen_order_type = "within cancer"):</span> object 'nsclc_2_0' not found</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 3 ----------------------------------</span></span>
+<span class="r-in"><span class="co"># Example 4 ----------------------------------</span></span>
 <span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed</span></span>
 <span class="r-in"><span class="co"># Disodium at any time throughout the course of treatment for their</span></span>
 <span class="r-in"><span class="co"># cancer diagnosis,</span></span>
 <span class="r-in"><span class="co"># but in the event that the patient received the drug multiple times,</span></span>
 <span class="r-in"><span class="co"># only select the first time.</span></span>
-<span class="r-in"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1-consortium"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(., file_info = map(.data$query_url, function(x) {    requestedObjects &lt;- list(includeEntity = TRUE, includeAnnotations = TRUE,         includeFileHandles = TRUE, includeRestrictionInformation = TRUE)    res_per_id &lt;- httr::POST(url = x, body = jsonlite::toJSON(requestedObjects,         pretty = T, auto_unbox = T), httr::add_headers(Authorization = paste("Bearer ",         token, sep = "")), httr::content_type("application/json"))    entityBundle &lt;- httr::content(res_per_id, "parsed", encoding = "UTF-8")    file_info &lt;- entityBundle$fileHandles[[1]]    bind_cols(type = file_info$contentType, name = file_info$fileName,         file_handle_id = file_info$id)})):</span> Problem while computing `file_info = map(...)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `entityBundle$fileHandles[[1]]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> subscript out of bounds</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
-<span class="r-in">    data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span>,</span>
+<span class="r-in"><span class="fu">create_analytic_cohort</span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
 <span class="r-in">    regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span>
 <span class="r-in">    regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">    regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">}</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ca_dx</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 181 x 152</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    cohort record_id     institution ca_seq redcap_ca_index ca_cadx_int ca_dx_how</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">18</span>631 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>329 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>944 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>538 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">25</span>813 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>189 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>758 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">24</span>688 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">24</span>831 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>124 Pathology</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 171 more rows, and 145 more variables: dob_next_ca_days &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tt_first_index_ca &lt;int&gt;, naaccr_first_contact_int &lt;int&gt;, ca_age &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   age_dx &lt;int&gt;, naaccr_site_cd &lt;chr&gt;, ca_site &lt;chr&gt;, ca_d_site &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   site_recode &lt;chr&gt;, ca_type &lt;chr&gt;, naaccr_histology_cd &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ca_hist_adeno_squamous &lt;chr&gt;, naaccr_behavior_cd &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   naaccr_laterality_cd &lt;chr&gt;, naaccr_grade &lt;int&gt;, ca_grade_diff &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ca_grade &lt;chr&gt;, best_ajcc_stage_cd &lt;chr&gt;, ca_stage_iv &lt;chr&gt;, ...</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ca_drugs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 181 x 101</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    cohort record_id  ca_seq institution regimen_number redcap_ca_index drugs_num</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFC~      0 DFCI                     2 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFC~      0 DFCI                     2 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFC~      0 DFCI                     3 Yes                     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 171 more rows, and 94 more variables: drugs_inst &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_firstinst &lt;chr&gt;, drugs_ct_yn &lt;chr&gt;, drugs_dc_ynu &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   regimen_drugs &lt;chr&gt;, drugs_drug_1 &lt;chr&gt;, drugs_drug_2 &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_drug_3 &lt;chr&gt;, drugs_drug_4 &lt;chr&gt;, drugs_drug_5 &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_drug_oth_1 &lt;chr&gt;, drugs_drug_oth_2 &lt;chr&gt;, drugs_drug_oth_3 &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_drug_oth_4 &lt;chr&gt;, drugs_drug_oth_5 &lt;lgl&gt;, drugs_startdt_int_1 &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   drugs_startdt_int_2 &lt;int&gt;, drugs_startdt_int_3 &lt;int&gt;, ...</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cohort_ngs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 194 x 27</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    cohort record_id         ca_seq institution cpt_number cpt_report_int</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-000263      0 DFCI                 1          <span style="text-decoration: underline;">18</span>689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-000583      0 DFCI                 1          <span style="text-decoration: underline;">25</span>932</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-000611      0 DFCI                 1          <span style="text-decoration: underline;">24</span>012</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-000675      0 DFCI                 1          <span style="text-decoration: underline;">22</span>604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-001319      0 DFCI                 1          <span style="text-decoration: underline;">25</span>856</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-002274      0 DFCI                 1          <span style="text-decoration: underline;">24</span>349</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-002433      0 DFCI                 1          <span style="text-decoration: underline;">24</span>923</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-003133      0 DFCI                 1          <span style="text-decoration: underline;">25</span>920</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-003307      0 DFCI                 1          <span style="text-decoration: underline;">25</span>696</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-003392      0 DFCI                 1          <span style="text-decoration: underline;">24</span>054</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ... with 184 more rows, and 21 more variables: path_proc_number &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   path_rep_number &lt;int&gt;, cpt_genie_sample_id &lt;chr&gt;, cpt_oncotree_code &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cpt_sample_type &lt;chr&gt;, cpt_seq_assay_id &lt;chr&gt;, cpt_order_int &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cpt_seq_date &lt;int&gt;, dob_cpt_report_days &lt;int&gt;, cpt_report_post_death &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dx_cpt_rep_days &lt;int&gt;, dx_cpt_rep_mos &lt;dbl&gt;, dx_cpt_rep_yrs &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dx_path_proc_cpt_days &lt;int&gt;, dx_path_proc_cpt_mos &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dx_path_proc_cpt_yrs &lt;dbl&gt;, path_proc_cpt_rep_days &lt;int&gt;, ...</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),     regimen_order = 1, regimen_order_type = "within regimen"):</span> object 'nsclc_2_0' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -364,7 +350,7 @@ cancer-directed regimen (`tbl_drugs`) and next generation sequencing
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

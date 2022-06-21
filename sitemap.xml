@@ -40,10 +40,28 @@
     <loc>https://genie-bpc.github.io/genieBPC/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://genie-bpc.github.io/genieBPC/reference/check_synapse_login.html</loc>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/check_genie_access.html</loc>
   </url>
   <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/create_analytic_cohort.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-check_download_path.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-check_synapse_login.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_and_query_file_url.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_env.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_synapse_token.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-pull_data_by_cohort.html</loc>
   </url>
   <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/drug_regimen_list.html</loc>
@@ -64,6 +82,9 @@
     <loc>https://genie-bpc.github.io/genieBPC/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/nsclc_test_data.html</loc>
+  </url>
+  <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/pull_data_synapse.html</loc>
   </url>
   <url>
@@ -71,6 +92,9 @@
   </url>
   <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/select_unique_ngs.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/set_synapse_credentials.html</loc>
   </url>
   <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/synapse_tables.html</loc>

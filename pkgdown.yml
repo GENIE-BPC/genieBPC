@@ -1,5 +1,5 @@
-pandoc: 2.11.4
-pkgdown: 2.0.1
+pandoc: 2.17.1.1
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   clinical_data_structure_vignette: clinical_data_structure_vignette.html
@@ -7,7 +7,7 @@ articles:
   drug_regimen_sunburst_vignette: drug_regimen_sunburst_vignette.html
   pull_data_synapse_vignette: pull_data_synapse_vignette.html
   select_unique_ngs_vignette: select_unique_ngs_vignette.html
-last_built: 2022-04-05T18:07Z
+last_built: 2022-06-21T15:40Z
 urls:
   reference: https://genie-bpc.github.io/genieBPC/reference
   article: https://genie-bpc.github.io/genieBPC/articles

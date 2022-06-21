@@ -26,14 +26,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -69,8 +69,11 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="drug_regimen_sunburst_vignette_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="drug_regimen_sunburst_vignette_files/sequences-0.1/sequences.css" rel="stylesheet">
-<script src="drug_regimen_sunburst_vignette_files/sunburst-binding-2.1.5/sunburst.js"></script><div class="row">
+<script src="drug_regimen_sunburst_vignette_files/sunburst-binding-2.1.6/sunburst.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: drug_regimen_sunburst</h1>
             
@@ -84,17 +87,21 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code><a href="../reference/drug_regimen_sunburst.html">drug_regimen_sunburst()</a></code> function creates a visualization of the treatment patterns for selected diagnoses in a given analytic cohort. The function returns a list containing a ‘treatment_history’ data frame and the interactive plot ‘sunburst_plot’.</p>
+<p>The <code><a href="../reference/drug_regimen_sunburst.html">drug_regimen_sunburst()</a></code> function allows the user to
+visualize the complete treatment course for selected diagnoses in a
+given analytic cohort. The function returns a list containing a
+‘treatment_history’ data frame and the interactive plot
+‘sunburst_plot’.</p>
 </div>
 <div class="section level2">
 <h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
 </h2>
-<div id="qjsgdpghze" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yqwesxnvii" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qjsgdpghze .gt_table {
+#yqwesxnvii .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -119,7 +126,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_heading {
+#yqwesxnvii .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -131,33 +138,37 @@
   border-right-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_title {
+#yqwesxnvii .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#qjsgdpghze .gt_subtitle {
+#yqwesxnvii .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#qjsgdpghze .gt_bottom_border {
+#yqwesxnvii .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_col_headings {
+#yqwesxnvii .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -172,7 +183,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_col_heading {
+#yqwesxnvii .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -192,7 +203,7 @@
   overflow-x: hidden;
 }
 
-#qjsgdpghze .gt_column_spanner_outer {
+#yqwesxnvii .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -204,15 +215,15 @@
   padding-right: 4px;
 }
 
-#qjsgdpghze .gt_column_spanner_outer:first-child {
+#yqwesxnvii .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qjsgdpghze .gt_column_spanner_outer:last-child {
+#yqwesxnvii .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qjsgdpghze .gt_column_spanner {
+#yqwesxnvii .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -224,8 +235,11 @@
   width: 100%;
 }
 
-#qjsgdpghze .gt_group_heading {
-  padding: 1px;
+#yqwesxnvii .gt_group_heading {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -246,7 +260,7 @@
   vertical-align: middle;
 }
 
-#qjsgdpghze .gt_empty_group_heading {
+#yqwesxnvii .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -261,15 +275,15 @@
   vertical-align: middle;
 }
 
-#qjsgdpghze .gt_from_md > :first-child {
+#yqwesxnvii .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qjsgdpghze .gt_from_md > :last-child {
+#yqwesxnvii .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qjsgdpghze .gt_row {
+#yqwesxnvii .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -288,7 +302,7 @@
   overflow-x: hidden;
 }
 
-#qjsgdpghze .gt_stub {
+#yqwesxnvii .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -297,10 +311,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#qjsgdpghze .gt_summary_row {
+#yqwesxnvii .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#yqwesxnvii .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#yqwesxnvii .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -310,17 +343,26 @@
   padding-right: 5px;
 }
 
-#qjsgdpghze .gt_first_summary_row {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
+#yqwesxnvii .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_grand_summary_row {
+#yqwesxnvii .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#yqwesxnvii .gt_last_summary_row {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yqwesxnvii .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -330,7 +372,7 @@
   padding-right: 5px;
 }
 
-#qjsgdpghze .gt_first_grand_summary_row {
+#yqwesxnvii .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -340,11 +382,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_striped {
+#yqwesxnvii .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qjsgdpghze .gt_table_body {
+#yqwesxnvii .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -353,7 +395,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_footnotes {
+#yqwesxnvii .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -367,13 +409,16 @@
   border-right-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_footnote {
+#yqwesxnvii .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 1px;
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#qjsgdpghze .gt_sourcenotes {
+#yqwesxnvii .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -387,44 +432,80 @@
   border-right-color: #D3D3D3;
 }
 
-#qjsgdpghze .gt_sourcenote {
+#yqwesxnvii .gt_sourcenote {
   font-size: 90%;
-  padding: 1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#qjsgdpghze .gt_left {
+#yqwesxnvii .gt_left {
   text-align: left;
 }
 
-#qjsgdpghze .gt_center {
+#yqwesxnvii .gt_center {
   text-align: center;
 }
 
-#qjsgdpghze .gt_right {
+#yqwesxnvii .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qjsgdpghze .gt_font_normal {
+#yqwesxnvii .gt_font_normal {
   font-weight: normal;
 }
 
-#qjsgdpghze .gt_font_bold {
+#yqwesxnvii .gt_font_bold {
   font-weight: bold;
 }
 
-#qjsgdpghze .gt_font_italic {
+#yqwesxnvii .gt_font_italic {
   font-style: italic;
 }
 
-#qjsgdpghze .gt_super {
+#yqwesxnvii .gt_super {
   font-size: 65%;
 }
 
-#qjsgdpghze .gt_footnote_marks {
+#yqwesxnvii .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#yqwesxnvii .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#yqwesxnvii .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#yqwesxnvii .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#yqwesxnvii .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#yqwesxnvii .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -440,7 +521,7 @@
 <td class="gt_row gt_left"><div class="gt_from_md">
 <p><code>data_synapse</code></p>
 </div></td>
-<td class="gt_row gt_left">The list returned from the `pull_data_synapse()` function call.</td>
+<td class="gt_row gt_left">The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.</td>
 </tr>
 <tr>
 <td class="gt_row gt_left"><div class="gt_from_md">
@@ -457,38 +538,58 @@
 </tbody>
 </table>
 </div>
-<p>Note that the innermost circle of the sunburst plot indicates the first therapies that patients received following diagnosis. The circle is divided proportionally based on the percentage of patients that received a particular treatment. Each subsequent ring of the sunburst corresponds to a subsequent treatment regimen, such that the inner rings represent earlier treatments. Together, the rings illustrate the distribution and patterns of various treatment regimens.</p>
+<p>Note that the innermost circle of the sunburst plot indicates the
+first therapies that patients received following diagnosis. The circle
+is divided proportionally based on the percentage of patients that
+received a particular treatment. Each subsequent ring of the sunburst
+corresponds to a subsequent treatment regimen, such that the inner rings
+represent earlier treatments. Together, the rings illustrate the
+distribution and patterns of various treatment regimens.</p>
+</div>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<p>Before going through the tutorial, load the {genieBPC} library and
+log into Synapse using the <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>
+function. For more information on
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the
+<code>Tutorial: pull_data_synapse()</code> vignette.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>This tutorial will utilize the data downloaded in the
+<code>Tutorial: pull_data_synapse()</code> vignette, as shown below:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_2_1</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. This example utilizes the data downloaded using the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function and processed in the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span>
+<p>The example below creates a sunburst plot of the first three
+cancer-directed regimens received by patients diagnosed with Stage IV
+NSCLC.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_stg_iv</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
+                                      stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"1.1-consortium"</span><span class="op">)</span>
-
-<span class="va">nsclc_cohort</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,
-                                      data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                                      stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">nsclc_treatment</span> <span class="op">=</span> <span class="fu"><a href="../reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,
-                      data_cohort <span class="op">=</span> <span class="va">nsclc_cohort</span>,
+<span class="va">nsclc_treatment</span> <span class="op">=</span> <span class="fu"><a href="../reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
+                      data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv</span>,
                       max_n_regimens <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nsclc_treatment</span><span class="op">$</span><span class="va">treatment_history</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 x 2</span></span>
 <span class="co">#&gt;   path                                                                       Pop</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">"</span>Afatinib Dimaleate<span style="color: #949494;">"</span>                                                         1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">"</span>Afatinib Dimaleate-Afatinib Dimaleate, Carboplatin, Pemetrexed Disodiu~     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">"</span>Afatinib Dimaleate-Cisplatin, Pemetrexed Disodium-Osimertinib<span style="color: #949494;">"</span>              1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">"</span>Afatinib Dimaleate-Erlotinib Hydrochloride-Bevacizumab, Carboplatin, P~     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">"</span>Afatinib Dimaleate-Erlotinib Hydrochloride-Investigational Drug<span style="color: #949494;">"</span>            1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> <span style="color: #949494;">"</span>Afatinib Dimaleate-Gefitinib-Bevacizumab, Carboplatin, Pemetrexed Diso~     1</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Afatinib Dimaleate                                                           1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Afatinib Dimaleate-Afatinib Dimaleate, Carboplatin, Pemetrexed Disodium~     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Afatinib Dimaleate-Cisplatin, Pemetrexed Disodium-Osimertinib                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Afatinib Dimaleate-Erlotinib Hydrochloride-Bevacizumab, Carboplatin, Pe~     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Afatinib Dimaleate-Erlotinib Hydrochloride-Investigational Drug              1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Afatinib Dimaleate-Gefitinib-Bevacizumab, Carboplatin, Pemetrexed Disod~     1</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nsclc_treatment</span><span class="op">$</span><span class="va">sunburst_plot</span></code></pre></div>
-<div class="sunburst html-widget" id="htmlwidget-ba917e5d6a4c8be70fa9" style="width:768px;height:768px; position:relative;">
+<div class="sunburst html-widget" id="htmlwidget-20e6f475b837ba73815e" style="width:768px;height:768px; position:relative;">
 <div>
 <div class="sunburst-main">
 <div class="sunburst-sequence"></div>
@@ -502,7 +603,7 @@
 </div>
 </div>
 </div>
-<script type="application/json" data-for="htmlwidget-ba917e5d6a4c8be70fa9">{"x":{"data":{"children":[{"name":"Afatinib Dimaleate","children":[{"name":"Afatinib Dimaleate, Carboplatin, Pemetrexed Disodium","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gefitinib","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":3,"colname":"X3"},{"name":"Cisplatin","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Alectinib","children":[{"name":"Bevacizumab","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Alectinib, Bevacizumab","children":[{"name":"Investigational Drug","children":[{"name":"Lorlatinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Atezolizumab","children":[],"size":1,"colname":"X1"},{"name":"Atezolizumab, Erlotinib Hydrochloride","children":[],"size":1,"colname":"X1"},{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Bevacizumab, Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab","children":[{"name":"Pembrolizumab","size":2,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Nivolumab","size":3,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Carboplatin, Docetaxel ","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel ","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Ceritinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel , Ramucirumab","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Carboplatin, Investigational Drug, Paclitaxel","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Trastuzumab Emtansine","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Methotrexate","children":[{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel , Ramucirumab","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"size":7,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":3,"colname":"X2"},{"name":"Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":13,"colname":"X1"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Atezolizumab","children":[],"size":2,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Crizotinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel , Vinorelbine Tartrate","children":[{"name":"Afatinib Dimaleate, Bevacizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Atezolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel , Ramucirumab","size":2,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":5,"colname":"X1"},{"name":"Bevacizumab, Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Icotinib, Nedaplatin, Other antineoplastic, Other NOS, Pemetrexed Disodium","children":[{"name":"Gefitinib, icotinib, Other antineoplastic","children":[{"name":"Erlotinib Hydrochloride, Osimertinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Nabpaclitaxel, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Paclitaxel, Pemetrexed Disodium","children":[{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cabozantinib Smalate","children":[{"name":"Carboplatin, Investigational Drug, Paclitaxel","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Crizotinib, Paclitaxel","children":[{"name":"Cabozantinib Smalate","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Docetaxel ","children":[{"name":"Nivolumab","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Carboplatin, Etoposide","children":[{"name":"Atezolizumab, Investigational Drug","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Carboplatin, Paclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Ipilimumab","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":3,"colname":"X1"},{"name":"Carboplatin, Gemcitabine Hydrochloride, Paclitaxel","children":[{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug","children":[{"name":"Gemcitabine Hydrochloride","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Paclitaxel","children":[{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Carboplatin, Nabpaclitaxel","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Carboplatin, Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Carboplatin, Docetaxel ","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"}],"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel , Gemcitabine Hydrochloride","children":[{"name":"Dabrafenib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Carboplatin, Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Ipilimumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"}],"size":1,"colname":"X2"}],"size":8,"colname":"X1"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Docetaxel , Ramucirumab","children":[{"name":"Trastuzumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel , Ramucirumab","children":[{"name":"Investigational Drug, Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Palbociclib","children":[],"size":1,"colname":"X2"}],"size":2,"colname":"X1"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Atezolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Alectinib","children":[{"name":"Brigatinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Atezolizumab","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":7,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Nabpaclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Dabrafenib, Trametinib","children":[],"size":1,"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Investigational Drug, Palbociclib","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Docetaxel , Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Durvalumab, Tremelimumab","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Crizotinib, Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Osimertinib","size":2,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Gemcitabine Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Nabpaclitaxel","children":[],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Crizotinib","size":2,"colname":"X3"},{"name":"Docetaxel ","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Neratinib","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Docetaxel ","size":2,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":2,"colname":"X3"}],"size":18,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel","children":[{"name":"Vemurafenib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Bevacizumab","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel ","size":3,"colname":"X3"},{"name":"Docetaxel , Investigational Drug","size":1,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":6,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Megestrol Acetate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Trastuzumab, Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"}],"size":45,"colname":"X1"},{"name":"Cetuximab,Cetuximab CDP1,Cetuximab CMAB009,Cetuximab  KL 140,Chimeric MoAb C225,Erbitux,IMCC225, Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Capecitabine, Erlotinib Hydrochloride, Oxaliplatin","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Chemotherapy, NOS, Other antineoplastic","children":[{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Docetaxel ","children":[{"name":"Carboplatin, Docetaxel ","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Etoposide","children":[{"name":"Carboplatin, Etoposide","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":2,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Gemcitabine Hydrochloride, Necitumumab","children":[{"name":"Investigational Drug, Investigational Drug","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Alectinib","children":[],"size":1,"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel , Ramucirumab","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Paclitaxel","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Pembrolizumab, Pemetrexed Disodium","children":[],"size":1,"colname":"X1"},{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab, Investigational Drug","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":2,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel ","children":[{"name":"Trastuzumab, Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Icotinib, Other NOS","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Crizotinib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Docetaxel , Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Vinorelbine Tartrate","children":[{"name":"Dabrafenib","size":1,"colname":"X3"}],"colname":"X2"}],"size":11,"colname":"X1"},{"name":"Cisplatin, Vinorelbine Tartrate","children":[{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gefitinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Crizotinib","children":[{"name":"Alectinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Brigatinib","size":2,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Ceritinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Ensartinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug","children":[],"size":2,"colname":"X2"}],"size":5,"colname":"X1"},{"name":"Dabrafenib, Trametinib","children":[{"name":"Nivolumab","children":[{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Docetaxel ","children":[{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab","children":[],"size":1,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel , Erlotinib Hydrochloride, Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride, Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Osimertinib, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Cisplatin, Erlotinib Hydrochloride, Etoposide","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib, Erlotinib Hydrochloride","children":[{"name":"Crizotinib, Osimertinib","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride, Osimertinib","children":[{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Osimertinib","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Bevacizumab, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Navitoclax, Osimertinib","children":[{"name":"Necitumumab, Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Atezolizumab","size":1,"colname":"X3"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Carboplatin, Nabpaclitaxel, Osimertinib","size":1,"colname":"X3"},{"name":"Carboplatin, Osimertinib, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":4,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"}],"size":12,"colname":"X2"},{"name":"Rociletinib","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":13,"colname":"X1"},{"name":"Gefitinib","children":[{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Gefitinib, Osimertinib","children":[],"size":1,"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Investigational Drug","children":[{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Nabpaclitaxel","children":[],"size":1,"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Paclitaxel, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","children":[],"size":1,"colname":"X2"},{"name":"Afatinib Dimaleate, Bevacizumab","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":4,"colname":"X3"},{"name":"Osimertinib","size":2,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"}],"size":3,"colname":"X1"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Etoposide","children":[{"name":"Docetaxel ","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","size":1,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Osimertinib, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Cisplatin, Etoposide","children":[],"size":1,"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nabpaclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[],"size":1,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Crizotinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":3,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":9,"colname":"X1"},{"name":"Investigational Drug, Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Nivolumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Ipilimumab, Nivolumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab, Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Cisplatin, Erlotinib Hydrochloride, Osimertinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Osimertinib","children":[{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":6,"colname":"X1"},{"name":"Other NOS","children":[],"size":1,"colname":"X1"},{"name":"Paclitaxel, Pemetrexed Disodium","children":[{"name":"Nabpaclitaxel, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Pembrolizumab","children":[{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Cisplatin, Gemcitabine Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Nabpaclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Crizotinib","size":1,"colname":"X3"},{"name":"Docetaxel , Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Palbociclib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Dabrafenib, Trametinib","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Cabozantinib Smalate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Carboplatin, Osimertinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":28,"colname":"X1"},{"name":"Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Cetuximab,Cetuximab CDP1,Cetuximab CMAB009,Cetuximab  KL 140,Chimeric MoAb C225,Erbitux,IMCC225","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Vinorelbine Tartrate","children":[{"name":"Atezolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"}],"name":"root"},"options":{"legendOrder":null,"colors":null,"valueField":"size","percent":true,"count":false,"explanation":null,"breadcrumb":[],"legend":true,"sortFunction":null,"sumNodes":true}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-20e6f475b837ba73815e">{"x":{"data":{"children":[{"name":"Afatinib Dimaleate","children":[{"name":"Afatinib Dimaleate, Carboplatin, Pemetrexed Disodium","children":[{"name":"Docetaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gefitinib","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":3,"colname":"X3"},{"name":"Cisplatin","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Alectinib","children":[{"name":"Alectinib, Bevacizumab","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Alectinib, Bevacizumab","children":[{"name":"Investigational Drug","children":[{"name":"Lorlatinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Atezolizumab","children":[],"size":1,"colname":"X1"},{"name":"Atezolizumab, Erlotinib Hydrochloride","children":[],"size":1,"colname":"X1"},{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Docetaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Bevacizumab, Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab","children":[{"name":"Pembrolizumab","size":2,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Nivolumab","size":3,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Carboplatin, Docetaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Ceritinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel, Ramucirumab","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Atezolizumab","size":1,"colname":"X3"},{"name":"Bevacizumab, Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Carboplatin, Investigational Drug, Paclitaxel","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Trastuzumab Emtansine","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Methotrexate","children":[{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel, Ramucirumab","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"size":7,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":3,"colname":"X2"},{"name":"Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":13,"colname":"X1"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Atezolizumab","children":[],"size":2,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Crizotinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel, Vinorelbine Tartrate","children":[{"name":"Afatinib Dimaleate, Bevacizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Atezolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel, Ramucirumab","size":2,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":5,"colname":"X1"},{"name":"Bevacizumab, Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Nabpaclitaxel, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Other antineoplastic, Other NOS, Pemetrexed Disodium","children":[{"name":"Gefitinib, Other antineoplastic","children":[{"name":"Erlotinib Hydrochloride, Osimertinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Paclitaxel, Pemetrexed Disodium","children":[{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cabozantinib Smalate","children":[{"name":"Carboplatin, Investigational Drug, Paclitaxel","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Crizotinib, Paclitaxel","children":[{"name":"Cabozantinib Smalate","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Docetaxel","children":[{"name":"Nivolumab","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Carboplatin, Etoposide","children":[{"name":"Atezolizumab, Investigational Drug","children":[{"name":"Docetaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Carboplatin, Paclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Ipilimumab","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":3,"colname":"X1"},{"name":"Carboplatin, Gemcitabine Hydrochloride, Paclitaxel","children":[{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug","children":[{"name":"Gemcitabine Hydrochloride","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Paclitaxel","children":[{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Carboplatin, Nabpaclitaxel","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Carboplatin, Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Carboplatin, Docetaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"}],"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Docetaxel","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel, Gemcitabine Hydrochloride","children":[{"name":"Dabrafenib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Carboplatin, Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Ipilimumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"}],"size":1,"colname":"X2"}],"size":8,"colname":"X1"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Docetaxel, Ramucirumab","children":[{"name":"Trastuzumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel, Ramucirumab","children":[{"name":"Investigational Drug, Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Palbociclib","children":[],"size":1,"colname":"X2"}],"size":2,"colname":"X1"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Atezolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Alectinib","children":[{"name":"Brigatinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Atezolizumab","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":7,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Nabpaclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Dabrafenib, Trametinib","children":[],"size":1,"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Investigational Drug, Palbociclib","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Docetaxel, Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Durvalumab, Tremelimumab","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Crizotinib, Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Osimertinib","size":2,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Gemcitabine Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Gemcitabine Hydrochloride, Nabpaclitaxel","children":[],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Crizotinib","size":2,"colname":"X3"},{"name":"Docetaxel","size":2,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Neratinib","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"},{"name":"Docetaxel","size":3,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":2,"colname":"X3"}],"size":18,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel","children":[{"name":"Vemurafenib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Bevacizumab","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel","size":3,"colname":"X3"},{"name":"Docetaxel, Investigational Drug","size":1,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug","size":2,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":6,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Megestrol Acetate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Trastuzumab, Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Vinorelbine Tartrate","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"}],"size":45,"colname":"X1"},{"name":"Cetuximab, Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Capecitabine, Erlotinib Hydrochloride, Oxaliplatin","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Docetaxel","children":[{"name":"Carboplatin, Docetaxel","children":[{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Etoposide","children":[{"name":"Carboplatin, Etoposide","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Docetaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":2,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Cisplatin, Gemcitabine Hydrochloride, Necitumumab","children":[{"name":"Investigational Drug, Investigational Drug","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Investigational Drug, Pemetrexed Disodium","children":[{"name":"Alectinib","children":[],"size":1,"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel, Ramucirumab","children":[],"size":1,"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Paclitaxel","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Cisplatin, Pembrolizumab, Pemetrexed Disodium","children":[],"size":1,"colname":"X1"},{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Pembrolizumab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab, Investigational Drug","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":2,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Nabpaclitaxel","size":1,"colname":"X3"},{"name":"Pembrolizumab","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Docetaxel","children":[{"name":"Trastuzumab, Vinorelbine Tartrate","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Nivolumab","children":[{"name":"Crizotinib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Other NOS","children":[{"name":"Carboplatin, Paclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Docetaxel, Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Vinorelbine Tartrate","children":[{"name":"Dabrafenib","size":1,"colname":"X3"}],"colname":"X2"}],"size":11,"colname":"X1"},{"name":"Cisplatin, Vinorelbine Tartrate","children":[{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Gefitinib","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Crizotinib","children":[{"name":"Alectinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Brigatinib","size":2,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Lorlatinib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Cabozantinib Smalate","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Ceritinib","children":[{"name":"Alectinib","size":1,"colname":"X3"},{"name":"Ensartinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug","children":[],"size":2,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":5,"colname":"X1"},{"name":"Dabrafenib, Trametinib","children":[{"name":"Nivolumab","children":[{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Docetaxel","children":[{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab","children":[],"size":1,"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Docetaxel, Erlotinib Hydrochloride, Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride, Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Gemcitabine Hydrochloride","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Osimertinib, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Nivolumab","size":2,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Cisplatin, Erlotinib Hydrochloride, Etoposide","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib, Erlotinib Hydrochloride","children":[{"name":"Crizotinib, Osimertinib","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride, Osimertinib","children":[{"name":"Dabrafenib, Trametinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Osimertinib","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Bevacizumab, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Navitoclax, Osimertinib","children":[{"name":"Necitumumab, Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Atezolizumab","size":1,"colname":"X3"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Carboplatin, Nabpaclitaxel, Osimertinib","size":1,"colname":"X3"},{"name":"Carboplatin, Osimertinib, Pemetrexed Disodium","size":2,"colname":"X3"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Pemetrexed Disodium","size":4,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Investigational Drug","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"}],"size":12,"colname":"X2"},{"name":"Rociletinib","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":15,"colname":"X1"},{"name":"Gefitinib","children":[{"name":"Cisplatin, Pemetrexed Disodium","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug","children":[],"size":1,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Gefitinib, Osimertinib","children":[],"size":1,"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Investigational Drug","children":[{"name":"Carboplatin, Gemcitabine Hydrochloride","children":[{"name":"Nivolumab","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Nabpaclitaxel","children":[],"size":1,"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Pemetrexed Disodium","children":[{"name":"Nivolumab","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Gemcitabine Hydrochloride, Vinorelbine Tartrate","children":[{"name":"Nivolumab","children":[],"size":1,"colname":"X2"},{"name":"Paclitaxel, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Paclitaxel, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","children":[],"size":1,"colname":"X2"},{"name":"Afatinib Dimaleate, Bevacizumab","children":[{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"},{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[{"name":"Investigational Drug, Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug, Investigational Drug","size":2,"colname":"X3"},{"name":"Investigational Drug, Nivolumab","size":1,"colname":"X3"},{"name":"Nivolumab","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Carboplatin, Erlotinib Hydrochloride, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug","size":3,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":4,"colname":"X3"},{"name":"Osimertinib","size":2,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"size":1,"colname":"X2"}],"size":3,"colname":"X1"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Afatinib Dimaleate","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Cisplatin, Pemetrexed Disodium","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Etoposide","children":[{"name":"Docetaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Paclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab","size":1,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"},{"name":"Gemcitabine Hydrochloride, Osimertinib, Vinorelbine Tartrate","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Vinorelbine Tartrate","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Cisplatin, Etoposide","children":[],"size":1,"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Nabpaclitaxel","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[],"size":1,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"}],"size":1,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Crizotinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug","size":3,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Osimertinib","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[{"name":"Cisplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Pemetrexed Disodium","children":[{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Erlotinib Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"}],"size":9,"colname":"X1"},{"name":"Investigational Drug, Investigational Drug, Investigational Drug","children":[{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Investigational Drug, Nivolumab","children":[{"name":"Nivolumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"colname":"X1"},{"name":"Ipilimumab, Nivolumab","children":[{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Atezolizumab, Investigational Drug","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Cisplatin, Erlotinib Hydrochloride, Osimertinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Osimertinib","children":[{"name":"Investigational Drug","children":[{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Investigational Drug, Investigational Drug","children":[{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"}],"size":6,"colname":"X1"},{"name":"Other antineoplastic","children":[{"name":"Erlotinib Hydrochloride","children":[{"name":"Afatinib Dimaleate","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Other NOS","children":[],"size":1,"colname":"X1"},{"name":"Paclitaxel, Pemetrexed Disodium","children":[{"name":"Nabpaclitaxel, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Pembrolizumab","children":[{"name":"Bevacizumab, Carboplatin, Paclitaxel","children":[{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Bevacizumab, Carboplatin, Pemetrexed Disodium","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Cisplatin, Gemcitabine Hydrochloride","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Nabpaclitaxel","children":[],"size":1,"colname":"X2"},{"name":"Carboplatin, Pembrolizumab, Pemetrexed Disodium","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Carboplatin, Pemetrexed Disodium","children":[{"name":"Crizotinib","size":1,"colname":"X3"},{"name":"Docetaxel, Ramucirumab","size":1,"colname":"X3"},{"name":"Investigational Drug, Investigational Drug, Investigational Drug","size":1,"colname":"X3"},{"name":"Investigational Drug, Palbociclib","size":1,"colname":"X3"}],"size":3,"colname":"X2"},{"name":"Cisplatin, Gemcitabine Hydrochloride","children":[{"name":"Gemcitabine Hydrochloride","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[],"size":1,"colname":"X2"},{"name":"Dabrafenib, Trametinib","children":[{"name":"Carboplatin, Pemetrexed Disodium","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Erlotinib Hydrochloride","children":[{"name":"Osimertinib","size":1,"colname":"X3"},{"name":"Pemetrexed Disodium","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Investigational Drug","children":[{"name":"Cabozantinib Smalate","size":1,"colname":"X3"},{"name":"Investigational Drug","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Osimertinib","children":[{"name":"Carboplatin, Osimertinib, Pemetrexed Disodium","size":1,"colname":"X3"}],"size":2,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":2,"colname":"X2"}],"size":27,"colname":"X1"},{"name":"Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Pemetrexed Disodium","children":[{"name":"Afatinib Dimaleate, Cetuximab","size":1,"colname":"X3"}],"colname":"X2"},{"name":"Crizotinib","children":[{"name":"Alectinib","size":1,"colname":"X3"}],"colname":"X2"}],"size":1,"colname":"X1"},{"name":"Vinorelbine Tartrate","children":[{"name":"Atezolizumab","children":[],"size":1,"colname":"X2"},{"name":"Pembrolizumab","children":[],"size":1,"colname":"X2"}],"size":1,"colname":"X1"}],"name":"root"},"options":{"legendOrder":null,"colors":null,"valueField":"size","percent":true,"count":false,"explanation":null,"breadcrumb":[],"legend":true,"sortFunction":null,"sumNodes":true}},"evals":[],"jsHooks":[]}</script>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -517,7 +618,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>

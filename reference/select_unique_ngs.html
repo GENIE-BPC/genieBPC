@@ -14,14 +14,14 @@ user define criterions."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -95,157 +95,33 @@ Options are "min" (first) and "max" (last).</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>returns the 'cohort_ngs' object of the create_analytic_cohort
-with an unique genomic samples taken from each patients.</p>
+with unique genomic samples taken from each patients.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu"><a href="check_synapse_login.html">check_synapse_login</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">{</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu"><a href="dot-check_synapse_login.html">.check_synapse_login</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
 <span class="r-in"><span class="co">#' # Example 1 ----------------------------------</span></span>
 <span class="r-in"><span class="co"># Create a cohort of all patients with stage</span></span>
 <span class="r-in"><span class="co"># IV NSCLC of histology adenocarcinoma</span></span>
-<span class="r-in"><span class="va">nsclc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"2.1-consortium"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
-<span class="r-in">data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>, stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,</span>
-<span class="r-in">histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
+<span class="r-in">stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>, histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span>data_cohort <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Example 2 ----------------------------------</span></span>
 <span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who</span></span>
 <span class="r-in"><span class="co"># received Cisplatin, Pemetrexed Disodium or Cisplatin,</span></span>
 <span class="r-in"><span class="co"># Etoposide as their first drug regimen</span></span>
-<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>,</span>
-<span class="r-in">data_synapse <span class="op">=</span> <span class="va">nsclc_data</span>,</span>
+<span class="r-in"><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
 <span class="r-in">regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span>
 <span class="r-in"><span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>, regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span>data_cohort <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span>,</span>
-<span class="r-in">oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>, sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,min_max_time <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span>
+<span class="r-in">oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>, sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>, min_max_time <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Welcome, Michael Curry!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>None of the optimization arguments were specified. The sample with</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>             the largest panel size will be returned. In the case of ties a</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>             random sample will be returned.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-004022 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-008085 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-008692 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-009970 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-011383 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-036465 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-036553 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-036820 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-091890 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0000978 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0003070 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0003854 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0004129 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0004607 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0006221 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0006268 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0007745 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0008160 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0008161 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0008744 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0010261 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0012160 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0012192 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0014885 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0015348 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0016903 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0017722 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0020513 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0025601 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0025741 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-100390 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-160059 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-574932 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-588847 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-599899 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-864288 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-864704 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-907638 still had multiple possible</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          samples based on the selected arguments,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>                          a sample was selected at random.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-DFCI-091890 did not have any sample of source: Metastasis</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0006844 did not have any sample of source: Metastasis</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-MSK-P-0016221 did not have any sample of source: Metastasis</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Patient GENIE-VICC-328557 did not have any sample of source: Metastasis</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(., file_info = map(.data$query_url, function(x) {    requestedObjects &lt;- list(includeEntity = TRUE, includeAnnotations = TRUE,         includeFileHandles = TRUE, includeRestrictionInformation = TRUE)    res_per_id &lt;- httr::POST(url = x, body = jsonlite::toJSON(requestedObjects,         pretty = T, auto_unbox = T), httr::add_headers(Authorization = paste("Bearer ",         token, sep = "")), httr::content_type("application/json"))    entityBundle &lt;- httr::content(res_per_id, "parsed", encoding = "UTF-8")    file_info &lt;- entityBundle$fileHandles[[1]]    bind_cols(type = file_info$contentType, name = file_info$fileName,         file_handle_id = file_info$id)})):</span> Problem while computing `file_info = map(...)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `entityBundle$fileHandles[[1]]`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> subscript out of bounds</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -257,7 +133,7 @@ with an unique genomic samples taken from each patients.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

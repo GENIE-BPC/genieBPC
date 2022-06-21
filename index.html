@@ -46,14 +46,14 @@
     
     <a class="navbar-brand me-2" href="index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
@@ -90,13 +90,25 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><p><a href="https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/actions/workflows/r_cmd_main.yml/badge.svg" alt="R-cmd-check"></a> -<a href="https://codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K" alt="codecov"></a> <!-- badges: end --></p>
+  <main id="main" class="col-md-9">
 <div class="section level1">
 <div class="page-header"><h1 id="geniebpc-">genieBPC <img src="reference/figures/geniebpc_hex_sticker.png" align="right" height="120"><a class="anchor" aria-label="anchor" href="#geniebpc-"></a>
 </h1></div>
 <p>The American Association for Cancer Research Project Genomics Evidence Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an effort to aggregate comprehensive clinical data linked to genomic sequencing data to create a pan-cancer, publicly available data repository. These data detail clinical characteristics and drug treatment regimen information, along with high-throughput sequencing data and clinical outcomes, for cancer patients across international institutions. The GENIE BPC data repository forms a unique observational database of comprehensive clinical annotation with molecularly characterized tumors that can be used to advance precision medicine research in oncology. Linking multiple clinical and genomic datasets that vary in structure introduces an inherent complexity for data users. Therefore, use of the GENIE BPC data requires a rigorous process for preparing and merging the data to build analytic models. The {genieBPC} package is a user-friendly data processing pipeline to streamline the process for developing analytic cohorts that are ready for clinico-genomic analyses.</p>
 <div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the released version of {genieBPC} from the R Universe</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'genieBPC'</span>, 
+                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mskccepibio <span class="op">=</span> <span class="st">'https://mskcc-epi-bio.r-universe.dev'</span>,
+                           CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>and the development version with</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="overview-of-geniebpc-functions">Overview of {genieBPC} Functions<a class="anchor" aria-label="anchor" href="#overview-of-geniebpc-functions"></a>
 </h2>
 <ul>
 <li><p><strong>Data import:</strong> <code><a href="reference/pull_data_synapse.html">pull_data_synapse()</a></code> imports GENIE BPC data from Synapse into the R environment</p></li>
@@ -104,7 +116,8 @@
 <p><strong>Data processing</strong></p>
 <ul>
 <li>
-<code><a href="reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information</li>
+<code><a href="reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information<br>
+</li>
 <li>
 <code><a href="reference/select_unique_ngs.html">select_unique_ngs()</a></code> selects a unique next generation sequencing (NGS) test corresponding to the selected diagnoses</li>
 </ul>
@@ -113,75 +126,70 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install {genieBPC} with the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"GENIE-BPC/genieBPC"</span>)</span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
-<p>The following example creates an analytic cohort of patients diagnosed with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or Cisplatin and Pemetrexed, with and without Bevacizumab,</p>
-<p><em>Pull data for NSCLC version 2.1-consortium:</em></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nsclc_cohort <span class="ot">&lt;-</span> <span class="fu">pull_data_synapse</span>(<span class="at">cohort =</span> <span class="st">"NSCLC"</span>, <span class="at">version =</span> <span class="st">"2.1"</span>)</span></code></pre></div>
-<p><em>Select stage IV adenocarcinoma NSCLC diagnoses that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis:</em></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nsclc_stg_iv_adeno <span class="ot">&lt;-</span> <span class="fu">create_analytic_cohort</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cohort =</span> <span class="st">"NSCLC"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_synapse =</span> nsclc_cohort,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stage_dx =</span> <span class="st">"Stage IV"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">histology =</span> <span class="st">"Adenocarcinoma"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_drugs =</span> <span class="fu">c</span>(<span class="st">"Carboplatin, Pemetrexed Disodium"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Bevacizumab, Carboplatin, Pemetrexed Disodium"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Bevacizumab, Cisplatin, Pemetrexed Disodium"</span>),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_type =</span> <span class="st">"Exact"</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_order =</span> <span class="dv">1</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_order_type =</span> <span class="st">"within cancer"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">return_summary =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><em>Select one unique metastatic lung adenocarcinoma genomic sample per patient in the analytic cohort returned above:</em></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nsclc_stg_iv_adeno_unique_sample <span class="ot">&lt;-</span> <span class="fu">select_unique_ngs</span>( </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_cohort =</span> nsclc_stg_iv_adeno<span class="sc">$</span>cohort_ngs, </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">oncotree_code =</span> <span class="st">"LUAD"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_type =</span> <span class="st">"Metastasis"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><em>Create a visualization of the treatment patterns for the first 4 regimens received by patients diagnosed with stage IV adenocarcinoma NSCLC that were treated with Carboplatin/Pemetrexed or Cisplatin/Pemetrexed with or without Bevacizumab as the first regimen following diagnosis:</em></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sunplot <span class="ot">&lt;-</span> <span class="fu">drug_regimen_sunburst</span>(<span class="at">data_synapse =</span> nsclc_cohort,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data_cohort =</span> nsclc_stg_iv_adeno,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">max_n_regimens =</span> <span class="dv">4</span>)</span></code></pre></div>
-<p><em>Example of a sunburst plot showing 4 lines of treatment, Highlighting First Treatment Regimen:</em></p>
-</div>
-</div>
-<div class="section level1">
-<h1 id="section">
-<img src="reference/figures/genieBPC_sunburst.png" height="400"><a class="anchor" aria-label="anchor" href="#section"></a>
-</h1>
-<div class="section level2">
-<h2 id="obtaining-access-to-genie-bpc-data">Obtaining Access to GENIE BPC Data<a class="anchor" aria-label="anchor" href="#obtaining-access-to-genie-bpc-data"></a>
+<h2 id="obtaining-data-access">Obtaining Data Access<a class="anchor" aria-label="anchor" href="#obtaining-data-access"></a>
 </h2>
 <p>Access to the GENIE BPC data release folders on Synapse is required in order to use this function. To obtain access:</p>
+<p><em>For public data releases:</em></p>
+<ol style="list-style-type: decimal">
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">Synapse account</a></p></li>
+<li><p>Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the <a href="https://www.synapse.org/#!Synapse:syn27056697" class="external-link">Synapse page</a> for the data release). Towards the top of the page, there is information including the <em>Synapse ID</em>, <em>DOI</em>, <em>Item count</em>, and <em>Access.</em> Next to <em>Access</em> is a link that reads <em>Request Access</em>.</p></li>
+<li><p>Select <em>Request Access</em>, review the terms of data use and select <em>Accept</em></p></li>
+</ol>
+<p><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></p>
 <ol style="list-style-type: decimal">
 <li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">Synapse account</a></p></li>
 <li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
-<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma collaborative projects</a>.</p></li>
+<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma Collaborative projects</a>.</p></li>
 </ol>
 <p><em>Note: Please allow up to a week to review and grant access.</em></p>
 </div>
 <div class="section level2">
 <h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
 </h2>
-<p>Documentation corresponding to the clinical data files can be found on Synapse in the Analytic Data Guides.</p>
-<p>Data follow a staggered release schedule and are available to pharma partners and institutions that are a part of the Project GENIE consortium prior to being publicly available.</p>
-<p>Consortium Releases:</p>
+<p>The analytic data guides provide details on each analytic dataset and its corresponding variables for each data release.</p>
+<p><strong>Public Data Releases</strong></p>
 <ul>
-<li><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC V1.1-consortium Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC V2.1-consortium Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC V1.1-consortium Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26077308" class="external-link">CRC V1.2-consortium Analytic Data Guide</a></li>
-<li><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa V1.1-consortium Analytic Data Guide</a></li>
+<li>
+<a href="https://www.synapse.org/#!Synapse:syn30557304" class="external-link">NSCLC v2.0-Public Analytic Data Guide</a> <em>Released May 2022</em>
+</li>
 </ul>
-<p>Public Releases: - NSCLC V2.0-public Analytic Data Guide (To be released March 2022)</p>
+<p><strong>Consortium Data Releases</strong><br><em>Note that only GENIE BPC consortium users have access to the consortium releases.</em></p>
+<ul>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC v1.1-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC v2.1-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC v1.1-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn26077308" class="external-link">CRC v1.2-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa v1.1-Consortium Analytic Data Guide</a></p></li>
+</ul>
 </div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>The following example creates an analytic cohort of patients diagnosed with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or Cisplatin and Pemetrexed, with and without Bevacizumab,</p>
+<p><em>Pull data for NSCLC version 2.1-consortium:</em></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></code></pre></div>
+<p><em>Select stage IV adenocarcinoma NSCLC diagnoses:</em></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>, 
+                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, 
+                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></code></pre></div>
+<p><em>Select one unique metastatic lung adenocarcinoma genomic sample per patient in the analytic cohort returned above:</em></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno_unique_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/select_unique_ngs.html">select_unique_ngs</a></span><span class="op">(</span>
+  data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></code></pre></div>
+<p><em>Create a visualization of the treatment patterns for the first 3 regimens received by patients diagnosed with stage IV adenocarcinoma:</em></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sunplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
+                                 data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span>,
+                                 max_n_regimens <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<p><em>Example of a sunburst plot showing 3 lines of treatment, Highlighting First Treatment Regimen:</em></p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="section">
+<img src="reference/figures/genieBPC_sunburst2.png" height="400"><a class="anchor" aria-label="anchor" href="#section"></a>
+</h1>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
@@ -219,7 +227,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/GENIE-BPC/genieBPC/actions" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K" alt="codecov"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
@@ -232,7 +246,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
