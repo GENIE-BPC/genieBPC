@@ -64,7 +64,8 @@ Suggests:
     rmarkdown (>= 2.8),
     testthat (>= 3.0.0),
     markdown,
-    spelling
+    spelling,
+    gtools
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
