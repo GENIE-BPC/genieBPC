@@ -1,4 +1,4 @@
-#' drug_regimen_sunburst
+#' Visualize Drug Regimen Sequences in a Sunburst Plot
 #'
 #' This function allows the user to visualize the complete treatment
 #' course for selected diagnoses.
