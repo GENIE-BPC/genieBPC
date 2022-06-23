@@ -23,6 +23,10 @@ Authors@R:
              family = "Brown",
              role = "aut",
              comment = c(ORCID = "0000-0001-5352-974X")),
+      person(given = "Karissa",
+             family = "Whiting",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-4683-1868")),
       person(given = "Axel",
              family = "Martin",
              role = "aut"))
