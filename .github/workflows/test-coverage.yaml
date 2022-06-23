@@ -8,32 +8,29 @@ name: test-coverage
 
 jobs:
   test-coverage:
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
     env:
-      RSPM: https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
+      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
-
       - uses: r-lib/actions/setup-r@v1
         id: install-r
-
       - name: Install dependencies
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           install.packages(c("remotes", "rcmdcheck", "covr"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
-          synapser::synLogin(email = ${{ secrets.USERNAME }} , password=${{ secrets.SYNAPSER_PAS }},rememberMe = TRUE)
+          remotes::install_github("GENIE-BPC/genieBPC")
         shell: Rscript {0}
 
       - name: Test coverage
-        with:
-          extra-packages: |
-            curl
+        env:
+          SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
+          SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
         run: |
-          install.packages("covr", repos='http://cran.us.r-project.org')
-          remotes::install_deps(dependencies = TRUE)
+          genieBPC::set_synapse_credentials()
           covr::codecov()
         shell: Rscript {0}

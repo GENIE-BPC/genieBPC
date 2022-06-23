@@ -2,7 +2,7 @@ Type: Package
 Package: genieBPC
 Title: Data Processing Pipeline for the AACR Project GENIE Biopharma
     Collaborative Data
-Version: 0.1.0
+Version: 0.1.0.9001
 Authors@R: 
     c(
     person(given = "Statistical Core",
@@ -48,13 +48,14 @@ Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
     dtplyr (>= 1.1.0),
+    httr,
+    jsonlite,
     purrr (>= 0.3.4),
     rlang (>= 1.0.0),
     stringr (>= 1.4.0),
     sunburstR,
     tibble (>= 3.1.2),
-    tidyr,
-    TraMineR
+    tidyr
 Suggests:
     covr (>= 3.5.1),
     ggplot2 (>= 3.3.5),
@@ -64,17 +65,14 @@ Suggests:
     magrittr (>= 2.0.1),
     plotly (>= 4.10.0),
     rmarkdown (>= 2.8),
-    synapser,
     testthat (>= 3.0.0),
     markdown,
     spelling
 VignetteBuilder: 
     knitr
-Additional_repositories: 
-    http://ran.synapse.org
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 URL: https://genie-bpc.github.io/genieBPC/
 Language: en-US

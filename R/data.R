@@ -6,9 +6,10 @@
 #' cancer cohort:
 #' \describe{
 #'   \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC"
-#'   (non-small cell lung cancer) or "CRC" (colorectal cancer).
-#'   Future cohorts will include "BrCa" (breast cancer), "PANC"
-#'   (pancreatic cancer), "Prostate" (prostate cancer).}
+#'   (non-small cell lung cancer), "CRC" (colorectal cancer), or
+#'   "BrCa" (breast cancer). Future cohorts will include "PANC"
+#'   (pancreatic cancer), "Prostate" (prostate cancer), and "BLADDER"
+#'   (bladder cancer).}
 #'   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
 #'   \item{drug_name_full}{Name of generic/ingredient cancer-directed drug
 #'   with associated synonyms in parentheses}
@@ -59,7 +60,22 @@
 #'   \item{df}{Clinical dataset}
 #'   \item{version}{Release version}
 #'   \item{synapse_id}{Synapse table ID for each dataset}
+#'   \item{release_date}{Month and year of data release}
 #'   ...
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
 "synapse_tables"
+
+
+#' Simulated fake synapse data for function examples and tests
+#'
+#' A named list of simulated NSCLC data
+#'
+#' @format A list of cohort data frames
+#' \describe{
+#'     \item{pt_char_NSCLC}{Patient characteristic data.frame}
+#'     \item{ca_dx_index_NSCLC}{Cancer Dx data.frame}
+#'     \item{ca_drugs_NSCLC}{Drug data.frame}
+#'     \item{cpt_NSCLC}{CPT data.frame}
+#' }
+"nsclc_test_data"

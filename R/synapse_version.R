@@ -1,22 +1,23 @@
 #' synapse_version
 #'
-#' Data is updated periodically and each time it is
-#' updated the cohort will get a new version number.
-#' This function will get each version number for each
-#' cohort and will help you determine what is the most
+#' GENIE BPC data are updated periodically to add variables and reflect additional data cleaning.
+#' Each time the data are
+#' updated the data release version number is incremented.
+#' The `synapse_version()` function will get each version number for each
+#' cohort to help the user determine what is the most
 #' recent version for each cohort.
 #'
 #' The `synapse_version` function access the specified
 #' version of the clinical GENIE BPC data from
-#' \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
+#' \href{https://www.synapse.org/#!Synapse:syn27056172/wiki/616601}{Synapse}
 #' and reads it into the R environment.
 #'
-#' To obtain version numbers and pull the correct one for each cohort
+#' To obtain version numbers and pull the correct version for each cohort
 #'
 #' @param most_recent TRUE/FALSE indicator if  you only want the most recent
 #' version number for each cohort
-#' @return Returns a table containing the different
-#' available versions for each cohort types.
+#' @return Returns a table containing the available versions for each cohort.
+#' Consortium releases are restricted to GENIE BPC consortium members.
 #' @examples
 #' synapse_version()
 #' synapse_version(most_recent = TRUE)
@@ -35,17 +36,22 @@ synapse_version <- function(most_recent = FALSE) {
       group_by(.data$cohort, .data$version) %>%
       filter(row_number() == 1) %>%
       select(.data$cohort, .data$version) %>%
-      # remove the "v" from "v1.1"
-      mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "All Versions")
   }
   else {
     genieBPC::synapse_tables %>%
-      arrange(.data$cohort, desc(.data$version)) %>%
-      group_by(.data$cohort) %>%
-      filter(row_number() == 1) %>%
+      mutate(pubcon = stringr::str_extract(version,'\\b\\w+$'),
+             numeric_release_date =
+               as.Date(paste0(as.numeric(word(.data$release_date, 1, sep = "-")),
+                              "-",
+                              as.numeric(word(.data$release_date, 2, sep = "-")),
+                              "-01"),
+                       format = "%Y-%m-%d")) %>%
+      group_by(.data$cohort, .data$pubcon) %>%
+      slice(which.max(.data$numeric_release_date)) %>%
       select(.data$cohort, .data$version) %>%
-      mutate(version = substr(.data$version, 2, 4)) %>%
+      # mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "Most Recent Versions")
+
   }
 }
