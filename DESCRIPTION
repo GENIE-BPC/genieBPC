@@ -51,8 +51,7 @@ Imports:
     stringr (>= 1.4.0),
     sunburstR,
     tibble (>= 3.1.2),
-    tidyr,
-    TraMineR
+    tidyr
 Suggests:
     covr (>= 3.5.1),
     ggplot2 (>= 3.3.5),

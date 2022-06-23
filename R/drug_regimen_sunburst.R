@@ -42,7 +42,6 @@
 #'
 #' @import
 #' dplyr
-#' TraMineR
 #' sunburstR
 #' tidyr
 

@@ -6,13 +6,13 @@
 # See https://github.com/r-lib/actions/tree/master/examples#readme for
 # additional example workflows available for the R community.
 
-name: R-cmd-check
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+name: R-CMD-check
 
 jobs:
   R-CMD-check:
@@ -36,11 +36,12 @@ jobs:
           # - {os: ubuntu-18.04,   r: 'oldrel-3'}
           # - {os: ubuntu-18.04,   r: 'oldrel-4'}
 
-
     env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
-      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}    
-    
+      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -62,18 +63,3 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y texlive-fonts-extra
       - uses: r-lib/actions/check-r-package@v2
-
-      - name: Install dependencies
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          install.packages(c("remotes", "rcmdcheck"), repos='http://cran.us.r-project.org')
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("GENIE-BPC/genieBPC")
-        shell: Rscript {0}
-
-      - name: Check
-        run: |
-         genieBPC::set_synapse_credentials()
-         rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
-        shell: Rscript {0}

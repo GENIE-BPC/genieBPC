@@ -36,23 +36,17 @@ synapse_version <- function(most_recent = FALSE) {
       group_by(.data$cohort, .data$version) %>%
       filter(row_number() == 1) %>%
       select(.data$cohort, .data$version) %>%
-      # remove the "v" from "v1.1"
-      # mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "All Versions")
   } else {
     genieBPC::synapse_tables %>%
-      mutate(
-        numeric_release_date =
-          as.Date(paste0(
-            as.numeric(word(.data$release_date, 1, sep = "-")),
-            "-",
-            as.numeric(word(.data$release_date, 2, sep = "-")),
-            "-01"
-          ),
-          format = "%Y-%m-%d"
-          )
-      ) %>%
-      group_by(.data$cohort) %>%
+      mutate(pubcon = stringr::str_extract(version,'\\b\\w+$'),
+             numeric_release_date =
+               as.Date(paste0(as.numeric(word(.data$release_date, 1, sep = "-")),
+                              "-",
+                              as.numeric(word(.data$release_date, 2, sep = "-")),
+                              "-01"),
+                       format = "%Y-%m-%d")) %>%
+      group_by(.data$cohort, .data$pubcon) %>%
       slice(which.max(.data$numeric_release_date)) %>%
       select(.data$cohort, .data$version) %>%
       # mutate(version = substr(.data$version, 2, 4)) %>%
