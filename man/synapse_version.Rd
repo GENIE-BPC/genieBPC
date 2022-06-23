@@ -18,7 +18,7 @@ Consortium releases are restricted to GENIE BPC consortium members.
 GENIE BPC data are updated periodically to add variables and reflect additional data cleaning.
 Each time the data are
 updated the data release version number is incremented.
-The `synapse_version()` function will get each version number for each
+The `synapse_version()` function will get available version numbers for each
 cohort to help the user determine what is the most
 recent version for each cohort.
 }

@@ -60,6 +60,10 @@ following to your .Renviron file (tip: you can use usethis::edit_r_environ() to 
 Alternatively, you can pass your username and password to each individual data pull function if preferred,
 although it is recommended that you manage your passwords outside of your scripts for security purposes.
 }
+\details{
+See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
+for further documentation and examples.
+}
 \examples{
 \dontshow{if (genieBPC::check_genie_access()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
@@ -83,7 +87,6 @@ t <- pull_data_synapse(
   cohort = c("CRC", "BrCa"),
   version = c("v1.2-consortium", "v1.1-consortium")
 )
-
 \dontshow{\}) # examplesIf}
 }
 \author{

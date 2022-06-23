@@ -7,9 +7,9 @@
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
 #' or "BrCa"
-#' @param data_synapse the list object outputted by the
-#' `pull_data_synapse()` function.
-#' @param df_record_ids output object of the create_cohort function.
+#' @param data_synapse The item from the nested list returned from
+#' `pull_data_synapse()`
+#' @param df_record_ids NGS data frame from the `create_analytic_cohort()` function.
 #' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with the genomic samples taken from each patients.
 #' @author Axel Martin
@@ -19,13 +19,11 @@
 #' tibble
 
 fetch_samples <- function(cohort, data_synapse, df_record_ids) {
-  if (missing(cohort)) {
-    stop("You must provide a cohort name
-    ('NSCLC', 'CRC', 'BrCa')
-         in the `cohort` argument.")
-  }
+  # get `cohort` ---
+  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
+                                    multiple = FALSE
+  )
 
-  cohort_temp <- cohort
 
   if (missing(df_record_ids)) {
     stop("You must provide an object that contains the variable record_id.")

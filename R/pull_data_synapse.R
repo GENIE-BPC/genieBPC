@@ -24,6 +24,9 @@
 #' Alternatively, you can pass your username and password to each individual data pull function if preferred,
 #' although it is recommended that you manage your passwords outside of your scripts for security purposes.
 #'
+#' See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
+#' for further documentation and examples.
+#'
 #' @param cohort Vector or list specifying the cohort(s) of interest.
 #'  Must be one of "NSCLC" (Non-Small Cell Lung Cancer),
 #'   "CRC" (Colorectal Cancer), or "BrCa" (Breast Cancer).
@@ -67,7 +70,6 @@
 #'   version = c("v1.2-consortium", "v1.1-consortium")
 #' )
 #'
-#'
 #' @import
 #' dplyr
 #' dtplyr
@@ -98,7 +100,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available"),
-      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE))
+      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE)
+    )
 
   # create `version-number` ---
   sv <- dplyr::select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
@@ -111,26 +114,34 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   if (nrow(version_not_available) > 0) {
     cli::cli_abort(c("You have selected a version that is not available for this cohort
                    (use `synapse_tables` to see what versions are available):",
-    "x" = "{.val {version_not_available}}"))
+      "x" = "{.val {version_not_available}}"
+    ))
   }
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%
     dplyr::mutate(version_num = case_when(
       grepl("consortium", version) ~ stringr::str_remove(paste(.data$cohort,
-                                                   .data$version,
-                                                   sep = "_"), "-consortium"),
-      grepl("public", version) ~ stringr::str_remove(paste(.data$cohort,
-                                                               .data$version,
-                                                               sep = "_"),
-                                                         "-public")))
+        .data$version,
+        sep = "_"
+      ), "-consortium"),
+      grepl("public", version) ~ stringr::str_remove(
+        paste(.data$cohort,
+          .data$version,
+          sep = "_"
+        ),
+        "-public"
+      )
+    ))
 
   # check download_location ---
 
   # adds folders for each cohort/version (if doesn't exist)
   version_num <- version_num %>%
-    dplyr::mutate(download_folder = .check_download_path(download_location = download_location,
-                                                 version_num))
+    dplyr::mutate(download_folder = .check_download_path(
+      download_location = download_location,
+      version_num
+    ))
 
   # Prep data for query -----------------------------------------------------
 
@@ -139,14 +150,20 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     genieBPC::synapse_tables %>%
     left_join(version_num, ., by = c("version", "cohort"))
 
-  version_num_df_nest <-  version_num_df %>%
-   split(., .$version_num)
+  version_num_df_nest <- version_num_df %>%
+    split(., .$version_num)
 
-  return_items <- purrr::map(version_num_df_nest,
-             ~.pull_data_by_cohort(version_num_df = .x, token = token,
-                                   download_location = download_location))
+  return_items <- purrr::map(
+    version_num_df_nest,
+    ~ .pull_data_by_cohort(
+      version_num_df = .x, token = token,
+      download_location = download_location
+    )
+  )
 
-  switch(is.null(download_location), return(return_items))
+  switch(is.null(download_location),
+    return(return_items)
+  )
 }
 
 
@@ -179,11 +196,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'   token = .get_synapse_token(), download_location = NULL
 #' )
 #'
-#
+#' #
 .pull_data_by_cohort <- function(version_num_df,
                                  token, download_location) {
-
-
   repo_endpoint_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/"
   file_endpoint_url <- "https://file-prod.prod.sagebase.org/file/v1/fileHandle/batch"
 
@@ -235,10 +250,14 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     filter(.data$type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
-    dplyr::select(.data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
-           .data$name, .data$download_folder) %>%
-    purrr::pmap(., .get_and_query_file_url, download_location,
-                token, file_endpoint_url)
+    dplyr::select(
+      .data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
+      .data$name, .data$download_folder
+    ) %>%
+    purrr::pmap(
+      ., .get_and_query_file_url, download_location,
+      token, file_endpoint_url
+    )
 
 
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
@@ -263,17 +282,16 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' .check_download_path(download_location = NULL, version_num = "CRC_v2.1")
 #'
 .check_download_path <- function(download_location, version_num) {
-
   download_location_resolved <- download_location %||%
     tempdir()
 
   map_chr(version_num, function(single_version_num) {
     folder_path <- file.path(download_location_resolved, single_version_num)
-    switch(!dir.exists(folder_path), dir.create(folder_path))
+    switch(!dir.exists(folder_path),
+      dir.create(folder_path)
+    )
     return(folder_path)
   })
-
-
 }
 
 
@@ -297,22 +315,20 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'
 #' @examplesIf FALSE
 #'
-#' file = data.frame(
-#'    version_num = "NSCLC_v2.1",
-#'    file_handle_id = c("79432768"),
-#'    synapse_id = c("syn25985884"),
-#'    df = c("pt_char"),
-#'    name = c("patient_level_dataset.csv"),
-#'    download_folder = file.path(tempdir(), "NSCLC_v2.1"))
+#' file <- data.frame(
+#'   version_num = "NSCLC_v2.1",
+#'   file_handle_id = c("79432768"),
+#'   synapse_id = c("syn25985884"),
+#'   df = c("pt_char"),
+#'   name = c("patient_level_dataset.csv"),
+#'   download_folder = file.path(tempdir(), "NSCLC_v2.1")
+#' )
 #'
 #' purrr::pmap(file, .get_and_query_file_url)
 #'
-#'
 .get_and_query_file_url <- function(version_num, file_handle_id, synapse_id,
-                               df, name, download_folder, download_location,
-                               token, file_endpoint_url
-                               ) {
-
+                                    df, name, download_folder, download_location,
+                                    token, file_endpoint_url) {
   body <- list(
     "includeFileHandles" = TRUE,
     "includePreSignedURLs" = TRUE,
@@ -343,22 +359,19 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   )
 
   # `download_location` from outside function
-  if(is.null(download_location)) {
+  if (is.null(download_location)) {
     returned_files <- file_type %>%
       purrr::when(
         . == "text/csv" ~ read.csv(resolved_file_path),
         . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
         TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
-                                    Try downloading directly to disk with {.code download_location}"))
+                                    Try downloading directly to disk with {.code download_location}")
+      )
 
-      cli::cli_alert_success("{.field {df}} has been imported for {.val {version_num}}")
-      return(returned_files)
+    cli::cli_alert_success("{.field {df}} has been imported for {.val {version_num}}")
+    return(returned_files)
   } else {
     cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_folder}}")
     return(invisible(NULL))
   }
-
-
-
 }
-
