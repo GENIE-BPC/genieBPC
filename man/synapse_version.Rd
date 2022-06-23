@@ -11,23 +11,24 @@ synapse_version(most_recent = FALSE)
 version number for each cohort}
 }
 \value{
-Returns a table containing the different
-available versions for each cohort types.
+Returns a table containing the available versions for each cohort.
+Consortium releases are restricted to GENIE BPC consortium members.
 }
 \description{
-Data is updated periodically and each time it is
-updated the cohort will get a new version number.
-This function will get each version number for each
-cohort and will help you determine what is the most
+GENIE BPC data are updated periodically to add variables and reflect additional data cleaning.
+Each time the data are
+updated the data release version number is incremented.
+The `synapse_version()` function will get each version number for each
+cohort to help the user determine what is the most
 recent version for each cohort.
 }
 \details{
 The `synapse_version` function access the specified
 version of the clinical GENIE BPC data from
-\href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
+\href{https://www.synapse.org/#!Synapse:syn27056172/wiki/616601}{Synapse}
 and reads it into the R environment.
 
-To obtain version numbers and pull the correct one for each cohort
+To obtain version numbers and pull the correct version for each cohort
 }
 \examples{
 synapse_version()

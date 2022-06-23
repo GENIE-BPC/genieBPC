@@ -11,6 +11,7 @@ A lookup table for Synapse clinical data table IDs:
   \item{df}{Clinical dataset}
   \item{version}{Release version}
   \item{synapse_id}{Synapse table ID for each dataset}
+  \item{release_date}{Month and year of data release}
   ...
 }
 }
