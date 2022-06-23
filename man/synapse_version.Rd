@@ -7,8 +7,9 @@
 synapse_version(most_recent = FALSE)
 }
 \arguments{
-\item{most_recent}{TRUE/FALSE indicator if  you only want the most recent
-version number for each cohort}
+\item{most_recent}{Indicates whether the function will return only the most recent
+version number for each cohort (`most_recent` = TRUE) or all available
+version numbers for each cohort (`most_recent`= FALSE)}
 }
 \value{
 Returns a table containing the available versions for each cohort.
@@ -23,12 +24,8 @@ cohort to help the user determine what is the most
 recent version for each cohort.
 }
 \details{
-The `synapse_version` function access the specified
-version of the clinical GENIE BPC data from
-\href{https://www.synapse.org/#!Synapse:syn27056172/wiki/616601}{Synapse}
-and reads it into the R environment.
-
-To obtain version numbers and pull the correct version for each cohort
+Specifies the version numbers available for each cancer cohort. Version
+numbers are specified as part of the call to `pull_data_synapse()`.
 }
 \examples{
 synapse_version()
