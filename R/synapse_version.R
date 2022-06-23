@@ -53,7 +53,6 @@ synapse_version <- function(most_recent = FALSE) {
       ungroup() %>%
       arrange(.data$cohort, .data$numeric_release_date) %>%
       select(.data$cohort, .data$version, .data$release_date) %>%
-      # mutate(version = substr(.data$version, 2, 4)) %>%
       mutate(versions_returned = "Most Recent Versions")
   }
 }
