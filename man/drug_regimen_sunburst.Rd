@@ -2,7 +2,7 @@
 % Please edit documentation in R/drug_regimen_sunburst.R
 \name{drug_regimen_sunburst}
 \alias{drug_regimen_sunburst}
-\title{drug_regimen_sunburst}
+\title{Visualize drug regimen sequences in a sunburst plot}
 \usage{
 drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL)
 }

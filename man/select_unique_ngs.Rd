@@ -2,7 +2,7 @@
 % Please edit documentation in R/select_unique_ngs.R
 \name{select_unique_ngs}
 \alias{select_unique_ngs}
-\title{select_unique_ngs}
+\title{Selecting corresponding unique next generation sequencing reports}
 \usage{
 select_unique_ngs(
   data_cohort,

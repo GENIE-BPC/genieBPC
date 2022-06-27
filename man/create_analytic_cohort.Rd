@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_analytic_cohort.R
 \name{create_analytic_cohort}
 \alias{create_analytic_cohort}
-\title{create_analytic_cohort}
+\title{Select cohort of patients for analysis}
 \usage{
 create_analytic_cohort(
   data_synapse,

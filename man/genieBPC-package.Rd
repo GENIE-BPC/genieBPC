@@ -24,6 +24,7 @@ Authors:
   \item Jessica Lavery \email{laveryj@mskcc.org} (\href{https://orcid.org/0000-0002-2746-5647}{ORCID})
   \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown (\href{https://orcid.org/0000-0001-5352-974X}{ORCID})
+  \item Karissa Whiting (\href{https://orcid.org/0000-0002-4683-1868}{ORCID})
   \item Axel Martin
 }
 

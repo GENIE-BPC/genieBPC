@@ -1,4 +1,4 @@
-#' Obtain Clinical Data Files for GENIE BPC Project
+#' Obtain clinical & genomic data files for GENIE BPC Project
 #'
 #' The `pull_data_synapse` function accesses the specified
 #'  version of the clinical and genomic GENIE BPC data from

@@ -100,22 +100,22 @@ tibble::tribble(
 Pull version 2.1-consortium of the NSCLC data from Synapse and store in the local environment.
 
 ```{r, eval = FALSE}
-nsclc_data = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
 ```
 
 
 The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
 
 ```{r, include = FALSE, eval=genieBPC:::.check_synapse_login()}
-nsclc_data = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, eval=genieBPC:::.check_synapse_login()}
-ls(nsclc_data$NSCLC_v2.1) %>% 
+ls(nsclc_2_1$NSCLC_v2.1) %>% 
   as.data.frame() %>% 
-  mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
-                                                  "mutations_extended_NSCLC") ~ "Genomic Data",
+  mutate(clinical_vs_genomic = case_when(. %in% c("cna", "fusions",
+                                                  "mutations_extended") ~ "Genomic Data",
                                          TRUE ~ "Clinical Data")) %>% 
   gt::gt() %>% 
   gt::cols_label(.data = .,
@@ -130,7 +130,8 @@ ls(nsclc_data$NSCLC_v2.1) %>%
 Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
 
 ```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"), version = c("v2.1-consortium","v1.1-consortium"))
+pull_data_synapse(c("NSCLC", "CRC"), 
+                  version = c("v2.1-consortium","v1.1-consortium"))
 ```
 
 
@@ -148,4 +149,4 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of May 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.
+* As of June 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.
