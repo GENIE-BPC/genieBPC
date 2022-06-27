@@ -128,8 +128,7 @@ releases.*
 ## Example
 
 The following example creates an analytic cohort of patients diagnosed
-with Stage IV adenocarcinoma NSCLC first treated with Carboplatin or
-Cisplatin and Pemetrexed, with and without Bevacizumab,
+with Stage IV adenocarcinoma NSCLC.
 
 *Pull data for NSCLC version 2.1-consortium:*
 
