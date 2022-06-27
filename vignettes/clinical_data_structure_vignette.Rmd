@@ -48,11 +48,12 @@ GENIE BPC is comprised of several phenomic (clinical) elements that include data
     i. Cancer Diagnosis: BPC Project Cancer
     ii. Cancer Diagnosis: Non-BPC Project Cancer
 3. Cancer-Directed Drugs
-4. PRISSMM Imaging
+4. Cancer-Directed Radiation Therapy
 5. PRISSMM Pathology
-6. PRISSMM Medical Oncologist Assessments
-7. PRISSMM Tumor Marker
-8. Cancer Panel Test
+6. PRISSMM Imaging
+7. PRISSMM Medical Oncologist Assessments
+8. PRISSMM Tumor Marker
+9. Cancer Panel Test
 
 This vignette will describe the structure of each element (dataset).
 
