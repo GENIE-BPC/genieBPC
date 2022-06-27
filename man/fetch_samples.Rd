@@ -10,10 +10,10 @@ fetch_samples(cohort, data_synapse, df_record_ids)
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
 or "BrCa"}
 
-\item{data_synapse}{the list object outputted by the
-`pull_data_synapse()` function.}
+\item{data_synapse}{The item from the nested list returned from
+`pull_data_synapse()`}
 
-\item{df_record_ids}{output object of the create_cohort function.}
+\item{df_record_ids}{NGS data frame from the `create_analytic_cohort()` function.}
 }
 \value{
 returns the 'cohort_ngs' object of the create_analytic_cohort

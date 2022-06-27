@@ -4,19 +4,16 @@ test_that("Testing synapse version", {
 
   expect_equal(
     class(synapse_version(FALSE)),
-    c("grouped_df", "tbl_df", "tbl", "data.frame")
+    c("tbl_df", "tbl", "data.frame")
   )
 
   expect_equal(
     class(synapse_version(TRUE)),
-    c("grouped_df", "tbl_df", "tbl", "data.frame")
+    c("tbl_df", "tbl", "data.frame")
   )
 
-  expect_equal(synapse_version(TRUE) %>%
-    dplyr::count(cohort) %>%
-    dplyr::ungroup() %>%
-    dplyr::distinct(n) %>%
-    as.data.frame(), data.frame(n = 1))
+  expect_equal(nrow(synapse_version(TRUE)) < nrow(synapse_version(FALSE)),
+               TRUE)
 })
 
 test_that("Test most_recent argument", {

@@ -1,5 +1,3 @@
-
-
 test_that("missing data_cohort", {
   testthat::skip_if_not(genieBPC:::check_genie_access())
 

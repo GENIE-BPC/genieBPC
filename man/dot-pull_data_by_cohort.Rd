@@ -38,6 +38,8 @@ syn_df <- data.frame(
   version_num_df = syn_df,
   token = .get_synapse_token(), download_location = NULL
 )
+
+#
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

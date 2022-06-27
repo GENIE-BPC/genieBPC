@@ -54,29 +54,55 @@ test_that("correct number of objects returned from create cohort", {
 
   list2env(objs, envir = .GlobalEnv)
 
-  test1 <- create_analytic_cohort(
+  # NSCLC
+  test1a <- create_analytic_cohort(
     data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = FALSE
   )
 
-  expect_equal(length(test1), 3)
-  expect_equal(class(test1), "list")
+  expect_equal(length(test1a), 11)
+  expect_equal(class(test1a), "list")
 
-  test2 <- create_analytic_cohort(
+  test1b <- create_analytic_cohort(
     data_synapse = nsclc_data$NSCLC_v1.1,
     return_summary = TRUE
   )
 
-  expect_equal(length(test2), 7)
-  expect_equal(class(test2), "list")
+  expect_equal(length(test1b), 15)
+  expect_equal(class(test1b), "list")
+
+  # CRC
+  test2a <- create_analytic_cohort(
+    data_synapse = crc_data$CRC_v1.1,
+    return_summary = FALSE
+  )
+
+  expect_equal(length(test2a), 12)
+  expect_equal(class(test2a), "list")
+
+  test2b <- create_analytic_cohort(
+    data_synapse = crc_data$CRC_v1.1,
+    return_summary = TRUE
+  )
+
+  expect_equal(length(test2b), 16)
+  expect_equal(class(test2b), "list")
 
   # repeat for BrCa
+  test3 <- create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    return_summary = FALSE
+  )
+
+  expect_equal(length(test3), 12)
+  expect_equal(class(test3), "list")
+
   test3 <- create_analytic_cohort(
     data_synapse = brca_data$BrCa_v1.1,
     return_summary = TRUE
   )
 
-  expect_equal(length(test3), 7)
+  expect_equal(length(test3), 16)
   expect_equal(class(test3), "list")
 })
 
@@ -157,7 +183,7 @@ test_that("index_ca_seq", {
     return_summary = TRUE
   )
 
-  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     arrange(cohort, record_id, ca_seq) %>%
     mutate(index_ca_seq = 1:n()) %>%
@@ -166,6 +192,7 @@ test_that("index_ca_seq", {
     select(-index_ca_seq)
 
   expect_equal(test_1a$cohort_ca_dx, test_1b)
+
 
   # an index cancer # that doesn't exist in the data is specified
   expect_error(create_analytic_cohort(
@@ -184,8 +211,7 @@ test_that("index_ca_seq", {
       select(record_id, ca_seq) %>%
       arrange(record_id, ca_seq),
     test2a$cohort_ngs %>%
-      select(record_id, ca_seq) %>%
-      distinct() %>%
+      distinct(record_id, ca_seq) %>%
       arrange(record_id, ca_seq)
   )
 })
@@ -200,7 +226,7 @@ test_that("institution", {
     institution = "dfci"
   )
 
-  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -214,7 +240,7 @@ test_that("institution", {
     institution = c("dfci", "msk")
   )
 
-  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -245,7 +271,7 @@ test_that("stage_dx", {
     stage_dx = "stage ii"
   )
 
-  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -259,7 +285,7 @@ test_that("stage_dx", {
     stage_dx = c("Stage I", "stage ii")
   )
 
-  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -283,7 +309,7 @@ test_that("histology", {
     data_synapse = nsclc_data$NSCLC_v1.1
   )
 
-  test0b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test0b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup()
@@ -295,7 +321,7 @@ test_that("histology", {
     data_synapse = brca_data$BrCa_v1.1
   )
 
-  test0d <- brca_data$BrCa_v1.1$ca_dx_index_BrCa %>%
+  test0d <- brca_data$BrCa_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup()
@@ -308,7 +334,7 @@ test_that("histology", {
     histology = "adenocarcinoma"
   )
 
-  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -322,7 +348,7 @@ test_that("histology", {
     histology = "invasive ductal carcinoma"
   )
 
-  test_1d <- brca_data$BrCa_v1.1$ca_dx_index_BrCa %>%
+  test_1d <- brca_data$BrCa_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -336,7 +362,7 @@ test_that("histology", {
     histology = c("adenocarcinoma", "squamous cell")
   )
 
-  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_2b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
@@ -367,12 +393,12 @@ test_that("no regimen specified", {
   )
 
   # should match all regimens given for a patients first index cancer
-  test_1b <- inner_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- inner_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c("cohort", "record_id", "ca_seq")
   )
 
@@ -391,12 +417,12 @@ test_that("drug regimen specified, order not specified", {
 
   # expect all times that drug was received (for the first index ca)
   # to be returned
-  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -430,12 +456,12 @@ test_that("drug regimen specified, order not specified", {
 
   # expect all times that drug was received (for the first index ca)
   # to be returned
-  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -456,12 +482,12 @@ test_that("drug regimen specified, order not specified", {
 
   # expect all times that drug was received (for the first index ca)
   # to be returned
-  test_4b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_4b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -485,11 +511,11 @@ test_that("drug regimen specified, order specified to be within cancer", {
   )
 
   # compare to data
-  test_0b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_0b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
     group_by(record_id) %>%
@@ -508,11 +534,11 @@ test_that("drug regimen specified, order specified to be within cancer", {
   )
 
   # compare to data
-  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
     group_by(record_id) %>%
@@ -532,12 +558,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
   )
 
   # compare to data
-  test_2b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_2b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -561,12 +587,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
   )
 
   # compare to data
-  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -590,12 +616,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
     regimen_order_type = "within cancer"
   )
 
-  test_4b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_4b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -625,11 +651,11 @@ test_that("exact drug regimen specified,
     regimen_order_type = "within REGimen"
   )
 
-  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -651,11 +677,11 @@ test_that("exact drug regimen specified,
     regimen_order_type = "within REGimen"
   )
 
-  test_2b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_2b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -682,11 +708,11 @@ test_that("exact drug regimen specified,
     regimen_order_type = "within REGimen"
   )
 
-  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_3b <- left_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
-  nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
   )
@@ -721,7 +747,7 @@ test_that("containing drug regimen specified,
   )
 
   # order containing
-  ordered_containing_regs <- nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC %>%
+  ordered_containing_regs <- nsclc_data$NSCLC_v1.1$ca_drugs %>%
     filter(grepl("Carboplatin, Pemetrexed Disodium", regimen_drugs)) %>%
     distinct(cohort, record_id, regimen_number, regimen_drugs) %>%
     group_by(cohort, record_id) %>%
@@ -735,7 +761,7 @@ test_that("containing drug regimen specified,
 
   # merge containing order onto the regimen data
   # only keep regimens of interest
-  ca_drugs_with_containing_order <- inner_join(nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+  ca_drugs_with_containing_order <- inner_join(nsclc_data$NSCLC_v1.1$ca_drugs,
     ordered_containing_regs,
     by = c(
       "cohort", "record_id",
@@ -745,7 +771,7 @@ test_that("containing drug regimen specified,
 
   # merge cohort with patients who received drug regimens of interest
   # in order specified
-  test_1d <- inner_join(nsclc_data$NSCLC_v1.1$ca_dx_index_NSCLC %>%
+  test_1d <- inner_join(nsclc_data$NSCLC_v1.1$ca_dx_index %>%
     group_by(record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
