@@ -1,12 +1,16 @@
 #' Visualize Drug Regimen Sequences in a Sunburst Plot
 #'
 #' This function allows the user to visualize the complete treatment
-#' course for selected diagnoses.
+#' course for selected cancer diagnoses.
+#'
+#' See the \href{https://genie-bpc.github.io/genieBPC/articles/drug_regimen_sunburst_vignette.html}{drug_regimen_sunburst vignette}
+#' for additional details and examples.
+#'
 #' @param data_synapse The item from the nested list returned from
-#' `pull_data_synapse()` corresponding to the cancer cohort of interest.
+#' `pull_data_synapse()`
 #' @param data_cohort The list returned from the `create_analytic_cohort()`
 #' function call
-#' @param max_n_regimens The number of regimens displayed in the sunburst plot
+#' @param max_n_regimens The maximum number of regimens displayed in the sunburst plot
 #' @return Returns data frame `treatment_history` and interactive
 #' plot `sunburst_plot`
 #' @export
@@ -18,15 +22,22 @@
 #' ex1 <- drug_regimen_sunburst(
 #'   data_synapse = nsclc_test_data,
 #'   data_cohort = nsclc_sub,
-#'   max_n_regimens = 3)
+#'   max_n_regimens = 3
+#' )
 #'
-#' if(genieBPC:::check_genie_access()){
-#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#' nsclc_stg_iv <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
-#' stage = "Stage IV")
-#' ex1 <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
-#' data_cohort = nsclc_stg_iv,
-#' max_n_regimens = 3)
+#' if (genieBPC:::check_genie_access()) {
+#'   nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
+#'
+#'   nsclc_stg_iv <- create_analytic_cohort(
+#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'     stage = "Stage IV"
+#'   )
+#'
+#'   ex1 <- drug_regimen_sunburst(
+#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'     data_cohort = nsclc_stg_iv,
+#'     max_n_regimens = 3
+#'   )
 #' }
 #'
 #' @import
@@ -67,10 +78,9 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # if the data_cohort parameter is a list but not the right list
   # checking the names of the list inputs
-  if (is.null(names(data_cohort)) |
-    min(grepl("cohort_ca_dx|cohort_ca_drugs|cohort_ngs",
-              names(data_cohort)[1:3]))
-    == 0) {
+  if (is.null(data_cohort$cohort_pt_char) |
+    is.null(data_cohort$cohort_ca_dx) |
+    is.null(data_cohort$cohort_ngs)) {
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter")
   }
@@ -80,16 +90,20 @@ drug_regimen_sunburst <- function(data_synapse,
   # }
 
   # get all regimens to diagnoses in cohort
-  cohort_all_drugs <- dplyr::inner_join(purrr::pluck(data_cohort,
-                                                     "cohort_ca_dx"),
-    purrr::pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
-    by = c("cohort", "record_id", "ca_seq", "institution")
+  cohort_all_drugs <- dplyr::inner_join(purrr::pluck(
+    data_cohort,
+    "cohort_ca_dx"
+  ),
+  purrr::pluck(data_synapse, "ca_drugs"),
+  by = c("cohort", "record_id", "ca_seq", "institution")
   ) %>%
     # create drug regimen order WITHIN the cancer diagnosis
     # (variable regimen_number is the order of the regimen w/in the patient)
     dplyr::group_by(.data$cohort, .data$record_id, .data$ca_seq) %>%
-    dplyr::arrange(.data$cohort, .data$record_id,
-                   .data$ca_seq, .data$regimen_number) %>%
+    dplyr::arrange(
+      .data$cohort, .data$record_id,
+      .data$ca_seq, .data$regimen_number
+    ) %>%
     dplyr::mutate(order_within_cancer = 1:n()) %>%
     dplyr::ungroup()
 
@@ -97,7 +111,7 @@ drug_regimen_sunburst <- function(data_synapse,
   if (is.null(max_n_regimens)) {
     # get range of all lines of therapy
     max_n_regimens <- max(cohort_all_drugs$order_within_cancer,
-    na.rm = TRUE
+      na.rm = TRUE
     )
   }
 
@@ -110,11 +124,15 @@ drug_regimen_sunburst <- function(data_synapse,
   # prepare the data for the sunburst function
   # 1 column per regimen (R1, R2, R3, etc.)
   cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
-    dplyr::select(.data$record_id,
-                  .data$order_within_cancer,
-                  .data$regimen_drugs) %>%
-    dplyr::mutate(order_within_cancer =
-                    paste0("R", .data$order_within_cancer)) %>%
+    dplyr::select(
+      .data$record_id,
+      .data$order_within_cancer,
+      .data$regimen_drugs
+    ) %>%
+    dplyr::mutate(
+      order_within_cancer =
+        paste0("R", .data$order_within_cancer)
+    ) %>%
     tidyr::pivot_wider(
       names_from = .data$order_within_cancer,
       values_from = .data$regimen_drugs
@@ -133,7 +151,8 @@ drug_regimen_sunburst <- function(data_synapse,
   path <- c()
   for (i in seq_len(nrow(cohort_for_sunburst))) {
     temp_path <- as.character(
-      unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))]))
+      unlist(cohort_for_sunburst[i, grep("R", colnames(cohort_for_sunburst))])
+    )
     path[i] <- paste0(temp_path[temp_path != ""], collapse = "-")
   }
 

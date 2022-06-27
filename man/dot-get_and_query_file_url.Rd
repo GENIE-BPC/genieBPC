@@ -42,16 +42,16 @@ Get URL for a given synapse file and download to local machine
 \examples{
 \dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-file = data.frame(
-   version_num = "NSCLC_v2.1",
-   file_handle_id = c("79432768"),
-   synapse_id = c("syn25985884"),
-   df = c("pt_char"),
-   name = c("patient_level_dataset.csv"),
-   download_folder = file.path(tempdir(), "NSCLC_v2.1"))
+file <- data.frame(
+  version_num = "NSCLC_v2.1",
+  file_handle_id = c("79432768"),
+  synapse_id = c("syn25985884"),
+  df = c("pt_char"),
+  name = c("patient_level_dataset.csv"),
+  download_folder = file.path(tempdir(), "NSCLC_v2.1")
+)
 
 purrr::pmap(file, .get_and_query_file_url)
-
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

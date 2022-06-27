@@ -13,7 +13,8 @@ test_that("Test class and length of list for sunburst plot", {
   )
 
   plot1 <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v1.1, data_cohort = cohort,
+    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_cohort = cohort,
     max_n_regimens = 4
   )
 
@@ -96,7 +97,7 @@ test_that("lines of tx specified", {
 
   # compare to manually inputting the max number
   max_n <- left_join(cohort$cohort_ca_dx,
-    nsclc_data$NSCLC_v1.1$ca_drugs_NSCLC,
+    nsclc_data$NSCLC_v1.1$ca_drugs,
     by = c("cohort", "record_id", "ca_seq")
   ) %>%
     drop_na(regimen_drugs) %>%
