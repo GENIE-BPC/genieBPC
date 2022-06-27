@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull_data_synapse.R
 \name{pull_data_synapse}
 \alias{pull_data_synapse}
-\title{Obtain Clinical Data Files for GENIE BPC Project}
+\title{Obtain clinical & genomic data files for GENIE BPC Project}
 \usage{
 pull_data_synapse(
   cohort = NULL,

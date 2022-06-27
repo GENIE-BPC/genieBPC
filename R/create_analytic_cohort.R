@@ -1,4 +1,4 @@
-#' Select a Cohort of Patients for Analysis
+#' Select cohort of patients for analysis
 #'
 #' This function allows the user to create a cohort from the GENIE BPC data
 #' based on cancer diagnosis information such as cancer cohort, treating

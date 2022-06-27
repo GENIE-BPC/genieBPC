@@ -1,4 +1,4 @@
-#' Selecting Corresponding Unique Next Generation Sequencing Reports
+#' Selecting corresponding unique next generation sequencing reports
 #'
 #' Get a unique next generation sequencing sample
 #' for each patient for analysis following several

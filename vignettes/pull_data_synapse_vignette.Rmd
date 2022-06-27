@@ -114,8 +114,8 @@ nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
 ```{r, echo = FALSE, message = FALSE, eval=genieBPC:::.check_synapse_login()}
 ls(nsclc_2_1$NSCLC_v2.1) %>% 
   as.data.frame() %>% 
-  mutate(clinical_vs_genomic = case_when(. %in% c("cna_NSCLC", "fusions_NSCLC",
-                                                  "mutations_extended_NSCLC") ~ "Genomic Data",
+  mutate(clinical_vs_genomic = case_when(. %in% c("cna", "fusions",
+                                                  "mutations_extended") ~ "Genomic Data",
                                          TRUE ~ "Clinical Data")) %>% 
   gt::gt() %>% 
   gt::cols_label(.data = .,
@@ -130,7 +130,8 @@ ls(nsclc_2_1$NSCLC_v2.1) %>%
 Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
 
 ```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"), version = c("v2.1-consortium","v1.1-consortium"))
+pull_data_synapse(c("NSCLC", "CRC"), 
+                  version = c("v2.1-consortium","v1.1-consortium"))
 ```
 
 
