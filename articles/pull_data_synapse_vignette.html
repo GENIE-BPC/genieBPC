@@ -72,9 +72,8 @@
 
 
 
-
-<div class="row">
-  <main id="main"><div class="page-header">
+<script src="pull_data_synapse_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: pull_data_synapse</h1>
             
       
@@ -87,31 +86,20 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function accesses the specified
-version of the clinical and genomic GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164" class="external-link">Synapse</a>
-and reads it into the R environment.  </p>
-<p>This vignette will walk a user through the
-<code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function.</p>
+<p>The <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function accesses the specified version of the clinical and genomic GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164" class="external-link">Synapse</a> and reads it into the R environment.  </p>
+<p>This vignette will walk a user through the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Before beginning this tutorial, be sure to have a Synapse account. If
-you do not yet have a Synapse account, please follow the instructions
-below:</p>
+<p>Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:</p>
 <ol style="list-style-type: decimal">
-<li>Register for a <a href="https://www.synapse.org/#!Reigster0" class="external-link">Synapse
-account</a>
+<li>Register for a <a href="https://www.synapse.org/#!Reigster0" class="external-link">Synapse account</a>
 </li>
-<li>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a>
-to access the team list and request to join the team. Please include
-your full name and affiliation in the message before sending out the
-request.</li>
-<li>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma
-collaborative projects</a>.</li>
+<li>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</li>
+<li>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma collaborative projects</a>.</li>
 </ol>
-<p><em>Note: Please allow up to a week to review and grant
-access.</em></p>
+<p><em>Note: Please allow up to a week to review and grant access.</em></p>
 <p> </p>
 <p>Users must log in to Synapse to access the data successfully.</p>
 <ul>
@@ -120,30 +108,22 @@ access.</em></p>
 <p><code>set_synapse_credentials(username = "your_username", password = "your_password")</code></p>
 </li>
 <li>
-<p>To store authentication information in your environmental
-variables, add the following to your .Renviron file (tip: you can use
-<code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code> to easily open/edit this
-file):</p>
-<p><code>SYNAPSE_USERNAME = &lt;your-username&gt;</code>
-<code>SYNAPSE_PASSWORD = &lt;your-password&gt;</code></p>
+<p>To store authentication information in your environmental variables, add the following to your .Renviron file (tip: you can use <code>usethis::edit_r_environ()</code> to easily open/edit this file):</p>
+<p><code>SYNAPSE_USERNAME = &lt;your-username&gt;</code> <code>SYNAPSE_PASSWORD = &lt;your-password&gt;</code></p>
 </li>
 </ul>
-<p>Alternatively, you can pass your username and password to each
-individual data pull function if preferred, although it is recommended
-that you manage your passwords outside of your scripts for security
-purposes.</p>
+<p>Alternatively, you can pass your username and password to each individual data pull function if preferred, although it is recommended that you manage your passwords outside of your scripts for security purposes.</p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>Let’s start by reviewing the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code>
-arguments.</p>
-<div id="sybjgxkboh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<p>Let’s start by reviewing the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> arguments.</p>
+<div id="esdtxmkgyb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sybjgxkboh .gt_table {
+#esdtxmkgyb .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -168,7 +148,7 @@ arguments.</p>
   border-left-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_heading {
+#esdtxmkgyb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -180,7 +160,7 @@ arguments.</p>
   border-right-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_title {
+#esdtxmkgyb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -192,7 +172,7 @@ arguments.</p>
   border-bottom-width: 0;
 }
 
-#sybjgxkboh .gt_subtitle {
+#esdtxmkgyb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -204,13 +184,13 @@ arguments.</p>
   border-top-width: 0;
 }
 
-#sybjgxkboh .gt_bottom_border {
+#esdtxmkgyb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_col_headings {
+#esdtxmkgyb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -225,7 +205,7 @@ arguments.</p>
   border-right-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_col_heading {
+#esdtxmkgyb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -245,7 +225,7 @@ arguments.</p>
   overflow-x: hidden;
 }
 
-#sybjgxkboh .gt_column_spanner_outer {
+#esdtxmkgyb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -257,15 +237,15 @@ arguments.</p>
   padding-right: 4px;
 }
 
-#sybjgxkboh .gt_column_spanner_outer:first-child {
+#esdtxmkgyb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sybjgxkboh .gt_column_spanner_outer:last-child {
+#esdtxmkgyb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sybjgxkboh .gt_column_spanner {
+#esdtxmkgyb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -277,7 +257,7 @@ arguments.</p>
   width: 100%;
 }
 
-#sybjgxkboh .gt_group_heading {
+#esdtxmkgyb .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -302,7 +282,7 @@ arguments.</p>
   vertical-align: middle;
 }
 
-#sybjgxkboh .gt_empty_group_heading {
+#esdtxmkgyb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -317,15 +297,15 @@ arguments.</p>
   vertical-align: middle;
 }
 
-#sybjgxkboh .gt_from_md > :first-child {
+#esdtxmkgyb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sybjgxkboh .gt_from_md > :last-child {
+#esdtxmkgyb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sybjgxkboh .gt_row {
+#esdtxmkgyb .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -344,7 +324,7 @@ arguments.</p>
   overflow-x: hidden;
 }
 
-#sybjgxkboh .gt_stub {
+#esdtxmkgyb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -357,7 +337,7 @@ arguments.</p>
   padding-right: 5px;
 }
 
-#sybjgxkboh .gt_stub_row_group {
+#esdtxmkgyb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -371,11 +351,11 @@ arguments.</p>
   vertical-align: top;
 }
 
-#sybjgxkboh .gt_row_group_first td {
+#esdtxmkgyb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sybjgxkboh .gt_summary_row {
+#esdtxmkgyb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -385,16 +365,16 @@ arguments.</p>
   padding-right: 5px;
 }
 
-#sybjgxkboh .gt_first_summary_row {
+#esdtxmkgyb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_first_summary_row.thick {
+#esdtxmkgyb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sybjgxkboh .gt_last_summary_row {
+#esdtxmkgyb .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -404,7 +384,7 @@ arguments.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_grand_summary_row {
+#esdtxmkgyb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -414,7 +394,7 @@ arguments.</p>
   padding-right: 5px;
 }
 
-#sybjgxkboh .gt_first_grand_summary_row {
+#esdtxmkgyb .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -424,11 +404,11 @@ arguments.</p>
   border-top-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_striped {
+#esdtxmkgyb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sybjgxkboh .gt_table_body {
+#esdtxmkgyb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -437,7 +417,7 @@ arguments.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_footnotes {
+#esdtxmkgyb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -451,7 +431,7 @@ arguments.</p>
   border-right-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_footnote {
+#esdtxmkgyb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -460,7 +440,7 @@ arguments.</p>
   padding-right: 5px;
 }
 
-#sybjgxkboh .gt_sourcenotes {
+#esdtxmkgyb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -474,7 +454,7 @@ arguments.</p>
   border-right-color: #D3D3D3;
 }
 
-#sybjgxkboh .gt_sourcenote {
+#esdtxmkgyb .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -482,36 +462,36 @@ arguments.</p>
   padding-right: 5px;
 }
 
-#sybjgxkboh .gt_left {
+#esdtxmkgyb .gt_left {
   text-align: left;
 }
 
-#sybjgxkboh .gt_center {
+#esdtxmkgyb .gt_center {
   text-align: center;
 }
 
-#sybjgxkboh .gt_right {
+#esdtxmkgyb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sybjgxkboh .gt_font_normal {
+#esdtxmkgyb .gt_font_normal {
   font-weight: normal;
 }
 
-#sybjgxkboh .gt_font_bold {
+#esdtxmkgyb .gt_font_bold {
   font-weight: bold;
 }
 
-#sybjgxkboh .gt_font_italic {
+#esdtxmkgyb .gt_font_italic {
   font-style: italic;
 }
 
-#sybjgxkboh .gt_super {
+#esdtxmkgyb .gt_super {
   font-size: 65%;
 }
 
-#sybjgxkboh .gt_two_val_uncert {
+#esdtxmkgyb .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -520,31 +500,31 @@ arguments.</p>
   margin-left: 0.1em;
 }
 
-#sybjgxkboh .gt_footnote_marks {
+#esdtxmkgyb .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#sybjgxkboh .gt_asterisk {
+#esdtxmkgyb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sybjgxkboh .gt_slash_mark {
+#esdtxmkgyb .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#sybjgxkboh .gt_fraction_numerator {
+#esdtxmkgyb .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#sybjgxkboh .gt_fraction_denominator {
+#esdtxmkgyb .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -597,18 +577,16 @@ arguments.</p>
 <div class="section level3">
 <h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h3>
-<p>Pull version 2.1-consortium of the NSCLC data from Synapse and store
-in the local environment.</p>
+<p>Pull version 2.1-consortium of the NSCLC data from Synapse and store in the local environment.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></code></pre></div>
-<p>The resulting <code>nsclc_data</code> object is a list of elements,
-such that each element represents a dataset:</p>
-<div id="cprdnzijlg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span><span class="va">nsclc_2_1</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></span></code></pre></div>
+<p>The resulting <code>nsclc_data</code> object is a list of elements, such that each element represents a dataset:</p>
+<div id="qikeesmuxn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cprdnzijlg .gt_table {
+#qikeesmuxn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -633,7 +611,7 @@ such that each element represents a dataset:</p>
   border-left-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_heading {
+#qikeesmuxn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -645,7 +623,7 @@ such that each element represents a dataset:</p>
   border-right-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_title {
+#qikeesmuxn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -657,7 +635,7 @@ such that each element represents a dataset:</p>
   border-bottom-width: 0;
 }
 
-#cprdnzijlg .gt_subtitle {
+#qikeesmuxn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -669,13 +647,13 @@ such that each element represents a dataset:</p>
   border-top-width: 0;
 }
 
-#cprdnzijlg .gt_bottom_border {
+#qikeesmuxn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_col_headings {
+#qikeesmuxn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -690,7 +668,7 @@ such that each element represents a dataset:</p>
   border-right-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_col_heading {
+#qikeesmuxn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -710,7 +688,7 @@ such that each element represents a dataset:</p>
   overflow-x: hidden;
 }
 
-#cprdnzijlg .gt_column_spanner_outer {
+#qikeesmuxn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -722,15 +700,15 @@ such that each element represents a dataset:</p>
   padding-right: 4px;
 }
 
-#cprdnzijlg .gt_column_spanner_outer:first-child {
+#qikeesmuxn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cprdnzijlg .gt_column_spanner_outer:last-child {
+#qikeesmuxn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cprdnzijlg .gt_column_spanner {
+#qikeesmuxn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -742,7 +720,7 @@ such that each element represents a dataset:</p>
   width: 100%;
 }
 
-#cprdnzijlg .gt_group_heading {
+#qikeesmuxn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -767,7 +745,7 @@ such that each element represents a dataset:</p>
   vertical-align: middle;
 }
 
-#cprdnzijlg .gt_empty_group_heading {
+#qikeesmuxn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -782,15 +760,15 @@ such that each element represents a dataset:</p>
   vertical-align: middle;
 }
 
-#cprdnzijlg .gt_from_md > :first-child {
+#qikeesmuxn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cprdnzijlg .gt_from_md > :last-child {
+#qikeesmuxn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cprdnzijlg .gt_row {
+#qikeesmuxn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -809,7 +787,7 @@ such that each element represents a dataset:</p>
   overflow-x: hidden;
 }
 
-#cprdnzijlg .gt_stub {
+#qikeesmuxn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -822,7 +800,7 @@ such that each element represents a dataset:</p>
   padding-right: 5px;
 }
 
-#cprdnzijlg .gt_stub_row_group {
+#qikeesmuxn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -836,11 +814,11 @@ such that each element represents a dataset:</p>
   vertical-align: top;
 }
 
-#cprdnzijlg .gt_row_group_first td {
+#qikeesmuxn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cprdnzijlg .gt_summary_row {
+#qikeesmuxn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -850,16 +828,16 @@ such that each element represents a dataset:</p>
   padding-right: 5px;
 }
 
-#cprdnzijlg .gt_first_summary_row {
+#qikeesmuxn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_first_summary_row.thick {
+#qikeesmuxn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cprdnzijlg .gt_last_summary_row {
+#qikeesmuxn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -869,7 +847,7 @@ such that each element represents a dataset:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_grand_summary_row {
+#qikeesmuxn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -879,7 +857,7 @@ such that each element represents a dataset:</p>
   padding-right: 5px;
 }
 
-#cprdnzijlg .gt_first_grand_summary_row {
+#qikeesmuxn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -889,11 +867,11 @@ such that each element represents a dataset:</p>
   border-top-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_striped {
+#qikeesmuxn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cprdnzijlg .gt_table_body {
+#qikeesmuxn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -902,7 +880,7 @@ such that each element represents a dataset:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_footnotes {
+#qikeesmuxn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -916,7 +894,7 @@ such that each element represents a dataset:</p>
   border-right-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_footnote {
+#qikeesmuxn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -925,7 +903,7 @@ such that each element represents a dataset:</p>
   padding-right: 5px;
 }
 
-#cprdnzijlg .gt_sourcenotes {
+#qikeesmuxn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -939,7 +917,7 @@ such that each element represents a dataset:</p>
   border-right-color: #D3D3D3;
 }
 
-#cprdnzijlg .gt_sourcenote {
+#qikeesmuxn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -947,36 +925,36 @@ such that each element represents a dataset:</p>
   padding-right: 5px;
 }
 
-#cprdnzijlg .gt_left {
+#qikeesmuxn .gt_left {
   text-align: left;
 }
 
-#cprdnzijlg .gt_center {
+#qikeesmuxn .gt_center {
   text-align: center;
 }
 
-#cprdnzijlg .gt_right {
+#qikeesmuxn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cprdnzijlg .gt_font_normal {
+#qikeesmuxn .gt_font_normal {
   font-weight: normal;
 }
 
-#cprdnzijlg .gt_font_bold {
+#qikeesmuxn .gt_font_bold {
   font-weight: bold;
 }
 
-#cprdnzijlg .gt_font_italic {
+#qikeesmuxn .gt_font_italic {
   font-style: italic;
 }
 
-#cprdnzijlg .gt_super {
+#qikeesmuxn .gt_super {
   font-size: 65%;
 }
 
-#cprdnzijlg .gt_two_val_uncert {
+#qikeesmuxn .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -985,31 +963,31 @@ such that each element represents a dataset:</p>
   margin-left: 0.1em;
 }
 
-#cprdnzijlg .gt_footnote_marks {
+#qikeesmuxn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#cprdnzijlg .gt_asterisk {
+#qikeesmuxn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cprdnzijlg .gt_slash_mark {
+#qikeesmuxn .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#cprdnzijlg .gt_fraction_numerator {
+#qikeesmuxn .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#cprdnzijlg .gt_fraction_denominator {
+#qikeesmuxn .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1022,47 +1000,47 @@ such that each element represents a dataset:</p>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td class="gt_row gt_left">ca_drugs_NSCLC</td>
+<td class="gt_row gt_left">ca_drugs</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">ca_dx_index_NSCLC</td>
+<td class="gt_row gt_left">ca_dx_index</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">ca_dx_non_index_NSCLC</td>
+<td class="gt_row gt_left">ca_dx_non_index</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">cna_NSCLC</td>
+<td class="gt_row gt_left">cna</td>
 <td class="gt_row gt_left">Genomic Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">cpt_NSCLC</td>
+<td class="gt_row gt_left">cpt</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">fusions_NSCLC</td>
+<td class="gt_row gt_left">fusions</td>
 <td class="gt_row gt_left">Genomic Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">mutations_extended_NSCLC</td>
+<td class="gt_row gt_left">mutations_extended</td>
 <td class="gt_row gt_left">Genomic Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">prissmm_imaging_NSCLC</td>
+<td class="gt_row gt_left">prissmm_imaging</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">prissmm_md_NSCLC</td>
+<td class="gt_row gt_left">prissmm_md</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">prissmm_pathology_NSCLC</td>
+<td class="gt_row gt_left">prissmm_pathology</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 <tr>
-<td class="gt_row gt_left">pt_char_NSCLC</td>
+<td class="gt_row gt_left">pt_char</td>
 <td class="gt_row gt_left">Clinical Data</td>
 </tr>
 </tbody>
@@ -1072,28 +1050,25 @@ such that each element represents a dataset:</p>
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>Pull version 2.1-consortium of the NSCLC data and version
-1.1-consortium of the CRC data.</p>
+<p>Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>, version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v2.1-consortium"</span>,<span class="st">"v1.1-consortium"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>, </span>
+<span>                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v2.1-consortium"</span>,<span class="st">"v1.1-consortium"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h3>
-<p>Pull version 1.1-consortium of the NSCLC data and version
-1.1-consortium of the CRC data.</p>
+<p>Pull version 1.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,
-                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v1.1-consortium"</span>, <span class="st">"v1.1-consortium"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,</span>
+<span>                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v1.1-consortium"</span>, <span class="st">"v1.1-consortium"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>
 </h2>
 <ul>
-<li>As of May 2022, the non-small cell lung cancer (NSCLC), colorectal
-cancer (CRC), and breast cancer (BrCa) cohorts are available to access.
-Future cohorts will include pancreas, prostate and bladder cancers.</li>
+<li>As of June 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -1104,12 +1079,12 @@ Future cohorts will include pancreas, prostate and bladder cancers.</li>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+<p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

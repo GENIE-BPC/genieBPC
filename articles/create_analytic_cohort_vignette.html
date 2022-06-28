@@ -72,9 +72,8 @@
 
 
 
-
-<div class="row">
-  <main id="main"><div class="page-header">
+<script src="create_analytic_cohort_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: create_analytic_cohort</h1>
             
       
@@ -87,56 +86,28 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to
-create a cohort from the GENIE BPC data based on cancer diagnosis
-information such as cancer cohort, treating institution, histology, and
-stage at diagnosis, as well as cancer-directed regimen information
-including regimen name and regimen order. The function returns three
-datasets:</p>
-<ol style="list-style-type: decimal">
-<li><p><code>cohort_ca_dx</code> contains cancer diagnosis information
-for patients matching the specified criteria. This dataset is structured
-as one record per patient per associated cancer diagnosis.</p></li>
-<li><p><code>cohort_ca_drugs</code> returns the drug-regimen information
-for patients matching the specified criteria. This dataset is structured
-as one record per patient, per regimen and associated cancer diagnosis.
-For example, a drug regimen associated with treating two cancer
-diagnoses will have two records in this dataset.</p></li>
-<li><p><code>cohort_ngs</code> contains the next generation sequencing
-report information for patients matching the specified criteria. This
-dataset is structured as one record per next generation sequencing
-report, per associated diagnosis. If it is unknown which cancer sequence
-is associated with the next generation sequencing report, it will have
-two records in this dataset. This dataset contains the key to merge the
-clinical and genomic data.</p></li>
-</ol>
-<p>This vignette will walk a user through the
-<code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. This function returns a list of data frames containing each of the clinical and genomic data files for patients that met criteria for the analytic cohort.</p>
+<p>This vignette will walk a user through the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Before going through the tutorial, install and load the {genieBPC}
-library and log into Synapse using the
-<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on
-<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the
-<code>Tutorial: pull_data_synapse()</code> vignette.</p>
+<p>Before going through the tutorial, install and load the {genieBPC} library and log into Synapse using the <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the <code>Tutorial: pull_data_synapse()</code> vignette.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several
-input parameters:</p>
-<div id="nhxufvohzz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several input parameters:</p>
+<div id="qtwjamhymg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#nhxufvohzz .gt_table {
+#qtwjamhymg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -161,7 +132,7 @@ input parameters:</p>
   border-left-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_heading {
+#qtwjamhymg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -173,7 +144,7 @@ input parameters:</p>
   border-right-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_title {
+#qtwjamhymg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -185,7 +156,7 @@ input parameters:</p>
   border-bottom-width: 0;
 }
 
-#nhxufvohzz .gt_subtitle {
+#qtwjamhymg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -197,13 +168,13 @@ input parameters:</p>
   border-top-width: 0;
 }
 
-#nhxufvohzz .gt_bottom_border {
+#qtwjamhymg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_col_headings {
+#qtwjamhymg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -218,7 +189,7 @@ input parameters:</p>
   border-right-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_col_heading {
+#qtwjamhymg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -238,7 +209,7 @@ input parameters:</p>
   overflow-x: hidden;
 }
 
-#nhxufvohzz .gt_column_spanner_outer {
+#qtwjamhymg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -250,15 +221,15 @@ input parameters:</p>
   padding-right: 4px;
 }
 
-#nhxufvohzz .gt_column_spanner_outer:first-child {
+#qtwjamhymg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nhxufvohzz .gt_column_spanner_outer:last-child {
+#qtwjamhymg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nhxufvohzz .gt_column_spanner {
+#qtwjamhymg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -270,7 +241,7 @@ input parameters:</p>
   width: 100%;
 }
 
-#nhxufvohzz .gt_group_heading {
+#qtwjamhymg .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -295,7 +266,7 @@ input parameters:</p>
   vertical-align: middle;
 }
 
-#nhxufvohzz .gt_empty_group_heading {
+#qtwjamhymg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -310,15 +281,15 @@ input parameters:</p>
   vertical-align: middle;
 }
 
-#nhxufvohzz .gt_from_md > :first-child {
+#qtwjamhymg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nhxufvohzz .gt_from_md > :last-child {
+#qtwjamhymg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nhxufvohzz .gt_row {
+#qtwjamhymg .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -337,7 +308,7 @@ input parameters:</p>
   overflow-x: hidden;
 }
 
-#nhxufvohzz .gt_stub {
+#qtwjamhymg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -350,7 +321,7 @@ input parameters:</p>
   padding-right: 5px;
 }
 
-#nhxufvohzz .gt_stub_row_group {
+#qtwjamhymg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -364,11 +335,11 @@ input parameters:</p>
   vertical-align: top;
 }
 
-#nhxufvohzz .gt_row_group_first td {
+#qtwjamhymg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nhxufvohzz .gt_summary_row {
+#qtwjamhymg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -378,16 +349,16 @@ input parameters:</p>
   padding-right: 5px;
 }
 
-#nhxufvohzz .gt_first_summary_row {
+#qtwjamhymg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_first_summary_row.thick {
+#qtwjamhymg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nhxufvohzz .gt_last_summary_row {
+#qtwjamhymg .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -397,7 +368,7 @@ input parameters:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_grand_summary_row {
+#qtwjamhymg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -407,7 +378,7 @@ input parameters:</p>
   padding-right: 5px;
 }
 
-#nhxufvohzz .gt_first_grand_summary_row {
+#qtwjamhymg .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -417,11 +388,11 @@ input parameters:</p>
   border-top-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_striped {
+#qtwjamhymg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nhxufvohzz .gt_table_body {
+#qtwjamhymg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -430,7 +401,7 @@ input parameters:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_footnotes {
+#qtwjamhymg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -444,7 +415,7 @@ input parameters:</p>
   border-right-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_footnote {
+#qtwjamhymg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -453,7 +424,7 @@ input parameters:</p>
   padding-right: 5px;
 }
 
-#nhxufvohzz .gt_sourcenotes {
+#qtwjamhymg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -467,7 +438,7 @@ input parameters:</p>
   border-right-color: #D3D3D3;
 }
 
-#nhxufvohzz .gt_sourcenote {
+#qtwjamhymg .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -475,36 +446,36 @@ input parameters:</p>
   padding-right: 5px;
 }
 
-#nhxufvohzz .gt_left {
+#qtwjamhymg .gt_left {
   text-align: left;
 }
 
-#nhxufvohzz .gt_center {
+#qtwjamhymg .gt_center {
   text-align: center;
 }
 
-#nhxufvohzz .gt_right {
+#qtwjamhymg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nhxufvohzz .gt_font_normal {
+#qtwjamhymg .gt_font_normal {
   font-weight: normal;
 }
 
-#nhxufvohzz .gt_font_bold {
+#qtwjamhymg .gt_font_bold {
   font-weight: bold;
 }
 
-#nhxufvohzz .gt_font_italic {
+#qtwjamhymg .gt_font_italic {
   font-style: italic;
 }
 
-#nhxufvohzz .gt_super {
+#qtwjamhymg .gt_super {
   font-size: 65%;
 }
 
-#nhxufvohzz .gt_two_val_uncert {
+#qtwjamhymg .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -513,31 +484,31 @@ input parameters:</p>
   margin-left: 0.1em;
 }
 
-#nhxufvohzz .gt_footnote_marks {
+#qtwjamhymg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#nhxufvohzz .gt_asterisk {
+#qtwjamhymg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nhxufvohzz .gt_slash_mark {
+#qtwjamhymg .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#nhxufvohzz .gt_fraction_numerator {
+#qtwjamhymg .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#nhxufvohzz .gt_fraction_denominator {
+#qtwjamhymg .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -614,137 +585,66 @@ input parameters:</p>
 </tbody>
 </table>
 </div>
-<p>This function returns a list of data frames containing cancer
-diagnosis (<code>cohort_ca_dx</code>), cancer-directed regimen
-(<code>cohort_ca_drugs</code>) and next generation sequencing
-(<code>cohort_ngs</code>) information for patients that met the
-specified criteria. Optionally, if return_summary = TRUE, the list also
-includes summary tables for the number of records per dataset
-(<code>tbl_overall_summary</code>) as well as tables of key cancer
-diagnosis (<code>tbl_cohort</code>), cancer-directed regimen
-(<code>tbl_drugs</code>) and next generation sequencing
-(<code>tbl_ngs</code>) variables.</p>
+<p>This function returns a list of data frames containing clinical and next generation sequencing information for patients that met the specified criteria. Optionally, if return_summary = TRUE, the list also includes summary tables for the number of records per dataset (‘tbl_overall_summary’) as well as tables of key cancer diagnosis (‘tbl_cohort’), cancer-directed regimen (‘tbl_drugs’) and next generation sequencing (‘tbl_ngs’) variables.</p>
 </div>
 <div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+<h2 id="example-using-package-test-data">Example using package test data<a class="anchor" aria-label="anchor" href="#example-using-package-test-data"></a>
 </h2>
-<p>The examples below create analytic datasets based on the GENIE BPC
-NSCLC cohort. To begin, the user must first pull the NSCLC data from
-Synapse and save it to the local environment, as shown below using the
-<code>pull_data_synapse</code> function:</p>
+<p><strong>Create analytic cohort using package test data</strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></code></pre></div>
-<div class="section level3">
-<h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
-</h3>
-<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma
-and also return all of their corresponding cancer-directed drugs</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>, 
-                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, 
-                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span>
-<span class="co">#&gt; [1] "cohort_ca_drugs" "cohort_ca_dx"    "cohort_ngs"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="../reference/nsclc_test_data.html">nsclc_test_data</a></span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level2">
+<h2 id="examples-using-data-from-pull_data_synapse">Examples using data from <code>pull_data_synapse()</code><a class="anchor" aria-label="anchor" href="#examples-using-data-from-pull_data_synapse"></a>
+</h2>
+<p>Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the <code>pull_data_synapse</code> function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin,
-Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
-for their first index NSCLC</p>
+<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
-                       regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
-                       regimen_order <span class="op">=</span> <span class="fl">1</span>,
-                       regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span>
-<span class="co">#&gt; $cohort_ca_dx</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 232 x 152</span></span>
-<span class="co">#&gt;    cohort record_id     institution ca_seq redcap_ca_index ca_cadx_int ca_dx_how</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-0~ DFCI             2 Yes                   <span style="text-decoration: underline;">24</span>328 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">18</span>631 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>329 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>538 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">21</span>627 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">20</span>393 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-0~ DFCI             2 Yes                   <span style="text-decoration: underline;">24</span>298 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">23</span>107 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>189 Pathology</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-0~ DFCI             0 Yes                   <span style="text-decoration: underline;">22</span>758 Pathology</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 222 more rows, and 145 more variables: dob_next_ca_days &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   tt_first_index_ca &lt;int&gt;, naaccr_first_contact_int &lt;int&gt;, ca_age &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   age_dx &lt;int&gt;, naaccr_site_cd &lt;chr&gt;, ca_site &lt;chr&gt;, ca_d_site &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   site_recode &lt;chr&gt;, ca_type &lt;chr&gt;, naaccr_histology_cd &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   ca_hist_adeno_squamous &lt;chr&gt;, naaccr_behavior_cd &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   naaccr_laterality_cd &lt;chr&gt;, naaccr_grade &lt;int&gt;, ca_grade_diff &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   ca_grade &lt;chr&gt;, best_ajcc_stage_cd &lt;chr&gt;, ca_stage_iv &lt;chr&gt;, ...</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $cohort_ca_drugs</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 232 x 101</span></span>
-<span class="co">#&gt;    cohort record_id  ca_seq institution regimen_number redcap_ca_index drugs_num</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFC~      2 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFC~      2 DFCI                     2 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFC~      0 DFCI                     1 Yes                     2</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 222 more rows, and 94 more variables: drugs_inst &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   drugs_firstinst &lt;chr&gt;, drugs_ct_yn &lt;chr&gt;, drugs_dc_ynu &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   regimen_drugs &lt;chr&gt;, drugs_drug_1 &lt;chr&gt;, drugs_drug_2 &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_3 &lt;chr&gt;, drugs_drug_4 &lt;chr&gt;, drugs_drug_5 &lt;lgl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_oth_1 &lt;chr&gt;, drugs_drug_oth_2 &lt;chr&gt;, drugs_drug_oth_3 &lt;lgl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   drugs_drug_oth_4 &lt;chr&gt;, drugs_drug_oth_5 &lt;lgl&gt;, drugs_startdt_int_1 &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   drugs_startdt_int_2 &lt;int&gt;, drugs_startdt_int_3 &lt;int&gt;, ...</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $cohort_ngs</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 248 x 27</span></span>
-<span class="co">#&gt;    cohort record_id         ca_seq institution cpt_number cpt_report_int</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> NSCLC  GENIE-DFCI-000142      2 DFCI                 1          <span style="text-decoration: underline;">24</span>373</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> NSCLC  GENIE-DFCI-000263      0 DFCI                 1          <span style="text-decoration: underline;">18</span>689</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> NSCLC  GENIE-DFCI-000583      0 DFCI                 1          <span style="text-decoration: underline;">25</span>932</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> NSCLC  GENIE-DFCI-000675      0 DFCI                 1          <span style="text-decoration: underline;">22</span>604</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> NSCLC  GENIE-DFCI-000735      0 DFCI                 1          <span style="text-decoration: underline;">21</span>698</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> NSCLC  GENIE-DFCI-000735      0 DFCI                 2          <span style="text-decoration: underline;">22</span>371</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> NSCLC  GENIE-DFCI-001095      0 DFCI                 1          <span style="text-decoration: underline;">20</span>576</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NSCLC  GENIE-DFCI-001305      2 DFCI                 1          <span style="text-decoration: underline;">24</span>496</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NSCLC  GENIE-DFCI-001514      0 DFCI                 1          <span style="text-decoration: underline;">23</span>148</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> NSCLC  GENIE-DFCI-002274      0 DFCI                 1          <span style="text-decoration: underline;">24</span>349</span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 238 more rows, and 21 more variables: path_proc_number &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   path_rep_number &lt;int&gt;, cpt_genie_sample_id &lt;chr&gt;, cpt_oncotree_code &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   cpt_sample_type &lt;chr&gt;, cpt_seq_assay_id &lt;chr&gt;, cpt_order_int &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   cpt_seq_date &lt;int&gt;, dob_cpt_report_days &lt;int&gt;, cpt_report_post_death &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dx_cpt_rep_days &lt;int&gt;, dx_cpt_rep_mos &lt;dbl&gt;, dx_cpt_rep_yrs &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dx_path_proc_cpt_days &lt;int&gt;, dx_path_proc_cpt_mos &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dx_path_proc_cpt_yrs &lt;dbl&gt;, path_proc_cpt_rep_days &lt;int&gt;, ...</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>, </span>
+<span>                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, </span>
+<span>                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "cohort_ca_drugs"           "cohort_ca_dx"             </span></span>
+<span><span class="co">#&gt;  [3] "cohort_ca_dx_non_index"    "cohort_cna"               </span></span>
+<span><span class="co">#&gt;  [5] "cohort_fusions"            "cohort_mutations_extended"</span></span>
+<span><span class="co">#&gt;  [7] "cohort_ngs"                "cohort_prissmm_imaging"   </span></span>
+<span><span class="co">#&gt;  [9] "cohort_prissmm_md"         "cohort_prissmm_pathology" </span></span>
+<span><span class="co">#&gt; [11] "cohort_pt_char"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin,
-Pemetrexed Disodium at any time throughout the course of treatment for
-their cancer diagnosis, but in the event that the patient received the
-drug multiple times, only select the first time.</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,
-                                                 regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
-                                                 regimen_order <span class="op">=</span> <span class="fl">1</span>,
-                                                 regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,
-                                                 return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,</span>
+<span>                       regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,</span>
+<span>                       regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                       regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-4">Example 4<a class="anchor" aria-label="anchor" href="#example-4"></a>
+</h3>
+<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_overall_summary</span></code></pre></div>
-<div id="idyusaawgk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,</span>
+<span>                                                 regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span>
+<span>                                                 regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                                 regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,</span>
+<span>                                                 return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_overall_summary</span></span></code></pre></div>
+<div id="kgnpbhvnpm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#idyusaawgk .gt_table {
+#kgnpbhvnpm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -769,7 +669,7 @@ drug multiple times, only select the first time.</p>
   border-left-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_heading {
+#kgnpbhvnpm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -781,7 +681,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_title {
+#kgnpbhvnpm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -793,7 +693,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-width: 0;
 }
 
-#idyusaawgk .gt_subtitle {
+#kgnpbhvnpm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -805,13 +705,13 @@ drug multiple times, only select the first time.</p>
   border-top-width: 0;
 }
 
-#idyusaawgk .gt_bottom_border {
+#kgnpbhvnpm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_col_headings {
+#kgnpbhvnpm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -826,7 +726,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_col_heading {
+#kgnpbhvnpm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -846,7 +746,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#idyusaawgk .gt_column_spanner_outer {
+#kgnpbhvnpm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -858,15 +758,15 @@ drug multiple times, only select the first time.</p>
   padding-right: 4px;
 }
 
-#idyusaawgk .gt_column_spanner_outer:first-child {
+#kgnpbhvnpm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#idyusaawgk .gt_column_spanner_outer:last-child {
+#kgnpbhvnpm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#idyusaawgk .gt_column_spanner {
+#kgnpbhvnpm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -878,7 +778,7 @@ drug multiple times, only select the first time.</p>
   width: 100%;
 }
 
-#idyusaawgk .gt_group_heading {
+#kgnpbhvnpm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -903,7 +803,7 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#idyusaawgk .gt_empty_group_heading {
+#kgnpbhvnpm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -918,15 +818,15 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#idyusaawgk .gt_from_md > :first-child {
+#kgnpbhvnpm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#idyusaawgk .gt_from_md > :last-child {
+#kgnpbhvnpm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#idyusaawgk .gt_row {
+#kgnpbhvnpm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -945,7 +845,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#idyusaawgk .gt_stub {
+#kgnpbhvnpm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -958,7 +858,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#idyusaawgk .gt_stub_row_group {
+#kgnpbhvnpm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -972,11 +872,11 @@ drug multiple times, only select the first time.</p>
   vertical-align: top;
 }
 
-#idyusaawgk .gt_row_group_first td {
+#kgnpbhvnpm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#idyusaawgk .gt_summary_row {
+#kgnpbhvnpm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -986,16 +886,16 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#idyusaawgk .gt_first_summary_row {
+#kgnpbhvnpm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_first_summary_row.thick {
+#kgnpbhvnpm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#idyusaawgk .gt_last_summary_row {
+#kgnpbhvnpm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1005,7 +905,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_grand_summary_row {
+#kgnpbhvnpm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1015,7 +915,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#idyusaawgk .gt_first_grand_summary_row {
+#kgnpbhvnpm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1025,11 +925,11 @@ drug multiple times, only select the first time.</p>
   border-top-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_striped {
+#kgnpbhvnpm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#idyusaawgk .gt_table_body {
+#kgnpbhvnpm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1038,7 +938,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_footnotes {
+#kgnpbhvnpm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1052,7 +952,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_footnote {
+#kgnpbhvnpm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1061,7 +961,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#idyusaawgk .gt_sourcenotes {
+#kgnpbhvnpm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1075,7 +975,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#idyusaawgk .gt_sourcenote {
+#kgnpbhvnpm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1083,36 +983,36 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#idyusaawgk .gt_left {
+#kgnpbhvnpm .gt_left {
   text-align: left;
 }
 
-#idyusaawgk .gt_center {
+#kgnpbhvnpm .gt_center {
   text-align: center;
 }
 
-#idyusaawgk .gt_right {
+#kgnpbhvnpm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#idyusaawgk .gt_font_normal {
+#kgnpbhvnpm .gt_font_normal {
   font-weight: normal;
 }
 
-#idyusaawgk .gt_font_bold {
+#kgnpbhvnpm .gt_font_bold {
   font-weight: bold;
 }
 
-#idyusaawgk .gt_font_italic {
+#kgnpbhvnpm .gt_font_italic {
   font-style: italic;
 }
 
-#idyusaawgk .gt_super {
+#kgnpbhvnpm .gt_super {
   font-size: 65%;
 }
 
-#idyusaawgk .gt_two_val_uncert {
+#kgnpbhvnpm .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1121,31 +1021,31 @@ drug multiple times, only select the first time.</p>
   margin-left: 0.1em;
 }
 
-#idyusaawgk .gt_footnote_marks {
+#kgnpbhvnpm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#idyusaawgk .gt_asterisk {
+#kgnpbhvnpm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#idyusaawgk .gt_slash_mark {
+#kgnpbhvnpm .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#idyusaawgk .gt_fraction_numerator {
+#kgnpbhvnpm .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#idyusaawgk .gt_fraction_denominator {
+#kgnpbhvnpm .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1201,14 +1101,14 @@ drug multiple times, only select the first time.</p>
     </tr></tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></code></pre></div>
-<div id="luhuommijp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></span></code></pre></div>
+<div id="tfmmfyajrt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#luhuommijp .gt_table {
+#tfmmfyajrt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1233,7 +1133,7 @@ drug multiple times, only select the first time.</p>
   border-left-color: #D3D3D3;
 }
 
-#luhuommijp .gt_heading {
+#tfmmfyajrt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1245,7 +1145,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#luhuommijp .gt_title {
+#tfmmfyajrt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1257,7 +1157,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-width: 0;
 }
 
-#luhuommijp .gt_subtitle {
+#tfmmfyajrt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1269,13 +1169,13 @@ drug multiple times, only select the first time.</p>
   border-top-width: 0;
 }
 
-#luhuommijp .gt_bottom_border {
+#tfmmfyajrt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#luhuommijp .gt_col_headings {
+#tfmmfyajrt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1290,7 +1190,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#luhuommijp .gt_col_heading {
+#tfmmfyajrt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1310,7 +1210,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#luhuommijp .gt_column_spanner_outer {
+#tfmmfyajrt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1322,15 +1222,15 @@ drug multiple times, only select the first time.</p>
   padding-right: 4px;
 }
 
-#luhuommijp .gt_column_spanner_outer:first-child {
+#tfmmfyajrt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#luhuommijp .gt_column_spanner_outer:last-child {
+#tfmmfyajrt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#luhuommijp .gt_column_spanner {
+#tfmmfyajrt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1342,7 +1242,7 @@ drug multiple times, only select the first time.</p>
   width: 100%;
 }
 
-#luhuommijp .gt_group_heading {
+#tfmmfyajrt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1367,7 +1267,7 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#luhuommijp .gt_empty_group_heading {
+#tfmmfyajrt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1382,15 +1282,15 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#luhuommijp .gt_from_md > :first-child {
+#tfmmfyajrt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#luhuommijp .gt_from_md > :last-child {
+#tfmmfyajrt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#luhuommijp .gt_row {
+#tfmmfyajrt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1409,7 +1309,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#luhuommijp .gt_stub {
+#tfmmfyajrt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1422,7 +1322,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#luhuommijp .gt_stub_row_group {
+#tfmmfyajrt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1436,11 +1336,11 @@ drug multiple times, only select the first time.</p>
   vertical-align: top;
 }
 
-#luhuommijp .gt_row_group_first td {
+#tfmmfyajrt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#luhuommijp .gt_summary_row {
+#tfmmfyajrt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1450,16 +1350,16 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#luhuommijp .gt_first_summary_row {
+#tfmmfyajrt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#luhuommijp .gt_first_summary_row.thick {
+#tfmmfyajrt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#luhuommijp .gt_last_summary_row {
+#tfmmfyajrt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1469,7 +1369,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#luhuommijp .gt_grand_summary_row {
+#tfmmfyajrt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1479,7 +1379,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#luhuommijp .gt_first_grand_summary_row {
+#tfmmfyajrt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1489,11 +1389,11 @@ drug multiple times, only select the first time.</p>
   border-top-color: #D3D3D3;
 }
 
-#luhuommijp .gt_striped {
+#tfmmfyajrt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#luhuommijp .gt_table_body {
+#tfmmfyajrt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1502,7 +1402,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#luhuommijp .gt_footnotes {
+#tfmmfyajrt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1516,7 +1416,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#luhuommijp .gt_footnote {
+#tfmmfyajrt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1525,7 +1425,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#luhuommijp .gt_sourcenotes {
+#tfmmfyajrt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1539,7 +1439,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#luhuommijp .gt_sourcenote {
+#tfmmfyajrt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1547,36 +1447,36 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#luhuommijp .gt_left {
+#tfmmfyajrt .gt_left {
   text-align: left;
 }
 
-#luhuommijp .gt_center {
+#tfmmfyajrt .gt_center {
   text-align: center;
 }
 
-#luhuommijp .gt_right {
+#tfmmfyajrt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#luhuommijp .gt_font_normal {
+#tfmmfyajrt .gt_font_normal {
   font-weight: normal;
 }
 
-#luhuommijp .gt_font_bold {
+#tfmmfyajrt .gt_font_bold {
   font-weight: bold;
 }
 
-#luhuommijp .gt_font_italic {
+#tfmmfyajrt .gt_font_italic {
   font-style: italic;
 }
 
-#luhuommijp .gt_super {
+#tfmmfyajrt .gt_super {
   font-size: 65%;
 }
 
-#luhuommijp .gt_two_val_uncert {
+#tfmmfyajrt .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1585,31 +1485,31 @@ drug multiple times, only select the first time.</p>
   margin-left: 0.1em;
 }
 
-#luhuommijp .gt_footnote_marks {
+#tfmmfyajrt .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#luhuommijp .gt_asterisk {
+#tfmmfyajrt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#luhuommijp .gt_slash_mark {
+#tfmmfyajrt .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#luhuommijp .gt_fraction_numerator {
+#tfmmfyajrt .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#luhuommijp .gt_fraction_denominator {
+#tfmmfyajrt .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1706,14 +1606,14 @@ drug multiple times, only select the first time.</p>
     </tr></tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></code></pre></div>
-<div id="qtfbmjyswg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></span></code></pre></div>
+<div id="pdutriqzbo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qtfbmjyswg .gt_table {
+#pdutriqzbo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1738,7 +1638,7 @@ drug multiple times, only select the first time.</p>
   border-left-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_heading {
+#pdutriqzbo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1750,7 +1650,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_title {
+#pdutriqzbo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1762,7 +1662,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-width: 0;
 }
 
-#qtfbmjyswg .gt_subtitle {
+#pdutriqzbo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1774,13 +1674,13 @@ drug multiple times, only select the first time.</p>
   border-top-width: 0;
 }
 
-#qtfbmjyswg .gt_bottom_border {
+#pdutriqzbo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_col_headings {
+#pdutriqzbo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1795,7 +1695,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_col_heading {
+#pdutriqzbo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1815,7 +1715,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#qtfbmjyswg .gt_column_spanner_outer {
+#pdutriqzbo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1827,15 +1727,15 @@ drug multiple times, only select the first time.</p>
   padding-right: 4px;
 }
 
-#qtfbmjyswg .gt_column_spanner_outer:first-child {
+#pdutriqzbo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qtfbmjyswg .gt_column_spanner_outer:last-child {
+#pdutriqzbo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qtfbmjyswg .gt_column_spanner {
+#pdutriqzbo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1847,7 +1747,7 @@ drug multiple times, only select the first time.</p>
   width: 100%;
 }
 
-#qtfbmjyswg .gt_group_heading {
+#pdutriqzbo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1872,7 +1772,7 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#qtfbmjyswg .gt_empty_group_heading {
+#pdutriqzbo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1887,15 +1787,15 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#qtfbmjyswg .gt_from_md > :first-child {
+#pdutriqzbo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qtfbmjyswg .gt_from_md > :last-child {
+#pdutriqzbo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qtfbmjyswg .gt_row {
+#pdutriqzbo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1914,7 +1814,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#qtfbmjyswg .gt_stub {
+#pdutriqzbo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1927,7 +1827,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qtfbmjyswg .gt_stub_row_group {
+#pdutriqzbo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1941,11 +1841,11 @@ drug multiple times, only select the first time.</p>
   vertical-align: top;
 }
 
-#qtfbmjyswg .gt_row_group_first td {
+#pdutriqzbo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qtfbmjyswg .gt_summary_row {
+#pdutriqzbo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1955,16 +1855,16 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qtfbmjyswg .gt_first_summary_row {
+#pdutriqzbo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_first_summary_row.thick {
+#pdutriqzbo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qtfbmjyswg .gt_last_summary_row {
+#pdutriqzbo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1974,7 +1874,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_grand_summary_row {
+#pdutriqzbo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1984,7 +1884,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qtfbmjyswg .gt_first_grand_summary_row {
+#pdutriqzbo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1994,11 +1894,11 @@ drug multiple times, only select the first time.</p>
   border-top-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_striped {
+#pdutriqzbo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qtfbmjyswg .gt_table_body {
+#pdutriqzbo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2007,7 +1907,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_footnotes {
+#pdutriqzbo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2021,7 +1921,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_footnote {
+#pdutriqzbo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2030,7 +1930,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qtfbmjyswg .gt_sourcenotes {
+#pdutriqzbo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2044,7 +1944,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qtfbmjyswg .gt_sourcenote {
+#pdutriqzbo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2052,36 +1952,36 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qtfbmjyswg .gt_left {
+#pdutriqzbo .gt_left {
   text-align: left;
 }
 
-#qtfbmjyswg .gt_center {
+#pdutriqzbo .gt_center {
   text-align: center;
 }
 
-#qtfbmjyswg .gt_right {
+#pdutriqzbo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qtfbmjyswg .gt_font_normal {
+#pdutriqzbo .gt_font_normal {
   font-weight: normal;
 }
 
-#qtfbmjyswg .gt_font_bold {
+#pdutriqzbo .gt_font_bold {
   font-weight: bold;
 }
 
-#qtfbmjyswg .gt_font_italic {
+#pdutriqzbo .gt_font_italic {
   font-style: italic;
 }
 
-#qtfbmjyswg .gt_super {
+#pdutriqzbo .gt_super {
   font-size: 65%;
 }
 
-#qtfbmjyswg .gt_two_val_uncert {
+#pdutriqzbo .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2090,31 +1990,31 @@ drug multiple times, only select the first time.</p>
   margin-left: 0.1em;
 }
 
-#qtfbmjyswg .gt_footnote_marks {
+#pdutriqzbo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qtfbmjyswg .gt_asterisk {
+#pdutriqzbo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qtfbmjyswg .gt_slash_mark {
+#pdutriqzbo .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#qtfbmjyswg .gt_fraction_numerator {
+#pdutriqzbo .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#qtfbmjyswg .gt_fraction_denominator {
+#pdutriqzbo .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2171,14 +2071,14 @@ drug multiple times, only select the first time.</p>
     </tr></tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></code></pre></div>
-<div id="qyyhaokwlj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></span></code></pre></div>
+<div id="mclkrdwjtv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qyyhaokwlj .gt_table {
+#mclkrdwjtv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2203,7 +2103,7 @@ drug multiple times, only select the first time.</p>
   border-left-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_heading {
+#mclkrdwjtv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2215,7 +2115,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_title {
+#mclkrdwjtv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2227,7 +2127,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-width: 0;
 }
 
-#qyyhaokwlj .gt_subtitle {
+#mclkrdwjtv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2239,13 +2139,13 @@ drug multiple times, only select the first time.</p>
   border-top-width: 0;
 }
 
-#qyyhaokwlj .gt_bottom_border {
+#mclkrdwjtv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_col_headings {
+#mclkrdwjtv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2260,7 +2160,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_col_heading {
+#mclkrdwjtv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2280,7 +2180,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#qyyhaokwlj .gt_column_spanner_outer {
+#mclkrdwjtv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2292,15 +2192,15 @@ drug multiple times, only select the first time.</p>
   padding-right: 4px;
 }
 
-#qyyhaokwlj .gt_column_spanner_outer:first-child {
+#mclkrdwjtv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qyyhaokwlj .gt_column_spanner_outer:last-child {
+#mclkrdwjtv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qyyhaokwlj .gt_column_spanner {
+#mclkrdwjtv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2312,7 +2212,7 @@ drug multiple times, only select the first time.</p>
   width: 100%;
 }
 
-#qyyhaokwlj .gt_group_heading {
+#mclkrdwjtv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2337,7 +2237,7 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#qyyhaokwlj .gt_empty_group_heading {
+#mclkrdwjtv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2352,15 +2252,15 @@ drug multiple times, only select the first time.</p>
   vertical-align: middle;
 }
 
-#qyyhaokwlj .gt_from_md > :first-child {
+#mclkrdwjtv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qyyhaokwlj .gt_from_md > :last-child {
+#mclkrdwjtv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qyyhaokwlj .gt_row {
+#mclkrdwjtv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2379,7 +2279,7 @@ drug multiple times, only select the first time.</p>
   overflow-x: hidden;
 }
 
-#qyyhaokwlj .gt_stub {
+#mclkrdwjtv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2392,7 +2292,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qyyhaokwlj .gt_stub_row_group {
+#mclkrdwjtv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2406,11 +2306,11 @@ drug multiple times, only select the first time.</p>
   vertical-align: top;
 }
 
-#qyyhaokwlj .gt_row_group_first td {
+#mclkrdwjtv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qyyhaokwlj .gt_summary_row {
+#mclkrdwjtv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2420,16 +2320,16 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qyyhaokwlj .gt_first_summary_row {
+#mclkrdwjtv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_first_summary_row.thick {
+#mclkrdwjtv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qyyhaokwlj .gt_last_summary_row {
+#mclkrdwjtv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2439,7 +2339,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_grand_summary_row {
+#mclkrdwjtv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2449,7 +2349,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qyyhaokwlj .gt_first_grand_summary_row {
+#mclkrdwjtv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2459,11 +2359,11 @@ drug multiple times, only select the first time.</p>
   border-top-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_striped {
+#mclkrdwjtv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qyyhaokwlj .gt_table_body {
+#mclkrdwjtv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2472,7 +2372,7 @@ drug multiple times, only select the first time.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_footnotes {
+#mclkrdwjtv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2486,7 +2386,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_footnote {
+#mclkrdwjtv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2495,7 +2395,7 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qyyhaokwlj .gt_sourcenotes {
+#mclkrdwjtv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2509,7 +2409,7 @@ drug multiple times, only select the first time.</p>
   border-right-color: #D3D3D3;
 }
 
-#qyyhaokwlj .gt_sourcenote {
+#mclkrdwjtv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2517,36 +2417,36 @@ drug multiple times, only select the first time.</p>
   padding-right: 5px;
 }
 
-#qyyhaokwlj .gt_left {
+#mclkrdwjtv .gt_left {
   text-align: left;
 }
 
-#qyyhaokwlj .gt_center {
+#mclkrdwjtv .gt_center {
   text-align: center;
 }
 
-#qyyhaokwlj .gt_right {
+#mclkrdwjtv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qyyhaokwlj .gt_font_normal {
+#mclkrdwjtv .gt_font_normal {
   font-weight: normal;
 }
 
-#qyyhaokwlj .gt_font_bold {
+#mclkrdwjtv .gt_font_bold {
   font-weight: bold;
 }
 
-#qyyhaokwlj .gt_font_italic {
+#mclkrdwjtv .gt_font_italic {
   font-style: italic;
 }
 
-#qyyhaokwlj .gt_super {
+#mclkrdwjtv .gt_super {
   font-size: 65%;
 }
 
-#qyyhaokwlj .gt_two_val_uncert {
+#mclkrdwjtv .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2555,31 +2455,31 @@ drug multiple times, only select the first time.</p>
   margin-left: 0.1em;
 }
 
-#qyyhaokwlj .gt_footnote_marks {
+#mclkrdwjtv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qyyhaokwlj .gt_asterisk {
+#mclkrdwjtv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qyyhaokwlj .gt_slash_mark {
+#mclkrdwjtv .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#qyyhaokwlj .gt_fraction_numerator {
+#mclkrdwjtv .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#qyyhaokwlj .gt_fraction_denominator {
+#mclkrdwjtv .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2706,12 +2606,12 @@ drug multiple times, only select the first time.</p>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+<p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

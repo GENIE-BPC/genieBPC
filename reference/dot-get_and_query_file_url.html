@@ -61,58 +61,75 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">.get_and_query_file_url</span><span class="op">(</span>
-  <span class="va">version_num</span>,
-  <span class="va">file_handle_id</span>,
-  <span class="va">synapse_id</span>,
-  <span class="va">df</span>,
-  <span class="va">name</span>,
-  <span class="va">download_folder</span>,
-  <span class="va">download_location</span>,
-  <span class="va">token</span>,
-  <span class="va">file_endpoint_url</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.get_and_query_file_url</span><span class="op">(</span></span>
+<span>  <span class="va">version_num</span>,</span>
+<span>  <span class="va">file_handle_id</span>,</span>
+<span>  <span class="va">synapse_id</span>,</span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">download_folder</span>,</span>
+<span>  <span class="va">download_location</span>,</span>
+<span>  <span class="va">token</span>,</span>
+<span>  <span class="va">file_endpoint_url</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>version_num</dt>
 <dd><p>cohort name and version</p></dd>
+
+
 <dt>file_handle_id</dt>
 <dd><p>synapse file handle ID</p></dd>
+
+
 <dt>synapse_id</dt>
 <dd><p>synapse ID</p></dd>
+
+
 <dt>df</dt>
 <dd><p>package designated name of file</p></dd>
+
+
 <dt>name</dt>
 <dd><p>file name from synapse</p></dd>
+
+
 <dt>download_folder</dt>
 <dd><p>location to download data</p></dd>
+
+
 <dt>token</dt>
 <dd><p>Synapse token</p></dd>
+
+
 <dt>file_endpoint_url</dt>
 <dd><p>synapse endpoint for file info</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>list of synapse data frames</p>
+    
+
+<p>list of synapse data frames</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">   version_num <span class="op">=</span> <span class="st">"NSCLC_v2.1"</span>,</span>
-<span class="r-in">   file_handle_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"79432768"</span><span class="op">)</span>,</span>
-<span class="r-in">   synapse_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"syn25985884"</span><span class="op">)</span>,</span>
-<span class="r-in">   df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pt_char"</span><span class="op">)</span>,</span>
-<span class="r-in">   name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patient_level_dataset.csv"</span><span class="op">)</span>,</span>
-<span class="r-in">   download_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"NSCLC_v2.1"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">file</span>, <span class="va">.get_and_query_file_url</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  version_num <span class="op">=</span> <span class="st">"NSCLC_v2.1"</span>,</span></span>
+<span class="r-in"><span>  file_handle_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"79432768"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  synapse_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"syn25985884"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pt_char"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patient_level_dataset.csv"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  download_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"NSCLC_v2.1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">file</span>, <span class="va">.get_and_query_file_url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -120,11 +137,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Axel Martin.</p>
+  <p></p><p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
