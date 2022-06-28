@@ -229,9 +229,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
       entityBundle <- httr::content(res_per_id, "parsed", encoding = "UTF-8")
 
-      # if(entityBundle$restrictionInformation$restrictionLevel == "RESTRICTED_BY_TERMS_OF_USE") {
-      #   cli::cli_abort("You are restricted from accessing this data. Have you signed the 'Terms of Use'? See README for details." )
-      # }
+      # If you haven't signed terms
+      switch(entityBundle$restrictionInformation$hasUnmetAccessRequirement,
+             cli::cli_abort("Your Synapse account ({.field {username}}) has unmet access requirements.
+                          Have you accepted the 'Terms of Use' for this data set? See Synapse portal (`https://www.synapse.org/`) for more info.")
+      )
 
       file_info <- entityBundle$fileHandles[[1]]
 
