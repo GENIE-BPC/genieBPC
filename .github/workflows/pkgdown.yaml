@@ -7,7 +7,7 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: archive-pkgdown
+name: pkgdown
 
 jobs:
   pkgdown:
