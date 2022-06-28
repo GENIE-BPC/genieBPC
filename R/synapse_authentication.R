@@ -97,7 +97,6 @@ check_genie_access <- function(username = NULL, password = NULL) {
   httr::stop_for_status(res, "access GENIE data in Synapse. Check that you have permission to view this data")
   cli::cli_alert_success("{httr::http_status(res)$message}: You are successfully connected to the GENIE database!")
 
-  return(TRUE)
 }
 
 
