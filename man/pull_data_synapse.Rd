@@ -92,8 +92,8 @@ names(results2)
    cohort = c("CRC", "BrCa"),
    version = c("v1.2-consortium", "v1.1-consortium")
  )
-  }
   str(results3)
+  }
 }
 
 }
