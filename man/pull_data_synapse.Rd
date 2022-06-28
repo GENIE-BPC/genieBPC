@@ -66,7 +66,11 @@ for further documentation and examples.
 }
 \examples{
 \donttest{
+<<<<<<< HEAD
 if(genieBPC::.is_connected_to_genie()) {
+=======
+if(FALSE) {
+>>>>>>> 431ceb2e5f49f38e5e3438483563c725e4b93e69
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
 set_synapse_credentials()
@@ -92,7 +96,12 @@ names(results2)
    cohort = c("CRC", "BrCa"),
    version = c("v1.2-consortium", "v1.1-consortium")
  )
+<<<<<<< HEAD
   str(results3)
+=======
+
+ str(results3)
+>>>>>>> 431ceb2e5f49f38e5e3438483563c725e4b93e69
   }
 }
 

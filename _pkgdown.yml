@@ -13,3 +13,11 @@ reference:
   - create_analytic_cohort
   - select_unique_ngs
   - drug_regimen_sunburst
+  - check_genie_access
+  - drug_regimen_list
+  - fetch_samples
+  - genie_panels
+  - nsclc_test_data
+  - regimen_abbreviations
+  - set_synapse_credentials
+  - synapse_tables
