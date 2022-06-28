@@ -49,7 +49,7 @@
 #'
 #' @examples
 #' \donttest{
-#' if(genieBPC::.is_connected_to_genie()) {
+#' if(FALSE) {
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
 #' set_synapse_credentials()
