@@ -18,8 +18,6 @@ knitr::opts_chunk$set(
 
 ## AACR Project GENIE
 
-TEST PAGE BUILD
-
 - [AACR Project GENIE](https://www.aacr.org/professionals/research/aacr-project-genie/) is a publicly accessible international cancer registry of real-world data assembled through data sharing between 19 of the leading cancer centers in the world.
 
 - GENIE aggregates, harmonizes, and links clinical-grade, next-generation cancer genomic sequencing data with clinical outcomes obtained during routine medical practice from cancer patients treated at these institutions, although clinical information available is limited (~<10 variables).
