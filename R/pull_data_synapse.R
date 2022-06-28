@@ -47,7 +47,7 @@
 #' @author Karissa Whiting, Michael Curry
 #' @export
 #'
-#' @examplesIf genieBPC::check_genie_access()
+#' @examplesIf genieBPC::.is_connected_to_genie()
 #'
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
@@ -178,7 +178,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @keywords internal
 #' @export
 #'
-#' @examplesIf genieBPC::check_genie_access()
+#' @examplesIf genieBPC::.is_connected_to_genie()
 #'
 #' temp_directory <- tempdir()
 #'

@@ -37,7 +37,7 @@ ex1 <- drug_regimen_sunburst(
   max_n_regimens = 3
 )
 
-if (genieBPC:::check_genie_access()) {
+if (genieBPC:::.is_connected_to_genie()) {
   nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
   nsclc_stg_iv <- create_analytic_cohort(

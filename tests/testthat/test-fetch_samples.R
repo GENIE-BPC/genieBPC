@@ -16,7 +16,7 @@ test_that("missing input parameters", {
 })
 
 test_that("function returns correct number of samples", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
   crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")

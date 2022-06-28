@@ -1,5 +1,5 @@
 test_that("missing data_cohort", {
-  testthat::skip_if_not(genieBPC:::check_genie_access())
+  testthat::skip_if_not(genieBPC:::.is_connected_to_genie())
 
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
   nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_data$NSCLC_v1.1)
@@ -54,7 +54,7 @@ test_that("sample_type", {
 })
 
 test_that("function returns unique sample for each record", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
 
   # NSCLC #

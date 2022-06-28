@@ -176,16 +176,16 @@ check_genie_access <- function(username = NULL, password = NULL) {
 
 #' Check Synapse Login Status & Ability to Access Data
 #'
-#' The `.check_synapse_login()` function assesses whether the
+#' The `.is_connected_to_genie()` function assesses whether the
 #' user is logged into Synapse and confirms whether the
-#' user has permission to access the GENIE BPC data.
+#' user has permission to access the GENIE BPC data. It returns TRUE or FALSE
 #' @keywords internal
 #' @return Returns message indicating user is logged into
 #' Synapse and has permission to access the GENIE BPC data.
 #' @export
 #' @examples
-#' .check_synapse_login()
-.check_synapse_login <- function() {
+#' .is_connected_to_genie()
+.is_connected_to_genie <- function() {
 
   tryCatch(check_genie_access(),
            error = function(e) FALSE,

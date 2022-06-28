@@ -39,7 +39,7 @@ test_that("stage_dx- argument check", {
 
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
@@ -108,7 +108,7 @@ test_that("correct number of objects returned from create cohort", {
 
 test_that("only 1 cohort is specified, else error", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   expect_error(create_analytic_cohort(
     data_synapse = pull_data_synapse(
@@ -124,7 +124,7 @@ test_that("pull data synapse object is missing", {
 
 test_that("correct cohort returned from create cohort", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   test1 <- create_analytic_cohort(
     data_synapse = nsclc_data$NSCLC_v1.1,
@@ -148,7 +148,7 @@ test_that("correct cohort returned from create cohort", {
 
 test_that("cohort and data_synapse", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
@@ -172,7 +172,7 @@ test_that("cohort and data_synapse", {
 
 test_that("index_ca_seq", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # first and second index cancer is specified
   # if patient only has 1 index cancer, it should be returned
@@ -218,7 +218,7 @@ test_that("index_ca_seq", {
 
 test_that("institution", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # institution is specified and correct institution is returned
   test_1a <- create_analytic_cohort(
@@ -263,7 +263,7 @@ test_that("institution", {
 
 test_that("stage_dx", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # stage dx is specified and correct stage is returned
   test_1a <- create_analytic_cohort(
@@ -302,7 +302,7 @@ test_that("stage_dx", {
 
 test_that("histology", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # no histology is specified, call are returned
   test0a <- create_analytic_cohort(
@@ -384,7 +384,7 @@ test_that("histology", {
 
 test_that("no regimen specified", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # all regimens are returned
   test_1a <- create_analytic_cohort(
@@ -407,7 +407,7 @@ test_that("no regimen specified", {
 
 test_that("drug regimen specified, order not specified", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
@@ -500,7 +500,7 @@ test_that("drug regimen specified, order not specified", {
 
 test_that("drug regimen specified, order specified to be within cancer", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
@@ -640,7 +640,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # single regimen specified, want first time that regimen
   # was given for all cancers
@@ -734,7 +734,7 @@ test_that("containing drug regimen specified,
           order specified to be within regimen", {
 
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # specify regimen type to be containing (default is exact,
   # which is what is implemented in the above)
@@ -797,7 +797,7 @@ test_that("containing drug regimen specified,
 
 test_that("regimen_type", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # invalid value provided for regimen_type
   expect_error(create_analytic_cohort(
@@ -814,7 +814,7 @@ test_that("regimen_type", {
 
 test_that("regimen_order", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # character value provided for regimen_order
   expect_error(create_analytic_cohort(
@@ -825,7 +825,7 @@ test_that("regimen_order", {
 
 test_that("regimen_order_type", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   # invalid value provided for regimen_order_type
   expect_error(create_analytic_cohort(
@@ -851,7 +851,7 @@ test_that("regimen_order_type", {
 
 test_that("No patients met criteria", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   expect_message(create_analytic_cohort(
     data_synapse = nsclc_data$NSCLC_v1.1,

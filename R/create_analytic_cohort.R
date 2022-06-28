@@ -77,7 +77,7 @@
 #' @author Jessica Lavery
 #' @export
 #'
-#' @examplesIf genieBPC::check_genie_access()
+#' @examplesIf genieBPC::.is_connected_to_genie()
 #'
 #' # Example 1 -----------------------------------
 #' # Example using package test data

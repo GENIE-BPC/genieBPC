@@ -65,7 +65,7 @@ See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vi
 for further documentation and examples.
 }
 \examples{
-\dontshow{if (genieBPC::check_genie_access()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Example 1 ----------------------------------
 # Pull non-small cell lung cancer data
