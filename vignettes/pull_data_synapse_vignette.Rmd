@@ -97,22 +97,22 @@ tibble::tribble(
 
 ### Example 1
 
-Pull version 2.1-consortium of the NSCLC data from Synapse and store in the local environment.
+Pull version 2.0-public of the NSCLC data from Synapse and store in the local environment.
 
 ```{r, eval = FALSE}
-nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
 The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
 
 ```{r, include = FALSE, eval=genieBPC:::.check_synapse_login()}
-nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
 ```{r, echo = FALSE, message = FALSE, eval=genieBPC:::.check_synapse_login()}
-ls(nsclc_2_1$NSCLC_v2.1) %>% 
+ls(nsclc_2_0$NSCLC_v2.0) %>% 
   as.data.frame() %>% 
   mutate(clinical_vs_genomic = case_when(. %in% c("cna", "fusions",
                                                   "mutations_extended") ~ "Genomic Data",
@@ -138,11 +138,11 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ### Example 3
 
-Pull version 1.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
+Pull version 1.2-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"),
-                  version = c("v1.1-consortium", "v1.1-consortium"))
+                  version = c("v1.2-consortium", "v1.1-consortium"))
 ```
 
 

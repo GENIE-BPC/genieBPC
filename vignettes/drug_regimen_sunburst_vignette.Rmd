@@ -91,7 +91,7 @@ This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synap
 
 
 ```{r, results = 'hide', eval=genieBPC:::.check_synapse_login()}
-nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
@@ -101,10 +101,10 @@ The example below creates a sunburst plot of the first three cancer-directed reg
 
 
 ```{r, results = 'hide', message = FALSE, eval=genieBPC:::.check_synapse_login()}
-nsclc_stg_iv = create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+nsclc_stg_iv = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                       stage = c("Stage IV"))
 
-nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_2_1$NSCLC_v2.1,
+nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
                       data_cohort = nsclc_stg_iv,
                       max_n_regimens = 3)
 ```
