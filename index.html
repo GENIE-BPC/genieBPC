@@ -164,12 +164,12 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>The following example creates an analytic cohort of patients diagnosed with Stage IV adenocarcinoma NSCLC.</p>
-<p><em>Pull data for NSCLC version 2.1-consortium:</em></p>
+<p><em>Pull data for NSCLC version 2.0-public:</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.1-consortium"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
 <p><em>Select stage IV adenocarcinoma NSCLC diagnoses:</em></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>, </span>
+<code class="sourceCode R"><span><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>, </span>
 <span>                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, </span>
 <span>                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span></code></pre></div>
 <p><em>Select one unique metastatic lung adenocarcinoma genomic sample per patient in the analytic cohort returned above:</em></p>
@@ -178,7 +178,7 @@
 <span>  data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></span></code></pre></div>
 <p><em>Create a visualization of the treatment patterns for the first 3 regimens received by patients diagnosed with stage IV adenocarcinoma:</em></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sunplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_1</span><span class="op">$</span><span class="va">NSCLC_v2.1</span>,</span>
+<code class="sourceCode R"><span><span class="va">sunplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
 <span>                                 data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span>,</span>
 <span>                                 max_n_regimens <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><em>Example of a sunburst plot showing 3 lines of treatment, Highlighting First Treatment Regimen:</em></p>
