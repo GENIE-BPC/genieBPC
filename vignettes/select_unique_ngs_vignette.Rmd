@@ -88,8 +88,9 @@ set_synapse_credentials()
 This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synapse()` vignette, as shown below:
 
 
+
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
-nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 ## Examples
@@ -99,7 +100,7 @@ nsclc_2_1 = pull_data_synapse("NSCLC", version = "v2.1-consortium")
 Select unique genomic samples from patients with stage IV NSCLC of histology adenocarcinoma
 
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
-out <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1, 
+out <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
                                              stage_dx = c("Stage IV"), 
                                              histology = "Adenocarcinoma")
 
@@ -111,8 +112,9 @@ samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen, and select corresponding genomic samples.
 
+
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
-out <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+out <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                               regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"), 
                               regimen_order = 1, regimen_order_type = "within regimen")
 

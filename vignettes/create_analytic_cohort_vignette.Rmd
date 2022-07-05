@@ -111,16 +111,18 @@ create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
 Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the `pull_data_synapse` function:
 
 
+
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
-nsclc_2_1 <- pull_data_synapse("NSCLC", version = "v2.1-consortium")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 ### Example 2
 
 Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
+
 ```{r, eval=genieBPC:::.is_connected_to_genie()}
-nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1, 
+nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
                                              stage_dx = "Stage IV", 
                                              histology = "Adenocarcinoma")
 
@@ -131,8 +133,9 @@ ls(nsclc_stg_iv_adeno)
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 
+
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
-create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                        regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
                        regimen_order = 1,
                        regimen_order_type = "within cancer")
@@ -142,8 +145,9 @@ create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
 
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
+
 ```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
-nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1,
+nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                                  regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                                  regimen_order = 1,
                                                  regimen_order_type = "within regimen",
