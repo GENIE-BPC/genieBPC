@@ -130,16 +130,16 @@ releases.*
 The following example creates an analytic cohort of patients diagnosed
 with Stage IV adenocarcinoma NSCLC.
 
-*Pull data for NSCLC version 2.1-consortium:*
+*Pull data for NSCLC version 2.0-public:*
 
 ``` r
-nsclc_2_1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
+nsclc_2_1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
 ```
 
 *Select stage IV adenocarcinoma NSCLC diagnoses:*
 
 ``` r
-nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_1$NSCLC_v2.1, 
+nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
                                              stage_dx = "Stage IV", 
                                              histology = "Adenocarcinoma")
 ```
@@ -156,7 +156,7 @@ nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs(
 regimens received by patients diagnosed with stage IV adenocarcinoma:*
 
 ``` r
-sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_1$NSCLC_v2.1,
+sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                  data_cohort = nsclc_stg_iv_adeno,
                                  max_n_regimens = 3)
 ```
