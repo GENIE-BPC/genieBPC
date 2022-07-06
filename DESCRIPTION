@@ -1,6 +1,6 @@
 Type: Package
 Package: genieBPC
-Title: Data Processing Pipeline for the AACR Project GENIE Biopharma
+Title: Data Processing Pipeline for the AACR Project GENIE BioPharma
     Collaborative Data
 Version: 0.1.0.9002
 Authors@R: 
