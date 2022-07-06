@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,10 +56,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="geniebpc-development-version">genieBPC (development version)<a class="anchor" aria-label="anchor" href="#geniebpc-development-version"></a></h2>
-<ul><li><p>Removed TramineR from dependencies file (issue # 50)</p></li>
+<ul><li><p>Removed <code>TramineR</code> from dependencies file (issue # 50)</p></li>
 <li><p>Pull the most recent public and consortium data (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/42" class="external-link">#42</a>)</p></li>
-<li><p>Removed synapser from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/45" class="external-link">#45</a>)</p></li>
+<li><p>Removed <code>synapser</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/45" class="external-link">#45</a>)</p></li>
 <li><p>Fixed <code>cpt_sample_type</code>/<code>sample_type</code> (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/43" class="external-link">#43</a>)</p></li>
+<li><p>Added <code><a href="../reference/dot-is_connected_to_genie.html">.is_connected_to_genie()</a></code> to replace <code>.check_synapse_login()</code> and return logical TRUE/FALSE. This is an internal function that can be used to trigger tests/checks as needed and will hopefully allow the package to now pass the CRAN checks.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="geniebpc-010">genieBPC 0.1.0<a class="anchor" aria-label="anchor" href="#geniebpc-010"></a></h2>
