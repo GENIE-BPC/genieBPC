@@ -1,20 +1,19 @@
 library(tidyverse)
-library(synapser)
+library(genieBPC)
 
-synLogin()
+set_synapse_credentials()
 
 # load current version of derived data from Synapse
-derived_data_file_synapse <- synGet("syn22299362")
-load(derived_data_file_synapse$path)
+data_pull <- pull_data_synapse(cohort = c("NSCLC", "CRC", "BrCa"),
+                               version = c("v2.0-public", "v1.2-consortium", "v1.1-consortium"))
 
 drug_regimen_list <-
-  inner_join(ca_dx_derived_index_redacted,
-    ca_drugs_derived_redacted,
-    by = c("cohort", "record_id", "institution", "ca_seq")
-  ) %>%
-  select(cohort, starts_with("drugs_drug")) %>%
+  bind_rows(data_pull$NSCLC_v2.0$ca_drugs %>% select(cohort, starts_with("drugs_drug")),
+            data_pull$CRC_v1.2$ca_drugs %>% select(cohort, starts_with("drugs_drug")),
+            data_pull$BrCa_v1.1$ca_drugs %>% select(cohort, starts_with("drugs_drug"))) %>%
+  select(-contains("oth")) %>%
   pivot_longer(
-    cols = starts_with("drugs_drug"),
+    cols = !cohort,
     names_to = "drug_no",
     values_to = "drug_name_full",
     values_drop_na = TRUE
@@ -23,8 +22,8 @@ drug_regimen_list <-
   mutate(drug_name = word(drug_name_full, sep = "\\(")) %>%
   arrange(cohort, drug_name) %>%
   distinct() %>%
-  select(cohort, drug_name, drug_name_full) %>%
-  filter(cohort %in% c("NSCLC", "CRC"))
+  filter(drug_name != "") %>%
+  select(cohort, drug_name, drug_name_full)
 
 attr(drug_regimen_list$drug_name, "label") <- "Drug Name"
 attr(drug_regimen_list$drug_name_full, "label") <- "Full Drug Name"
