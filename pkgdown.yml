@@ -7,7 +7,7 @@ articles:
   drug_regimen_sunburst_vignette: drug_regimen_sunburst_vignette.html
   pull_data_synapse_vignette: pull_data_synapse_vignette.html
   select_unique_ngs_vignette: select_unique_ngs_vignette.html
-last_built: 2022-07-06T16:49Z
+last_built: 2022-07-06T16:58Z
 urls:
   reference: https://genie-bpc.github.io/genieBPC/reference
   article: https://genie-bpc.github.io/genieBPC/articles
