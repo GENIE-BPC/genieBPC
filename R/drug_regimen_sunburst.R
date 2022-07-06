@@ -51,12 +51,12 @@ drug_regimen_sunburst <- function(data_synapse,
                                   max_n_regimens = NULL) {
 
   # make sure all required parameters are specified
-  if (missing(data_synapse) | class(data_synapse) != "list") {
+  if (missing(data_synapse) | !is.list(data_synapse)) {
     stop("Specify the list object returned from pull_data_synapse in the
          `data_synapse` parameter.")
   }
 
-  if (missing(data_cohort) | class(data_cohort) != "list") {
+  if (missing(data_cohort) | !is.list(data_cohort)) {
     stop("Specify the list object returned from create_analytic_cohort in the
          `data_cohort` parameter.")
   }
