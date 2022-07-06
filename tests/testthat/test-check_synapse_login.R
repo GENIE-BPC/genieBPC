@@ -1,4 +1,4 @@
 test_that("Invalid function parameter", {
-  expect_error(.check_synapse_login("GENIE"))
+  expect_error(.is_connected_to_genie("GENIE"))
 })
 

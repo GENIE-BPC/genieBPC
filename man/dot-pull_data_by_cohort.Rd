@@ -21,7 +21,7 @@ downloaded synapse data as a list if `download_location`= `NULL, or to a local p
 Function to retrieve data by synapse ID
 }
 \examples{
-\dontshow{if (genieBPC::check_genie_access()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 temp_directory <- tempdir()
 

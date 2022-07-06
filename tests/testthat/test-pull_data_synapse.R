@@ -4,7 +4,7 @@ test_that("Missing cohort parameter", {
 
 test_that("Test class and length of list for NSCLC", {
 
-  skip_if_not(.check_synapse_login())
+  skip_if_not(.is_connected_to_genie())
 
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
   crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
@@ -17,7 +17,7 @@ test_that("Test class and length of list for NSCLC", {
 
 test_that("test `cohort` argument specification", {
 
-  skip_if_not(.check_synapse_login())
+  skip_if_not(.is_connected_to_genie())
 
   expect_error(pull_data_synapse(cohort = "nsclc",
                                  version = "v1.1-consortium"), "*")
@@ -27,7 +27,7 @@ test_that("test `cohort` argument specification", {
 
 test_that("test `version` argument specification", {
 
-  skip_if_not(.check_synapse_login())
+  skip_if_not(.is_connected_to_genie())
 
   # no version specified
   expect_error(pull_data_synapse(cohort = "NSCLC",
@@ -51,7 +51,7 @@ test_that("test `version` argument specification", {
 
 test_that("Number of columns and rows for each NSCLC dataset", {
 
-  skip_if_not(.check_synapse_login())
+  skip_if_not(.is_connected_to_genie())
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
   nsclc_data <- nsclc_data$NSCLC_v1.1
 

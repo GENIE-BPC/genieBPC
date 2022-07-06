@@ -1,6 +1,5 @@
 AACR
 BPC
-Bevacizumab
 BioPharma
 Biopharma
 BrCa
@@ -18,7 +17,6 @@ Etoposide
 FOLFOX
 Farber
 Investigational
-Karissa
 MMR
 MSI
 MSK
@@ -31,7 +29,6 @@ PANC
 PRISSMM
 Pemetrexed
 Phenomic
-README
 Renviron
 UHN
 VICC
@@ -42,7 +39,6 @@ clinico
 codecov
 colorectal
 cpt
-criterions
 curation
 ductal
 dx

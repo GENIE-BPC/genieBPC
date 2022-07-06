@@ -1,5 +1,5 @@
 test_that("Test class and length of list for sunburst plot", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   # run here to avoid having to run within each test
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
@@ -32,7 +32,7 @@ test_that("Test class and length of list for sunburst plot", {
 
 
 test_that("Test class and length of list for elements of sunburst data frame", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   expect_equal(length(plot1$treatment_history), 2)
   expect_equal(
@@ -44,7 +44,7 @@ test_that("Test class and length of list for elements of sunburst data frame", {
 
 test_that("Test class and length of list for elements
           of sunburst plotly element", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   expect_equal(length(plot1$sunburst_plot), 8)
   expect_equal(class(plot1$sunburst_plot), c("sunburst", "htmlwidget"))
@@ -52,7 +52,7 @@ test_that("Test class and length of list for elements
 
 
 test_that("Test something is returned", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   expect_error(plot1, NA)
 })
@@ -86,7 +86,7 @@ test_that("data_cohort parameter", {
 })
 
 test_that("lines of tx specified", {
-  skip_if_not(genieBPC:::check_genie_access())
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(

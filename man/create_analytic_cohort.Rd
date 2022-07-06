@@ -105,7 +105,7 @@ Analytic Data Guide corresponding to each data release, as well as in the
 See the \href{https://genie-bpc.github.io/genieBPC/articles/create_analytic_cohort_vignette.html}{create_analytic_cohort vignette} for further documentation and examples.
 }
 \examples{
-\dontshow{if (genieBPC::check_genie_access()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Example 1 -----------------------------------
 # Example using package test data

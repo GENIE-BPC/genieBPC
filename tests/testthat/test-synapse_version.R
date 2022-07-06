@@ -1,6 +1,6 @@
 test_that("Testing synapse version", {
   # exit if user doesn't have synapser, a log in, or access to data.
-  testthat::skip_if_not(check_genie_access())
+  testthat::skip_if_not(.is_connected_to_genie())
 
   expect_equal(
     class(synapse_version(FALSE)),

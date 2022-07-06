@@ -49,7 +49,7 @@
 #'
 #' @examples
 #' \donttest{
-#' if(FALSE) {
+#' if(genieBPC::.is_connected_to_genie()) {
 #' # Example 1 ----------------------------------
 #' # Pull non-small cell lung cancer data
 #' set_synapse_credentials()
@@ -75,8 +75,7 @@
 #'    cohort = c("CRC", "BrCa"),
 #'    version = c("v1.2-consortium", "v1.1-consortium")
 #'  )
-#'
-#'  str(results3)
+#'   str(results3)
 #'   }
 #' }
 #'
@@ -188,7 +187,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @keywords internal
 #' @export
 #'
-#' @examplesIf genieBPC::check_genie_access()
+#' @examplesIf genieBPC::.is_connected_to_genie()
 #'
 #' temp_directory <- tempdir()
 #'
@@ -239,9 +238,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
       entityBundle <- httr::content(res_per_id, "parsed", encoding = "UTF-8")
 
-      # if(entityBundle$restrictionInformation$restrictionLevel == "RESTRICTED_BY_TERMS_OF_USE") {
-      #   cli::cli_abort("You are restricted from accessing this data. Have you signed the 'Terms of Use'? See README for details." )
-      # }
+      # If you haven't signed terms
+      switch(entityBundle$restrictionInformation$hasUnmetAccessRequirement,
+             cli::cli_abort("Your Synapse account has unmet access requirements.
+                          Have you accepted the 'Terms of Use' for this data set? See Synapse portal (`https://www.synapse.org/`) for more info.")
+      )
 
       file_info <- entityBundle$fileHandles[[1]]
 
