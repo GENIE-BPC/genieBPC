@@ -13,6 +13,8 @@ return logical TRUE/FALSE. This is an internal function that can be used to
 trigger tests/checks as needed and will hopefully allow the package to now 
 pass the CRAN checks.
 
+* Added drug names for breast cancer cohort
+
 # genieBPC 0.1.0
 
 * Added a `NEWS.md` file to track changes to the package.
