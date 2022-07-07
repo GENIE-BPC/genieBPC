@@ -54,7 +54,12 @@ ex1 <- create_analytic_cohort(
 )
 
 # select unique next generation sequencing reports for those patients
-samples_data1 <- select_unique_ngs(data_cohort = ex1$cohort_ngs)
+samples_data1 <- select_unique_ngs(
+  data_cohort = ex1$cohort_ngs,
+  oncotree_code = "LUAD",
+  sample_type = "Metastasis",
+  min_max_time = "max"
+)
 
 # Example 2 ----------------------------------
 # Create a cohort of all NSCLC patients who

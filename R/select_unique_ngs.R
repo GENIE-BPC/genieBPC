@@ -36,10 +36,12 @@
 #' )
 #'
 #' # select unique next generation sequencing reports for those patients
-#' samples_data1 <- select_unique_ngs(data_cohort = ex1$cohort_ngs,
+#' samples_data1 <- select_unique_ngs(
+#'   data_cohort = ex1$cohort_ngs,
 #'   oncotree_code = "LUAD",
 #'   sample_type = "Metastasis",
-#'   min_max_time = "max")
+#'   min_max_time = "max"
+#' )
 #'
 #' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who
@@ -102,7 +104,7 @@ select_unique_ngs <- function(data_cohort,
   }
 
   if (!is.null(oncotree_code) &&
-      sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
+    sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
     stop("The OncoTree code inputted does not exist in the data
             and will be ignored.")
 
@@ -113,11 +115,13 @@ select_unique_ngs <- function(data_cohort,
 
   ### Find patients that had duplicated samples ###
   dup_samples <- as.character(unlist(data_cohort %>%
-                                       group_by(.data$record_id) %>%
-                                       summarise(N_samples =
-                                                   length(unique(.data$cpt_genie_sample_id))) %>%
-                                       filter(.data$N_samples > 1) %>%
-                                       select(.data$record_id)))
+    group_by(.data$record_id) %>%
+    summarise(
+      N_samples =
+        length(unique(.data$cpt_genie_sample_id))
+    ) %>%
+    filter(.data$N_samples > 1) %>%
+    select(.data$record_id)))
 
   solved_dups <- as.data.frame(
     do.call(
