@@ -77,34 +77,27 @@
 #' @author Jessica Lavery
 #' @export
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
-#'
-#' # Example 1 -----------------------------------
-#' # Example using package test data
-#'
-#' create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
-#'
-#'
-#' # Example 2 ----------------------------------
+#' @examples
+#' # Examples using package test data
+#' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
-#' # also return all of their corresponding cancer-directed drugs
-#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
+#' # obtain all of their corresponding clinical and genomic data
 #'
-#' create_analytic_cohort(
-#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#' ex1 <- create_analytic_cohort(
+#'   data_synapse = genieBPC::nsclc_test_data,
 #'   stage_dx = "Stage IV",
 #'   histology = "Adenocarcinoma"
 #' )
 #'
-#' # Example 3 ----------------------------------
+#' names(ex1)
+#'
+#' # Example 2 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin,
 #' # Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
 #' # for their first index NSCLC
 #'
-#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#'
-#' create_analytic_cohort(
-#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#' ex2 <- create_analytic_cohort(
+#'   data_synapse = genieBPC::nsclc_test_data,
 #'   regimen_drugs = c(
 #'     "Cisplatin, Pemetrexed Disodium",
 #'     "Cisplatin, Etoposide"
@@ -113,15 +106,26 @@
 #'   regimen_order_type = "within cancer"
 #' )
 #'
-#' # Example 4 ----------------------------------
+#' # Example 3 ----------------------------------
 #' # Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed
 #' # Disodium at any time throughout the course of treatment for their
 #' # cancer diagnosis,
 #' # but in the event that the patient received the drug multiple times,
 #' # only select the first time.
+#'
+#' ex3 <- create_analytic_cohort(
+#'   data_synapse = genieBPC::nsclc_test_data,
+#'   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+#'   regimen_order = 1,
+#'   regimen_order_type = "within regimen"
+#' )
+#'
+#' @examplesIf genieBPC::.is_connected_to_genie()
+#' # Example 4 ----------------------------------
+#' # Using create_analytic_cohort with pull_data_synapse
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#' create_analytic_cohort(
+#' ex4 <- create_analytic_cohort(
 #'   data_synapse = nsclc_2_0$NSCLC_v2.0,
 #'   regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
 #'   regimen_order = 1,

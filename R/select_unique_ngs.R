@@ -23,45 +23,47 @@
 #' with unique genomic samples taken from each patients.
 #' @export
 #'
-#' @examples
-#' if (genieBPC:::.is_connected_to_genie() == TRUE) {
-#'   #' # Example 1 ----------------------------------
-#'   # Create a cohort of all patients with stage
-#'   # IV NSCLC of histology adenocarcinoma
-#'   nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#'   out <- create_analytic_cohort(
-#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
-#'     stage_dx = c("Stage IV"),
-#'     histology = "Adenocarcinoma"
-#'   )
+#' @examplesIf genieBPC::.is_connected_to_genie()
+#' # Example 1 ----------------------------------
+#' # Create a cohort of all patients with stage IV NSCLC of
+#' # histology adenocarcinoma
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#'   samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
+#' ex1 <- create_analytic_cohort(
+#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'   stage_dx = c("Stage IV"),
+#'   histology = "Adenocarcinoma"
+#' )
 #'
-#'   # Example 2 ----------------------------------
-#'   # Create a cohort of all NSCLC patients who
-#'   # received Cisplatin, Pemetrexed Disodium or Cisplatin,
-#'   # Etoposide as their first drug regimen
-#'   out <- create_analytic_cohort(
-#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
-#'     regimen_drugs = c(
-#'       "Cisplatin, Pemetrexed Disodium",
-#'       "Cisplatin, Etoposide"
-#'     ),
-#'     regimen_order = 1,
-#'     regimen_order_type = "within regimen"
-#'   )
+#' # select unique next generation sequencing reports for those patients
+#' samples_data1 <- select_unique_ngs(data_cohort = ex1$cohort_ngs)
 #'
-#'   samples_data <- select_unique_ngs(
-#'     data_cohort = out$cohort_ngs,
-#'     oncotree_code = "LUAD",
-#'     sample_type = "Metastasis",
-#'     min_max_time = "max"
-#'   )
-#' }
+#' # Example 2 ----------------------------------
+#' # Create a cohort of all NSCLC patients who
+#' # received Cisplatin, Pemetrexed Disodium or Cisplatin,
+#' # Etoposide as their first drug regimen
+#' ex2 <- create_analytic_cohort(
+#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'   regimen_drugs = c(
+#'     "Cisplatin, Pemetrexed Disodium",
+#'     "Cisplatin, Etoposide"
+#'   ),
+#'   regimen_order = 1,
+#'   regimen_order_type = "within regimen"
+#' )
+#'
+#' samples_data2 <- select_unique_ngs(
+#'   data_cohort = ex2$cohort_ngs,
+#'   oncotree_code = "LUAD",
+#'   sample_type = "Metastasis",
+#'   min_max_time = "max"
+#' )
+#'
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
+#'
 select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
                               sample_type = NULL, min_max_time = NULL) {
 
@@ -191,9 +193,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
         # If somehow there are still multiple possible samples, then
         # pick one at random
         if (nrow(temp) > 1) {
-          print(paste0("Patient ", x, " still had multiple possible
-                         samples based on the selected arguments,
-                         a sample was selected at random."))
+          print(paste0("Patient ", x, " still had multiple possible samples based on the selected arguments, a sample was selected at random."))
           # Set seed so this is reproducible #
           set.seed(210793)
           temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]

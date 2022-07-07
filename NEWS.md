@@ -15,6 +15,8 @@ pass the CRAN checks.
 
 * Added drug names for breast cancer cohort
 
+* Update examples to use test data, when possible
+
 # genieBPC 0.1.0
 
 * Added a `NEWS.md` file to track changes to the package.
