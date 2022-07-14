@@ -41,38 +41,45 @@ See the
 for further documentation and examples.
 }
 \examples{
-if (genieBPC:::.is_connected_to_genie() == TRUE) {
-  #' # Example 1 ----------------------------------
-  # Create a cohort of all patients with stage
-  # IV NSCLC of histology adenocarcinoma
-  nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-  out <- create_analytic_cohort(
-    data_synapse = nsclc_2_0$NSCLC_v2.0,
-    stage_dx = c("Stage IV"),
-    histology = "Adenocarcinoma"
-  )
+\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Example 1 ----------------------------------
+# Create a cohort of all patients with stage IV NSCLC of
+# histology adenocarcinoma
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
-  samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
+ex1 <- create_analytic_cohort(
+  data_synapse = nsclc_2_0$NSCLC_v2.0,
+  stage_dx = c("Stage IV"),
+  histology = "Adenocarcinoma"
+)
 
-  # Example 2 ----------------------------------
-  # Create a cohort of all NSCLC patients who
-  # received Cisplatin, Pemetrexed Disodium or Cisplatin,
-  # Etoposide as their first drug regimen
-  out <- create_analytic_cohort(
-    data_synapse = nsclc_2_0$NSCLC_v2.0,
-    regimen_drugs = c(
-      "Cisplatin, Pemetrexed Disodium",
-      "Cisplatin, Etoposide"
-    ),
-    regimen_order = 1,
-    regimen_order_type = "within regimen"
-  )
+# select unique next generation sequencing reports for those patients
+samples_data1 <- select_unique_ngs(
+  data_cohort = ex1$cohort_ngs,
+  oncotree_code = "LUAD",
+  sample_type = "Metastasis",
+  min_max_time = "max"
+)
 
-  samples_data <- select_unique_ngs(
-    data_cohort = out$cohort_ngs,
-    oncotree_code = "LUAD",
-    sample_type = "Metastasis",
-    min_max_time = "max"
-  )
-}
+# Example 2 ----------------------------------
+# Create a cohort of all NSCLC patients who
+# received Cisplatin, Pemetrexed Disodium or Cisplatin,
+# Etoposide as their first drug regimen
+ex2 <- create_analytic_cohort(
+  data_synapse = nsclc_2_0$NSCLC_v2.0,
+  regimen_drugs = c(
+    "Cisplatin, Pemetrexed Disodium",
+    "Cisplatin, Etoposide"
+  ),
+  regimen_order = 1,
+  regimen_order_type = "within regimen"
+)
+
+samples_data2 <- select_unique_ngs(
+  data_cohort = ex2$cohort_ngs,
+  oncotree_code = "LUAD",
+  sample_type = "Metastasis",
+  min_max_time = "max"
+)
+\dontshow{\}) # examplesIf}
 }

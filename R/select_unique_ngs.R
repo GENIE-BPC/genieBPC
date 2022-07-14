@@ -23,60 +23,71 @@
 #' with unique genomic samples taken from each patients.
 #' @export
 #'
-#' @examples
-#' if (genieBPC:::.is_connected_to_genie() == TRUE) {
-#'   #' # Example 1 ----------------------------------
-#'   # Create a cohort of all patients with stage
-#'   # IV NSCLC of histology adenocarcinoma
-#'   nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#'   out <- create_analytic_cohort(
-#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
-#'     stage_dx = c("Stage IV"),
-#'     histology = "Adenocarcinoma"
-#'   )
+#' @examplesIf genieBPC::.is_connected_to_genie()
+#' # Example 1 ----------------------------------
+#' # Create a cohort of all patients with stage IV NSCLC of
+#' # histology adenocarcinoma
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
-#'   samples_data <- select_unique_ngs(data_cohort = out$cohort_ngs)
+#' ex1 <- create_analytic_cohort(
+#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'   stage_dx = c("Stage IV"),
+#'   histology = "Adenocarcinoma"
+#' )
 #'
-#'   # Example 2 ----------------------------------
-#'   # Create a cohort of all NSCLC patients who
-#'   # received Cisplatin, Pemetrexed Disodium or Cisplatin,
-#'   # Etoposide as their first drug regimen
-#'   out <- create_analytic_cohort(
-#'     data_synapse = nsclc_2_0$NSCLC_v2.0,
-#'     regimen_drugs = c(
-#'       "Cisplatin, Pemetrexed Disodium",
-#'       "Cisplatin, Etoposide"
-#'     ),
-#'     regimen_order = 1,
-#'     regimen_order_type = "within regimen"
-#'   )
+#' # select unique next generation sequencing reports for those patients
+#' samples_data1 <- select_unique_ngs(
+#'   data_cohort = ex1$cohort_ngs,
+#'   oncotree_code = "LUAD",
+#'   sample_type = "Metastasis",
+#'   min_max_time = "max"
+#' )
 #'
-#'   samples_data <- select_unique_ngs(
-#'     data_cohort = out$cohort_ngs,
-#'     oncotree_code = "LUAD",
-#'     sample_type = "Metastasis",
-#'     min_max_time = "max"
-#'   )
-#' }
+#' # Example 2 ----------------------------------
+#' # Create a cohort of all NSCLC patients who
+#' # received Cisplatin, Pemetrexed Disodium or Cisplatin,
+#' # Etoposide as their first drug regimen
+#' ex2 <- create_analytic_cohort(
+#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'   regimen_drugs = c(
+#'     "Cisplatin, Pemetrexed Disodium",
+#'     "Cisplatin, Etoposide"
+#'   ),
+#'   regimen_order = 1,
+#'   regimen_order_type = "within regimen"
+#' )
+#'
+#' samples_data2 <- select_unique_ngs(
+#'   data_cohort = ex2$cohort_ngs,
+#'   oncotree_code = "LUAD",
+#'   sample_type = "Metastasis",
+#'   min_max_time = "max"
+#' )
+#'
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
-select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
-                              sample_type = NULL, min_max_time = NULL) {
+#'
+select_unique_ngs <- function(data_cohort,
+                              oncotree_code = NULL,
+                              sample_type = NULL,
+                              min_max_time = NULL) {
 
   # perform checks #
   if (missing(data_cohort)) {
     stop("The 'data_cohort' argument is needed to perform this process.
          'data_cohort' is the output created by the 'fetch_samples' function,
-         or the object 'cohort_cpt' from the create_analytic_cohort()
-         function.")
+         or the list object 'cohort_cpt' returned from the
+         create_analytic_cohort() function.")
   }
+
   if (!is.null(min_max_time) && (sum(!min_max_time %in% c("min", "max")) > 0 ||
     as.numeric(length(min_max_time)) > 1)) {
     stop("The 'min_max_time' argument should be either 'min' or 'max'
          (only one of the two).")
   }
+
   if (!is.null(sample_type) &&
     (length(sample_type) > 1 ||
       !(stringr::str_to_lower(sample_type) %in%
@@ -84,35 +95,34 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
     stop("Please input a single sample of type of interest out of 'Primary',
          'Local' or 'Metastasis'")
   }
+
   # if(sum(grepl("samples_data",names(data_cohort))) != 1)
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
   # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
-    print("None of the optimization arguments were specified. The sample with
-            the largest panel size will be returned. In the case of ties a
-            random sample will be returned.")
+    print("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
   }
-  if (!is.null(oncotree_code) && sum(data_cohort$cpt_oncotree_code %in%
-    oncotree_code) == 0) {
+
+  if (!is.null(oncotree_code) &&
+    sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
     stop("The OncoTree code inputted does not exist in the data
-            and thus will be ignored.")
+            and will be ignored.")
+
     oncotree_code <- NULL
   }
 
+  # Perform the selection only for patients that have multiple samples #
 
-
-  # samples_data <- data_cohort$samples_data
-  # we perform the optimization only for patients that have multiple samples #
   ### Find patients that had duplicated samples ###
   dup_samples <- as.character(unlist(data_cohort %>%
     group_by(.data$record_id) %>%
-    summarise(N_samples = length(unique(.data$cpt_genie_sample_id))) %>%
+    summarise(
+      N_samples =
+        length(unique(.data$cpt_genie_sample_id))
+    ) %>%
     filter(.data$N_samples > 1) %>%
     select(.data$record_id)))
-  # data_cohort %>%
-  #   group_by(record_id) %>%
-  #   summarise(N_samples = length(unique(cpt_genie_sample_id))) %>%
-  #   filter(record_id == "GENIE-DFCI-004022")
+
   solved_dups <- as.data.frame(
     do.call(
       "rbind",
@@ -137,7 +147,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
 
         # deal with sample type #
         if (!is.null(sample_type) &&
-          (sum(grepl(sample_type, temp$cpt_sample_type,
+          (sum(grepl(sample_type, temp$sample_type,
             ignore.case = TRUE
           )) > 0)) {
           temp <- temp[grepl(sample_type, temp$sample_type,
@@ -145,7 +155,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
           ), ]
         }
         if (!is.null(sample_type) &&
-          (sum(grepl(sample_type, temp$cpt_sample_type,
+          (sum(grepl(sample_type, temp$sample_type,
             ignore.case = TRUE
           )) == 0)) {
           print(paste0(
@@ -191,9 +201,7 @@ select_unique_ngs <- function(data_cohort, oncotree_code = NULL,
         # If somehow there are still multiple possible samples, then
         # pick one at random
         if (nrow(temp) > 1) {
-          print(paste0("Patient ", x, " still had multiple possible
-                         samples based on the selected arguments,
-                         a sample was selected at random."))
+          print(paste0("Patient ", x, " still had multiple possible samples based on the selected arguments, a sample was selected at random."))
           # Set seed so this is reproducible #
           set.seed(210793)
           temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]
