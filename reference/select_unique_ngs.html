@@ -14,7 +14,7 @@ user-defined criteria."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,40 +115,10 @@ for further documentation and examples.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">genieBPC</span><span class="fu">:::</span><span class="fu"><a href="dot-is_connected_to_genie.html">.is_connected_to_genie</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="co">#' # Example 1 ----------------------------------</span></span></span>
-<span class="r-in"><span>  <span class="co"># Create a cohort of all patients with stage</span></span></span>
-<span class="r-in"><span>  <span class="co"># IV NSCLC of histology adenocarcinoma</span></span></span>
-<span class="r-in"><span>  <span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
-<span class="r-in"><span>    stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span>data_cohort <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># Example 2 ----------------------------------</span></span></span>
-<span class="r-in"><span>  <span class="co"># Create a cohort of all NSCLC patients who</span></span></span>
-<span class="r-in"><span>  <span class="co"># received Cisplatin, Pemetrexed Disodium or Cisplatin,</span></span></span>
-<span class="r-in"><span>  <span class="co"># Etoposide as their first drug regimen</span></span></span>
-<span class="r-in"><span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
-<span class="r-in"><span>    regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span></span>
-<span class="r-in"><span>      <span class="st">"Cisplatin, Etoposide"</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    regimen_order <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>    regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">samples_data</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    data_cohort <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">cohort_ngs</span>,</span></span>
-<span class="r-in"><span>    oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>,</span></span>
-<span class="r-in"><span>    sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,</span></span>
-<span class="r-in"><span>    min_max_time <span class="op">=</span> <span class="st">"max"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example 1 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cohort of all patients with stage IV NSCLC of</span></span></span>
+<span class="r-in"><span><span class="co"># histology adenocarcinoma</span></span></span>
+<span class="r-in"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
@@ -160,91 +130,56 @@ for further documentation and examples.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "None of the optimization arguments were specified. The sample with\n            the largest panel size will be returned. In the case of ties a\n            random sample will be returned."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-004022 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-008085 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-008692 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-009970 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-011383 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-036465 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-036553 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-036820 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-091890 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0000978 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0003070 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0003854 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0004129 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0004607 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0006221 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0006268 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0007745 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0008160 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0008161 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0008744 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0010261 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0012160 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0012192 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0014885 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0015348 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0016903 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0017722 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0020513 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0025601 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0025741 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-100390 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-113182 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-160059 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-395682 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-489094 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-574932 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-588847 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-599899 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-864288 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-864704 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-885623 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-907638 still had multiple possible\n                         samples based on the selected arguments,\n                         a sample was selected at random."</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-000735 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-008031 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-090152 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
+<span class="r-in"><span>  stage_dx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stage IV"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># select unique next generation sequencing reports for those patients</span></span></span>
+<span class="r-in"><span><span class="va">samples_data1</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_cohort <span class="op">=</span> <span class="va">ex1</span><span class="op">$</span><span class="va">cohort_ngs</span>,</span></span>
+<span class="r-in"><span>  oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>,</span></span>
+<span class="r-in"><span>  sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,</span></span>
+<span class="r-in"><span>  min_max_time <span class="op">=</span> <span class="st">"max"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-091890 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0005483 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0006151 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0002917 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0003070 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0004129 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0006221 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0016903 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0017722 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0025741 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0025741 still had multiple possible samples based on the selected arguments, a sample was selected at random."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-478107 did not have any sample of source: Metastasis"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-864288 did not have any sample of source: LUAD"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-864288 did not have any sample of source: Metastasis"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cohort of all NSCLC patients who</span></span></span>
+<span class="r-in"><span><span class="co"># received Cisplatin, Pemetrexed Disodium or Cisplatin,</span></span></span>
+<span class="r-in"><span><span class="co"># Etoposide as their first drug regimen</span></span></span>
+<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
+<span class="r-in"><span>  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Cisplatin, Etoposide"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">samples_data2</span> <span class="op">&lt;-</span> <span class="fu">select_unique_ngs</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_cohort <span class="op">=</span> <span class="va">ex2</span><span class="op">$</span><span class="va">cohort_ngs</span>,</span></span>
+<span class="r-in"><span>  oncotree_code <span class="op">=</span> <span class="st">"LUAD"</span>,</span></span>
+<span class="r-in"><span>  sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,</span></span>
+<span class="r-in"><span>  min_max_time <span class="op">=</span> <span class="st">"max"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-DFCI-091890 did not have any sample of source: Metastasis"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0006844 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0008978 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0013162 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0014885 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0014968 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0016221 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-MSK-P-0017158 did not have any sample of source: Metastasis"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `cpt_sample_type`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Patient GENIE-VICC-328557 did not have any sample of source: Metastasis"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
