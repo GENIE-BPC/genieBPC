@@ -1,12 +1,12 @@
-# genieBPC (development version)
+# genieBPC 1.0.0
 
-* Removed `TramineR` from dependencies file (issue # 50)
+* Removed `TramineR` from dependencies file (issue #50)
 
-* Pull the most recent public and consortium data (issue #42)
+* Incorporated the most recent public and consortium data releases (issue #42)
 
 * Removed `synapser` from dependencies file (issue #45)
 
-* Fixed `cpt_sample_type`/`sample_type` (issue #43)
+* Fixed `cpt_sample_type`/`sample_type` issue in `fetch_samples.R` (issue #43)
 
 * Added `.is_connected_to_genie()` to replace `.check_synapse_login()` and 
 return logical TRUE/FALSE. This is an internal function that can be used to 

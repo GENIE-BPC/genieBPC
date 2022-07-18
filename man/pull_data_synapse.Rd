@@ -70,32 +70,18 @@ for further documentation and examples.
 # Set up Synapse credentials
 set_synapse_credentials()
 
-# Pull non-small cell lung cancer data
-ex1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
+# Print available versions of the data
+synapse_version(most_recent = TRUE)
 
-names(ex1$NSCLC_v2.1)
-
-# Example 2 ----------------------------------
-# Pull the most recent non-small cell lung cancer
-# data and the most recent colorectal cancer data
-
- ex2 <- pull_data_synapse(
-   cohort = c("NSCLC", "CRC"),
-   version = c("v2.1-consortium", "v1.2-consortium")
- )
-
-names(ex2)
-
-# Example 3 ----------------------------------
-# Pull version 2.1-consortium for non-small cell lung cancer
+# Pull version 2.0-public for non-small cell lung cancer
 # and version 1.1-consortium for colorectal cancer data
 
- ex3 <- pull_data_synapse(
-   cohort = c("CRC", "BrCa"),
-   version = c("v1.2-consortium", "v1.1-consortium")
+ ex1 <- pull_data_synapse(
+   cohort = c("NSCLC", "BrCa"),
+   version = c("v2.0-public", "v1.1-consortium")
  )
 
- names(ex3)
+ names(ex1)
 \dontshow{\}) # examplesIf}
 }
 \author{

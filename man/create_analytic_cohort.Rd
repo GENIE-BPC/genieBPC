@@ -18,8 +18,8 @@ create_analytic_cohort(
 )
 }
 \arguments{
-\item{data_synapse}{The item from the nested list returned from pull_data_synapse()
-corresponding to the cancer cohort of interest.}
+\item{data_synapse}{The item from the nested list returned from
+pull_data_synapse() that corresponds to the cancer cohort of interest.}
 
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
@@ -33,8 +33,9 @@ cancers to patients with multiple.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of
 "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-"MSK", "VICC" for CRC and BrCa. Default selection is all institutions. This parameter
-corresponds to the variable `institution` in the Analytic Data Guide.}
+"MSK", "VICC" for CRC and BrCa. Default selection is all institutions.
+This parameter corresponds to the variable `institution` in the
+Analytic Data Guide.}
 
 \item{stage_dx}{Stage at diagnosis. Must be one of "Stage I", "Stage II",
 "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.

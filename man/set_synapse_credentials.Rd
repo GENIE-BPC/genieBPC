@@ -7,11 +7,11 @@
 set_synapse_credentials(username = NULL, password = NULL)
 }
 \arguments{
-\item{username}{Synapse username. If NULL, package will search environmental variables
-for `SYNAPSE_USERNAME`.}
+\item{username}{Synapse username. If NULL, package will search environmental
+variables for `SYNAPSE_USERNAME`.}
 
-\item{password}{Synapse password. If NULL, package will search environmental variables
-for `SYNAPSE_PASSWORD`.}
+\item{password}{Synapse password. If NULL, package will search environmental
+variables for `SYNAPSE_PASSWORD`.}
 }
 \description{
 This function sets Synapse credentials for the user's current session

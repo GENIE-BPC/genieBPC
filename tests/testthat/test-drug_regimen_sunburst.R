@@ -65,7 +65,9 @@ test_that("data_synapse parameter", {
   expect_error(drug_regimen_sunburst(data_synapse = "a"))
 
   # data_synapse parameter is a list, but isn't the right list
-  expect_error(drug_regimen_sunburst(data_synapse = list("a", "b")))
+  expect_error(drug_regimen_sunburst(data_synapse = list("a" = "a",
+                                                         "b" = "b"),
+                                     data_cohort = nsclc_data))
 })
 
 test_that("data_cohort parameter", {
@@ -80,7 +82,7 @@ test_that("data_cohort parameter", {
 
   # data_cohort parameter is a list, but isn't the right list
   expect_error(drug_regimen_sunburst(
-    data_synapse = nsclc_data,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     data_cohort = list("a", "b")
   ))
 })

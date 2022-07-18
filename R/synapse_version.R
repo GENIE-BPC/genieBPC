@@ -1,20 +1,19 @@
 #' synapse_version
 #'
-#' GENIE BPC data are updated periodically to add variables and reflect additional data cleaning.
-#' Each time the data are
-#' updated the data release version number is incremented.
-#' The `synapse_version()` function will get available version numbers for each
-#' cohort to help the user determine what is the most
-#' recent version for each cohort.
+#' GENIE BPC data are updated periodically to add variables and reflect
+#' additional data cleaning. Each time the data are updated the data release
+#' version number is incremented. The `synapse_version()` function will get
+#' available version numbers for each cohort to help the user determine what is
+#' the most recent version for each cohort.
 #'
 #' Specifies the version numbers available for each cancer cohort. Version
 #' numbers are specified as part of the call to `pull_data_synapse()`.
 #'
-#' @param most_recent Indicates whether the function will return only the most recent
-#' version number for each cohort (`most_recent` = TRUE) or all available
-#' version numbers for each cohort (`most_recent`= FALSE)
+#' @param most_recent Indicates whether the function will return only the most
+#'   recent version number for each cohort (`most_recent` = TRUE) or all
+#'   available version numbers for each cohort (`most_recent`= FALSE)
 #' @return Returns a table containing the available versions for each cohort.
-#' Consortium releases are restricted to GENIE BPC consortium members.
+#'   Consortium releases are restricted to GENIE BPC consortium members.
 #' @examples
 #' synapse_version()
 #' synapse_version(most_recent = TRUE)

@@ -12,8 +12,8 @@
 #'
 #' See the \href{https://genie-bpc.github.io/genieBPC/articles/create_analytic_cohort_vignette.html}{create_analytic_cohort vignette} for further documentation and examples.
 #'
-#' @param data_synapse The item from the nested list returned from pull_data_synapse()
-#' corresponding to the cancer cohort of interest.
+#' @param data_synapse The item from the nested list returned from
+#' pull_data_synapse() that corresponds to the cancer cohort of interest.
 #' @param index_ca_seq Index cancer sequence. Default is 1, indicating the
 #' patient's first index cancer. The index cancer is also referred to as the
 #' BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
@@ -25,8 +25,9 @@
 #' cancers to patients with multiple.
 #' @param institution GENIE BPC participating institution. Must be one of
 #' "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
-#' "MSK", "VICC" for CRC and BrCa. Default selection is all institutions. This parameter
-#' corresponds to the variable `institution` in the Analytic Data Guide.
+#' "MSK", "VICC" for CRC and BrCa. Default selection is all institutions.
+#' This parameter corresponds to the variable `institution` in the
+#' Analytic Data Guide.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
 #' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
 #' This parameter corresponds to the variable `stage_dx` in the
@@ -156,9 +157,10 @@ create_analytic_cohort <- function(data_synapse,
     stop("The object specified for data_synapse does not exist.")
   }
 
-  # cancer cohort
-  # trying to check that the pull_data_synapse object returned is specific to the cohort
-  if (min(grepl("pt_char", paste0(names(data_synapse)))) == 1) {
+  # check input parameter
+  # trying to check that the pull_data_synapse object returned is
+  # specific to the cohort
+  if (!("pt_char" %in% names(data_synapse))) {
     stop("Specify only one cohort at a time, even if there are multiple cohorts
          in the data_synapse object.")
   }
@@ -756,7 +758,8 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   if (!is.null(pluck(data_synapse, "mutations_extended"))) {
-    cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse, "mutations_extended"),
+    cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse,
+                                                         "mutations_extended"),
       cohort_ngs %>%
         dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
       by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
