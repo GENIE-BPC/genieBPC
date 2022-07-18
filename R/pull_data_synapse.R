@@ -35,6 +35,7 @@
 #' version numbers corresponds to the order that the cohorts
 #' are specified; the cohort and version number must be in
 #' the same order in order to pull the correct data. See examples below.
+#'
 #' @param download_location if `NULL` (default), data will be returned as a list of dataframes with
 #' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
 #' When a path is specified, data are not read into the R environment.
@@ -52,32 +53,18 @@
 #' # Set up Synapse credentials
 #' set_synapse_credentials()
 #'
-#' # Pull non-small cell lung cancer data
-#' ex1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.1-consortium")
-#'
-#' names(ex1$NSCLC_v2.1)
-#'
-#' # Example 2 ----------------------------------
-#' # Pull the most recent non-small cell lung cancer
-#' # data and the most recent colorectal cancer data
-#'
-#'  ex2 <- pull_data_synapse(
-#'    cohort = c("NSCLC", "CRC"),
-#'    version = c("v2.1-consortium", "v1.2-consortium")
-#'  )
-#'
-#' names(ex2)
-#'
-#' # Example 3 ----------------------------------
-#' # Pull version 2.1-consortium for non-small cell lung cancer
+#' # Print available versions of the data
+#' synapse_version(most_recent = TRUE)
+#'§
+#' # Pull version 2.0-public for non-small cell lung cancer
 #' # and version 1.1-consortium for colorectal cancer data
 #'
-#'  ex3 <- pull_data_synapse(
-#'    cohort = c("CRC", "BrCa"),
-#'    version = c("v1.2-consortium", "v1.1-consortium")
+#'  ex1 <- pull_data_synapse(
+#'    cohort = c("NSCLC", "BrCa"),
+#'    version = c("v2.0-public", "v1.1-consortium")
 #'  )
 #'
-#'  names(ex3)
+#'  names(ex1)
 #'
 #' @import
 #' dplyr
@@ -229,8 +216,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       res_per_id <- httr::POST(
         url = x,
         body = jsonlite::toJSON(requestedObjects,
-          pretty = T,
-          auto_unbox = T
+          pretty = TRUE,
+          auto_unbox = TRUE
         ),
         httr::add_headers(Authorization = paste("Bearer ", token, sep = "")),
         httr::content_type("application/json")
@@ -352,7 +339,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   res <- httr::POST(
     url = file_endpoint_url,
-    body = jsonlite::toJSON(body, pretty = T, auto_unbox = T),
+    body = jsonlite::toJSON(body, pretty = TRUE, auto_unbox = TRUE),
     httr::content_type("application/json"),
     httr::add_headers(Authorization = paste("Bearer ", token, sep = ""))
   )

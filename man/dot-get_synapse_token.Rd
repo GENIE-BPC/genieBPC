@@ -7,12 +7,13 @@
 .get_synapse_token(username = NULL, password = NULL)
 }
 \arguments{
-\item{username}{Synapse username. If NULL, package will search package environment for "username". If not found,
-package will look in environmental variables for `SYNAPSE_USERNAME`.}
+\item{username}{Synapse username. If NULL, package will search package
+environment for "username". If not found, package will look in
+environmental variables for `SYNAPSE_USERNAME`.}
 
-\item{password}{Synapse password. If NULL, package will search package environment
-for "password". If not found package will search environmental variables
-for `SYNAPSE_PASSWORD`.}
+\item{password}{Synapse password. If NULL, package will search package
+environment for "password". If not found package will search environmental
+variables for `SYNAPSE_PASSWORD`.}
 }
 \value{
 a synapse token

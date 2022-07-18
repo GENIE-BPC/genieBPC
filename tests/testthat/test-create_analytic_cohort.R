@@ -33,15 +33,30 @@ test_that("stage_dx- argument check", {
 
 
 
-# Tests - Requiring GENIE Access ------------------------------------------------
+
+# Tests - Requiring GENIE Access -----------------------------------------------
 # # test that a list of three or seven datasets are returned
 # # from create_analytic_cohort
+
+test_that("multiple cohorts- argument check", {
+  # exit if user doesn't have a synapse log in or access to data.
+  testthat::skip_if_not(.is_connected_to_genie())
+
+  # pull two cohorts together
+  two_cohorts <- pull_data_synapse(cohort = c("NSCLC", "CRC"),
+                                   version = c("v1.1-consortium",
+                                               "v1.1-consortium"))
+
+  expect_error(create_analytic_cohort(
+    data_synapse = two_cohorts)
+  )
+})
 
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie())
 
-  # run here to avoid having to run within each test
+  # pull data for each cohort
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
   crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
   brca_data <- pull_data_synapse(c("BrCa"), version = "v1.1-consortium")
@@ -52,6 +67,8 @@ test_that("correct number of objects returned from create cohort", {
     "brca_data" = brca_data
   )
 
+  # return to global environment to avoid having to re-run pull_data_synapse for
+  # each test
   list2env(objs, envir = .GlobalEnv)
 
   # NSCLC

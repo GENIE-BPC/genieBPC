@@ -9,3 +9,4 @@
 ^pkgdown$
 ^README\.Rmd$
 ^files$
+^cran-comments\.md$

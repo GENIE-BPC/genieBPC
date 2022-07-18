@@ -20,7 +20,7 @@ test_that("missing data_cohort", {
 
 test_that("non-existant oncotree code", {
   expect_error(select_unique_ngs(
-    data_cohort = nsclc_cohort,
+    data_cohort = nsclc_data$NSCLC_v1.1,
     oncotree_code = "GENIE"
   ))
 })

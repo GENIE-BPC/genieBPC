@@ -100,13 +100,16 @@ select_unique_ngs <- function(data_cohort,
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
   # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
-    print("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
+    print("None of the optimization arguments were specified. The sample
+          with the largest panel size will be returned. In the case of
+          ties a random sample will be returned.")
   }
 
   if (!is.null(oncotree_code) &&
     sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
-    stop("The OncoTree code inputted does not exist in the data
-            and will be ignored.")
+    print("The OncoTree code inputted does not exist in the data
+            and will be ignored. OncoTree codes will not be used to select
+          a unique next generation sequencing panel for each patient.")
 
     oncotree_code <- NULL
   }
@@ -201,7 +204,9 @@ select_unique_ngs <- function(data_cohort,
         # If somehow there are still multiple possible samples, then
         # pick one at random
         if (nrow(temp) > 1) {
-          print(paste0("Patient ", x, " still had multiple possible samples based on the selected arguments, a sample was selected at random."))
+          print(paste0("Patient ", x, " still had multiple possible samples
+                       based on the selected arguments, a sample was
+                       selected at random."))
           # Set seed so this is reproducible #
           set.seed(210793)
           temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]
