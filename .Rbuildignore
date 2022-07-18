@@ -10,3 +10,4 @@
 ^README\.Rmd$
 ^files$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
