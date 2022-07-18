@@ -55,7 +55,7 @@
 #'
 #' # Print available versions of the data
 #' synapse_version(most_recent = TRUE)
-#'§
+#'
 #' # Pull version 2.0-public for non-small cell lung cancer
 #' # and version 1.1-consortium for colorectal cancer data
 #'
