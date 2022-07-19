@@ -52,24 +52,36 @@ test_that("multiple cohorts- argument check", {
   )
 })
 
+# pull data for each cohort
+# return to global environment to avoid having to re-run pull_data_synapse for
+# each test
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  nsclc_data <- pull_data_synapse("NSCLC",
+    version = "v1.1-consortium"
+  )
+} else {
+  nsclc_data <- list("a")
+}) > 0)
+
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  crc_data <- pull_data_synapse("CRC",
+    version = "v1.1-consortium"
+  )
+} else {
+  crc_data <- list("a")
+}) > 0)
+
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  brca_data <- pull_data_synapse("BrCa",
+    version = "v1.1-consortium"
+  )
+} else {
+  brca_data <- list("a")
+}) > 0)
+
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie())
-
-  # pull data for each cohort
-  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
-  crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
-  brca_data <- pull_data_synapse(c("BrCa"), version = "v1.1-consortium")
-
-  objs <- list(
-    "nsclc_data" = nsclc_data,
-    "crc_data" = crc_data,
-    "brca_data" = brca_data
-  )
-
-  # return to global environment to avoid having to re-run pull_data_synapse for
-  # each test
-  list2env(objs, envir = .GlobalEnv)
 
   # NSCLC
   test1a <- create_analytic_cohort(
