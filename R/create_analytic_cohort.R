@@ -344,9 +344,6 @@ create_analytic_cohort <- function(data_synapse,
     regimen_order_type <- NULL
   }
 
-  # left off here - this worked
-  # print( head(pluck(data_synapse, "ca_dx_index")))
-  # stop()
   ##############################################################################
   #                             pull cancer cohort                             #
   ##############################################################################

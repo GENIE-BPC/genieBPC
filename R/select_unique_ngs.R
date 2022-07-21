@@ -129,7 +129,6 @@ select_unique_ngs <- function(data_cohort,
     do.call(
       "rbind",
       lapply(dup_samples, function(x) {
-        # print(x)
         temp <- data_cohort %>%
           filter(.data$record_id == x)
 
