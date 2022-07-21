@@ -1,8 +1,7 @@
 #' Selecting corresponding unique next generation sequencing reports
 #'
-#' Get a unique next generation sequencing sample
-#' for each patient for analysis following several
-#' user-defined criteria.
+#' For patients with multiple next generation (NGS) sequencing reports,
+#' select one unique NGS report per patient based on several potential criteria.
 #'
 #' See the
 #' \href{https://genie-bpc.github.io/genieBPC/articles/select_unique_ngs_vignette.html}{select_unique_ngs vignette}
@@ -100,14 +99,14 @@ select_unique_ngs <- function(data_cohort,
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
   # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
-    print("None of the optimization arguments were specified. The sample
+    message("None of the optimization arguments were specified. The sample
           with the largest panel size will be returned. In the case of
           ties a random sample will be returned.")
   }
 
   if (!is.null(oncotree_code) &&
     sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
-    print("The OncoTree code inputted does not exist in the data
+    message("The OncoTree code inputted does not exist in the data
             and will be ignored. OncoTree codes will not be used to select
           a unique next generation sequencing panel for each patient.")
 
@@ -142,7 +141,7 @@ select_unique_ngs <- function(data_cohort,
         }
         if (!is.null(oncotree_code) &&
           (sum(temp$cpt_oncotree_code %in% oncotree_code) == 0)) {
-          print(paste0(
+          message(paste0(
             "Patient ", x, " did not have any sample of source: ",
             oncotree_code
           ))
@@ -161,7 +160,7 @@ select_unique_ngs <- function(data_cohort,
           (sum(grepl(sample_type, temp$sample_type,
             ignore.case = TRUE
           )) == 0)) {
-          print(paste0(
+          message(paste0(
             "Patient ", x, " did not have any sample of source: ",
             sample_type
           ))
@@ -204,7 +203,7 @@ select_unique_ngs <- function(data_cohort,
         # If somehow there are still multiple possible samples, then
         # pick one at random
         if (nrow(temp) > 1) {
-          print(paste0("Patient ", x, " still had multiple possible samples
+          message(paste0("Patient ", x, " still had multiple possible samples
                        based on the selected arguments, a sample was
                        selected at random."))
           # Set seed so this is reproducible #
