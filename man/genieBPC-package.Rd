@@ -4,9 +4,9 @@
 \name{genieBPC-package}
 \alias{genieBPC}
 \alias{genieBPC-package}
-\title{genieBPC: Data Processing Pipeline for the AACR Project GENIE BioPharma Collaborative Data}
+\title{genieBPC: Data Processing Pipeline for the American Association for Cancer Research Project GENIE BioPharma Collaborative Data}
 \description{
-The American Association Research Project Genomics Evidence Neoplasia Information Exchange (GENIE) BioPharma Collaborative represents a multi-year, multi-institution effort to build a pan-cancer repository of linked clinico-genomic data. The genomic and clinical data are provided in multiple releases (separate releases for each cancer cohort with updates following data corrections), which are stored on the data sharing platform Synapse. The {genieBPC} package provides a seamless way to obtain the data corresponding to each release from Synapse and to prepare datasets for analysis.
+The American Association Research (AACR) Project Genomics Evidence Neoplasia Information Exchange (GENIE) BioPharma Collaborative represents a multi-year, multi-institution effort to build a pan-cancer repository of linked clinico-genomic data. The genomic and clinical data are provided in multiple releases (separate releases for each cancer cohort with updates following data corrections), which are stored on the data sharing platform Synapse. The 'genieBPC' package provides a seamless way to obtain the data corresponding to each release from Synapse and to prepare datasets for analysis.
 }
 \seealso{
 Useful links:
@@ -17,15 +17,19 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Statistical Core GENIE-BPC \email{bstgeniebpc@mskcc.org} [copyright holder]
+\strong{Maintainer}: Jessica A. Lavery \email{laveryj@mskcc.org} (\href{https://orcid.org/0000-0002-2746-5647}{ORCID})
 
 Authors:
 \itemize{
-  \item Jessica Lavery \email{laveryj@mskcc.org} (\href{https://orcid.org/0000-0002-2746-5647}{ORCID})
   \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown (\href{https://orcid.org/0000-0001-5352-974X}{ORCID})
   \item Karissa Whiting (\href{https://orcid.org/0000-0002-4683-1868}{ORCID})
   \item Axel Martin
+}
+
+Other contributors:
+\itemize{
+  \item Daniel D. Sjoberg \email{danield.sjoberg@gmail.com} (\href{https://orcid.org/0000-0003-0862-2018}{ORCID}) [contributor]
 }
 
 }

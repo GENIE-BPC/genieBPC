@@ -13,6 +13,10 @@ variables for `SYNAPSE_USERNAME`.}
 \item{password}{Synapse password. If NULL, package will search environmental
 variables for `SYNAPSE_PASSWORD`.}
 }
+\value{
+A success message if you credentials are valid for Synapse platform;
+  otherwise an error
+}
 \description{
 This function sets Synapse credentials for the user's current session
 }
@@ -24,4 +28,7 @@ set_synapse_credentials(
 )
 }
 
+}
+\author{
+Karissa Whiting
 }

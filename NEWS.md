@@ -1,5 +1,7 @@
 # genieBPC 1.0.0
 
+* changed `print()` to `message()` in `select_unique_ngs()`
+
 * Removed `TramineR` from dependencies file (issue #50)
 
 * Incorporated the most recent public and consortium data releases (issue #42)

@@ -31,9 +31,8 @@ returns the 'cohort_ngs' object of the create_analytic_cohort
 with unique genomic samples taken from each patients.
 }
 \description{
-Get a unique next generation sequencing sample
-for each patient for analysis following several
-user-defined criteria.
+For patients with multiple next generation (NGS) sequencing reports,
+select one unique NGS report per patient based on several potential criteria.
 }
 \details{
 See the

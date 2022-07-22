@@ -13,7 +13,8 @@ or "BrCa"}
 \item{data_synapse}{The item from the nested list returned from
 `pull_data_synapse()`}
 
-\item{df_record_ids}{NGS data frame from the `create_analytic_cohort()` function.}
+\item{df_record_ids}{NGS data frame from the `create_analytic_cohort()`
+function.}
 }
 \value{
 returns the 'cohort_ngs' object of the create_analytic_cohort

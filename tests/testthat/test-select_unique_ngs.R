@@ -1,20 +1,25 @@
-test_that("missing data_cohort", {
-  testthat::skip_if_not(genieBPC:::.is_connected_to_genie())
-
-  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
-  nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_data$NSCLC_v1.1)
-  crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
-
-  # run here to avoid having to run within each test
-
-
-  objs <- list(
-    "nsclc_data" = nsclc_data,
-    "crc_data" = crc_data
+# pull data for each cohort
+# return to to avoid having to re-run pull_data_synapse for
+# each test
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  nsclc_data <- pull_data_synapse("NSCLC",
+    version = "v1.1-consortium"
   )
 
-  list2env(objs, envir = .GlobalEnv)
+  nsclc_cohort <- create_analytic_cohort(data_synapse = nsclc_data$NSCLC_v1.1)
+} else {
+  nsclc_data <- list("a")
+}) > 0)
 
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  crc_data <- pull_data_synapse("CRC",
+    version = "v1.1-consortium"
+  )
+} else {
+  crc_data <- list("a")
+}) > 0)
+
+test_that("missing data_cohort", {
   expect_error(select_unique_ngs())
 })
 

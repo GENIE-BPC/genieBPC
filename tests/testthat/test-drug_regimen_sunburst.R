@@ -1,8 +1,10 @@
-test_that("Test class and length of list for sunburst plot", {
-  skip_if_not(genieBPC:::.is_connected_to_genie())
-
-  # run here to avoid having to run within each test
-  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
+# pull data and
+# return to avoid having to re-run pull_data_synapse for
+# each test
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  nsclc_data <- pull_data_synapse("NSCLC",
+    version = "v1.1-consortium"
+  )
 
   cohort <- create_analytic_cohort(
     data_synapse = nsclc_data$NSCLC_v1.1,
@@ -17,14 +19,13 @@ test_that("Test class and length of list for sunburst plot", {
     data_cohort = cohort,
     max_n_regimens = 4
   )
+} else {
+  nsclc_data <- list("a")
+}) > 0)
 
-  objs <- list(
-    "nsclc_data" = nsclc_data,
-    "cohort" = cohort,
-    "plot1" = plot1
-  )
 
-  list2env(objs, envir = .GlobalEnv)
+test_that("Test class and length of list for sunburst plot", {
+  skip_if_not(genieBPC:::.is_connected_to_genie())
 
   expect_equal(length(plot1), 2)
   expect_equal(class(plot1), "list")
