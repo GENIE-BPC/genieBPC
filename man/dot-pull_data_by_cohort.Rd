@@ -11,11 +11,13 @@
 
 \item{token}{a synapse token}
 
-\item{download_location}{if `NULL` (default), data will be returned as a list of dataframes with
-requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.}
+\item{download_location}{if `NULL` (default), data will be returned as a list
+of dataframes with requested data as list items. Otherwise, specify a
+folder path to have data automatically downloaded there.}
 }
 \value{
-downloaded synapse data as a list if `download_location`= `NULL, or to a local path
+downloaded synapse data as a list if `download_location`= `NULL, or
+  to a local path
 }
 \description{
 Function to retrieve data by synapse ID

@@ -13,7 +13,8 @@ drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL)
 \item{data_cohort}{The list returned from the `create_analytic_cohort()`
 function call}
 
-\item{max_n_regimens}{The maximum number of regimens displayed in the sunburst plot}
+\item{max_n_regimens}{The maximum number of regimens displayed in the
+sunburst plot}
 }
 \value{
 Returns data frame `treatment_history` and interactive
