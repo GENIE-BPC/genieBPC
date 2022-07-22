@@ -204,9 +204,9 @@ select_unique_ngs <- function(data_cohort,
         if (nrow(temp) > 1) {
           message(paste0("Patient ", x, " still had multiple possible samples
                        based on the selected arguments, a sample was
-                       selected at random."))
-          # Set seed so this is reproducible #
-          set.seed(210793)
+                       selected at random. Be sure to set a seed in your R
+                       session so that results are reproducible."))
+
           temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]
         }
 
