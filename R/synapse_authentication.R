@@ -12,7 +12,13 @@ genieBPC_env <- rlang::new_environment()
 #'   variables for `SYNAPSE_USERNAME`.
 #' @param password Synapse password. If NULL, package will search environmental
 #'   variables for `SYNAPSE_PASSWORD`.
+
+#' @return A success message if you credentials are valid for Synapse platform;
+#'   otherwise an error
+#'
+#' @author Karissa Whiting
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' set_synapse_credentials(
@@ -65,7 +71,10 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
 #' @param password Synapse password. If NULL, package will search package
 #'   environment for "password". If not found package will search environmental
 #'   variables for `SYNAPSE_PASSWORD`.
-#' @return a success message if you are able to access genie data or a error
+#'
+#' @return A success message if you are able to access GENIE BPC data; otherwise
+#'   an error
+#' @author Karissa Whiting
 #' @export
 #'
 #' @examples
