@@ -3,11 +3,11 @@
 #' This function allows the user to create a cohort from the GENIE BPC data
 #' based on cancer diagnosis information such as cancer cohort, treating
 #' institution, histology, and stage at diagnosis, as well as cancer-directed
-#' regimen information including regimen name and regimen order.
-#' This function returns each of the clinical and genomic data files
-#' subset on the patients that met criteria for the analytic cohort. Documentation
-#' regarding the structure and contents of each file can be found in the
-#' Analytic Data Guide corresponding to each data release, as well as in the
+#' regimen information including regimen name and regimen order. This function
+#' returns each of the clinical and genomic data files subset on the patients
+#' that met criteria for the analytic cohort. Documentation regarding the
+#' structure and contents of each file can be found in the Analytic Data Guide
+#' corresponding to each data release, as well as in the
 #' \href{https://genie-bpc.github.io/genieBPC/articles/clinical_data_structure_vignette.html}{Clinical Data Structure vignette}.
 #'
 #' See the \href{https://genie-bpc.github.io/genieBPC/articles/create_analytic_cohort_vignette.html}{create_analytic_cohort vignette} for further documentation and examples.

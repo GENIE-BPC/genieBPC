@@ -9,7 +9,8 @@
 #' or "BrCa"
 #' @param data_synapse The item from the nested list returned from
 #' `pull_data_synapse()`
-#' @param df_record_ids NGS data frame from the `create_analytic_cohort()` function.
+#' @param df_record_ids NGS data frame from the `create_analytic_cohort()`
+#'   function.
 #' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with the genomic samples taken from each patients.
 #' @author Axel Martin

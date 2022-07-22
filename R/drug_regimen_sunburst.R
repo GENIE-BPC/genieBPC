@@ -10,7 +10,8 @@
 #' `pull_data_synapse()`
 #' @param data_cohort The list returned from the `create_analytic_cohort()`
 #' function call
-#' @param max_n_regimens The maximum number of regimens displayed in the sunburst plot
+#' @param max_n_regimens The maximum number of regimens displayed in the
+#'   sunburst plot
 #' @return Returns data frame `treatment_history` and interactive
 #' plot `sunburst_plot`
 #' @export

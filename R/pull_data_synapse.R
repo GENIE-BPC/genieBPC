@@ -18,27 +18,31 @@
 #' To set your Synapse credentials during each session, call:
 #' `set_synapse_credentials(username = "your_username", password = "your_password")`
 #' To store authentication information in your environmental variables, add the
-#' following to your .Renviron file (tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+#' following to your .Renviron file (tip: you can use usethis::edit_r_environ()
+#' to easily open/edit this file):
 #' `SYNAPSE_USERNAME = <your-username>`
 #' `SYNAPSE_PASSWORD = <your-password>`
-#' Alternatively, you can pass your username and password to each individual data pull function if preferred,
-#' although it is recommended that you manage your passwords outside of your scripts for security purposes.
+#' Alternatively, you can pass your username and password to each individual
+#' data pull function if preferred, although it is recommended that you manage
+#' your passwords outside of your scripts for security purposes.
 #'
 #' See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
 #' for further documentation and examples.
 #'
-#' @param cohort Vector or list specifying the cohort(s) of interest.
-#'  Must be one of "NSCLC" (Non-Small Cell Lung Cancer),
-#'   "CRC" (Colorectal Cancer), or "BrCa" (Breast Cancer).
-#' @param version Vector specifying the version of the data. Must be one of the following:
-#' "v1.1-consortium", "v1.2-consortium", "v2.1-consortium", "v2.0-public". When entering multiple cohorts, the order of the
-#' version numbers corresponds to the order that the cohorts
-#' are specified; the cohort and version number must be in
-#' the same order in order to pull the correct data. See examples below.
+#' @param cohort Vector or list specifying the cohort(s) of interest. Must be
+#'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
+#'   "BrCa" (Breast Cancer).
+#' @param version Vector specifying the version of the data. Must be one of the
+#'   following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
+#'   "v2.0-public". When entering multiple cohorts, the order of the version
+#'   numbers corresponds to the order that the cohorts are specified; the cohort
+#'   and version number must be in the same order in order to pull the correct
+#'   data. See examples below.
 #'
-#' @param download_location if `NULL` (default), data will be returned as a list of dataframes with
-#' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
-#' When a path is specified, data are not read into the R environment.
+#' @param download_location if `NULL` (default), data will be returned as a list
+#'   of dataframes with requested data as list items. Otherwise, specify a
+#'   folder path to have data automatically downloaded there. When a path is
+#'   specified, data are not read into the R environment.
 #' @param username Synapse username
 #' @param password Synapse password
 #'
@@ -92,24 +96,27 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       is.null(.) ~ cli::cli_abort("Version needs to be specified.
                             Use {.code synapse_version()} to see what data is available."),
       setdiff(., unique(synapse_tables$version)) > 0 ~
-        cli::cli_abort("{.code version} must be one of the following: {unique(synapse_tables$version)}"),
+        cli::cli_abort("{.code version} must be one of the following:
+                       {unique(synapse_tables$version)}"),
       length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available"),
-      TRUE ~ rlang::arg_match(., unique(synapse_tables$version), multiple = TRUE)
+      TRUE ~ rlang::arg_match(., unique(synapse_tables$version),
+                              multiple = TRUE)
     )
 
   # create `version-number` ---
   sv <- dplyr::select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
     dplyr::distinct()
 
-  version_num <- dplyr::bind_cols(list("cohort" = select_cohort, "version" = version))
+  version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
+                                       "version" = version))
 
-  version_not_available <- dplyr::anti_join(version_num, sv, by = c("cohort", "version"))
+  version_not_available <- dplyr::anti_join(version_num, sv,
+                                            by = c("cohort", "version"))
 
   if (nrow(version_not_available) > 0) {
-    cli::cli_abort(c("You have selected a version that is not available for this cohort
-                   (use `synapse_tables` to see what versions are available):",
+    cli::cli_abort(c("You have selected a version that is not available for this cohort (use `synapse_tables` to see what versions are available):",
       "x" = "{.val {version_not_available}}"
     ))
   }
@@ -167,10 +174,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #'
 #' @param version_num_df a dataframe of synapse IDs
 #' @param token a synapse token
-#' @param download_location if `NULL` (default), data will be returned as a list of dataframes with
-#' requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there.
+#' @param download_location if `NULL` (default), data will be returned as a list
+#'   of dataframes with requested data as list items. Otherwise, specify a
+#'   folder path to have data automatically downloaded there.
 #'
-#' @return downloaded synapse data as a list if `download_location`= `NULL, or to a local path
+#' @return downloaded synapse data as a list if `download_location`= `NULL, or
+#'   to a local path
 #' @keywords internal
 #' @export
 #'
@@ -203,7 +212,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # we need file handle ID and filename
   file_metadata <- version_num_df %>%
-    dplyr::mutate(query_url = paste0(repo_endpoint_url, .data$synapse_id, "/bundle2")) %>%
+    dplyr::mutate(query_url = paste0(repo_endpoint_url,
+                                     .data$synapse_id, "/bundle2")) %>%
     dplyr::mutate(file_info = map(.data$query_url, function(x) {
       requestedObjects <- list(
         "includeEntity" = TRUE,
@@ -228,7 +238,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       # If you haven't signed terms
       switch(entityBundle$restrictionInformation$hasUnmetAccessRequirement,
              cli::cli_abort("Your Synapse account has unmet access requirements.
-                          Have you accepted the 'Terms of Use' for this data set? See Synapse portal (`https://www.synapse.org/`) for more info.")
+                          Have you accepted the 'Terms of Use' for this dataset?
+                          See Synapse portal (`https://www.synapse.org/`) for more info.")
       )
 
       file_info <- entityBundle$fileHandles[[1]]
@@ -325,7 +336,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' purrr::pmap(file, .get_and_query_file_url)
 #'
 .get_and_query_file_url <- function(version_num, file_handle_id, synapse_id,
-                                    df, name, download_folder, download_location,
+                                    df, name, download_folder,
+                                    download_location,
                                     token, file_endpoint_url) {
   body <- list(
     "includeFileHandles" = TRUE,
@@ -362,14 +374,16 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       purrr::when(
         . == "text/csv" ~ read.csv(resolved_file_path),
         . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
-        TRUE ~ cli::cli_abort("Cannot read objects of type {file_type}.
-                                    Try downloading directly to disk with {.code download_location}")
+        TRUE ~ cli::cli_abort(
+          "Cannot read objects of type {file_type}. Try downloading directly to disk with {.code download_location}")
       )
 
-    cli::cli_alert_success("{.field {df}} has been imported for {.val {version_num}}")
+    cli::cli_alert_success(
+      "{.field {df}} has been imported for {.val {version_num}}")
     return(returned_files)
   } else {
-    cli::cli_alert_success("{.field {name}} has been downloaded to {.val {download_folder}}")
+    cli::cli_alert_success(
+      "{.field {name}} has been downloaded to {.val {download_folder}}")
     return(invisible(NULL))
   }
 }
