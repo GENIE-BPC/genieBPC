@@ -48,7 +48,7 @@ file <- data.frame(
   synapse_id = c("syn25985884"),
   df = c("pt_char"),
   name = c("patient_level_dataset.csv"),
-  download_folder = file.path(tempdir(), "NSCLC_v2.1")
+  download_folder = file.path(tempfile(), "NSCLC_v2.1")
 )
 
 purrr::pmap(file, .get_and_query_file_url)

@@ -16,7 +16,8 @@ environment for "password". If not found package will search environmental
 variables for `SYNAPSE_PASSWORD`.}
 }
 \value{
-a success message if you are able to access genie data or a error
+A success message if you are able to access GENIE BPC data; otherwise
+  an error
 }
 \description{
 Check Access to GENIE Data
@@ -26,4 +27,7 @@ Check Access to GENIE Data
 # if credentials are saved:
 check_genie_access()
 }
+}
+\author{
+Karissa Whiting
 }

@@ -23,7 +23,7 @@ Function to retrieve data by synapse ID
 \examples{
 \dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-temp_directory <- tempdir()
+temp_directory <- tempfile()
 
 syn_df <- data.frame(
   cohort = c("NSCLC", "NSCLC", "NSCLC"),
