@@ -85,4 +85,4 @@ We have updated to not return results to the .GlobalEnv.
 > Please do not set a seed to a specific number within a function. 
 -> R/select_unique_ngs.R
 
-We have removed the seet from `select_unique_ngs()`. 
+We have removed the seed from `select_unique_ngs()`. 
