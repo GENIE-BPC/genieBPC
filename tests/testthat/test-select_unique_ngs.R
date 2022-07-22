@@ -1,5 +1,5 @@
 # pull data for each cohort
-# return to global environment to avoid having to re-run pull_data_synapse for
+# return to to avoid having to re-run pull_data_synapse for
 # each test
 testthat::expect_true(length(if (.is_connected_to_genie()) {
   nsclc_data <- pull_data_synapse("NSCLC",
