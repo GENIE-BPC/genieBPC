@@ -7,16 +7,16 @@
 .pull_data_by_cohort(version_num_df, token, download_location)
 }
 \arguments{
-\item{version_num_df}{a dataframe of synapse IDs}
+\item{version_num_df}{a dataframe of 'Synapse' IDs}
 
-\item{token}{a synapse token}
+\item{token}{a 'Synapse' token}
 
 \item{download_location}{if `NULL` (default), data will be returned as a list
 of dataframes with requested data as list items. Otherwise, specify a
 folder path to have data automatically downloaded there.}
 }
 \value{
-downloaded synapse data as a list if `download_location`= `NULL, or
+downloaded 'Synapse' data as a list if `download_location`= `NULL, or
   to a local path
 }
 \description{

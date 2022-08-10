@@ -5,15 +5,15 @@ genieBPC_env <- rlang::new_environment()
 
 # User-facing Authorization Functions -----------------------------------------
 
-#' Connect to Synapse API
+#' Connect to 'Synapse' API
 #'
-#' This function sets Synapse credentials for the user's current session
-#' @param username Synapse username. If NULL, package will search environmental
+#' This function sets 'Synapse' credentials for the user's current session
+#' @param username 'Synapse' username. If NULL, package will search environmental
 #'   variables for `SYNAPSE_USERNAME`.
-#' @param password Synapse password. If NULL, package will search environmental
+#' @param password 'Synapse' password. If NULL, package will search environmental
 #'   variables for `SYNAPSE_PASSWORD`.
 
-#' @return A success message if you credentials are valid for Synapse platform;
+#' @return A success message if you credentials are valid for 'Synapse' platform;
 #'   otherwise an error
 #'
 #' @author Karissa Whiting
@@ -59,16 +59,16 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
     password = resolved_password
   )
 
-  cli::cli_alert_success("You are now connected to synapse as
+  cli::cli_alert_success("You are now connected to 'Synapse' as
                          {.field {resolved_username}} for this R session!")
 }
 
 #' Check Access to GENIE Data
 #'
-#' @param username Synapse username. If NULL, package will search package
+#' @param username 'Synapse' username. If NULL, package will search package
 #'   environment for "username". If not found, package will look in
 #'   environmental variables for `SYNAPSE_USERNAME`.
-#' @param password Synapse password. If NULL, package will search package
+#' @param password 'Synapse' password. If NULL, package will search package
 #'   environment for "password". If not found package will search environmental
 #'   variables for `SYNAPSE_PASSWORD`.
 #'
@@ -110,7 +110,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
   )
 
 
-  httr::stop_for_status(res, "access GENIE data in Synapse.
+  httr::stop_for_status(res, "access GENIE data in 'Synapse'.
                         Check that you have permission to view this data")
   cli::cli_alert_success("{httr::http_status(res)$message}:
                          You are successfully connected to the GENIE database!")
@@ -148,7 +148,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #'
 #' @inheritParams check_genie_access
 #'
-#' @return a synapse token
+#' @return a 'Synapse' token
 #' @keywords internal
 #' @export
 #'
@@ -189,7 +189,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
   token %||%
     cli::cli_abort("There was an error authenticating your
                    username ({resolved_username}) or password.
-                   Please make sure you can login to the Synapse website
+                   Please make sure you can login to the 'Synapse' website
                    with the given credentials.")
 
   return(token)
@@ -198,11 +198,11 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' Check Synapse Login Status & Ability to Access Data
 #'
 #' The `.is_connected_to_genie()` function assesses whether the
-#' user is logged into Synapse and confirms whether the
+#' user is logged into 'Synapse' and confirms whether the
 #' user has permission to access the GENIE BPC data. It returns TRUE or FALSE
 #' @keywords internal
 #' @return Returns message indicating user is logged into
-#' Synapse and has permission to access the GENIE BPC data.
+#' 'Synapse' and has permission to access the GENIE BPC data.
 #' @export
 #' @examples
 #' .is_connected_to_genie()

@@ -8,11 +8,11 @@
 }
 \value{
 Returns message indicating user is logged into
-Synapse and has permission to access the GENIE BPC data.
+'Synapse' and has permission to access the GENIE BPC data.
 }
 \description{
 The `.is_connected_to_genie()` function assesses whether the
-user is logged into Synapse and confirms whether the
+user is logged into 'Synapse' and confirms whether the
 user has permission to access the GENIE BPC data. It returns TRUE or FALSE
 }
 \examples{

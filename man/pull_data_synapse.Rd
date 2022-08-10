@@ -29,9 +29,9 @@ of dataframes with requested data as list items. Otherwise, specify a
 folder path to have data automatically downloaded there. When a path is
 specified, data are not read into the R environment.}
 
-\item{username}{Synapse username}
+\item{username}{'Synapse' username}
 
-\item{password}{Synapse password}
+\item{password}{'Synapse' password}
 }
 \value{
 Returns a nested list of clinical and genomic data corresponding to
@@ -43,7 +43,7 @@ The `pull_data_synapse` function accesses the specified
  \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
  and reads it into the R environment.
   Documentation corresponding to the clinical data files
-  can also be found on Synapse in the Analytic Data Guide:
+  can also be found on 'Synapse' in the Analytic Data Guide:
 \itemize{
   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
@@ -52,8 +52,8 @@ The `pull_data_synapse` function accesses the specified
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 }
-Users must log in to Synapse to access the data successfully.
-To set your Synapse credentials during each session, call:
+Users must log in to 'Synapse' to access the data successfully.
+To set your 'Synapse' credentials during each session, call:
 `set_synapse_credentials(username = "your_username", password = "your_password")`
 To store authentication information in your environmental variables, add the
 following to your .Renviron file (tip: you can use usethis::edit_r_environ()
@@ -71,7 +71,7 @@ for further documentation and examples.
 \examples{
 \dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Example 1 ----------------------------------
-# Set up Synapse credentials
+# Set up 'Synapse' credentials
 set_synapse_credentials()
 
 # Print available versions of the data

@@ -2,23 +2,23 @@
 % Please edit documentation in R/synapse_authentication.R
 \name{set_synapse_credentials}
 \alias{set_synapse_credentials}
-\title{Connect to Synapse API}
+\title{Connect to 'Synapse' API}
 \usage{
 set_synapse_credentials(username = NULL, password = NULL)
 }
 \arguments{
-\item{username}{Synapse username. If NULL, package will search environmental
+\item{username}{'Synapse' username. If NULL, package will search environmental
 variables for `SYNAPSE_USERNAME`.}
 
-\item{password}{Synapse password. If NULL, package will search environmental
+\item{password}{'Synapse' password. If NULL, package will search environmental
 variables for `SYNAPSE_PASSWORD`.}
 }
 \value{
-A success message if you credentials are valid for Synapse platform;
+A success message if you credentials are valid for 'Synapse' platform;
   otherwise an error
 }
 \description{
-This function sets Synapse credentials for the user's current session
+This function sets 'Synapse' credentials for the user's current session
 }
 \examples{
 \dontrun{

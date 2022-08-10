@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull_data_synapse.R
 \name{.get_and_query_file_url}
 \alias{.get_and_query_file_url}
-\title{Get URL for a given synapse file and download to local machine}
+\title{Get URL for a given 'Synapse' file and download to local machine}
 \usage{
 .get_and_query_file_url(
   version_num,
@@ -19,25 +19,25 @@
 \arguments{
 \item{version_num}{cohort name and version}
 
-\item{file_handle_id}{synapse file handle ID}
+\item{file_handle_id}{'Synapse' file handle ID}
 
-\item{synapse_id}{synapse ID}
+\item{synapse_id}{'Synapse' ID}
 
 \item{df}{package designated name of file}
 
-\item{name}{file name from synapse}
+\item{name}{file name from 'Synapse'}
 
 \item{download_folder}{location to download data}
 
 \item{token}{Synapse token}
 
-\item{file_endpoint_url}{synapse endpoint for file info}
+\item{file_endpoint_url}{'Synapse' endpoint for file info}
 }
 \value{
-list of synapse data frames
+list of 'Synapse' data frames
 }
 \description{
-Get URL for a given synapse file and download to local machine
+Get URL for a given 'Synapse' file and download to local machine
 }
 \examples{
 \dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
