@@ -8,8 +8,8 @@
 <meta name="description" content="genieBPC">
 <title>Tutorial: create_analytic_cohort • genieBPC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial: create_analytic_cohort">
 <meta property="og:description" content="genieBPC">
@@ -72,8 +72,9 @@
 
 
 
-<script src="create_analytic_cohort_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main" class="col-md-9"><div class="page-header">
+
+<div class="row">
+  <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: create_analytic_cohort</h1>
             
       
@@ -86,28 +87,40 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. This function returns a list of data frames containing each of the clinical and genomic data files for patients that met criteria for the analytic cohort.</p>
-<p>This vignette will walk a user through the <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function allows the user to
+create a cohort from the GENIE BPC data based on cancer diagnosis
+information such as cancer cohort, treating institution, histology, and
+stage at diagnosis, as well as cancer-directed regimen information
+including regimen name and regimen order. This function returns a list
+of data frames containing each of the clinical and genomic data files
+for patients that met criteria for the analytic cohort.</p>
+<p>This vignette will walk a user through the
+<code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Before going through the tutorial, install and load the {genieBPC} library and log into Synapse using the <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the <code>Tutorial: pull_data_synapse()</code> vignette.</p>
+<p>Before going through the tutorial, install and load the {genieBPC}
+library and log into Synapse using the
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the
+<code>Tutorial: pull_data_synapse()</code> vignette.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
 </h2>
-<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several input parameters:</p>
-<div id="zuzfqkmiyb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<p>The <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> function includes several
+input parameters:</p>
+<div id="vuydpmamgv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zuzfqkmiyb .gt_table {
+#vuydpmamgv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -132,7 +145,7 @@
   border-left-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_heading {
+#vuydpmamgv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -144,7 +157,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_title {
+#vuydpmamgv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -156,7 +169,7 @@
   border-bottom-width: 0;
 }
 
-#zuzfqkmiyb .gt_subtitle {
+#vuydpmamgv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -168,13 +181,13 @@
   border-top-width: 0;
 }
 
-#zuzfqkmiyb .gt_bottom_border {
+#vuydpmamgv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_col_headings {
+#vuydpmamgv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -189,7 +202,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_col_heading {
+#vuydpmamgv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -209,7 +222,7 @@
   overflow-x: hidden;
 }
 
-#zuzfqkmiyb .gt_column_spanner_outer {
+#vuydpmamgv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -221,15 +234,15 @@
   padding-right: 4px;
 }
 
-#zuzfqkmiyb .gt_column_spanner_outer:first-child {
+#vuydpmamgv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zuzfqkmiyb .gt_column_spanner_outer:last-child {
+#vuydpmamgv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zuzfqkmiyb .gt_column_spanner {
+#vuydpmamgv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -241,7 +254,7 @@
   width: 100%;
 }
 
-#zuzfqkmiyb .gt_group_heading {
+#vuydpmamgv .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -266,7 +279,7 @@
   vertical-align: middle;
 }
 
-#zuzfqkmiyb .gt_empty_group_heading {
+#vuydpmamgv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -281,15 +294,15 @@
   vertical-align: middle;
 }
 
-#zuzfqkmiyb .gt_from_md > :first-child {
+#vuydpmamgv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zuzfqkmiyb .gt_from_md > :last-child {
+#vuydpmamgv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zuzfqkmiyb .gt_row {
+#vuydpmamgv .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -308,7 +321,7 @@
   overflow-x: hidden;
 }
 
-#zuzfqkmiyb .gt_stub {
+#vuydpmamgv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -321,7 +334,7 @@
   padding-right: 5px;
 }
 
-#zuzfqkmiyb .gt_stub_row_group {
+#vuydpmamgv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -335,11 +348,11 @@
   vertical-align: top;
 }
 
-#zuzfqkmiyb .gt_row_group_first td {
+#vuydpmamgv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zuzfqkmiyb .gt_summary_row {
+#vuydpmamgv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -349,16 +362,16 @@
   padding-right: 5px;
 }
 
-#zuzfqkmiyb .gt_first_summary_row {
+#vuydpmamgv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_first_summary_row.thick {
+#vuydpmamgv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zuzfqkmiyb .gt_last_summary_row {
+#vuydpmamgv .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -368,7 +381,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_grand_summary_row {
+#vuydpmamgv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -378,7 +391,7 @@
   padding-right: 5px;
 }
 
-#zuzfqkmiyb .gt_first_grand_summary_row {
+#vuydpmamgv .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -388,11 +401,11 @@
   border-top-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_striped {
+#vuydpmamgv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zuzfqkmiyb .gt_table_body {
+#vuydpmamgv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -401,7 +414,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_footnotes {
+#vuydpmamgv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -415,7 +428,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_footnote {
+#vuydpmamgv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -424,7 +437,7 @@
   padding-right: 5px;
 }
 
-#zuzfqkmiyb .gt_sourcenotes {
+#vuydpmamgv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -438,7 +451,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zuzfqkmiyb .gt_sourcenote {
+#vuydpmamgv .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -446,36 +459,36 @@
   padding-right: 5px;
 }
 
-#zuzfqkmiyb .gt_left {
+#vuydpmamgv .gt_left {
   text-align: left;
 }
 
-#zuzfqkmiyb .gt_center {
+#vuydpmamgv .gt_center {
   text-align: center;
 }
 
-#zuzfqkmiyb .gt_right {
+#vuydpmamgv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zuzfqkmiyb .gt_font_normal {
+#vuydpmamgv .gt_font_normal {
   font-weight: normal;
 }
 
-#zuzfqkmiyb .gt_font_bold {
+#vuydpmamgv .gt_font_bold {
   font-weight: bold;
 }
 
-#zuzfqkmiyb .gt_font_italic {
+#vuydpmamgv .gt_font_italic {
   font-style: italic;
 }
 
-#zuzfqkmiyb .gt_super {
+#vuydpmamgv .gt_super {
   font-size: 65%;
 }
 
-#zuzfqkmiyb .gt_two_val_uncert {
+#vuydpmamgv .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -484,31 +497,31 @@
   margin-left: 0.1em;
 }
 
-#zuzfqkmiyb .gt_footnote_marks {
+#vuydpmamgv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#zuzfqkmiyb .gt_asterisk {
+#vuydpmamgv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zuzfqkmiyb .gt_slash_mark {
+#vuydpmamgv .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#zuzfqkmiyb .gt_fraction_numerator {
+#vuydpmamgv .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#zuzfqkmiyb .gt_fraction_denominator {
+#vuydpmamgv .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -585,66 +598,81 @@
 </tbody>
 </table>
 </div>
-<p>This function returns a list of data frames containing clinical and next generation sequencing information for patients that met the specified criteria. Optionally, if return_summary = TRUE, the list also includes summary tables for the number of records per dataset (‘tbl_overall_summary’) as well as tables of key cancer diagnosis (‘tbl_cohort’), cancer-directed regimen (‘tbl_drugs’) and next generation sequencing (‘tbl_ngs’) variables.</p>
+<p>This function returns a list of data frames containing clinical and
+next generation sequencing information for patients that met the
+specified criteria. Optionally, if return_summary = TRUE, the list also
+includes summary tables for the number of records per dataset
+(‘tbl_overall_summary’) as well as tables of key cancer diagnosis
+(‘tbl_cohort’), cancer-directed regimen (‘tbl_drugs’) and next
+generation sequencing (‘tbl_ngs’) variables.</p>
 </div>
 <div class="section level2">
 <h2 id="example-using-package-test-data">Example using package test data<a class="anchor" aria-label="anchor" href="#example-using-package-test-data"></a>
 </h2>
 <p><strong>Create analytic cohort using package test data</strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="../reference/nsclc_test_data.html">nsclc_test_data</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="../reference/nsclc_test_data.html">nsclc_test_data</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples-using-data-from-pull_data_synapse">Examples using data from <code>pull_data_synapse()</code><a class="anchor" aria-label="anchor" href="#examples-using-data-from-pull_data_synapse"></a>
 </h2>
-<p>Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC cohort. To begin, the user must first pull the NSCLC data from Synapse and save it to the local environment, as shown below using the <code>pull_data_synapse</code> function:</p>
+<p>Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC
+cohort. To begin, the user must first pull the NSCLC data from Synapse
+and save it to the local environment, as shown below using the
+<code>pull_data_synapse</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></code></pre></div>
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs</p>
+<p>Create a cohort of all patients with stage IV NSCLC adenocarcinoma
+and also return all of their corresponding cancer-directed drugs</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>, </span>
-<span>                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, </span>
-<span>                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "cohort_ca_drugs"           "cohort_ca_dx"             </span></span>
-<span><span class="co">#&gt;  [3] "cohort_ca_dx_non_index"    "cohort_cna"               </span></span>
-<span><span class="co">#&gt;  [5] "cohort_fusions"            "cohort_mutations_extended"</span></span>
-<span><span class="co">#&gt;  [7] "cohort_ngs"                "cohort_prissmm_imaging"   </span></span>
-<span><span class="co">#&gt;  [9] "cohort_prissmm_md"         "cohort_prissmm_pathology" </span></span>
-<span><span class="co">#&gt; [11] "cohort_pt_char"</span></span></code></pre></div>
+<code class="sourceCode R"><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>, 
+                                             stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>, 
+                                             histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">nsclc_stg_iv_adeno</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "cohort_ca_drugs"           "cohort_ca_dx"             </span>
+<span class="co">#&gt;  [3] "cohort_ca_dx_non_index"    "cohort_cna"               </span>
+<span class="co">#&gt;  [5] "cohort_fusions"            "cohort_mutations_extended"</span>
+<span class="co">#&gt;  [7] "cohort_ngs"                "cohort_prissmm_imaging"   </span>
+<span class="co">#&gt;  [9] "cohort_prissmm_md"         "cohort_prissmm_pathology" </span>
+<span class="co">#&gt; [11] "cohort_pt_char"</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin,
+Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen
+for their first index NSCLC</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
-<span>                       regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,</span>
-<span>                       regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                       regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,
+                       regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span>,<span class="st">"Cisplatin, Etoposide"</span><span class="op">)</span>,
+                       regimen_order <span class="op">=</span> <span class="fl">1</span>,
+                       regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-4">Example 4<a class="anchor" aria-label="anchor" href="#example-4"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin,
+Pemetrexed Disodium at any time throughout the course of treatment for
+their cancer diagnosis, but in the event that the patient received the
+drug multiple times, only select the first time.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
-<span>                                                 regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span>
-<span>                                                 regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                                 regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,</span>
-<span>                                                 return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span> <span class="op">=</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,
+                                                 regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,
+                                                 regimen_order <span class="op">=</span> <span class="fl">1</span>,
+                                                 regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span>,
+                                                 return_summary <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_overall_summary</span></span></code></pre></div>
-<div id="giqevobktv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_overall_summary</span></code></pre></div>
+<div id="bsmmowmbmo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#giqevobktv .gt_table {
+#bsmmowmbmo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -669,7 +697,7 @@
   border-left-color: #D3D3D3;
 }
 
-#giqevobktv .gt_heading {
+#bsmmowmbmo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -681,7 +709,7 @@
   border-right-color: #D3D3D3;
 }
 
-#giqevobktv .gt_title {
+#bsmmowmbmo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -693,7 +721,7 @@
   border-bottom-width: 0;
 }
 
-#giqevobktv .gt_subtitle {
+#bsmmowmbmo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -705,13 +733,13 @@
   border-top-width: 0;
 }
 
-#giqevobktv .gt_bottom_border {
+#bsmmowmbmo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#giqevobktv .gt_col_headings {
+#bsmmowmbmo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -726,7 +754,7 @@
   border-right-color: #D3D3D3;
 }
 
-#giqevobktv .gt_col_heading {
+#bsmmowmbmo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -746,7 +774,7 @@
   overflow-x: hidden;
 }
 
-#giqevobktv .gt_column_spanner_outer {
+#bsmmowmbmo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -758,15 +786,15 @@
   padding-right: 4px;
 }
 
-#giqevobktv .gt_column_spanner_outer:first-child {
+#bsmmowmbmo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#giqevobktv .gt_column_spanner_outer:last-child {
+#bsmmowmbmo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#giqevobktv .gt_column_spanner {
+#bsmmowmbmo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -778,7 +806,7 @@
   width: 100%;
 }
 
-#giqevobktv .gt_group_heading {
+#bsmmowmbmo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -803,7 +831,7 @@
   vertical-align: middle;
 }
 
-#giqevobktv .gt_empty_group_heading {
+#bsmmowmbmo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -818,15 +846,15 @@
   vertical-align: middle;
 }
 
-#giqevobktv .gt_from_md > :first-child {
+#bsmmowmbmo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#giqevobktv .gt_from_md > :last-child {
+#bsmmowmbmo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#giqevobktv .gt_row {
+#bsmmowmbmo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -845,7 +873,7 @@
   overflow-x: hidden;
 }
 
-#giqevobktv .gt_stub {
+#bsmmowmbmo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -858,7 +886,7 @@
   padding-right: 5px;
 }
 
-#giqevobktv .gt_stub_row_group {
+#bsmmowmbmo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -872,11 +900,11 @@
   vertical-align: top;
 }
 
-#giqevobktv .gt_row_group_first td {
+#bsmmowmbmo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#giqevobktv .gt_summary_row {
+#bsmmowmbmo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -886,16 +914,16 @@
   padding-right: 5px;
 }
 
-#giqevobktv .gt_first_summary_row {
+#bsmmowmbmo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#giqevobktv .gt_first_summary_row.thick {
+#bsmmowmbmo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#giqevobktv .gt_last_summary_row {
+#bsmmowmbmo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -905,7 +933,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#giqevobktv .gt_grand_summary_row {
+#bsmmowmbmo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -915,7 +943,7 @@
   padding-right: 5px;
 }
 
-#giqevobktv .gt_first_grand_summary_row {
+#bsmmowmbmo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -925,11 +953,11 @@
   border-top-color: #D3D3D3;
 }
 
-#giqevobktv .gt_striped {
+#bsmmowmbmo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#giqevobktv .gt_table_body {
+#bsmmowmbmo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -938,7 +966,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#giqevobktv .gt_footnotes {
+#bsmmowmbmo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -952,7 +980,7 @@
   border-right-color: #D3D3D3;
 }
 
-#giqevobktv .gt_footnote {
+#bsmmowmbmo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -961,7 +989,7 @@
   padding-right: 5px;
 }
 
-#giqevobktv .gt_sourcenotes {
+#bsmmowmbmo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -975,7 +1003,7 @@
   border-right-color: #D3D3D3;
 }
 
-#giqevobktv .gt_sourcenote {
+#bsmmowmbmo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -983,36 +1011,36 @@
   padding-right: 5px;
 }
 
-#giqevobktv .gt_left {
+#bsmmowmbmo .gt_left {
   text-align: left;
 }
 
-#giqevobktv .gt_center {
+#bsmmowmbmo .gt_center {
   text-align: center;
 }
 
-#giqevobktv .gt_right {
+#bsmmowmbmo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#giqevobktv .gt_font_normal {
+#bsmmowmbmo .gt_font_normal {
   font-weight: normal;
 }
 
-#giqevobktv .gt_font_bold {
+#bsmmowmbmo .gt_font_bold {
   font-weight: bold;
 }
 
-#giqevobktv .gt_font_italic {
+#bsmmowmbmo .gt_font_italic {
   font-style: italic;
 }
 
-#giqevobktv .gt_super {
+#bsmmowmbmo .gt_super {
   font-size: 65%;
 }
 
-#giqevobktv .gt_two_val_uncert {
+#bsmmowmbmo .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1021,31 +1049,31 @@
   margin-left: 0.1em;
 }
 
-#giqevobktv .gt_footnote_marks {
+#bsmmowmbmo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#giqevobktv .gt_asterisk {
+#bsmmowmbmo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#giqevobktv .gt_slash_mark {
+#bsmmowmbmo .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#giqevobktv .gt_fraction_numerator {
+#bsmmowmbmo .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#giqevobktv .gt_fraction_denominator {
+#bsmmowmbmo .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1102,13 +1130,13 @@
 </table>
 </div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></span></code></pre></div>
-<div id="puubazmxpj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_cohort</span></code></pre></div>
+<div id="gcwnsbksru" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#puubazmxpj .gt_table {
+#gcwnsbksru .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1133,7 +1161,7 @@
   border-left-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_heading {
+#gcwnsbksru .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1145,7 +1173,7 @@
   border-right-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_title {
+#gcwnsbksru .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1157,7 +1185,7 @@
   border-bottom-width: 0;
 }
 
-#puubazmxpj .gt_subtitle {
+#gcwnsbksru .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1169,13 +1197,13 @@
   border-top-width: 0;
 }
 
-#puubazmxpj .gt_bottom_border {
+#gcwnsbksru .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_col_headings {
+#gcwnsbksru .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1190,7 +1218,7 @@
   border-right-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_col_heading {
+#gcwnsbksru .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1210,7 +1238,7 @@
   overflow-x: hidden;
 }
 
-#puubazmxpj .gt_column_spanner_outer {
+#gcwnsbksru .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1222,15 +1250,15 @@
   padding-right: 4px;
 }
 
-#puubazmxpj .gt_column_spanner_outer:first-child {
+#gcwnsbksru .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#puubazmxpj .gt_column_spanner_outer:last-child {
+#gcwnsbksru .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#puubazmxpj .gt_column_spanner {
+#gcwnsbksru .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1242,7 +1270,7 @@
   width: 100%;
 }
 
-#puubazmxpj .gt_group_heading {
+#gcwnsbksru .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1267,7 +1295,7 @@
   vertical-align: middle;
 }
 
-#puubazmxpj .gt_empty_group_heading {
+#gcwnsbksru .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1282,15 +1310,15 @@
   vertical-align: middle;
 }
 
-#puubazmxpj .gt_from_md > :first-child {
+#gcwnsbksru .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#puubazmxpj .gt_from_md > :last-child {
+#gcwnsbksru .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#puubazmxpj .gt_row {
+#gcwnsbksru .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1309,7 +1337,7 @@
   overflow-x: hidden;
 }
 
-#puubazmxpj .gt_stub {
+#gcwnsbksru .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1322,7 +1350,7 @@
   padding-right: 5px;
 }
 
-#puubazmxpj .gt_stub_row_group {
+#gcwnsbksru .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1336,11 +1364,11 @@
   vertical-align: top;
 }
 
-#puubazmxpj .gt_row_group_first td {
+#gcwnsbksru .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#puubazmxpj .gt_summary_row {
+#gcwnsbksru .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1350,16 +1378,16 @@
   padding-right: 5px;
 }
 
-#puubazmxpj .gt_first_summary_row {
+#gcwnsbksru .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_first_summary_row.thick {
+#gcwnsbksru .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#puubazmxpj .gt_last_summary_row {
+#gcwnsbksru .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1369,7 +1397,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_grand_summary_row {
+#gcwnsbksru .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1379,7 +1407,7 @@
   padding-right: 5px;
 }
 
-#puubazmxpj .gt_first_grand_summary_row {
+#gcwnsbksru .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1389,11 +1417,11 @@
   border-top-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_striped {
+#gcwnsbksru .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#puubazmxpj .gt_table_body {
+#gcwnsbksru .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1402,7 +1430,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_footnotes {
+#gcwnsbksru .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1416,7 +1444,7 @@
   border-right-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_footnote {
+#gcwnsbksru .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1425,7 +1453,7 @@
   padding-right: 5px;
 }
 
-#puubazmxpj .gt_sourcenotes {
+#gcwnsbksru .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1439,7 +1467,7 @@
   border-right-color: #D3D3D3;
 }
 
-#puubazmxpj .gt_sourcenote {
+#gcwnsbksru .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1447,36 +1475,36 @@
   padding-right: 5px;
 }
 
-#puubazmxpj .gt_left {
+#gcwnsbksru .gt_left {
   text-align: left;
 }
 
-#puubazmxpj .gt_center {
+#gcwnsbksru .gt_center {
   text-align: center;
 }
 
-#puubazmxpj .gt_right {
+#gcwnsbksru .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#puubazmxpj .gt_font_normal {
+#gcwnsbksru .gt_font_normal {
   font-weight: normal;
 }
 
-#puubazmxpj .gt_font_bold {
+#gcwnsbksru .gt_font_bold {
   font-weight: bold;
 }
 
-#puubazmxpj .gt_font_italic {
+#gcwnsbksru .gt_font_italic {
   font-style: italic;
 }
 
-#puubazmxpj .gt_super {
+#gcwnsbksru .gt_super {
   font-size: 65%;
 }
 
-#puubazmxpj .gt_two_val_uncert {
+#gcwnsbksru .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1485,31 +1513,31 @@
   margin-left: 0.1em;
 }
 
-#puubazmxpj .gt_footnote_marks {
+#gcwnsbksru .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#puubazmxpj .gt_asterisk {
+#gcwnsbksru .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#puubazmxpj .gt_slash_mark {
+#gcwnsbksru .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#puubazmxpj .gt_fraction_numerator {
+#gcwnsbksru .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#puubazmxpj .gt_fraction_denominator {
+#gcwnsbksru .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1607,13 +1635,13 @@
 </table>
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></span></code></pre></div>
-<div id="kqcnmjkyio" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_drugs</span></code></pre></div>
+<div id="llegjssqcr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#kqcnmjkyio .gt_table {
+#llegjssqcr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1638,7 +1666,7 @@
   border-left-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_heading {
+#llegjssqcr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1650,7 +1678,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_title {
+#llegjssqcr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1662,7 +1690,7 @@
   border-bottom-width: 0;
 }
 
-#kqcnmjkyio .gt_subtitle {
+#llegjssqcr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1674,13 +1702,13 @@
   border-top-width: 0;
 }
 
-#kqcnmjkyio .gt_bottom_border {
+#llegjssqcr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_col_headings {
+#llegjssqcr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1695,7 +1723,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_col_heading {
+#llegjssqcr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1715,7 +1743,7 @@
   overflow-x: hidden;
 }
 
-#kqcnmjkyio .gt_column_spanner_outer {
+#llegjssqcr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1727,15 +1755,15 @@
   padding-right: 4px;
 }
 
-#kqcnmjkyio .gt_column_spanner_outer:first-child {
+#llegjssqcr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kqcnmjkyio .gt_column_spanner_outer:last-child {
+#llegjssqcr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kqcnmjkyio .gt_column_spanner {
+#llegjssqcr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1747,7 +1775,7 @@
   width: 100%;
 }
 
-#kqcnmjkyio .gt_group_heading {
+#llegjssqcr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1772,7 +1800,7 @@
   vertical-align: middle;
 }
 
-#kqcnmjkyio .gt_empty_group_heading {
+#llegjssqcr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1787,15 +1815,15 @@
   vertical-align: middle;
 }
 
-#kqcnmjkyio .gt_from_md > :first-child {
+#llegjssqcr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kqcnmjkyio .gt_from_md > :last-child {
+#llegjssqcr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kqcnmjkyio .gt_row {
+#llegjssqcr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1814,7 +1842,7 @@
   overflow-x: hidden;
 }
 
-#kqcnmjkyio .gt_stub {
+#llegjssqcr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1827,7 +1855,7 @@
   padding-right: 5px;
 }
 
-#kqcnmjkyio .gt_stub_row_group {
+#llegjssqcr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1841,11 +1869,11 @@
   vertical-align: top;
 }
 
-#kqcnmjkyio .gt_row_group_first td {
+#llegjssqcr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kqcnmjkyio .gt_summary_row {
+#llegjssqcr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1855,16 +1883,16 @@
   padding-right: 5px;
 }
 
-#kqcnmjkyio .gt_first_summary_row {
+#llegjssqcr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_first_summary_row.thick {
+#llegjssqcr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kqcnmjkyio .gt_last_summary_row {
+#llegjssqcr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1874,7 +1902,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_grand_summary_row {
+#llegjssqcr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1884,7 +1912,7 @@
   padding-right: 5px;
 }
 
-#kqcnmjkyio .gt_first_grand_summary_row {
+#llegjssqcr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1894,11 +1922,11 @@
   border-top-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_striped {
+#llegjssqcr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kqcnmjkyio .gt_table_body {
+#llegjssqcr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1907,7 +1935,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_footnotes {
+#llegjssqcr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1921,7 +1949,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_footnote {
+#llegjssqcr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1930,7 +1958,7 @@
   padding-right: 5px;
 }
 
-#kqcnmjkyio .gt_sourcenotes {
+#llegjssqcr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1944,7 +1972,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kqcnmjkyio .gt_sourcenote {
+#llegjssqcr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1952,36 +1980,36 @@
   padding-right: 5px;
 }
 
-#kqcnmjkyio .gt_left {
+#llegjssqcr .gt_left {
   text-align: left;
 }
 
-#kqcnmjkyio .gt_center {
+#llegjssqcr .gt_center {
   text-align: center;
 }
 
-#kqcnmjkyio .gt_right {
+#llegjssqcr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kqcnmjkyio .gt_font_normal {
+#llegjssqcr .gt_font_normal {
   font-weight: normal;
 }
 
-#kqcnmjkyio .gt_font_bold {
+#llegjssqcr .gt_font_bold {
   font-weight: bold;
 }
 
-#kqcnmjkyio .gt_font_italic {
+#llegjssqcr .gt_font_italic {
   font-style: italic;
 }
 
-#kqcnmjkyio .gt_super {
+#llegjssqcr .gt_super {
   font-size: 65%;
 }
 
-#kqcnmjkyio .gt_two_val_uncert {
+#llegjssqcr .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1990,31 +2018,31 @@
   margin-left: 0.1em;
 }
 
-#kqcnmjkyio .gt_footnote_marks {
+#llegjssqcr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#kqcnmjkyio .gt_asterisk {
+#llegjssqcr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kqcnmjkyio .gt_slash_mark {
+#llegjssqcr .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#kqcnmjkyio .gt_fraction_numerator {
+#llegjssqcr .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#kqcnmjkyio .gt_fraction_denominator {
+#llegjssqcr .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2072,13 +2100,13 @@
 </table>
 </div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></span></code></pre></div>
-<div id="qybwgbkixh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<code class="sourceCode R"><span class="va">nsclc_cisplatin_pem_any</span><span class="op">$</span><span class="va">tbl_ngs</span></code></pre></div>
+<div id="gpcqcjxqqq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qybwgbkixh .gt_table {
+#gpcqcjxqqq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2103,7 +2131,7 @@
   border-left-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_heading {
+#gpcqcjxqqq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2115,7 +2143,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_title {
+#gpcqcjxqqq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2127,7 +2155,7 @@
   border-bottom-width: 0;
 }
 
-#qybwgbkixh .gt_subtitle {
+#gpcqcjxqqq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2139,13 +2167,13 @@
   border-top-width: 0;
 }
 
-#qybwgbkixh .gt_bottom_border {
+#gpcqcjxqqq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_col_headings {
+#gpcqcjxqqq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2160,7 +2188,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_col_heading {
+#gpcqcjxqqq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2180,7 +2208,7 @@
   overflow-x: hidden;
 }
 
-#qybwgbkixh .gt_column_spanner_outer {
+#gpcqcjxqqq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2192,15 +2220,15 @@
   padding-right: 4px;
 }
 
-#qybwgbkixh .gt_column_spanner_outer:first-child {
+#gpcqcjxqqq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qybwgbkixh .gt_column_spanner_outer:last-child {
+#gpcqcjxqqq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qybwgbkixh .gt_column_spanner {
+#gpcqcjxqqq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2212,7 +2240,7 @@
   width: 100%;
 }
 
-#qybwgbkixh .gt_group_heading {
+#gpcqcjxqqq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2237,7 +2265,7 @@
   vertical-align: middle;
 }
 
-#qybwgbkixh .gt_empty_group_heading {
+#gpcqcjxqqq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2252,15 +2280,15 @@
   vertical-align: middle;
 }
 
-#qybwgbkixh .gt_from_md > :first-child {
+#gpcqcjxqqq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qybwgbkixh .gt_from_md > :last-child {
+#gpcqcjxqqq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qybwgbkixh .gt_row {
+#gpcqcjxqqq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2279,7 +2307,7 @@
   overflow-x: hidden;
 }
 
-#qybwgbkixh .gt_stub {
+#gpcqcjxqqq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2292,7 +2320,7 @@
   padding-right: 5px;
 }
 
-#qybwgbkixh .gt_stub_row_group {
+#gpcqcjxqqq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2306,11 +2334,11 @@
   vertical-align: top;
 }
 
-#qybwgbkixh .gt_row_group_first td {
+#gpcqcjxqqq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qybwgbkixh .gt_summary_row {
+#gpcqcjxqqq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2320,16 +2348,16 @@
   padding-right: 5px;
 }
 
-#qybwgbkixh .gt_first_summary_row {
+#gpcqcjxqqq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_first_summary_row.thick {
+#gpcqcjxqqq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qybwgbkixh .gt_last_summary_row {
+#gpcqcjxqqq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2339,7 +2367,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_grand_summary_row {
+#gpcqcjxqqq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2349,7 +2377,7 @@
   padding-right: 5px;
 }
 
-#qybwgbkixh .gt_first_grand_summary_row {
+#gpcqcjxqqq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2359,11 +2387,11 @@
   border-top-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_striped {
+#gpcqcjxqqq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qybwgbkixh .gt_table_body {
+#gpcqcjxqqq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2372,7 +2400,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_footnotes {
+#gpcqcjxqqq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2386,7 +2414,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_footnote {
+#gpcqcjxqqq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2395,7 +2423,7 @@
   padding-right: 5px;
 }
 
-#qybwgbkixh .gt_sourcenotes {
+#gpcqcjxqqq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2409,7 +2437,7 @@
   border-right-color: #D3D3D3;
 }
 
-#qybwgbkixh .gt_sourcenote {
+#gpcqcjxqqq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2417,36 +2445,36 @@
   padding-right: 5px;
 }
 
-#qybwgbkixh .gt_left {
+#gpcqcjxqqq .gt_left {
   text-align: left;
 }
 
-#qybwgbkixh .gt_center {
+#gpcqcjxqqq .gt_center {
   text-align: center;
 }
 
-#qybwgbkixh .gt_right {
+#gpcqcjxqqq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qybwgbkixh .gt_font_normal {
+#gpcqcjxqqq .gt_font_normal {
   font-weight: normal;
 }
 
-#qybwgbkixh .gt_font_bold {
+#gpcqcjxqqq .gt_font_bold {
   font-weight: bold;
 }
 
-#qybwgbkixh .gt_font_italic {
+#gpcqcjxqqq .gt_font_italic {
   font-style: italic;
 }
 
-#qybwgbkixh .gt_super {
+#gpcqcjxqqq .gt_super {
   font-size: 65%;
 }
 
-#qybwgbkixh .gt_two_val_uncert {
+#gpcqcjxqqq .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2455,31 +2483,31 @@
   margin-left: 0.1em;
 }
 
-#qybwgbkixh .gt_footnote_marks {
+#gpcqcjxqqq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qybwgbkixh .gt_asterisk {
+#gpcqcjxqqq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qybwgbkixh .gt_slash_mark {
+#gpcqcjxqqq .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#qybwgbkixh .gt_fraction_numerator {
+#gpcqcjxqqq .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#qybwgbkixh .gt_fraction_denominator {
+#gpcqcjxqqq .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2606,12 +2634,14 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
+<p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown,
+Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
     </footer>
