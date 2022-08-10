@@ -7,7 +7,7 @@ returns each of the clinical and genomic data files subset on the patients
 that met criteria for the analytic cohort. Documentation regarding the
 structure and contents of each file can be found in the Analytic Data Guide
 corresponding to each data release, as well as in the
-Clinical Data Structure vignette."><title>Select cohort of patients for analysis — create_analytic_cohort • genieBPC</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Select cohort of patients for analysis — create_analytic_cohort"><meta property="og:description" content="This function allows the user to create a cohort from the GENIE BPC data
+Clinical Data Structure vignette."><title>Select cohort of patients for analysis — create_analytic_cohort • genieBPC</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Select cohort of patients for analysis — create_analytic_cohort"><meta property="og:description" content="This function allows the user to create a cohort from the GENIE BPC data
 based on cancer diagnosis information such as cancer cohort, treating
 institution, histology, and stage at diagnosis, as well as cancer-directed
 regimen information including regimen name and regimen order. This function
@@ -85,18 +85,18 @@ corresponding to each data release, as well as in the
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_analytic_cohort</span><span class="op">(</span>
-  <span class="va">data_synapse</span>,
-  index_ca_seq <span class="op">=</span> <span class="fl">1</span>,
-  <span class="va">institution</span>,
-  <span class="va">stage_dx</span>,
-  <span class="va">histology</span>,
-  <span class="va">regimen_drugs</span>,
-  regimen_type <span class="op">=</span> <span class="st">"Exact"</span>,
-  <span class="va">regimen_order</span>,
-  <span class="va">regimen_order_type</span>,
-  return_summary <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_analytic_cohort</span><span class="op">(</span></span>
+<span>  <span class="va">data_synapse</span>,</span>
+<span>  index_ca_seq <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">institution</span>,</span>
+<span>  <span class="va">stage_dx</span>,</span>
+<span>  <span class="va">histology</span>,</span>
+<span>  <span class="va">regimen_drugs</span>,</span>
+<span>  regimen_type <span class="op">=</span> <span class="st">"Exact"</span>,</span>
+<span>  <span class="va">regimen_order</span>,</span>
+<span>  <span class="va">regimen_order_type</span>,</span>
+<span>  return_summary <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -104,6 +104,8 @@ corresponding to each data release, as well as in the
     <dl><dt>data_synapse</dt>
 <dd><p>The item from the nested list returned from
 pull_data_synapse() that corresponds to the cancer cohort of interest.</p></dd>
+
+
 <dt>index_ca_seq</dt>
 <dd><p>Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
@@ -114,17 +116,23 @@ Specifying multiple index cancer sequences, e.g.
 index_ca_seq = c(1, 2) will return index cancers to
 patients with 1 index cancer and will return the first AND second index
 cancers to patients with multiple.</p></dd>
+
+
 <dt>institution</dt>
 <dd><p>GENIE BPC participating institution. Must be one of
 "DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
 "MSK", "VICC" for CRC and BrCa. Default selection is all institutions.
 This parameter corresponds to the variable `institution` in the
 Analytic Data Guide.</p></dd>
+
+
 <dt>stage_dx</dt>
 <dd><p>Stage at diagnosis. Must be one of "Stage I", "Stage II",
 "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
 This parameter corresponds to the variable `stage_dx` in the
 Analytic Data Guide.</p></dd>
+
+
 <dt>histology</dt>
 <dd><p>Cancer histology. For all cancer cohorts except for BrCa
 (breast cancer), this parameter corresponds to the variable
@@ -135,6 +143,8 @@ Analytic Data Guide.</p></dd>
 `ca_hist_brca` and must be one of
 "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
 Default selection is all histologies.</p></dd>
+
+
 <dt>regimen_drugs</dt>
 <dd><p>Vector with names of drugs in cancer-directed regimen,
 separated by a comma. For example, to specify a regimen consisting of
@@ -142,17 +152,23 @@ Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
 Pemetrexed". Acceptable values are found in the `drug_regimen_list`
 dataset provided with this package. This parameter
 corresponds to the variable `regimen_drugs` in the Analytic Data Guide.</p></dd>
+
+
 <dt>regimen_type</dt>
 <dd><p>Indicates whether the regimen(s) specified in
 `regimen_drugs` indicates the exact regimen to return, or if regimens
 containing the drugs listed in `regimen_drugs` should be returned. Must be
 one of "Exact" or "Containing". The default is "Exact".</p></dd>
+
+
 <dt>regimen_order</dt>
 <dd><p>Order of cancer-directed regimen. If multiple drugs
 are specified, `regimen_order` indicates the regimen order for all drugs;
 different values of `regimen_order` cannot be specified for different drug
 regimens. If multiple values are specified, e.g. c(1, 2), then drug regimens
 that met either order criteria are returned.</p></dd>
+
+
 <dt>regimen_order_type</dt>
 <dd><p>Specifies whether the `regimen_order` parameter
 refers to the order of receipt of the drug regimen within the cancer
@@ -161,14 +177,19 @@ receipt of the drug regimen within the times that that drug regimen was
 administered (e.g. the first time carboplatin pemetrexed was received, out
 of all times that the patient received carboplatin pemetrexed; "within
 regimen"). Acceptable values are "within cancer" and "within regimen".</p></dd>
+
+
 <dt>return_summary</dt>
 <dd><p>Specifies whether a summary table for the cohort is
 returned. Default is FALSE. The `gtsummary` package is required to return a
 summary table.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of data frames containing clinical and next generation
+    
+
+<p>A list of data frames containing clinical and next generation
 sequencing information for patients that met the specified criteria.
 Optionally, if return_summary = TRUE, the list also includes summary
 tables for the number of records per dataset (`tbl_overall_summary`)
@@ -187,73 +208,73 @@ cancer-directed regimen (`tbl_drugs`) and next generation sequencing
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Examples using package test data</span></span>
-<span class="r-in"><span class="co"># Example 1 ----------------------------------</span></span>
-<span class="r-in"><span class="co"># Create a cohort of all patients with stage IV NSCLC adenocarcinoma and</span></span>
-<span class="r-in"><span class="co"># obtain all of their corresponding clinical and genomic data</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span>
-<span class="r-in">  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span>
-<span class="r-in">  stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>,</span>
-<span class="r-in">  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ex1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Examples using package test data</span></span></span>
+<span class="r-in"><span><span class="co"># Example 1 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cohort of all patients with stage IV NSCLC adenocarcinoma and</span></span></span>
+<span class="r-in"><span><span class="co"># obtain all of their corresponding clinical and genomic data</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span></span>
+<span class="r-in"><span>  stage_dx <span class="op">=</span> <span class="st">"Stage IV"</span>,</span></span>
+<span class="r-in"><span>  histology <span class="op">=</span> <span class="st">"Adenocarcinoma"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ex1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cohort_pt_char"           "cohort_ca_dx"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cohort_ca_dx_non_index"   "cohort_ca_drugs"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "cohort_prissmm_imaging"   "cohort_prissmm_pathology"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "cohort_prissmm_md"        "cohort_ngs"              </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 2 ----------------------------------</span></span>
-<span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin,</span></span>
-<span class="r-in"><span class="co"># Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen</span></span>
-<span class="r-in"><span class="co"># for their first index NSCLC</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span>
-<span class="r-in">  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span>
-<span class="r-in">  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span>
-<span class="r-in">    <span class="st">"Cisplatin, Etoposide"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 3 ----------------------------------</span></span>
-<span class="r-in"><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed</span></span>
-<span class="r-in"><span class="co"># Disodium at any time throughout the course of treatment for their</span></span>
-<span class="r-in"><span class="co"># cancer diagnosis,</span></span>
-<span class="r-in"><span class="co"># but in the event that the patient received the drug multiple times,</span></span>
-<span class="r-in"><span class="co"># only select the first time.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span>
-<span class="r-in">  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span>
-<span class="r-in">  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span>
-<span class="r-in">  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 4 ----------------------------------</span></span>
-<span class="r-in"><span class="co"># Using create_analytic_cohort with pull_data_synapse</span></span>
-<span class="r-in"><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">v</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span>
-<span class="r-in">  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
-<span class="r-in">  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span>
-<span class="r-in">  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin,</span></span></span>
+<span class="r-in"><span><span class="co"># Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen</span></span></span>
+<span class="r-in"><span><span class="co"># for their first index NSCLC</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span></span>
+<span class="r-in"><span>  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Cisplatin, Pemetrexed Disodium"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Cisplatin, Etoposide"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  regimen_order_type <span class="op">=</span> <span class="st">"within cancer"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 3 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed</span></span></span>
+<span class="r-in"><span><span class="co"># Disodium at any time throughout the course of treatment for their</span></span></span>
+<span class="r-in"><span><span class="co"># cancer diagnosis,</span></span></span>
+<span class="r-in"><span><span class="co"># but in the event that the patient received the drug multiple times,</span></span></span>
+<span class="r-in"><span><span class="co"># only select the first time.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="fu">genieBPC</span><span class="fu">::</span><span class="va"><a href="nsclc_test_data.html">nsclc_test_data</a></span>,</span></span>
+<span class="r-in"><span>  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 4 ----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Using create_analytic_cohort with pull_data_synapse</span></span></span>
+<span class="r-in"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">create_analytic_cohort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
+<span class="r-in"><span>  regimen_drugs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cisplatin, Pemetrexed Disodium"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  regimen_order <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  regimen_order_type <span class="op">=</span> <span class="st">"within regimen"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -261,13 +282,11 @@ cancer-directed regimen (`tbl_drugs`) and next generation sequencing
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown,
-Karissa Whiting, Axel Martin.</p>
+  <p></p><p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>
