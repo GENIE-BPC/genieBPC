@@ -4,9 +4,9 @@
 \name{genieBPC-package}
 \alias{genieBPC}
 \alias{genieBPC-package}
-\title{genieBPC: Data Processing Pipeline for the American Association for Cancer Research Project GENIE BioPharma Collaborative Data}
+\title{genieBPC: Project GENIE BioPharma Collaborative Data Processing Pipeline}
 \description{
-The American Association Research (AACR) Project Genomics Evidence Neoplasia Information Exchange (GENIE) BioPharma Collaborative represents a multi-year, multi-institution effort to build a pan-cancer repository of linked clinico-genomic data. The genomic and clinical data are provided in multiple releases (separate releases for each cancer cohort with updates following data corrections), which are stored on the data sharing platform Synapse. The 'genieBPC' package provides a seamless way to obtain the data corresponding to each release from Synapse and to prepare datasets for analysis.
+The American Association Research (AACR) Project Genomics Evidence Neoplasia Information Exchange (GENIE) BioPharma Collaborative represents a multi-year, multi-institution effort to build a pan-cancer repository of linked clinico-genomic data. The genomic and clinical data are provided in multiple releases (separate releases for each cancer cohort with updates following data corrections), which are stored on the data sharing platform 'Synapse' \url{https://www.synapse.org/}. The 'genieBPC' package provides a seamless way to obtain the data corresponding to each release from 'Synapse' and to prepare datasets for analysis.
 }
 \seealso{
 Useful links:

@@ -1,7 +1,6 @@
 Type: Package
 Package: genieBPC
-Title: Data Processing Pipeline for the American Association for Cancer
-  Research Project GENIE BioPharma Collaborative Data
+Title: Project GENIE BioPharma Collaborative Data Processing Pipeline
 Version: 1.0.0
 Authors@R: 
     c(
@@ -36,9 +35,10 @@ Description: The American Association Research (AACR) Project
     to build a pan-cancer repository of linked clinico-genomic data. 
     The genomic and clinical data are provided in multiple releases (separate
     releases for each cancer cohort with updates following data corrections), 
-    which are stored on the data sharing platform Synapse. 
+    which are stored on the data sharing platform 
+    'Synapse' <https://www.synapse.org/>. 
     The 'genieBPC' package provides a seamless way to obtain the
-    data corresponding to each release from Synapse and to prepare
+    data corresponding to each release from 'Synapse' and to prepare
     datasets for analysis. 
 License: MIT + file LICENSE
 BugReports: https://github.com/GENIE-BPC/genieBPC/issues

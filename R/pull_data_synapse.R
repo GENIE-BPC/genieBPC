@@ -5,7 +5,7 @@
 #'  \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
 #'  and reads it into the R environment.
 #'   Documentation corresponding to the clinical data files
-#'   can also be found on Synapse in the Analytic Data Guide:
+#'   can also be found on 'Synapse' in the Analytic Data Guide:
 #' \itemize{
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
@@ -14,8 +14,8 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 #' }
-#' Users must log in to Synapse to access the data successfully.
-#' To set your Synapse credentials during each session, call:
+#' Users must log in to 'Synapse' to access the data successfully.
+#' To set your 'Synapse' credentials during each session, call:
 #' `set_synapse_credentials(username = "your_username", password = "your_password")`
 #' To store authentication information in your environmental variables, add the
 #' following to your .Renviron file (tip: you can use usethis::edit_r_environ()
@@ -43,8 +43,8 @@
 #'   of dataframes with requested data as list items. Otherwise, specify a
 #'   folder path to have data automatically downloaded there. When a path is
 #'   specified, data are not read into the R environment.
-#' @param username Synapse username
-#' @param password Synapse password
+#' @param username 'Synapse' username
+#' @param password 'Synapse' password
 #'
 #' @return Returns a nested list of clinical and genomic data corresponding to
 #' the specified cohort(s).
@@ -54,7 +54,7 @@
 #'
 #' @examplesIf genieBPC::.is_connected_to_genie()
 #' # Example 1 ----------------------------------
-#' # Set up Synapse credentials
+#' # Set up 'Synapse' credentials
 #' set_synapse_credentials()
 #'
 #' # Print available versions of the data
@@ -172,13 +172,13 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
 #' Function to retrieve data by synapse ID
 #'
-#' @param version_num_df a dataframe of synapse IDs
-#' @param token a synapse token
+#' @param version_num_df a dataframe of 'Synapse' IDs
+#' @param token a 'Synapse' token
 #' @param download_location if `NULL` (default), data will be returned as a list
 #'   of dataframes with requested data as list items. Otherwise, specify a
 #'   folder path to have data automatically downloaded there.
 #'
-#' @return downloaded synapse data as a list if `download_location`= `NULL, or
+#' @return downloaded 'Synapse' data as a list if `download_location`= `NULL, or
 #'   to a local path
 #' @keywords internal
 #' @export
@@ -237,9 +237,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
       # If you haven't signed terms
       switch(entityBundle$restrictionInformation$hasUnmetAccessRequirement,
-             cli::cli_abort("Your Synapse account has unmet access requirements.
+             cli::cli_abort("Your 'Synapse' account has unmet access requirements.
                           Have you accepted the 'Terms of Use' for this dataset?
-                          See Synapse portal (`https://www.synapse.org/`) for more info.")
+                          See 'Synapse' portal (`https://www.synapse.org/`) for more info.")
       )
 
       file_info <- entityBundle$fileHandles[[1]]
@@ -306,19 +306,19 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
 
 
-#' Get URL for a given synapse file and download to local machine
+#' Get URL for a given 'Synapse' file and download to local machine
 #'
-#' @param version_num synpase cohort_version
-#' @param file_handle_id synapse file handle ID
-#' @param synapse_id synapse ID
+#' @param version_num 'Synapse' cohort_version
+#' @param file_handle_id 'Synapse' file handle ID
+#' @param synapse_id 'Synapse' ID
 #' @param df package designated name of file
-#' @param name file name from synapse
+#' @param name file name from 'Synapse'
 #' @param version_num cohort name and version
 #' @param download_folder location to download data
 #' @param token Synapse token
-#' @param file_endpoint_url synapse endpoint for file info
+#' @param file_endpoint_url 'Synapse' endpoint for file info
 #'
-#' @return list of synapse data frames
+#' @return list of 'Synapse' data frames
 #' @keywords internal
 #' @export
 #'

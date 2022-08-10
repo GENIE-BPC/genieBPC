@@ -7,11 +7,11 @@
 check_genie_access(username = NULL, password = NULL)
 }
 \arguments{
-\item{username}{Synapse username. If NULL, package will search package
+\item{username}{'Synapse' username. If NULL, package will search package
 environment for "username". If not found, package will look in
 environmental variables for `SYNAPSE_USERNAME`.}
 
-\item{password}{Synapse password. If NULL, package will search package
+\item{password}{'Synapse' password. If NULL, package will search package
 environment for "password". If not found package will search environmental
 variables for `SYNAPSE_PASSWORD`.}
 }

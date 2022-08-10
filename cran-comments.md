@@ -10,10 +10,31 @@ but are still under 10 seconds.
 
 ## Additional comments
 
-* Re-submission of a new package
+* Second re-submission of a new package
 
-* Thank you for your first round of feedback and for your time reviewing
+* Thank you for your first two rounds of feedback and for your time reviewing
 our package.
+
+## Response to second round of feedback
+
+> Please always write package names, software names and API (application programming interface) names in single quotes in title and description.
+e.g: --> 'Synapse'
+Please note that package names are case sensitive.
+
+Thank you. We have added single quotes around reference to the Synapse web 
+platform.
+
+
+> Please provide a link to the used webservices (Synapse) to the description field of your DESCRIPTION file in the form <http:...> or <https:...> with angle brackets for auto-linking and no space after 'http:' and 'https:'.
+
+We have added the link to Synapse to the description field of the 
+DESCRIPTION file.
+
+> Please reduce the length of the title to less than 65 characters.
+
+Thank you. We have shortened the title to "Project GENIE BioPharma 
+Collaborative Data Processing Pipeline".
+
 
 ## Response to initial feedback
 
