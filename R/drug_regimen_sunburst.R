@@ -12,6 +12,7 @@
 #' function call
 #' @param max_n_regimens The maximum number of regimens displayed in the
 #'   sunburst plot
+#' @param ... Additional parameters passed to `sunburstR::sunburst()`
 #' @return Returns data frame `treatment_history` and interactive
 #' plot `sunburst_plot`
 #' @export
@@ -56,7 +57,8 @@
 
 drug_regimen_sunburst <- function(data_synapse,
                                   data_cohort,
-                                  max_n_regimens = NULL) {
+                                  max_n_regimens = NULL,
+                                  ...) {
 
   # make sure all required parameters are specified
   if (missing(data_synapse) | !is.list(data_synapse)) {
@@ -180,7 +182,7 @@ drug_regimen_sunburst <- function(data_synapse,
     dplyr::ungroup()
 
   # create the sunburst plot
-  sunburst_plot <- sunburst(df_for_sunburst, legend = TRUE)
+  sunburst_plot <- sunburst(df_for_sunburst, legend = TRUE, ...)
 
   # return treatment data and sunburst plot
   return(list(
