@@ -161,7 +161,8 @@ create_analytic_cohort <- function(data_synapse,
   # trying to check that the pull_data_synapse object returned is
   # specific to the cohort
   if (!("pt_char" %in% names(data_synapse))) {
-    stop("Specify only one cohort at a time, even if there are multiple cohorts
+    stop("The data_synapse parameter is expecting a single cohort, e.g., data_synapse_obj$NSCLC_v2.0.
+         Be sure to specify only one cohort at a time, even if there are multiple cohorts
          in the data_synapse object.")
   }
 
