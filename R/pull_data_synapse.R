@@ -372,7 +372,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   if (is.null(download_location)) {
     returned_files <- file_type %>%
       purrr::when(
-        . == "text/csv" ~ read.csv(resolved_file_path),
+        . == "text/csv" ~ read.csv(resolved_file_path, na.strings = ""),
         . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t"),
         TRUE ~ cli::cli_abort(
           "Cannot read objects of type {file_type}. Try downloading directly to disk with {.code download_location}")
