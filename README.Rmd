@@ -28,8 +28,8 @@ Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an
 effort to aggregate comprehensive clinical data linked to genomic
 sequencing data to create a pan-cancer, publicly available data
 repository. These data detail clinical characteristics and drug
-treatment regimen information, along with high-throughput sequencing
-data and clinical outcomes, for cancer patients across international
+regimen treatment information, along with high-throughput sequencing
+data and clinical outcomes, for cancer patients across multiple
 institutions. The GENIE BPC data repository forms a unique observational
 database of comprehensive clinical annotation with molecularly
 characterized tumors that can be used to advance precision medicine
