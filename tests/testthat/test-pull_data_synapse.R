@@ -82,3 +82,60 @@ test_that("Number of columns and rows for each NSCLC dataset", {
     24950, 2026, 821, 930, 17574
   ))
 })
+
+test_that("Test NA conversion", {
+  skip_if_not(.is_connected_to_genie())
+  # test NSCLC
+  nsclc_cohort <- pull_data_synapse(cohort = c("NSCLC", "NSCLC", "NSCLC"),
+                                    version = c("v1.1-consortium",
+                                                "v2.1-consortium",
+                                                "v2.0-public"))
+  # NSCLC 1.1-consortium
+  lung_nomissing_1.1 <- sum(sapply(nsclc_cohort$NSCLC_v1.1, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(lung_nomissing_1.1, length(nsclc_cohort$NSCLC_v1.1))
+
+  # NSCLC 2.1-consortium
+  lung_nomissing_2.1 <- sum(sapply(nsclc_cohort$NSCLC_v2.1, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(lung_nomissing_2.1, length(nsclc_cohort$NSCLC_v2.1))
+
+  # NSCLC 2.0-public
+  lung_nomissing_2.0<- sum(sapply(nsclc_cohort$NSCLC_v2.0, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(lung_nomissing_2.0, length(nsclc_cohort$NSCLC_v2.0))
+
+  #### test CRC
+  crc_cohort <- pull_data_synapse(cohort = c("CRC", "CRC"),
+                                    version = c("v1.1-consortium",
+                                                "v1.2-consortium"))
+  # CRC 1.1-consortium
+  crc_nomissing_1.1 <- sum(sapply(crc_cohort$CRC_v1.1, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(crc_nomissing_1.1, length(crc_cohort$CRC_v1.1))
+
+  # CRC 1.2-consortium
+  crc_nomissing_1.2 <- sum(sapply(crc_cohort$CRC_v1.2, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(crc_nomissing_1.2, length(crc_cohort$CRC_v1.2))
+
+  #### test BrCa
+  brca_cohort <- pull_data_synapse(cohort = c("BrCa"),
+                                  version = c("v1.1-consortium"))
+  # CRC 1.1-consortium
+  brca_nomissing_1.1 <- sum(sapply(brca_cohort$BrCa_v1.1, function(x) {
+    any(x == "", na.rm = TRUE) == FALSE
+  }))
+
+  expect_equal(brca_nomissing_1.1, length(brca_cohort$BrCa_v1.1))
+})
