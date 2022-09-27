@@ -166,9 +166,9 @@ check_genie_access <- function(username = NULL, password = NULL) {
 
   # ensure a username and password is supplied---------------------------------
   switch(any(is.na(c(resolved_username, resolved_password))),
-    cli::cli_abort("No credentials found.
-                   See {.code set_synapse_credentials()} or
-                   pass a {.code username} and {.code password}")
+    cli::cli_abort("No credentials found. Have you authenticated yourself?
+                   Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code username} and {.code password}
+                   (details on authentication ")
   )
 
   # query to get token --------------------------------------------------------

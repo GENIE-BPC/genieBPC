@@ -74,12 +74,12 @@ remotes::install_github("GENIE-BPC/genieBPC")
     diagnoses in the order that the regimens were administered
 
 
-## Obtaining Data Access
+## Data Access & Authentication
 
 Access to the GENIE BPC data release folders on 'Synapse' is required in
 order to use this function. To obtain access:
 
-*For public data releases:*
+***For public data releases:***
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#)
 
@@ -87,7 +87,7 @@ order to use this function. To obtain access:
 
 3. Select *Request Access*, review the terms of data use and select *Accept*
 
-*For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):*
+***For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):***
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#)
 
@@ -101,6 +101,14 @@ order to use this function. To obtain access:
     projects](https://www.synapse.org/#!Synapse:syn21226493).
 
 *Note: Please allow up to a week to review and grant access.*
+
+***Authenticate yourself***
+
+4.  Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use
+    {genieBPC} to pull data. You can do this using `set_synapse_credentials()` 
+    (see [Tutorial: pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html] for more details).
+
+
 
 ## Analytic Data Guides
 
