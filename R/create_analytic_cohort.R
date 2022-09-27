@@ -29,7 +29,10 @@
 #' This parameter corresponds to the variable `institution` in the
 #' Analytic Data Guide.
 #' @param stage_dx Stage at diagnosis. Must be one of "Stage I", "Stage II",
-#' "Stage III", "Stage I-III NOS", "Stage IV". Default selection is all stages.
+#' "Stage III", "Stage I-III NOS", "Stage IV". The default selection is all
+#' stages.
+#' Note that if this parameter is specified, any cases that are missing stage
+#' information are automatically excluded from the resulting cohort.
 #' This parameter corresponds to the variable `stage_dx` in the
 #' Analytic Data Guide.
 #' @param histology Cancer histology. For all cancer cohorts except for BrCa
@@ -40,7 +43,9 @@
 #'  For BrCa, this parameter corresponds to the variable
 #' `ca_hist_brca` and must be one of
 #' "Invasive lobular carcinoma", "Invasive ductal carcinoma", "Other histology".
-#' Default selection is all histologies.
+#' The default selection is all histologies. Note that if this parameter is
+#' specified, any cases that are missing histology information are automatically
+#' excluded from the resulting cohort.
 #' @param regimen_drugs Vector with names of drugs in cancer-directed regimen,
 #' separated by a comma. For example, to specify a regimen consisting of
 #' Carboplatin and Pemetrexed, specify regimen_drugs = "Carboplatin,
