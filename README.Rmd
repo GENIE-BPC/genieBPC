@@ -169,7 +169,7 @@ sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 ```
 
 
-*Example of a sunburst plot showing 3 lines of treatment, Highlighting
-First Treatment Regimen:*
+*Example of a sunburst plot showing 3 treatment regimens, highlighting
+the first treatment regimen:*
 
 # <img src="man/figures/genieBPC_sunburst2.png" height="400" /></a>
