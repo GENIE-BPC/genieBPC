@@ -12,7 +12,7 @@ course for selected cancer diagnoses."><!-- mathjax --><script src="https://cdnj
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@ course for selected cancer diagnoses.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">drug_regimen_sunburst</span><span class="op">(</span><span class="va">data_synapse</span>, <span class="va">data_cohort</span>, max_n_regimens <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">drug_regimen_sunburst</span><span class="op">(</span><span class="va">data_synapse</span>, <span class="va">data_cohort</span>, max_n_regimens <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,7 +80,12 @@ function call</p></dd>
 
 
 <dt>max_n_regimens</dt>
-<dd><p>The maximum number of regimens displayed in the sunburst plot</p></dd>
+<dd><p>The maximum number of regimens displayed in the
+sunburst plot</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional parameters passed to `sunburstR::sunburst()`</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -145,7 +150,7 @@ for additional details and examples.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
+  <p></p><p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">

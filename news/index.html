@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,9 +54,18 @@
       <small>Source: <a href="https://github.com/GENIE-BPC/genieBPC/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="geniebpc-development-version">genieBPC (development version)<a class="anchor" aria-label="anchor" href="#geniebpc-development-version"></a></h2></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="geniebpc-101">genieBPC 1.0.1<a class="anchor" aria-label="anchor" href="#geniebpc-101"></a></h2>
+<ul><li><p>Add CRAN badge to README (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/69" class="external-link">#69</a>)</p></li>
+<li><p>Update <code><a href="../reference/drug_regimen_sunburst.html">drug_regimen_sunburst()</a></code> to pass additional arguments to <code><a href="https://rdrr.io/pkg/sunburstR/man/sunburst.html" class="external-link">sunburstR::sunburst()</a></code> (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/71" class="external-link">#71</a>)</p></li>
+<li><p>Added CRAN installation instructions to README (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/72" class="external-link">#72</a>)</p></li>
+<li><p>Update handling of missing data when reading in csv files in <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> so that missing data is stored as NA and not as "" (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/73" class="external-link">#73</a>).</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="geniebpc-100">genieBPC 1.0.0<a class="anchor" aria-label="anchor" href="#geniebpc-100"></a></h2><p class="text-muted">CRAN release: 2022-08-14</p>
-<ul><li><p>Removed <code>TramineR</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/50" class="external-link">#50</a>)</p></li>
+<ul><li><p>Changed <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> to <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> in <code><a href="../reference/select_unique_ngs.html">select_unique_ngs()</a></code></p></li>
+<li><p>Removed <code>TramineR</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/50" class="external-link">#50</a>)</p></li>
 <li><p>Incorporated the most recent public and consortium data releases (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/42" class="external-link">#42</a>)</p></li>
 <li><p>Removed <code>synapser</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/45" class="external-link">#45</a>)</p></li>
 <li><p>Fixed <code>cpt_sample_type</code>/<code>sample_type</code> issue in <code>fetch_samples.R</code> (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/43" class="external-link">#43</a>)</p></li>
@@ -72,7 +81,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Statistical Core GENIE-BPC, Jessica Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
+  <p></p><p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
