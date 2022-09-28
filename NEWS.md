@@ -1,3 +1,5 @@
+# genieBPC (development version)
+
 # genieBPC 1.0.1
 
 * Add CRAN badge to README (issue #69)
