@@ -44,6 +44,13 @@ dataset returned by create_analytic_cohort() will maintain a structure of
 one record per patient.
 }
 \details{
+Note that the NGS dataset serves as the link between the clinical and
+genomic data, where the NGS dataset includes one record per NGS report per
+patient, including the NGS sample ID that is used to link to the genomic
+data files. Merging data from the NGS report onto the analytic cohort
+returned from create_analytic_cohort() therefore allows users to utilize all
+clinical and genomic data available.
+
 See the
 \href{https://genie-bpc.github.io/genieBPC/articles/select_unique_ngs_vignette.html}{select_unique_ngs vignette}
 for further documentation and examples.
