@@ -32,7 +32,16 @@ with unique genomic samples taken from each patients.
 }
 \description{
 For patients with multiple next generation (NGS) sequencing reports,
-select one unique NGS report per patient based on several potential criteria.
+select one unique NGS report per patient for the purpose of creating an
+analytic dataset based on user-defined criterion, including OncoTree code,
+primary vs. metastatic tumor sample, and earliest vs. most recent sample.
+If multiple reports for a patient remain available after the user-defined
+specifications, or if no specifications are provided, the panel with the
+largest number of genes is selected by default. Running the
+select_unique_ngs() function will ensure that the resulting dataset returned
+by merging the next generation sequencing report data onto the analytic
+dataset returned by create_analytic_cohort() will maintain a structure of
+one record per patient.
 }
 \details{
 See the
