@@ -8,6 +8,22 @@ genieBPC_env <- rlang::new_environment()
 #' Connect to 'Synapse' API
 #'
 #' This function sets 'Synapse' credentials for the user's current session
+#'
+#' Users must have access to 'Synapse' to access the data successfully
+#' (see \href{https://genie-bpc.github.io/genieBPC/index.html#obtaining-data-access}{README 'Obtaining Data Access'}) for details.
+#' To set your 'Synapse' credentials during each session, call:
+#'
+#' `set_synapse_credentials(username = "your_username", password = "your_password")`
+#'
+#' To store authentication information in your environmental variables, add the
+#' following to your .Renviron file
+#' (tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+#'
+#' \itemize{
+#'    \item `SYNAPSE_USERNAME = <your-username>`
+#'    \item `SYNAPSE_PASSWORD = <your-password>`
+#'    }
+#'
 #' @param username 'Synapse' username. If NULL, package will search environmental
 #'   variables for `SYNAPSE_USERNAME`.
 #' @param password 'Synapse' password. If NULL, package will search environmental
@@ -168,7 +184,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
   switch(any(is.na(c(resolved_username, resolved_password))),
     cli::cli_abort("No credentials found. Have you authenticated yourself?
                    Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code username} and {.code password}
-                   (details on authentication ")
+                   (see README:'Obtaining Data Access' for details on authentication).")
   )
 
   # query to get token --------------------------------------------------------

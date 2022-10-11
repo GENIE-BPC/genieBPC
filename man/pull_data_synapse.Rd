@@ -41,9 +41,34 @@ the specified cohort(s).
 The `pull_data_synapse` function accesses the specified
  version of the clinical and genomic GENIE BPC data from
  \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
- and reads it into the R environment.
+ and reads it into the R environment. See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
+for further documentation and examples.
+}
+\section{Authentication}{
+
+Users must have access to 'Synapse' to access the data successfully
+(see \href{https://genie-bpc.github.io/genieBPC/index.html#obtaining-data-access}{README 'Obtaining Data Access'}) for details.
+To set your 'Synapse' credentials during each session, call:
+
+`set_synapse_credentials(username = "your_username", password = "your_password")`
+
+To store authentication information in your environmental variables, add the
+following to your .Renviron file
+(tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+
+\itemize{
+   \item `SYNAPSE_USERNAME = <your-username>`
+   \item `SYNAPSE_PASSWORD = <your-password>`
+   }
+Alternatively, you can pass your username and password to each individual
+data pull function if preferred, although it is recommended that you manage
+your passwords outside of your scripts for security purposes.
+}
+
+\section{Analytic Data Guides}{
+
   Documentation corresponding to the clinical data files
-  can also be found on 'Synapse' in the Analytic Data Guide:
+  can be found on 'Synapse' in the Analytic Data Guides:
 \itemize{
   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
@@ -52,22 +77,8 @@ The `pull_data_synapse` function accesses the specified
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 }
-Users must log in to 'Synapse' to access the data successfully.
-To set your 'Synapse' credentials during each session, call:
-`set_synapse_credentials(username = "your_username", password = "your_password")`
-To store authentication information in your environmental variables, add the
-following to your .Renviron file (tip: you can use usethis::edit_r_environ()
-to easily open/edit this file):
-`SYNAPSE_USERNAME = <your-username>`
-`SYNAPSE_PASSWORD = <your-password>`
-Alternatively, you can pass your username and password to each individual
-data pull function if preferred, although it is recommended that you manage
-your passwords outside of your scripts for security purposes.
 }
-\details{
-See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
-for further documentation and examples.
-}
+
 \examples{
 \dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Example 1 ----------------------------------

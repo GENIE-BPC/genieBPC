@@ -20,6 +20,22 @@ A success message if you credentials are valid for 'Synapse' platform;
 \description{
 This function sets 'Synapse' credentials for the user's current session
 }
+\details{
+Users must have access to 'Synapse' to access the data successfully
+(see \href{https://genie-bpc.github.io/genieBPC/index.html#obtaining-data-access}{README 'Obtaining Data Access'}) for details.
+To set your 'Synapse' credentials during each session, call:
+
+`set_synapse_credentials(username = "your_username", password = "your_password")`
+
+To store authentication information in your environmental variables, add the
+following to your .Renviron file
+(tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+
+\itemize{
+   \item `SYNAPSE_USERNAME = <your-username>`
+   \item `SYNAPSE_PASSWORD = <your-password>`
+   }
+}
 \examples{
 \dontrun{
 set_synapse_credentials(
