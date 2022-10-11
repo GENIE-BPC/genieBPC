@@ -41,23 +41,41 @@ This vignette will walk a user through the `pull_data_synapse()` function.
 
 ## Setup
 
-Before beginning this tutorial, be sure to have a Synapse account. If you do not yet have a Synapse account, please follow the instructions below:
+Access to the GENIE BPC data release folders on 'Synapse' is required in
+order to use this function. To obtain access:
 
-1. Register for a [Synapse account](https://www.synapse.org/#!Reigster0)
-2. Use [this link](https://www.synapse.org/#!Team:3399797) to access the team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.
-3. Once the request is accepted, you may access the data in the [GENIE Biopharma collaborative projects](https://www.synapse.org/#!Synapse:syn21226493).
+***For public data releases:***
+
+1.  Register for a ['Synapse' account](https://www.synapse.org/#). Accept the **Synapse account terms of use.**
+
+2.  Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the ['Synapse' page](https://www.synapse.org/#!Synapse:syn27056697) for the data release). Towards the top of the page, there is information including the *'Synapse' ID*, *DOI*, *Item count*, and *Access.* Next to *Access* is a link that reads *Request Access*. 
+
+3. Select *Request Access*, review the **terms of data use** and select *Accept*
+
+*Note that permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.*
+
+***For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):***
+
+1.  Register for a ['Synapse' account](https://www.synapse.org/#)
+
+2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
+    the GENIE BPC team list and request to join the team. Please include
+    your full name and affiliation in the message before sending out the
+    request.
+
+3.  Once the request is accepted, you may access the data in the [GENIE
+    Biopharma Collaborative
+    projects](https://www.synapse.org/#!Synapse:syn21226493).
 
 *Note: Please allow up to a week to review and grant access.*
 
-&nbsp;
+***Authenticate yourself***
 
-Users must log in to Synapse to access the data successfully. 
-
-- To set your Synapse credentials during each session, call:
+4.  Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data.  To set your Synapse credentials during each session, call:
 
   `set_synapse_credentials(username = "your_username", password = "your_password")`
   
-- To store authentication information in your environmental variables, add the following to your .Renviron file (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
+- If your credentials are stored as environmental variables, you do not need to call `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables, add the following to your .Renviron file, then **restart your R session** (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
   `SYNAPSE_USERNAME = <your-username>`
   `SYNAPSE_PASSWORD = <your-password>`

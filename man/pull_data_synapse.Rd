@@ -38,23 +38,24 @@ Returns a nested list of clinical and genomic data corresponding to
 the specified cohort(s).
 }
 \description{
-The `pull_data_synapse` function accesses the specified
- version of the clinical and genomic GENIE BPC data from
+Function to access specified
+ versions of clinical and genomic GENIE BPC data from
  \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
- and reads it into the R environment. See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
+ and read them into the R environment. See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
 for further documentation and examples.
 }
 \section{Authentication}{
 
-Users must have access to 'Synapse' to access the data successfully
-(see \href{https://genie-bpc.github.io/genieBPC/index.html#obtaining-data-access}{README 'Obtaining Data Access'}) for details.
+To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+Users must always authenticate themselves in their current R session.
+(see \href{https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'} for details).
 To set your 'Synapse' credentials during each session, call:
 
 `set_synapse_credentials(username = "your_username", password = "your_password")`
 
-To store authentication information in your environmental variables, add the
-following to your .Renviron file
-(tip: you can use usethis::edit_r_environ() to easily open/edit this file):
+If your credentials are stored as environmental variables, you do not need to call
+`set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
+(tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
 \itemize{
    \item `SYNAPSE_USERNAME = <your-username>`
