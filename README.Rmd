@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![R-cmd-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-cmd-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/genieBPC)](https://cran.r-project.org/package=genieBPC)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://app.codecov.io/gh/GENIE-BPC/genieBPC)
 ![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
@@ -27,8 +28,8 @@ Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an
 effort to aggregate comprehensive clinical data linked to genomic
 sequencing data to create a pan-cancer, publicly available data
 repository. These data detail clinical characteristics and drug
-treatment regimen information, along with high-throughput sequencing
-data and clinical outcomes, for cancer patients across international
+regimen treatment information, along with high-throughput sequencing
+data and clinical outcomes, for cancer patients across multiple
 institutions. The GENIE BPC data repository forms a unique observational
 database of comprehensive clinical annotation with molecularly
 characterized tumors that can be used to advance precision medicine
@@ -42,15 +43,13 @@ clinico-genomic analyses.
 
 ## Installation
 
-You can install the released version of {genieBPC} from the R Universe
+Install {genieBPC} from CRAN:
 
 ```{r, eval = FALSE}
-install.packages('genieBPC', 
-                 repos = c(mskccepibio = 'https://mskcc-epi-bio.r-universe.dev',
-                           CRAN = 'https://cloud.r-project.org'))
+install.packages("genieBPC")
 ```
 
-and the development version with
+Install the development version of {genieBPC} with:
 
 ```{r, eval = FALSE}
 remotes::install_github("GENIE-BPC/genieBPC")
@@ -178,7 +177,7 @@ sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 ```
 
 
-*Example of a sunburst plot showing 3 lines of treatment, Highlighting
-First Treatment Regimen:*
+*Example of a sunburst plot showing 3 treatment regimens, highlighting
+the first treatment regimen:*
 
 # <img src="man/figures/genieBPC_sunburst2.png" height="400" /></a>

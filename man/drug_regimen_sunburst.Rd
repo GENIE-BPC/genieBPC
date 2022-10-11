@@ -4,7 +4,7 @@
 \alias{drug_regimen_sunburst}
 \title{Visualize drug regimen sequences in a sunburst plot}
 \usage{
-drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL)
+drug_regimen_sunburst(data_synapse, data_cohort, max_n_regimens = NULL, ...)
 }
 \arguments{
 \item{data_synapse}{The item from the nested list returned from
@@ -15,6 +15,8 @@ function call}
 
 \item{max_n_regimens}{The maximum number of regimens displayed in the
 sunburst plot}
+
+\item{...}{Additional parameters passed to `sunburstR::sunburst()`}
 }
 \value{
 Returns data frame `treatment_history` and interactive

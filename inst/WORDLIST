@@ -27,6 +27,7 @@ PANC
 PRISSMM
 Pemetrexed
 Phenomic
+README
 Renviron
 UHN
 VICC
@@ -38,6 +39,7 @@ cmd
 codecov
 colorectal
 cpt
+csv
 curation
 ductal
 dx
@@ -56,5 +58,6 @@ oncotree
 pemetrexed
 phenomic
 situ
+sunburstR
 tbl
 usethis
