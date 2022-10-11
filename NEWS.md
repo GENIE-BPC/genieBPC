@@ -1,5 +1,7 @@
 # genieBPC (development version)
 
+* Bioinformatics updates addressing reviewer comments (issue #75)
+
 # genieBPC 1.0.1
 
 * Add CRAN badge to README (issue #69)
