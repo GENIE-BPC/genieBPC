@@ -124,23 +124,25 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="obtaining-data-access">Obtaining Data Access<a class="anchor" aria-label="anchor" href="#obtaining-data-access"></a>
+<h2 id="data-access--authentication">Data Access &amp; Authentication<a class="anchor" aria-label="anchor" href="#data-access--authentication"></a>
 </h2>
 <p>Access to the GENIE BPC data release folders on ‘Synapse’ is required in order to use this function. To obtain access:</p>
-<p><em>For public data releases:</em></p>
+<p><strong><em>For public data releases:</em></strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Accept the <strong>Synapse account terms of use.</strong></p></li>
 <li><p>Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the <a href="https://www.synapse.org/#!Synapse:syn27056697" class="external-link">‘Synapse’ page</a> for the data release). Towards the top of the page, there is information including the <em>‘Synapse’ ID</em>, <em>DOI</em>, <em>Item count</em>, and <em>Access.</em> Next to <em>Access</em> is a link that reads <em>Request Access</em>.</p></li>
 <li><p>Select <em>Request Access</em>, review the <strong>terms of data use</strong> and select <em>Accept</em></p></li>
 </ol>
 <p><em>Note that permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
-<p><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></p>
+<p><strong><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a></p></li>
 <li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
 <li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma Collaborative projects</a>.</p></li>
 </ol>
 <p><em>Note: Please allow up to a week to review and grant access.</em></p>
+<p><strong><em>Authenticate yourself</em></strong></p>
+<ol start="4" style="list-style-type: decimal"><li>Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see <code><a href="reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>), or store your credentials as environmental variables. See <a href="https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html%5D%20for%20more%20details">Tutorial: pull_data_synapse</a>.</li></ol>
 </div>
 <div class="section level2">
 <h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
