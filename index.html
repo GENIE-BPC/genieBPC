@@ -94,16 +94,14 @@
 <div class="section level1">
 <div class="page-header"><h1 id="geniebpc-">genieBPC <img src="reference/figures/geniebpc_hex_sticker.png" align="right" height="120"><a class="anchor" aria-label="anchor" href="#geniebpc-"></a>
 </h1></div>
-<p>The American Association for Cancer Research Project Genomics Evidence Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an effort to aggregate comprehensive clinical data linked to genomic sequencing data to create a pan-cancer, publicly available data repository. These data detail clinical characteristics and drug treatment regimen information, along with high-throughput sequencing data and clinical outcomes, for cancer patients across international institutions. The GENIE BPC data repository forms a unique observational database of comprehensive clinical annotation with molecularly characterized tumors that can be used to advance precision medicine research in oncology. Linking multiple clinical and genomic datasets that vary in structure introduces an inherent complexity for data users. Therefore, use of the GENIE BPC data requires a rigorous process for preparing and merging the data to build analytic models. The {genieBPC} package is a user-friendly data processing pipeline to streamline the process for developing analytic cohorts that are ready for clinico-genomic analyses.</p>
+<p>The American Association for Cancer Research Project Genomics Evidence Neoplasia Information Exchange Biopharma Collaborative (GENIE BPC) is an effort to aggregate comprehensive clinical data linked to genomic sequencing data to create a pan-cancer, publicly available data repository. These data detail clinical characteristics and drug regimen treatment information, along with high-throughput sequencing data and clinical outcomes, for cancer patients across multiple institutions. The GENIE BPC data repository forms a unique observational database of comprehensive clinical annotation with molecularly characterized tumors that can be used to advance precision medicine research in oncology. Linking multiple clinical and genomic datasets that vary in structure introduces an inherent complexity for data users. Therefore, use of the GENIE BPC data requires a rigorous process for preparing and merging the data to build analytic models. The {genieBPC} package is a user-friendly data processing pipeline to streamline the process for developing analytic cohorts that are ready for clinico-genomic analyses.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the released version of {genieBPC} from the R Universe</p>
+<p>Install {genieBPC} from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'genieBPC'</span>, </span>
-<span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mskccepibio <span class="op">=</span> <span class="st">'https://mskcc-epi-bio.r-universe.dev'</span>,</span>
-<span>                           CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>and the development version with</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"genieBPC"</span><span class="op">)</span></span></code></pre></div>
+<p>Install the development version of {genieBPC} with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -111,7 +109,7 @@
 <h2 id="overview-of-geniebpc-functions">Overview of {genieBPC} Functions<a class="anchor" aria-label="anchor" href="#overview-of-geniebpc-functions"></a>
 </h2>
 <ul>
-<li><p><strong>Data import:</strong> <code><a href="reference/pull_data_synapse.html">pull_data_synapse()</a></code> imports GENIE BPC data from Synapse into the R environment</p></li>
+<li><p><strong>Data import:</strong> <code><a href="reference/pull_data_synapse.html">pull_data_synapse()</a></code> imports GENIE BPC data from ‘Synapse’ into the R environment</p></li>
 <li>
 <p><strong>Data processing</strong></p>
 <ul>
@@ -128,16 +126,17 @@
 <div class="section level2">
 <h2 id="obtaining-data-access">Obtaining Data Access<a class="anchor" aria-label="anchor" href="#obtaining-data-access"></a>
 </h2>
-<p>Access to the GENIE BPC data release folders on Synapse is required in order to use this function. To obtain access:</p>
+<p>Access to the GENIE BPC data release folders on ‘Synapse’ is required in order to use this function. To obtain access:</p>
 <p><em>For public data releases:</em></p>
 <ol style="list-style-type: decimal">
-<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">Synapse account</a></p></li>
-<li><p>Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the <a href="https://www.synapse.org/#!Synapse:syn27056697" class="external-link">Synapse page</a> for the data release). Towards the top of the page, there is information including the <em>Synapse ID</em>, <em>DOI</em>, <em>Item count</em>, and <em>Access.</em> Next to <em>Access</em> is a link that reads <em>Request Access</em>.</p></li>
-<li><p>Select <em>Request Access</em>, review the terms of data use and select <em>Accept</em></p></li>
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Accept the <strong>Synapse account terms of use.</strong></p></li>
+<li><p>Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the <a href="https://www.synapse.org/#!Synapse:syn27056697" class="external-link">‘Synapse’ page</a> for the data release). Towards the top of the page, there is information including the <em>‘Synapse’ ID</em>, <em>DOI</em>, <em>Item count</em>, and <em>Access.</em> Next to <em>Access</em> is a link that reads <em>Request Access</em>.</p></li>
+<li><p>Select <em>Request Access</em>, review the <strong>terms of data use</strong> and select <em>Accept</em></p></li>
 </ol>
+<p><em>Note that permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
 <p><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></p>
 <ol style="list-style-type: decimal">
-<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">Synapse account</a></p></li>
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a></p></li>
 <li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
 <li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma Collaborative projects</a>.</p></li>
 </ol>
@@ -181,7 +180,7 @@
 <code class="sourceCode R"><span><span class="va">sunplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/drug_regimen_sunburst.html">drug_regimen_sunburst</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
 <span>                                 data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv_adeno</span>,</span>
 <span>                                 max_n_regimens <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><em>Example of a sunburst plot showing 3 lines of treatment, Highlighting First Treatment Regimen:</em></p>
+<p><em>Example of a sunburst plot showing 3 treatment regimens, highlighting the first treatment regimen:</em></p>
 </div>
 </div>
 <div class="section level1"><h1 id="section">
@@ -235,6 +234,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/GENIE-BPC/genieBPC/actions" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/workflows/R-cmd-check/badge.svg" alt="R-cmd-check"></a></li>
+<li><a href="https://cran.r-project.org/package=genieBPC" class="external-link"><img src="https://www.r-pkg.org/badges/version/genieBPC" alt="CRAN status"></a></li>
 <li><a href="https://app.codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K" alt="codecov"></a></li>
 </ul>
 </div>
