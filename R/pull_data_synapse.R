@@ -1,32 +1,9 @@
 #' Obtain clinical & genomic data files for GENIE BPC Project
 #'
-#' The `pull_data_synapse` function accesses the specified
-#'  version of the clinical and genomic GENIE BPC data from
+#' Function to access specified
+#'  versions of clinical and genomic GENIE BPC data from
 #'  \href{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}{Synapse}
-#'  and reads it into the R environment.
-#'   Documentation corresponding to the clinical data files
-#'   can also be found on 'Synapse' in the Analytic Data Guide:
-#' \itemize{
-#'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
-#' }
-#' Users must log in to 'Synapse' to access the data successfully.
-#' To set your 'Synapse' credentials during each session, call:
-#' `set_synapse_credentials(username = "your_username", password = "your_password")`
-#' To store authentication information in your environmental variables, add the
-#' following to your .Renviron file (tip: you can use usethis::edit_r_environ()
-#' to easily open/edit this file):
-#' `SYNAPSE_USERNAME = <your-username>`
-#' `SYNAPSE_PASSWORD = <your-password>`
-#' Alternatively, you can pass your username and password to each individual
-#' data pull function if preferred, although it is recommended that you manage
-#' your passwords outside of your scripts for security purposes.
-#'
-#' See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
+#'  and read them into the R environment. See the \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{pull_data_synapse vignette}
 #' for further documentation and examples.
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be
@@ -45,6 +22,39 @@
 #'   specified, data are not read into the R environment.
 #' @param username 'Synapse' username
 #' @param password 'Synapse' password
+#'
+#' @section Authentication:
+#' To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+#' Users must always authenticate themselves in their current R session.
+#' (see \href{https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'} for details).
+#' To set your 'Synapse' credentials during each session, call:
+#'
+#' `set_synapse_credentials(username = "your_username", password = "your_password")`
+#'
+#' If your credentials are stored as environmental variables, you do not need to call
+#' `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
+#  add the following to your .Renviron file, then restart your R session
+#' (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
+#'
+#' \itemize{
+#'    \item `SYNAPSE_USERNAME = <your-username>`
+#'    \item `SYNAPSE_PASSWORD = <your-password>`
+#'    }
+#' Alternatively, you can pass your username and password to each individual
+#' data pull function if preferred, although it is recommended that you manage
+#' your passwords outside of your scripts for security purposes.
+#'
+#' @section Analytic Data Guides:
+#'   Documentation corresponding to the clinical data files
+#'   can be found on 'Synapse' in the Analytic Data Guides:
+#' \itemize{
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+#' }
 #'
 #' @return Returns a nested list of clinical and genomic data corresponding to
 #' the specified cohort(s).
