@@ -141,105 +141,168 @@ select_unique_ngs <- function(data_cohort,
     filter(.data$N_samples > 1) %>%
     select(.data$record_id)))
 
-  solved_dups <- as.data.frame(
-    do.call(
-      "rbind",
-      lapply(dup_samples, function(x) {
-        temp <- data_cohort %>%
-          filter(.data$record_id == x)
 
-        # deal with sample site #
-        if (!is.null(oncotree_code) &&
-          (sum(temp$cpt_oncotree_code %in% oncotree_code) > 1)) {
-          temp <- temp %>%
-            filter(.data$cpt_oncotree_code %in% oncotree_code)
-        }
-        if (!is.null(oncotree_code) &&
-          (sum(temp$cpt_oncotree_code %in% oncotree_code) == 0)) {
-          message(paste0(
-            "Patient ", x, " did not have any sample of source: ",
-            oncotree_code
-          ))
-        }
+  dedupe_res <- map(dup_samples, ~.resolve_duplicates(.x, data_cohort = data_cohort,
+                                        oncotree_code = oncotree_code,
+                                        sample_type = sample_type,
+                                        min_max_time = min_max_time))
 
-        # deal with sample type #
-        if (!is.null(sample_type) &&
-          (sum(grepl(sample_type, temp$sample_type,
-            ignore.case = TRUE
-          )) > 0)) {
-          temp <- temp[grepl(sample_type, temp$sample_type,
-            ignore.case = TRUE
-          ), ]
-        }
-        if (!is.null(sample_type) &&
-          (sum(grepl(sample_type, temp$sample_type,
-            ignore.case = TRUE
-          )) == 0)) {
-          message(paste0(
-            "Patient ", x, " did not have any sample of source: ",
-            sample_type
-          ))
-        }
+  solved_dups <- map_df(dedupe_res, function(item) {
+    item$data
+  })
 
-        # deal with time #
-        if (!is.null(min_max_time)) {
-          if (min_max_time == "min") {
-            temp <- temp %>%
-              filter(.data$dx_cpt_rep_days == min(.data$dx_cpt_rep_days))
-          }
-          if (min_max_time == "max") {
-            temp <- temp %>%
-              filter(.data$dx_cpt_rep_days == max(.data$dx_cpt_rep_days))
-          }
-        }
+   messages_type <- map_chr(dedupe_res, function(item) {
+     item$no_sample_type
+   }) %>% stats::na.omit()
 
-        # If there are still multiple samples, then
-        # select the sample with largest panel number
-        if (nrow(temp) > 1) {
-          temp <- temp %>%
-            filter(.data$cpt_seq_assay_id %in%
-              genieBPC::genie_panels$Sequence.Assay.ID) %>%
-            rowwise() %>%
-            mutate(
-              panel_size =
-                genieBPC::genie_panels[
-                  match(
-                    .data$cpt_seq_assay_id,
-                    genieBPC::genie_panels$Sequence.Assay.ID
-                  ),
-                  "Genes"
-                ]
-            ) %>%
-            ungroup() %>%
-            filter(.data$panel_size == max(.data$panel_size)) %>%
-            select(-one_of("panel_size"))
-        }
+   messages_source <- map_chr(dedupe_res, function(item) {
+     item$no_sample_source
+   }) %>% stats::na.omit()
 
-        # If somehow there are still multiple possible samples, then
-        # pick one at random
-        if (nrow(temp) > 1) {
-          message(paste0("Patient ", x, " still had multiple possible samples
-                       based on the selected arguments, a sample was
-                       selected at random. Be sure to set a seed in your R
-                       session so that results are reproducible."))
+   messages_random <- map_chr(dedupe_res, function(item) {
+     item$random
+   }) %>% stats::na.omit()
 
-          temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]
-        }
-
-        return(temp)
-      })
-    )
-  )
-
-  # quick check #
-  # nrow(solved_dups) == length(dup_samples)
 
   # remove all patients with duplicates and add back their selected samples #
   samples_data_final <- rbind(
     data_cohort %>%
-      filter(!(.data$record_id %in% dup_samples)),
-    solved_dups
+      filter(!(.data$record_id %in% dup_samples)) %>%
+      bind_rows(solved_dups)
   )
 
+    if(length(messages_type) > 0) {
+      cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}: {.val {messages_type}}"))
+    }
+
+    if(length(messages_source) > 0) {
+      cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}: {.val {messages_source}}"))
+    }
+    if(length(messages_random) > 0) {
+      cli::cli_alert_warning(c("{length(messages_random)} patients still had multiple possible samples
+                       based on the selected arguments. A sample was
+                       selected at random (be sure to set a seed for reproducbility)! : {.val {messages_random}}"))
+      }
+
   return(samples_data_final)
+}
+
+
+#' Resolve duplicated NGS samples
+#'
+#' See `select_unique_ngs` for details on selection criteria
+#' @param x sample ID to deduplicate
+#' @inheritParams select_unique_ngs
+#'
+#' @return a dataframe of samples with one observation per patient.
+#' @export
+#'
+#' @examplesIf genieBPC::.is_connected_to_genie()
+#' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
+#'
+#' ex1 <- create_analytic_cohort(
+#'   data_synapse = nsclc_2_0$NSCLC_v2.0,
+#'   stage_dx = c("Stage IV"),
+#'   histology = "Adenocarcinoma"
+#' )
+#'
+#'  samples_data1 <- .resolve_duplicates(
+#'    x = "GENIE-MSK-P-0025741",
+#'   data_cohort = ex1$cohort_ngs,
+#'   oncotree_code = "LUAD",
+#'   sample_type = "Metastasis",
+#'   min_max_time = "max"
+#' )
+#'
+#' samples_data2 <- .resolve_duplicates(
+#'    x = "GENIE-MSK-P-0025741",
+#'   data_cohort = ex1$cohort_ngs,
+#'   oncotree_code = "LUAD",
+#'   sample_type = "Primary",
+#'   min_max_time = "max"
+#' )
+#'
+.resolve_duplicates <- function(x, data_cohort,
+                                oncotree_code,
+                                sample_type,
+                                min_max_time) {
+
+  no_sample_source <- NA
+  no_sample_type <- NA
+  random <- NA
+
+  temp <- data_cohort %>%
+    filter(.data$record_id == x)
+
+  # Oncotree code -----
+  if (!is.null(oncotree_code)) {
+    temp <- temp %>%
+      filter(.data$cpt_oncotree_code %in% oncotree_code)
+
+    no_sample_source <- ifelse(nrow(temp) == 0, x, NA)
+
+  }
+
+
+  # Sample type ----
+  if (!is.null(sample_type) & nrow(temp) > 1) {
+
+    temp <- temp[grepl(sample_type, temp$sample_type, ignore.case = TRUE), ]
+
+    no_sample_type <- ifelse(nrow(temp) == 0, x, NA)
+
+  }
+
+
+  # Min/Max time ----
+  if (!is.null(min_max_time) & nrow(temp) > 1) {
+    if (min_max_time == "min") {
+      temp <- temp %>%
+        filter(.data$dx_cpt_rep_days == min(.data$dx_cpt_rep_days))
+    }
+    if (min_max_time == "max") {
+      temp <- temp %>%
+        filter(.data$dx_cpt_rep_days == max(.data$dx_cpt_rep_days))
+    }
+  }
+
+  # Panel number ------
+  # If there are still multiple samples, then
+  # select the sample with largest panel number
+  if (nrow(temp) > 1 & nrow(temp) > 1) {
+
+    temp <- temp %>%
+      filter(.data$cpt_seq_assay_id %in%
+               genieBPC::genie_panels$Sequence.Assay.ID) %>%
+      rowwise() %>%
+      mutate(
+        panel_size =
+          genieBPC::genie_panels[
+            match(
+              .data$cpt_seq_assay_id,
+              genieBPC::genie_panels$Sequence.Assay.ID
+            ),
+            "Genes"
+          ]
+      ) %>%
+      ungroup() %>%
+      filter(.data$panel_size == max(.data$panel_size)) %>%
+      select(-one_of("panel_size"))
+  }
+
+  # If somehow there are still multiple possible samples, then
+  # pick one at random
+  if (nrow(temp) > 1) {
+
+    random <- x
+    temp <- temp[sample(seq_along(temp[, 1]), size = 1), ]
+  } else {
+    random <- NA
+  }
+
+
+  return(list("data" = temp,
+              "no_sample_source" = no_sample_source,
+              "no_sample_type" = no_sample_type,
+              "random" = random))
 }
