@@ -165,11 +165,11 @@ select_unique_ngs <- function(data_cohort,
 
 
   # remove all patients with duplicates and add back their selected samples #
-  samples_data_final <- rbind(
+  samples_data_final <- #rbind(
     data_cohort %>%
       filter(!(.data$record_id %in% dup_samples)) %>%
       bind_rows(solved_dups)
-  )
+  #)
 
     if(length(messages_type) > 0) {
       cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}: {.val {messages_type}}"))
