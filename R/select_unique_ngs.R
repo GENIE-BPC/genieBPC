@@ -91,7 +91,7 @@ select_unique_ngs <- function(data_cohort,
 
   # perform checks #
   if (missing(data_cohort)) {
-    stop("The 'data_cohort' argument is needed to perform this process.
+    cli::cli_abort("The 'data_cohort' argument is needed to perform this process.
          'data_cohort' is the output created by the 'fetch_samples' function,
          or the list object 'cohort_cpt' returned from the
          create_analytic_cohort() function.")
@@ -99,7 +99,7 @@ select_unique_ngs <- function(data_cohort,
 
   if (!is.null(min_max_time) && (sum(!min_max_time %in% c("min", "max")) > 0 ||
     as.numeric(length(min_max_time)) > 1)) {
-    stop("The 'min_max_time' argument should be either 'min' or 'max'
+    cli::cli_abort("The 'min_max_time' argument should be either 'min' or 'max'
          (only one of the two).")
   }
 
@@ -107,7 +107,7 @@ select_unique_ngs <- function(data_cohort,
     (length(sample_type) > 1 ||
       !(stringr::str_to_lower(sample_type) %in%
         c("primary", "local", "metastasis")))) {
-    stop("Please input a single sample of type of interest out of 'Primary',
+    cli::cli_abort("Please input a single sample of type of interest out of 'Primary',
          'Local' or 'Metastasis'")
   }
 
@@ -115,14 +115,14 @@ select_unique_ngs <- function(data_cohort,
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
   # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
-    message("None of the optimization arguments were specified. The sample
+    cli::cli_alert_warning("None of the optimization arguments were specified. The sample
           with the largest panel size will be returned. In the case of
           ties a random sample will be returned.")
   }
 
   if (!is.null(oncotree_code) &&
     sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
-    message("The OncoTree code inputted does not exist in the data
+    cli::cli_alert_warning("The OncoTree code inputted does not exist in the data
             and will be ignored. OncoTree codes will not be used to select
           a unique next generation sequencing panel for each patient.")
 
@@ -169,6 +169,7 @@ select_unique_ngs <- function(data_cohort,
       filter(!(.data$record_id %in% dup_samples)) %>%
       bind_rows(solved_dups)
 
+  if (!(is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time))) {
 
     if(length(messages_type) > 0) {
       cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}: {.val {messages_type}}"))
@@ -180,7 +181,8 @@ select_unique_ngs <- function(data_cohort,
       cli::cli_alert_warning(c("{length(messages_random)} patients still had multiple possible samples
                        based on the selected arguments. A sample was
                        selected at random (be sure to set a seed for reproducbility)! : {.val {messages_random}}"))
-      }
+    }
+  }
 
   return(samples_data_final)
 }
