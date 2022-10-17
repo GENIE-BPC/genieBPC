@@ -165,16 +165,14 @@ select_unique_ngs <- function(data_cohort,
 
 
   # remove all patients with duplicates and add back their selected samples #
-  samples_data_final <- rbind(
-    data_cohort %>%
+  samples_data_final <-     data_cohort %>%
       filter(!(.data$record_id %in% dup_samples)) %>%
       bind_rows(solved_dups)
-  )
+
 
     if(length(messages_type) > 0) {
       cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}: {.val {messages_type}}"))
     }
-
     if(length(messages_source) > 0) {
       cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}: {.val {messages_source}}"))
     }
@@ -235,7 +233,9 @@ select_unique_ngs <- function(data_cohort,
     filter(.data$record_id == x)
 
   # Oncotree code -----
-  if (!is.null(oncotree_code)) {
+  if (!is.null(oncotree_code)
+      && (sum(temp$cpt_oncotree_code %in% oncotree_code) > 1)
+      ) {
     temp <- temp %>%
       filter(.data$cpt_oncotree_code %in% oncotree_code)
 
@@ -245,7 +245,9 @@ select_unique_ngs <- function(data_cohort,
 
 
   # Sample type ----
-  if (!is.null(sample_type) & nrow(temp) > 1) {
+  if (!is.null(sample_type)
+      &&  (sum(grepl(sample_type, temp$sample_type,  ignore.case = TRUE  )) > 0)
+      ) {
 
     temp <- temp[grepl(sample_type, temp$sample_type, ignore.case = TRUE), ]
 
