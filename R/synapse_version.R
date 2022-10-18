@@ -43,7 +43,7 @@ synapse_version <- function(most_recent = FALSE) {
       filter(row_number() == 1) %>%
       ungroup() %>%
       arrange(.data$cohort, .data$numeric_release_date) %>%
-      select(.data$cohort, .data$version, .data$release_date) %>%
+      select("cohort", "version", "release_date") %>%
       mutate(versions_returned = "All Versions")
   } else {
     synapse_tables_dts %>%
@@ -51,7 +51,7 @@ synapse_version <- function(most_recent = FALSE) {
       slice(which.max(.data$numeric_release_date)) %>%
       ungroup() %>%
       arrange(.data$cohort, .data$numeric_release_date) %>%
-      select(.data$cohort, .data$version, .data$release_date) %>%
+      select("cohort", "version", "release_date") %>%
       mutate(versions_returned = "Most Recent Versions")
   }
 }
