@@ -433,7 +433,7 @@ create_analytic_cohort <- function(data_synapse,
       by = c("regimen_drugs")
     )
 
-  browser()
+
 
   # option 2: all "first line" drug regimens (regimens of a certain number,
   # within a cancer diagnosis)
@@ -913,7 +913,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # drop variable before returning data frame
-  cohort_ca_dx <- cohort_ca_dx %>% select(-.data$index_ca_seq)
+  cohort_ca_dx <- cohort_ca_dx %>% select(-"index_ca_seq")
 
   cohort_ca_drugs <- cohort_ca_drugs %>%
     dplyr::select(-"order_within_cancer",
