@@ -389,7 +389,7 @@ create_analytic_cohort <- function(data_synapse,
       )
   }
 
-  browser()
+
 
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
