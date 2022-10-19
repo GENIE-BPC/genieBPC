@@ -6,11 +6,17 @@
 #' primary vs. metastatic tumor sample, and earliest vs. most recent sample.
 #' If multiple reports for a patient remain available after the user-defined
 #' specifications, or if no specifications are provided, the panel with the
-#' largest number of genes is selected by default. Running the
-#' select_unique_ngs() function will ensure that the resulting dataset returned
-#' by merging the next generation sequencing report data onto the analytic
-#' dataset returned by create_analytic_cohort() will maintain a structure of
-#' one record per patient.
+#' largest number of genes is selected by default. Sample optimization is
+#' performed in the order that the arguments are specified in the function,
+#' regardless of the arguments’ order provided by the user. Namely the
+#' OncoTree code is prioritized first, sample type is prioritized second and
+#' finally the time is prioritized last. For patients with exactly one genomic
+#' sample, that unique genomic sample will be returned regardless of whether
+#' it meets the user-specified parameters. Running the select_unique_ngs()
+#' function will ensure that the resulting dataset returned by merging the
+#' next generation sequencing report data onto the analytic dataset returned
+#' by create_analytic_cohort() will maintain a structure of one record per
+#' patient.
 #'
 #' Note that the NGS dataset serves as the link between the clinical and
 #' genomic data, where the NGS dataset includes one record per NGS report per
