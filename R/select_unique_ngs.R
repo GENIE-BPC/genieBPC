@@ -139,7 +139,7 @@ select_unique_ngs <- function(data_cohort,
         length(unique(.data$cpt_genie_sample_id))
     ) %>%
     filter(.data$N_samples > 1) %>%
-    select(.data$record_id)))
+    select("record_id")))
 
   solved_dups <- as.data.frame(
     do.call(
