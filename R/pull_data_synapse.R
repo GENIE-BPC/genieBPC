@@ -116,7 +116,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     )
 
   # create `version-number` ---
-  sv <- dplyr::select(genieBPC::synapse_tables, .data$cohort, .data$version) %>%
+  sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
     dplyr::distinct()
 
   version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
@@ -265,13 +265,13 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # file index- files must being csv or txt
   ids_txt_csv <- file_metadata %>%
-    tidyr::unnest(cols = .data$file_info) %>%
+    tidyr::unnest(cols = "file_info") %>%
     filter(.data$type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
     dplyr::select(
-      .data$version_num, .data$file_handle_id, .data$synapse_id, .data$df,
-      .data$name, .data$download_folder
+      "version_num", "file_handle_id", "synapse_id", "df",
+      "name", "download_folder"
     ) %>%
     purrr::pmap(
       ., .get_and_query_file_url, download_location,
