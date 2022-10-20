@@ -53,9 +53,7 @@
 #' # select unique next generation sequencing reports for those patients
 #' samples_data1 <- select_unique_ngs(
 #'   data_cohort = ex1$cohort_ngs,
-#'   oncotree_code = "LUAD",
-#'   sample_type = "Metastasis",
-#'   min_max_time = "max"
+#'   sample_type = "Primary"
 #' )
 #'
 #' # Example 2 ----------------------------------
@@ -74,7 +72,7 @@
 #'
 #' samples_data2 <- select_unique_ngs(
 #'   data_cohort = ex2$cohort_ngs,
-#'   oncotree_code = "LUAD",
+#'   oncotree_code = "NSCLCPD",
 #'   sample_type = "Metastasis",
 #'   min_max_time = "max"
 #' )
@@ -153,15 +151,15 @@ select_unique_ngs <- function(data_cohort,
 
    messages_type <- map_chr(dedupe_res, function(item) {
      item$no_sample_type
-   }) %>% stats::na.omit()
+   }) %>% .[!is.na(.)]
 
    messages_source <- map_chr(dedupe_res, function(item) {
      item$no_sample_source
-   }) %>% stats::na.omit()
+   }) %>% .[!is.na(.)]
 
    messages_random <- map_chr(dedupe_res, function(item) {
      item$random
-   }) %>% stats::na.omit()
+   }) %>% .[!is.na(.)]
 
 
   # remove all patients with duplicates and add back their selected samples #
@@ -172,17 +170,25 @@ select_unique_ngs <- function(data_cohort,
   if (!(is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time))) {
 
     if(length(messages_type) > 0) {
-      cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}: {.val {messages_type}}"))
+      attr(samples_data_final, "no_sample_of_type") <- messages_type
+      cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}, ",
+      "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
+      "See {.code attributes(<your-results>)$no_sample_of_type} to view these sample IDs."))
     }
     if(length(messages_source) > 0) {
-      cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}: {.val {messages_source}}"))
+      attr(samples_data_final, "no_sample_of_source") <- messages_source
+      cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}, ",
+                               "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
+                               "See {.code attributes(<your-results>)$no_sample_of_source} to view these sample IDs."))
     }
     if(length(messages_random) > 0) {
-      cli::cli_alert_warning(c("{length(messages_random)} patients still had multiple possible samples
-                       based on the selected arguments. A sample was
-                       selected at random (be sure to set a seed for reproducbility)! : {.val {messages_random}}"))
+      attr(samples_data_final, "random_samples") <- messages_random
+      cli::cli_alert_warning(c("{length(messages_random)} patients still had multiple possible samples based on the selected arguments. ",
+      "A sample was selected at random (be sure to set a seed for reproducbility)! ",
+      "See {.code attributes(<your-results>)$random_samples} to view these sample IDs."))
     }
   }
+
 
   return(samples_data_final)
 }
@@ -235,27 +241,32 @@ select_unique_ngs <- function(data_cohort,
     filter(.data$record_id == x)
 
   # Oncotree code -----
-  if (!is.null(oncotree_code)
-      && (sum(temp$cpt_oncotree_code %in% oncotree_code) > 1)
-      ) {
+  if (!is.null(oncotree_code)) {
+
+    if(sum(temp$cpt_oncotree_code %in% oncotree_code) > 0) {
+
     temp <- temp %>%
       filter(.data$cpt_oncotree_code %in% oncotree_code)
 
-    no_sample_source <- ifelse(nrow(temp) == 0, x, NA)
+    # if none of that type
+    } else {
+      no_sample_source <- x
 
   }
-
+}
 
   # Sample type ----
-  if (!is.null(sample_type)
-      &&  (sum(grepl(sample_type, temp$sample_type,  ignore.case = TRUE  )) > 0)
-      ) {
+  if (!is.null(sample_type)) {
 
-    temp <- temp[grepl(sample_type, temp$sample_type, ignore.case = TRUE), ]
+    if(sum(grepl(sample_type, temp$sample_type, ignore.case = TRUE  )) > 0) {
 
-    no_sample_type <- ifelse(nrow(temp) == 0, x, NA)
+      temp <- temp[grepl(sample_type, temp$sample_type, ignore.case = TRUE), ]
 
+    } else {
+      no_sample_type <- x
+    }
   }
+
 
 
   # Min/Max time ----
@@ -273,7 +284,7 @@ select_unique_ngs <- function(data_cohort,
   # Panel number ------
   # If there are still multiple samples, then
   # select the sample with largest panel number
-  if (nrow(temp) > 1 & nrow(temp) > 1) {
+  if (nrow(temp) > 1 ) {
 
     temp <- temp %>%
       filter(.data$cpt_seq_assay_id %in%

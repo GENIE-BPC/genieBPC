@@ -71,9 +71,7 @@ ex1 <- create_analytic_cohort(
 # select unique next generation sequencing reports for those patients
 samples_data1 <- select_unique_ngs(
   data_cohort = ex1$cohort_ngs,
-  oncotree_code = "LUAD",
-  sample_type = "Metastasis",
-  min_max_time = "max"
+  sample_type = "Primary"
 )
 
 # Example 2 ----------------------------------
@@ -92,7 +90,7 @@ ex2 <- create_analytic_cohort(
 
 samples_data2 <- select_unique_ngs(
   data_cohort = ex2$cohort_ngs,
-  oncotree_code = "LUAD",
+  oncotree_code = "NSCLCPD",
   sample_type = "Metastasis",
   min_max_time = "max"
 )
