@@ -105,7 +105,8 @@ the data.*
     authenticate yourself at the beginning of each R session in which
     you use {genieBPC} to pull data (see `set_synapse_credentials()`),
     or store your credentials as environmental variables. See [Tutorial:
-    pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html%5D%20for%20more%20details).
+    pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html)
+    for more details.
 
 ## Analytic Data Guides
 

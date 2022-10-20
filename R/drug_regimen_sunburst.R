@@ -135,19 +135,19 @@ drug_regimen_sunburst <- function(data_synapse,
   # 1 column per regimen (R1, R2, R3, etc.)
   cohort_for_sunburst <- cohort_reg_nums_of_interest %>%
     dplyr::select(
-      .data$record_id,
-      .data$order_within_cancer,
-      .data$regimen_drugs
+      "record_id",
+      "order_within_cancer",
+      "regimen_drugs"
     ) %>%
     dplyr::mutate(
       order_within_cancer =
         paste0("R", .data$order_within_cancer)
     ) %>%
     tidyr::pivot_wider(
-      names_from = .data$order_within_cancer,
-      values_from = .data$regimen_drugs
+      names_from = "order_within_cancer",
+      values_from = "regimen_drugs"
     ) %>%
-    dplyr::select(.data$record_id, starts_with("R")) %>%
+    dplyr::select("record_id", starts_with("R")) %>%
     dplyr::mutate_at(vars(matches("R")), ~ as.character(.)) %>%
     dplyr::rowwise() %>%
     dplyr::mutate_at(
@@ -171,7 +171,7 @@ drug_regimen_sunburst <- function(data_synapse,
 
   # only keep each record ID plus drug regimen sequence (1 row/patient)
   cohort_for_sunburst <- cohort_for_sunburst %>%
-    dplyr::select(.data$record_id, .data$path)
+    dplyr::select("record_id", "path")
 
   # summarize number of patients with each regimen combination
   # 1 row per regimen combination with number of patients that
