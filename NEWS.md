@@ -1,5 +1,11 @@
 # genieBPC (development version)
 
+* Clarify the `select_unique_ngs()` input parameters in the function 
+documentation and vignette
+
+* Update selecting functions to account for `tidyselect` v1.2.0 release 
+(issue #83)
+
 * Bioinformatics updates addressing reviewer comments (issue #75)
 
 # genieBPC 1.0.1
