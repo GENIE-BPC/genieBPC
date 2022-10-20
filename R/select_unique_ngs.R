@@ -139,7 +139,7 @@ select_unique_ngs <- function(data_cohort,
         length(unique(.data$cpt_genie_sample_id))
     ) %>%
     filter(.data$N_samples > 1) %>%
-    select(.data$record_id)))
+    select("record_id")))
 
 
   dedupe_res <- map(dup_samples, ~.resolve_duplicates(.x, data_cohort = data_cohort,
