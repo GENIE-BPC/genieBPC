@@ -173,24 +173,32 @@ select_unique_ngs <- function(data_cohort,
       filter(!(.data$record_id %in% dup_samples)) %>%
       bind_rows(solved_dups)
 
+  if(length(dup_samples > 0)) {
+    cli::cli_alert_success(
+      c("{.field {length(dup_samples)}} patients with > 1 sample identified and deduplicated"))
+  }
   if (!(is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time))) {
-
-    if(length(messages_type) > 0) {
-      attr(samples_data_final, "no_sample_of_type") <- messages_type
-      cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}, ",
-      "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
-      "See {.code attributes(<your-results>)$no_sample_of_type} to view these sample IDs."))
-    }
-    if(length(messages_source) > 0) {
-      attr(samples_data_final, "no_sample_of_source") <- messages_source
-      cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}, ",
-                               "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
-                               "See {.code attributes(<your-results>)$no_sample_of_source} to view these sample IDs."))
-    }
+#
+#     if(length(messages_type) > 0) {
+#       attr(samples_data_final, "no_sample_of_type") <- messages_type
+#       cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}, ",
+#       "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
+#       "See {.code attributes(<your-results>)$no_sample_of_type} to view these sample IDs."))
+#     }
+#     if(length(messages_source) > 0) {
+#       attr(samples_data_final, "no_sample_of_source") <- messages_source
+#       cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}, ",
+#                                "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
+#                                "See {.code attributes(<your-results>)$no_sample_of_source} to view these sample IDs."))
+#     }
     if(length(messages_random) > 0) {
       attr(samples_data_final, "random_samples") <- messages_random
-      cli::cli_alert_warning(c("{length(messages_random)} patients still had multiple possible samples based on the selected arguments. ",
-      "A sample was selected at random (be sure to set a seed for reproducbility)! ",
+
+      dedup_by_criteria <- length(dup_samples) -length(messages_random)
+      cli::cli_alert_success(c("{.val {dedup_by_criteria}} of {.field {length(dup_samples)}} patients deduplicated based on given criteria."))
+
+      cli::cli_alert_warning(c("{.val {length(messages_random)}} of {.field {length(dup_samples)}} could not be deduplicated based on the selected criteria and",
+      " a sample was selected at random (be sure to set a seed for reproducbility)! ",
       "See {.code attributes(<your-results>)$random_samples} to view these sample IDs."))
     }
   }
