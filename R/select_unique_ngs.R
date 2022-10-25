@@ -1,22 +1,22 @@
 #' Selecting corresponding unique next generation sequencing reports
 #'
-#' For patients with multiple next generation (NGS) sequencing reports,
-#' select one unique NGS report per patient for the purpose of creating an
-#' analytic dataset based on user-defined criterion, including OncoTree code,
-#' primary vs. metastatic tumor sample, and earliest vs. most recent sample.
-#' If multiple reports for a patient remain available after the user-defined
-#' specifications, or if no specifications are provided, the panel with the
-#' largest number of genes is selected by default. Sample optimization is
-#' performed in the order that the arguments are specified in the function,
-#' regardless of the arguments’ order provided by the user. Namely the
-#' OncoTree code is prioritized first, sample type is prioritized second and
-#' finally the time is prioritized last. For patients with exactly one genomic
-#' sample, that unique genomic sample will be returned regardless of whether
-#' it meets the user-specified parameters. Running the select_unique_ngs()
-#' function will ensure that the resulting dataset returned by merging the
-#' next generation sequencing report data onto the analytic dataset returned
-#' by create_analytic_cohort() will maintain a structure of one record per
-#' patient.
+#' For cancer diagnoses with multiple associated next generation (NGS)
+#' sequencing reports, select one unique NGS report per patient for the purpose
+#' of creating an analytic dataset based on user-defined criterion, including
+#' OncoTree code, primary vs. metastatic tumor sample, and earliest vs. most
+#' recent sample. If multiple reports for a patient remain available after the
+#' user-defined specifications, or if no specifications are provided, the panel
+#' with the largest number of genes is selected by default. Sample optimization
+#' is performed in the order that the arguments are specified in the function,
+#' regardless of the arguments’ order provided by the user. Namely, the OncoTree
+#' code is prioritized first, sample type is prioritized second and finally the
+#' time is prioritized last. For patients with exactly one genomic sample, that
+#' unique genomic sample will be returned regardless of whether it meets the
+#' user-specified parameters. Running the select_unique_ngs() function will
+#' ensure that the resulting dataset returned by merging the next generation
+#' sequencing report data onto the cohort_ca_dx dataset returned by
+#' create_analytic_cohort() will maintain the structure of cohort_ca_dx (either
+#' one record per patient or one record per diagnosis).
 #'
 #' Note that the NGS dataset serves as the link between the clinical and
 #' genomic data, where the NGS dataset includes one record per NGS report per
@@ -175,7 +175,7 @@ select_unique_ngs <- function(data_cohort,
 
   if(length(dup_samples > 0)) {
     cli::cli_alert_success(
-      c("{.field {length(dup_samples)}} patients with > 1 sample identified and deduplicated"))
+      c("{.field {length(dup_samples)}} patients with > 1 next generation sequencing reports were identified"))
   }
   if (!(is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time))) {
 #
@@ -195,10 +195,10 @@ select_unique_ngs <- function(data_cohort,
       attr(samples_data_final, "random_samples") <- messages_random
 
       dedup_by_criteria <- length(dup_samples) -length(messages_random)
-      cli::cli_alert_success(c("{.val {dedup_by_criteria}} of {.field {length(dup_samples)}} patients deduplicated based on given criteria."))
+      cli::cli_alert_success(c("{.val {dedup_by_criteria}} of {.field {length(dup_samples)}} had a unique NGS report selected based on given criteria."))
 
-      cli::cli_alert_warning(c("{.val {length(messages_random)}} of {.field {length(dup_samples)}} could not be deduplicated based on the selected criteria and",
-      " a sample was selected at random (be sure to set a seed for reproducbility)! ",
+      cli::cli_alert_warning(c("{.val {length(messages_random)}} of {.field {length(dup_samples)}} did not have a unique NGS report selected based on the selected criteria or by having the largest panel, so",
+      " a NGS report was selected at random (be sure to set a seed for reproducbility!) ",
       "See {.code attributes(<your-results>)$random_samples} to view these sample IDs."))
     }
   }
