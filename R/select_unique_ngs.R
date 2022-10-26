@@ -1,6 +1,6 @@
 #' Selecting corresponding unique next generation sequencing reports
 #'
-#' For cancer diagnoses with multiple associated next generation (NGS)
+#' For patients with multiple associated next generation (NGS)
 #' sequencing reports, select one unique NGS report per patient for the purpose
 #' of creating an analytic dataset based on user-defined criterion, including
 #' OncoTree code, primary vs. metastatic tumor sample, and earliest vs. most
@@ -16,7 +16,11 @@
 #' ensure that the resulting dataset returned by merging the next generation
 #' sequencing report data onto the cohort_ca_dx dataset returned by
 #' create_analytic_cohort() will maintain the structure of cohort_ca_dx (either
-#' one record per patient or one record per diagnosis).
+#' one record per patient or one record per diagnosis). Currently, if multiple
+#' diagnoses per patient are returned from create_analytic_cohort(), using
+#' select_unique_ngs() will select a single NGS report per patient. In
+#' future iterations, this will be updated so that one NGS report per diagnosis
+#' can be selected.
 #'
 #' Note that the NGS dataset serves as the link between the clinical and
 #' genomic data, where the NGS dataset includes one record per NGS report per
