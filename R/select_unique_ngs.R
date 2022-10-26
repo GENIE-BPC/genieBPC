@@ -46,6 +46,7 @@
 #'
 #' @return returns the 'cohort_ngs' object of the create_analytic_cohort
 #' with unique genomic samples taken from each patients.
+#' @author Karissa Whiting
 #' @export
 #'
 #' @examplesIf genieBPC::.is_connected_to_genie()

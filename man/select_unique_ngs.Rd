@@ -106,3 +106,6 @@ samples_data2 <- select_unique_ngs(
 )
 \dontshow{\}) # examplesIf}
 }
+\author{
+Karissa Whiting
+}
