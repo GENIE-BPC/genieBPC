@@ -27,7 +27,7 @@
 #' To access data, users must have a valid 'Synapse' account with permission to
 #' access the data set and they must have accepted any necessary 'Terms of Use'.
 #' Users must always authenticate themselves in their current R session.
-#' (see \href{https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'}
+#' (see \href{https://genie-bpc.github.io/genieBPC/}{README 'Data Access and Authentication'}
 #' for details).
 #' To set your 'Synapse' credentials during each session, call:
 #'
