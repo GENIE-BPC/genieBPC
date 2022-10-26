@@ -31,14 +31,14 @@ returns the 'cohort_ngs' object of the create_analytic_cohort
 with unique genomic samples taken from each patients.
 }
 \description{
-For patients with multiple associated next generation (NGS)
-sequencing reports, select one unique NGS report per patient for the purpose
-of creating an analytic dataset based on user-defined criterion, including
-OncoTree code, primary vs. metastatic tumor sample, and earliest vs. most
-recent sample. If multiple reports for a patient remain available after the
-user-defined specifications, or if no specifications are provided, the panel
-with the largest number of genes is selected by default. Sample optimization
-is performed in the order that the arguments are specified in the function,
+For patients with multiple associated next generation (NGS) sequencing
+reports, select one unique NGS report per patient for the purpose of creating
+an analytic dataset based on user-defined criterion, including OncoTree code,
+primary vs. metastatic tumor sample, and earliest vs. most recent sample. If
+multiple reports for a patient remain available after the user-defined
+specifications, or if no specifications are provided, the panel with the
+largest number of genes is selected by default. Sample optimization is
+performed in the order that the arguments are specified in the function,
 regardless of the arguments’ order provided by the user. Namely, the OncoTree
 code is prioritized first, sample type is prioritized second and finally the
 time is prioritized last. For patients with exactly one genomic sample, that
@@ -49,9 +49,9 @@ sequencing report data onto the cohort_ca_dx dataset returned by
 create_analytic_cohort() will maintain the structure of cohort_ca_dx (either
 one record per patient or one record per diagnosis). Currently, if multiple
 diagnoses per patient are returned from create_analytic_cohort(), using
-select_unique_ngs() will select a single NGS report per patient. In
-future iterations, this will be updated so that one NGS report per diagnosis
-can be selected.
+select_unique_ngs() will select a single NGS report per patient. In future
+iterations, this will be updated so that one NGS report per diagnosis can be
+selected.
 }
 \details{
 Note that the NGS dataset serves as the link between the clinical and

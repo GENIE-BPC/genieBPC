@@ -7,28 +7,31 @@
 set_synapse_credentials(username = NULL, password = NULL)
 }
 \arguments{
-\item{username}{'Synapse' username. If NULL, package will search environmental
-variables for `SYNAPSE_USERNAME`.}
+\item{username}{'Synapse' username. If NULL, package will search
+environmental variables for `SYNAPSE_USERNAME`.}
 
-\item{password}{'Synapse' password. If NULL, package will search environmental
-variables for `SYNAPSE_PASSWORD`.}
+\item{password}{'Synapse' password. If NULL, package will search
+environmental variables for `SYNAPSE_PASSWORD`.}
 }
 \value{
-A success message if you credentials are valid for 'Synapse' platform;
-  otherwise an error
+A success message if you credentials are valid for 'Synapse'
+platform; otherwise an error
 }
 \description{
 This function sets 'Synapse' credentials for the user's current session.
 }
 \details{
-To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+To access data, users must have a valid 'Synapse' account with permission to
+access the data set and they must have accepted any necessary 'Terms of Use'.
 Users must authenticate themselves in their current R session.
 (see {https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'} for details).
 To set your 'Synapse' credentials during each session, call:
  `set_synapse_credentials(username = "your_username", password = "your_password")`.
 
 If your credentials are stored as environmental variables, you do not need to call
-`set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
+`set_synapse_credentials()` explicitly each session. To store authentication
+information in your environmental variables, add the following to your
+.Renviron file, then restart your R session
 (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
 \itemize{

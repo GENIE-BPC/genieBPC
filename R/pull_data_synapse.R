@@ -24,17 +24,20 @@
 #' @param password 'Synapse' password
 #'
 #' @section Authentication:
-#' To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+#' To access data, users must have a valid 'Synapse' account with permission to
+#' access the data set and they must have accepted any necessary 'Terms of Use'.
 #' Users must always authenticate themselves in their current R session.
-#' (see \href{https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'} for details).
+#' (see \href{https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'}
+#' for details).
 #' To set your 'Synapse' credentials during each session, call:
 #'
 #' `set_synapse_credentials(username = "your_username", password = "your_password")`
 #'
-#' If your credentials are stored as environmental variables, you do not need to call
-#' `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
-#  add the following to your .Renviron file, then restart your R session
-#' (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
+#' If your credentials are stored as environmental variables, you do not need to
+#' call `set_synapse_credentials()` explicitly each session. To store
+#' authentication information in your environmental variables, add the following
+#' to your .Renviron file, then restart your R session ' (tip: you can use
+#' `usethis::edit_r_environ()` to easily open/edit this file):
 #'
 #' \itemize{
 #'    \item `SYNAPSE_USERNAME = <your-username>`
@@ -104,11 +107,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   version <- version %>%
     purrr::when(
       is.null(.) ~ cli::cli_abort("Version needs to be specified.
-                            Use {.code synapse_version()} to see what data is available."),
+                Use {.code synapse_version()} to see what data is available."),
       setdiff(., unique(synapse_tables$version)) > 0 ~
         cli::cli_abort("{.code version} must be one of the following:
                        {unique(synapse_tables$version)}"),
-      length(select_cohort) < length(.) ~ cli::cli_abort("You have selected more versions than cancer cohorts.
+      length(select_cohort) < length(.) ~ cli::cli_abort(
+        "You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available"),
       TRUE ~ rlang::arg_match(., unique(synapse_tables$version),
@@ -126,7 +130,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
                                             by = c("cohort", "version"))
 
   if (nrow(version_not_available) > 0) {
-    cli::cli_abort(c("You have selected a version that is not available for this cohort (use `synapse_tables` to see what versions are available):",
+    cli::cli_abort(c("You have selected a version that is not available for
+                     this cohort (use `synapse_tables` to see what versions
+                     are available):",
       "x" = "{.val {version_not_available}}"
     ))
   }
@@ -386,7 +392,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
         . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t",
                                               na.strings = ""),
         TRUE ~ cli::cli_abort(
-          "Cannot read objects of type {file_type}. Try downloading directly to disk with {.code download_location}")
+          "Cannot read objects of type {file_type}.
+          Try downloading directly to disk with {.code download_location}")
       )
 
     cli::cli_alert_success(
