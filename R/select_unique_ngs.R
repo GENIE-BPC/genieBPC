@@ -213,7 +213,7 @@ select_unique_ngs <- function(data_cohort,
 #' See `select_unique_ngs` for details on selection criteria
 #' @param x sample ID to select unique NGS report for
 #' @inheritParams select_unique_ngs
-#'
+#' @keywords internal
 #' @return a dataframe of samples with one observation per patient.
 #' @export
 #'
