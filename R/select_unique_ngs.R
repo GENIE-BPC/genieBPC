@@ -208,10 +208,10 @@ select_unique_ngs <- function(data_cohort,
 }
 
 
-#' Resolve duplicated NGS samples
+#' Select unique NGS report when multiple are available
 #'
 #' See `select_unique_ngs` for details on selection criteria
-#' @param x sample ID to deduplicate
+#' @param x sample ID to select unique NGS report for
 #' @inheritParams select_unique_ngs
 #'
 #' @return a dataframe of samples with one observation per patient.
