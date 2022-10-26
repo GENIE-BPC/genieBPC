@@ -2,12 +2,12 @@
 % Please edit documentation in R/select_unique_ngs.R
 \name{.resolve_duplicates}
 \alias{.resolve_duplicates}
-\title{Resolve duplicated NGS samples}
+\title{Select unique NGS report when multiple are available}
 \usage{
 .resolve_duplicates(x, data_cohort, oncotree_code, sample_type, min_max_time)
 }
 \arguments{
-\item{x}{sample ID to deduplicate}
+\item{x}{sample ID to select unique NGS report for}
 
 \item{data_cohort}{output object of the create_analytic_cohort function.}
 
@@ -56,3 +56,4 @@ samples_data2 <- .resolve_duplicates(
 )
 \dontshow{\}) # examplesIf}
 }
+\keyword{internal}
