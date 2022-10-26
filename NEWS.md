@@ -1,5 +1,7 @@
 # genieBPC (development version)
 
+* Clarify error messaging in `select_unique_ngs()` (#57)
+
 * Clarify the `select_unique_ngs()` input parameters in the function 
 documentation and vignette
 

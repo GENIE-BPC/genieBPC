@@ -14,16 +14,17 @@ or "BrCa"}
 `pull_data_synapse()`}
 
 \item{df_record_ids}{NGS data frame from the `create_analytic_cohort()`
-function.}
+function. Must contain variables: cohort, record_id and ca_seq.}
 }
 \value{
-returns the 'cohort_ngs' object of the create_analytic_cohort
-with the genomic samples taken from each patients.
+The NGS reports for each patient, stored as the
+  'cohort_ngs' data frame of the create_analytic_cohort object
 }
 \description{
 This function links patients in a cohort (created by
 create_analytic_cohort()) with their corresponding
-genomic samples available in GENIE.
+next generation sequencing (NGS) reports, which can be used to link to the
+corresponding GENIE genomic data.
 }
 \details{
 Subset cancer panel test data to patients in the cohort of interest

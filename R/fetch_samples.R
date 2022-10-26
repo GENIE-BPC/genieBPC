@@ -2,7 +2,8 @@
 #'
 #' This function links patients in a cohort (created by
 #' create_analytic_cohort()) with their corresponding
-#' genomic samples available in GENIE.
+#' next generation sequencing (NGS) reports, which can be used to link to the
+#' corresponding GENIE genomic data.
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
@@ -10,9 +11,9 @@
 #' @param data_synapse The item from the nested list returned from
 #' `pull_data_synapse()`
 #' @param df_record_ids NGS data frame from the `create_analytic_cohort()`
-#'   function.
-#' @return returns the 'cohort_ngs' object of the create_analytic_cohort
-#' with the genomic samples taken from each patients.
+#'   function. Must contain variables: cohort, record_id and ca_seq.
+#' @return The NGS reports for each patient, stored as the
+#'   'cohort_ngs' data frame of the create_analytic_cohort object
 #' @author Axel Martin
 #' @import
 #' dplyr
