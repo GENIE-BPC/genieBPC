@@ -1,13 +1,13 @@
 #' Selecting corresponding unique next generation sequencing reports
 #'
-#' For patients with multiple associated next generation (NGS)
-#' sequencing reports, select one unique NGS report per patient for the purpose
-#' of creating an analytic dataset based on user-defined criterion, including
-#' OncoTree code, primary vs. metastatic tumor sample, and earliest vs. most
-#' recent sample. If multiple reports for a patient remain available after the
-#' user-defined specifications, or if no specifications are provided, the panel
-#' with the largest number of genes is selected by default. Sample optimization
-#' is performed in the order that the arguments are specified in the function,
+#' For patients with multiple associated next generation (NGS) sequencing
+#' reports, select one unique NGS report per patient for the purpose of creating
+#' an analytic dataset based on user-defined criterion, including OncoTree code,
+#' primary vs. metastatic tumor sample, and earliest vs. most recent sample. If
+#' multiple reports for a patient remain available after the user-defined
+#' specifications, or if no specifications are provided, the panel with the
+#' largest number of genes is selected by default. Sample optimization is
+#' performed in the order that the arguments are specified in the function,
 #' regardless of the arguments’ order provided by the user. Namely, the OncoTree
 #' code is prioritized first, sample type is prioritized second and finally the
 #' time is prioritized last. For patients with exactly one genomic sample, that
@@ -18,9 +18,9 @@
 #' create_analytic_cohort() will maintain the structure of cohort_ca_dx (either
 #' one record per patient or one record per diagnosis). Currently, if multiple
 #' diagnoses per patient are returned from create_analytic_cohort(), using
-#' select_unique_ngs() will select a single NGS report per patient. In
-#' future iterations, this will be updated so that one NGS report per diagnosis
-#' can be selected.
+#' select_unique_ngs() will select a single NGS report per patient. In future
+#' iterations, this will be updated so that one NGS report per diagnosis can be
+#' selected.
 #'
 #' Note that the NGS dataset serves as the link between the clinical and
 #' genomic data, where the NGS dataset includes one record per NGS report per
@@ -100,40 +100,34 @@ select_unique_ngs <- function(data_cohort,
 
   # perform checks #
   if (missing(data_cohort)) {
-    cli::cli_abort("The 'data_cohort' argument is needed to perform this process.
-         'data_cohort' is the output created by the 'fetch_samples' function,
-         or the list object 'cohort_cpt' returned from the
-         create_analytic_cohort() function.")
+    cli::cli_abort(
+      "The 'data_cohort' argument is needed to perform this process. 'data_cohort' is the output created by the 'fetch_samples' function, or the list object 'cohort_cpt' returned from the create_analytic_cohort() function.")
   }
 
   if (!is.null(min_max_time) && (sum(!min_max_time %in% c("min", "max")) > 0 ||
     as.numeric(length(min_max_time)) > 1)) {
-    cli::cli_abort("The 'min_max_time' argument should be either 'min' or 'max'
-         (only one of the two).")
+    cli::cli_abort("The 'min_max_time' argument should be either 'min' or 'max' (only one of the two).")
   }
 
   if (!is.null(sample_type) &&
     (length(sample_type) > 1 ||
       !(stringr::str_to_lower(sample_type) %in%
         c("primary", "local", "metastasis")))) {
-    cli::cli_abort("Please input a single sample of type of interest out of 'Primary',
-         'Local' or 'Metastasis'")
+    cli::cli_abort(
+      "Please input a single sample of type of interest out of 'Primary', 'Local' or 'Metastasis'")
   }
 
   # if(sum(grepl("samples_data",names(data_cohort))) != 1)
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
   # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
-    cli::cli_alert_warning("None of the optimization arguments were specified. The sample
-          with the largest panel size will be returned. In the case of
-          ties a random sample will be returned.")
+    cli::cli_alert_warning("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
   }
 
   if (!is.null(oncotree_code) &&
     sum(data_cohort$cpt_oncotree_code %in% oncotree_code) == 0) {
-    cli::cli_alert_warning("The OncoTree code inputted does not exist in the data
-            and will be ignored. OncoTree codes will not be used to select
-          a unique next generation sequencing panel for each patient.")
+    cli::cli_alert_warning(
+      "The OncoTree code inputted does not exist in the data and will be ignored. OncoTree codes will not be used to select a unique next generation sequencing panel for each patient.")
 
     oncotree_code <- NULL
   }
@@ -151,7 +145,8 @@ select_unique_ngs <- function(data_cohort,
     select("record_id")))
 
 
-  dedupe_res <- map(dup_samples, ~.resolve_duplicates(.x, data_cohort = data_cohort,
+  dedupe_res <- map(dup_samples, ~.resolve_duplicates(.x,
+                                        data_cohort = data_cohort,
                                         oncotree_code = oncotree_code,
                                         sample_type = sample_type,
                                         min_max_time = min_max_time))
@@ -186,16 +181,23 @@ select_unique_ngs <- function(data_cohort,
 #
 #     if(length(messages_type) > 0) {
 #       attr(samples_data_final, "no_sample_of_type") <- messages_type
-#       cli::cli_alert_warning(c("{length(messages_type)} patients had no samples matching {.field sample_type = {sample_type}}, ",
-#       "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
-#       "See {.code attributes(<your-results>)$no_sample_of_type} to view these sample IDs."))
+#       cli::cli_alert_warning(c("{length(messages_type)} patients had no
+#       samples matching {.field sample_type = {sample_type}}, ",
+#       "therefore other criteria was used to select a final sample
+#       (see {.code ?select_unique_ngs}). ",
+#       "See {.code attributes(<your-results>)$no_sample_of_type}
+#       to view these sample IDs."))
 #     }
 #     if(length(messages_source) > 0) {
 #       attr(samples_data_final, "no_sample_of_source") <- messages_source
-#       cli::cli_alert_warning(c("{length(messages_source)} patients had no samples matching {.field oncotree_code = {oncotree_code}}, ",
-#                                "therefore other criteria was used to select a final sample (see {.code ?select_unique_ngs}). ",
-#                                "See {.code attributes(<your-results>)$no_sample_of_source} to view these sample IDs."))
+#       cli::cli_alert_warning(c("{length(messages_source)} patients had no
+#       samples matching {.field oncotree_code = {oncotree_code}}, ",
+#       "therefore other criteria was used to select a final sample
+#       (see {.code ?select_unique_ngs}). ",
+#       "See {.code attributes(<your-results>)$no_sample_of_source} to view
+#       these sample IDs."))
 #     }
+
     if(length(messages_random) > 0) {
       attr(samples_data_final, "random_samples") <- messages_random
 

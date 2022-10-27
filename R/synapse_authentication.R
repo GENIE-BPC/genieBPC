@@ -9,15 +9,17 @@ genieBPC_env <- rlang::new_environment()
 #'
 #' This function sets 'Synapse' credentials for the user's current session.
 #'
-#' To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+#' To access data, users must have a valid 'Synapse' account with permission to
+#' access the data set and they must have accepted any necessary 'Terms of Use'.
 #' Users must authenticate themselves in their current R session.
-#' (see {https://genie-bpc.github.io/genieBPC}{README 'Data Access and Authentication'} for details).
+#' (see {https://genie-bpc.github.io/genieBPC/}{README 'Data Access and Authentication'} for details).
 #' To set your 'Synapse' credentials during each session, call:
 #'  `set_synapse_credentials(username = "your_username", password = "your_password")`.
 #'
 #' If your credentials are stored as environmental variables, you do not need to call
-#' `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
-#  add the following to your .Renviron file, then restart your R session
+#' `set_synapse_credentials()` explicitly each session. To store authentication
+#' information in your environmental variables, add the following to your
+#' .Renviron file, then restart your R session
 #' (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 #'
 #' \itemize{
@@ -29,13 +31,13 @@ genieBPC_env <- rlang::new_environment()
 #' data pull function if preferred, although it is recommended that you manage
 #' your passwords outside of your scripts for security purposes.
 #'
-#' @param username 'Synapse' username. If NULL, package will search environmental
-#'   variables for `SYNAPSE_USERNAME`.
-#' @param password 'Synapse' password. If NULL, package will search environmental
-#'   variables for `SYNAPSE_PASSWORD`.
+#' @param username 'Synapse' username. If NULL, package will search
+#' environmental variables for `SYNAPSE_USERNAME`.
+#' @param password 'Synapse' password. If NULL, package will search
+#' environmental variables for `SYNAPSE_PASSWORD`.
 
-#' @return A success message if you credentials are valid for 'Synapse' platform;
-#'   otherwise an error
+#' @return A success message if you credentials are valid for 'Synapse'
+#' platform; otherwise an error
 #'
 #' @author Karissa Whiting
 #' @export
