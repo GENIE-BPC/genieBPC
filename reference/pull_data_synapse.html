@@ -18,7 +18,7 @@ for further documentation and examples."><!-- mathjax --><script src="https://cd
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,14 +125,18 @@ the specified cohort(s).</p>
     <h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a></h2>
     
 
-<p>To access data, users must have a valid 'Synapse' account with permission to access the data set and they must have accepted any necessary 'Terms of Use'.
+<p>To access data, users must have a valid 'Synapse' account with permission to
+access the data set and they must have accepted any necessary 'Terms of Use'.
 Users must always authenticate themselves in their current R session.
-(see <a href="https://genie-bpc.github.io/genieBPC">README 'Data Access and Authentication'</a> for details).
+(see <a href="https://genie-bpc.github.io/genieBPC">README 'Data Access and Authentication'</a>
+for details).
 To set your 'Synapse' credentials during each session, call:</p>
 <p>`set_synapse_credentials(username = "your_username", password = "your_password")`</p>
-<p>If your credentials are stored as environmental variables, you do not need to call
-`set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables,
-(tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):</p>
+<p>If your credentials are stored as environmental variables, you do not need to
+call `set_synapse_credentials()` explicitly each session. To store
+authentication information in your environmental variables, add the following
+to your .Renviron file, then restart your R session ' (tip: you can use
+`usethis::edit_r_environ()` to easily open/edit this file):</p>
 <ul><li><p>`SYNAPSE_USERNAME = &lt;your-username&gt;`</p></li>
 <li><p>`SYNAPSE_PASSWORD = &lt;your-password&gt;`</p></li>
 </ul><p>Alternatively, you can pass your username and password to each individual
