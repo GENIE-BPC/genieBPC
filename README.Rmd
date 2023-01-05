@@ -118,6 +118,8 @@ its corresponding variables for each data release.
 -   [NSCLC v2.0-Public Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May 2022*
     
+-   [CRC v2.0-Public Analytic Data Guide](https://www.synapse.org/#!Synapse:syn31751466) *XXX add date*
+    
 **Consortium Data Releases**  
 *Note that only GENIE BPC consortium users have access to the consortium releases.*   
 
@@ -134,7 +136,18 @@ its corresponding variables for each data release.
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
     
 -   [BrCa v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077313)
+    Guide](https://www.synapse.org/#!Synapse:syn32330194)
+    
+-   [BrCa v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    
+-   [PANC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn29787285)
+
+-   [BLADDER v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    
+
 
 ## Example
 
