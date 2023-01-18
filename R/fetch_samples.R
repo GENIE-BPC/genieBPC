@@ -7,7 +7,7 @@
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
-#' or "BrCa"
+#' "BrCa", "BLADDER", or "PANC".
 #' @param data_synapse The item from the nested list returned from
 #' `pull_data_synapse()`
 #' @param df_record_ids NGS data frame from the `create_analytic_cohort()`
@@ -22,7 +22,7 @@
 
 fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   # get `cohort` ---
-  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
+  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "PANC", "BLADDER"),
                                     multiple = FALSE
   )
 

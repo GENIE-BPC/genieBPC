@@ -8,7 +8,7 @@
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
-#'   "BrCa" (Breast Cancer).
+#'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), and "BLADDER" (Bladder Cancer).
 #' @param version Vector specifying the version of the data. Must be one of the
 #'   following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
 #'   "v2.0-public". When entering multiple cohorts, the order of the version
@@ -57,7 +57,11 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BrCa v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
 #' }
 #'
 #' @return Returns a nested list of clinical and genomic data corresponding to
@@ -100,7 +104,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   token <- .get_synapse_token(username = username, password = password)
 
   # get `cohort` ---
-  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
+  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC"),
     multiple = TRUE
   )
 

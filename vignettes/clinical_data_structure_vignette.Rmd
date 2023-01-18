@@ -28,14 +28,13 @@ knitr::opts_chunk$set(
   - Phenomic data are curated using the PRISSMM curation model.
   - Currently MSK, Dana Farber, Vanderbilt and University Health Network are the participating institutions. GENIE BPC will be expanded to more institutions in phase II.
 
-- GENIE BPC sponsors six projects that involve augmenting the genomic data in Project GENIE to include PRISSMM phenomic data and cancer-related outcomes. Each project encompasses a single cancer site. While all projects are based on curating data under the PRISSMM phenomic data curation model, the variables available for each project may vary. The six projects are:
+- GENIE BPC sponsors six projects that involve augmenting the genomic data in Project GENIE to include PRISSMM phenomic data and cancer-related outcomes. Each project encompasses a single cancer site. While all projects are based on curating data under the PRISSMM phenomic data curation model, the variables available for each project may vary. The five projects are:
 
   1. Non-small cell lung cancer (NSCLC)
   2. Colon/rectal cancer (CRC)
   3. Breast cancer (BrCa)
   4. Pancreas cancer (PANC)
-  5. Prostate cancer (Prostate)
-  6. Bladder cancer (BLADDER)
+  5. Bladder cancer (BLADDER)
 
 
 ## GENIE BPC Elements
