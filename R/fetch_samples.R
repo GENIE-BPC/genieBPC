@@ -22,7 +22,7 @@
 
 fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   # get `cohort` ---
-  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "PANC", "BLADDER"),
+  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "PANC", "BLADDER", "Prostate"),
                                     multiple = FALSE
   )
 

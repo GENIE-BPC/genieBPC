@@ -116,27 +116,40 @@ its corresponding variables for each data release.
 **Public Data Releases**
 
 -   [NSCLC v2.0-Public Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May
-    2022*
-
+    Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May 2022*
+    
+-   [CRC v2.0-Public Analytic Data 
+    Guide](https://www.synapse.org/#!Synapse:syn31751466) *Released August 2022*
+    
 **Consortium Data Releases**  
-*Note that only GENIE BPC consortium users have access to the consortium
-releases.*
+*Note that only GENIE BPC consortium users have access to the consortium releases.*   
 
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
-
+    
 -   [NSCLC v2.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26008058)
-
+    
 -   [CRC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23764204)
-
+    
 -   [CRC v1.2-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
-
+    
 -   [BrCa v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077313)
+    Guide](https://www.synapse.org/#!Synapse:syn32330194)
+    
+-   [BrCa v1.2-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    
+-   [PANC v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn29787285)
+
+-   [BLADDER v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    
+-   [Prostate v1.1-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn30148714)
 
 ## Example
 

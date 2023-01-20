@@ -18,3 +18,4 @@ synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
   rename(df = dataset)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
+

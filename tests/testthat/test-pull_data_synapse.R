@@ -132,7 +132,7 @@ test_that("Test NA conversion", {
   #### test BrCa
   brca_cohort <- pull_data_synapse(cohort = c("BrCa"),
                                   version = c("v1.1-consortium"))
-  # CRC 1.1-consortium
+
   brca_nomissing_1.1 <- sum(sapply(brca_cohort$BrCa_v1.1, function(x) {
     any(x == "", na.rm = TRUE) == FALSE
   }))
