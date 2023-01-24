@@ -137,10 +137,10 @@ its corresponding variables for each data release.
     Guide](https://www.synapse.org/#!Synapse:syn26077308)
     
 -   [BrCa v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn32330194)
+    Guide](https://www.synapse.org/#!Synapse:syn26077313)
     
 -   [BrCa v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    Guide](https://www.synapse.org/#!Synapse:syn32330194)
     
 -   [PANC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn29787285)

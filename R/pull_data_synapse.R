@@ -60,7 +60,7 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BrCa v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
