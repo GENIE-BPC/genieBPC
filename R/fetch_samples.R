@@ -7,7 +7,7 @@
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
 #' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
-#' "BrCa", "BLADDER", or "PANC".
+#' "BrCa", "BLADDER", "Prostate", or "PANC".
 #' @param data_synapse The item from the nested list returned from
 #' `pull_data_synapse()`
 #' @param df_record_ids NGS data frame from the `create_analytic_cohort()`

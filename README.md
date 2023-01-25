@@ -144,12 +144,18 @@ its corresponding variables for each data release.
     
 -   [PANC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn29787285)
+    
+-   [PANC v1.2-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn50612821)
 
 -   [BLADDER v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30787692)
     
 -   [Prostate v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30148714)
+    
+-   [Prostate v1.2-Consortium Analytic Data
+    Guide](https://www.synapse.org/#!Synapse:syn50612204)
 
 ## Example
 
