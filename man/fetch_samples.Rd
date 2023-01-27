@@ -8,7 +8,7 @@ fetch_samples(cohort, data_synapse, df_record_ids)
 }
 \arguments{
 \item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
-or "BrCa"}
+"BrCa", "BLADDER", "Prostate", or "PANC".}
 
 \item{data_synapse}{The item from the nested list returned from
 `pull_data_synapse()`}
