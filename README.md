@@ -44,20 +44,20 @@ remotes::install_github("GENIE-BPC/genieBPC")
 
 ## Overview of {genieBPC} Functions
 
--   **Data import:** `pull_data_synapse()` imports GENIE BPC data from
-    ‘Synapse’ into the R environment
+- **Data import:** `pull_data_synapse()` imports GENIE BPC data from
+  ‘Synapse’ into the R environment
 
--   **Data processing**
+- **Data processing**
 
-    -   `create_analytic_cohort()` selects an analytic cohort based on
-        cancer diagnosis information and/or cancer-directed drug regimen
-        information  
-    -   `select_unique_ngs()` selects a unique next generation
-        sequencing (NGS) test corresponding to the selected diagnoses
+  - `create_analytic_cohort()` selects an analytic cohort based on
+    cancer diagnosis information and/or cancer-directed drug regimen
+    information  
+  - `select_unique_ngs()` selects a unique next generation sequencing
+    (NGS) test corresponding to the selected diagnoses
 
--   **Data visualization:** `drug_regimen_sunburst()` creates a sunburst
-    figure of drug regimen information corresponding to the selected
-    diagnoses in the order that the regimens were administered
+- **Data visualization:** `drug_regimen_sunburst()` creates a sunburst
+  figure of drug regimen information corresponding to the selected
+  diagnoses in the order that the regimens were administered
 
 ## Data Access & Authentication
 
@@ -115,47 +115,50 @@ its corresponding variables for each data release.
 
 **Public Data Releases**
 
--   [NSCLC v2.0-Public Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May 2022*
-    
--   [CRC v2.0-Public Analytic Data 
-    Guide](https://www.synapse.org/#!Synapse:syn31751466) *Released August 2022*
-    
+- [NSCLC v2.0-Public Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn30557304) *Released May
+  2022*
+
+- [CRC v2.0-Public Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn31751466) *Released August
+  2022*
+
 **Consortium Data Releases**  
-*Note that only GENIE BPC consortium users have access to the consortium releases.*   
+*Note that only GENIE BPC consortium users have access to the consortium
+releases.*
 
--   [NSCLC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23002641)
-    
--   [NSCLC v2.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26008058)
-    
--   [CRC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23764204)
-    
--   [CRC v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077308)
-    
--   [BrCa v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn32330194)
-    
--   [BrCa v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30787692)
-    
--   [PANC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn29787285)
-    
--   [PANC v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn50612821)
+- [NSCLC v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn23002641)
 
--   [BLADDER v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30787692)
-    
--   [Prostate v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn30148714)
-    
--   [Prostate v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn50612204)
+- [NSCLC v2.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn26008058)
+
+- [CRC v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn23764204)
+
+- [CRC v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn26077308)
+
+- [BrCa v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn26077313)
+
+- [BrCa v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn32330194)
+
+- [PANC v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn29787285)
+
+- [PANC v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn50612821)
+
+- [BLADDER v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn30787692)
+
+- [Prostate v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn30148714)
+
+- [Prostate v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn50612204)
 
 ## Example
 
