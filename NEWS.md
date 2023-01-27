@@ -1,3 +1,11 @@
+# Development 
+
+* Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC
+v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases
+
+* Ensure consistent order of datasets returned from calls to
+`pull_data_synapse()`
+
 # genieBPC 1.0.1
 
 * Updates to `select_unique_ngs()` documentation and vignettes, as well as
