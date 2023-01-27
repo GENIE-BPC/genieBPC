@@ -8,6 +8,7 @@ synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
     dataset == "regimen_cancer_level_dataset" ~ "ca_drugs",
     dataset == "imaging_level_dataset" ~ "prissmm_imaging",
     dataset == "pathology_report_level_dataset" ~ "prissmm_pathology",
+    dataset == "ca_radtx_dataset" ~ "ca_radtx",
     dataset == "med_onc_note_level_dataset" ~ "prissmm_md",
     dataset == "tm_level_dataset" ~ "tumor_marker",
     dataset == "cancer_panel_test_level_dataset" ~ "cpt",
