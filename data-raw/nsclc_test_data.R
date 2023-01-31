@@ -19,14 +19,22 @@ set.seed(10)
 nsclc_test_data <- purrr::map(nsclc_data, function(df) {
 
   new_df <- purrr::map_df(df, function(vec) {
-    y <- vec %>%
-      purrr::when(
-        is.character(.) ~ sample(x = levels(as.factor(.)), size = length(.), replace = TRUE),
-        is.numeric(.) & any(!is.na(.)) ~ sample(
-          x = c(min(., na.rm = TRUE):max(., na.rm = TRUE)),
-          size = length(.), replace = TRUE),
-        TRUE ~ NA
-      )
+
+    if (is.character(vec)) {
+
+      y <- sample(x = levels(as.factor(.)), size = length(.), replace = TRUE)
+
+    } else if (is.numeric(vec)& any(!is.na(vec))) {
+
+      y <- sample(
+        x = c(min(., na.rm = TRUE):max(., na.rm = TRUE)),
+        size = length(.), replace = TRUE)
+
+    } else {
+
+      y <- NA
+
+    }
 
     return(y)
   })

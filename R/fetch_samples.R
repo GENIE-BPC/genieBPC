@@ -42,33 +42,31 @@ fetch_samples <- function(cohort, data_synapse, df_record_ids) {
   pluck(data_synapse, "cpt"),
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
-    distinct() %>%
-    purrr::when(
-      # if older release and cpt_sample_type is available, but derived
-      # variable sample_type is not
-      (any(names(.) == "cpt_sample_type") &
-        !any(names(.) == "sample_type")) ~ dplyr::mutate(.,
-        sample_type = case_when(
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("1", "primary", "primary tumor") ~ "Primary tumor",
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("2", "lymph node metastasis") ~ "Lymph node metastasis",
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("3", "distant organ metastasis") ~ "Distant organ metastasis",
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("4", "metastasis site unspecified", "metastatic recurrence") ~
-            "Metastasis site unspecified",
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("5", "local recurrence") ~ "Local recurrence",
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("6", "unspecified") ~ as.character(NA),
-          str_to_lower(.data$cpt_sample_type)
-          %in% c("7", "not applicable or hematologic malignancy") ~
-            "Not applicable or hematologic malignancy"
-        )
-      ),
-      TRUE ~ .
-    )
+    distinct()
+
+  if(any(names(cohort_cpt) == "cpt_sample_type") &
+        !any(names(cohort_cpt) == "sample_type")){
+
+    cohort_cpt <- cohort_cpt %>%
+      dplyr::mutate(sample_type = case_when(
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("1", "primary", "primary tumor") ~ "Primary tumor",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("2", "lymph node metastasis") ~ "Lymph node metastasis",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("3", "distant organ metastasis") ~ "Distant organ metastasis",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("4", "metastasis site unspecified", "metastatic recurrence") ~
+          "Metastasis site unspecified",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("5", "local recurrence") ~ "Local recurrence",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("6", "unspecified") ~ as.character(NA),
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("7", "not applicable or hematologic malignancy") ~
+          "Not applicable or hematologic malignancy"
+      ))
+  }
 
   return(cohort_cpt)
 }
