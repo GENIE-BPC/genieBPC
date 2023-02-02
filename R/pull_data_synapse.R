@@ -408,7 +408,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
     if (file_type == "text/csv"){
 
-      returned_files <- utills::read.csv(resolved_file_path, na.strings = "")
+      returned_files <- utils::read.csv(resolved_file_path, na.strings = "")
 
     } else if (file_type == "text/plain") {
 
