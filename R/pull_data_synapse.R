@@ -113,20 +113,30 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   )
 
   # check `version` ---
-  version <- version %>%
-    purrr::when(
-      is.null(.) ~ cli::cli_abort("Version needs to be specified.
-                Use {.code synapse_version()} to see what data is available."),
-      setdiff(., unique(synapse_tables$version)) > 0 ~
-        cli::cli_abort("{.code version} must be one of the following:
-                       {unique(synapse_tables$version)}"),
-      length(select_cohort) < length(.) ~ cli::cli_abort(
+
+  if(is.null(version)){
+
+    cli::cli_abort("Version needs to be specified.
+                Use {.code synapse_version()} to see what data is available.")
+
+  } else if (length(setdiff(version, unique(synapse_tables$version))) > 0){
+
+    cli::cli_abort("{.code version} must be one of the following:
+                       {unique(synapse_tables$version)}")
+
+  } else if (length(select_cohort) < length(version)){
+
+    cli::cli_abort(
         "You have selected more versions than cancer cohorts.
              Make sure cohort and version inputs have the same length.
-         Use {.code synapse_version()} to see what data is available"),
-      TRUE ~ rlang::arg_match(., unique(synapse_tables$version),
+         Use {.code synapse_version()} to see what data is available")
+
+  } else {
+
+    rlang::arg_match(version, unique(synapse_tables$version),
                               multiple = TRUE)
-    )
+
+  }
 
   # create `version-number` ---
   sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
@@ -395,15 +405,21 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # `download_location` from outside function
   if (is.null(download_location)) {
-    returned_files <- file_type %>%
-      purrr::when(
-        . == "text/csv" ~ read.csv(resolved_file_path, na.strings = ""),
-        . == "text/plain" ~ utils::read.delim(resolved_file_path, sep = "\t",
-                                              na.strings = ""),
-        TRUE ~ cli::cli_abort(
+
+    if (file_type == "text/csv"){
+
+      returned_files <- read.csv(resolved_file_path, na.strings = "")
+
+    } else if (file_type == "text/plain") {
+
+      returned_files <- utils::read.delim(resolved_file_path, sep = "\t",
+                                              na.strings = "")
+
+    } else {
+      cli::cli_abort(
           "Cannot read objects of type {file_type}.
           Try downloading directly to disk with {.code download_location}")
-      )
+    }
 
     cli::cli_alert_success(
       "{.field {df}} has been imported for {.val {version_num}}")
