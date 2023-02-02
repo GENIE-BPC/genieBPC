@@ -111,7 +111,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     cli::cli_abort("Version needs to be specified.
                 Use {.code synapse_version()} to see what data is available.")
 
-  } else if (setdiff(version, unique(synapse_tables$version)) > 0){
+  } else if (length(setdiff(version, unique(synapse_tables$version))) > 0){
 
     cli::cli_abort("{.code version} must be one of the following:
                        {unique(synapse_tables$version)}")
