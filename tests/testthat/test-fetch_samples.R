@@ -66,7 +66,7 @@ test_that("function returns correct number of samples", {
   )
 
   test3 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC", data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test3))
