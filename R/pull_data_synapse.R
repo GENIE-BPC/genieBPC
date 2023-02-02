@@ -119,7 +119,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     cli::cli_abort("Version needs to be specified.
                 Use {.code synapse_version()} to see what data is available.")
 
-  } else if (length(setdiff(version, unique(synapse_tables$version))) > 0){
+  } else if (length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0){
 
     cli::cli_abort("{.code version} must be one of the following:
                        {unique(synapse_tables$version)}")
@@ -133,7 +133,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   } else {
 
-    rlang::arg_match(version, unique(synapse_tables$version),
+    rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
                               multiple = TRUE)
 
   }
@@ -408,7 +408,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
     if (file_type == "text/csv"){
 
-      returned_files <- read.csv(resolved_file_path, na.strings = "")
+      returned_files <- utills::read.csv(resolved_file_path, na.strings = "")
 
     } else if (file_type == "text/plain") {
 
