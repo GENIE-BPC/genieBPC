@@ -101,7 +101,8 @@ test_that("lines of tx specified", {
   # compare to manually inputting the max number
   max_n <- left_join(cohort$cohort_ca_dx,
     nsclc_data$NSCLC_v1.1$ca_drugs,
-    by = c("cohort", "record_id", "ca_seq")
+    by = c("cohort", "record_id", "ca_seq"),
+    multiple = "all"
   ) %>%
     drop_na(regimen_drugs) %>%
     count(record_id) %>%
