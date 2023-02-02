@@ -6,25 +6,21 @@
 #' corresponding GENIE genomic data.
 #'
 #' Subset cancer panel test data to patients in the cohort of interest
-#' @param cohort GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
-#' or "BrCa"
 #' @param data_synapse The item from the nested list returned from
 #' `pull_data_synapse()`
 #' @param df_record_ids NGS data frame from the `create_analytic_cohort()`
 #'   function. Must contain variables: cohort, record_id and ca_seq.
 #' @return The NGS reports for each patient, stored as the
 #'   'cohort_ngs' data frame of the create_analytic_cohort object
-#' @author Axel Martin
+#' @author Axel Martin, Hannah Fuchs, Michael Curry
 #' @import
 #' dplyr
 #' dtplyr
 #' tibble
+#' @export
 
-fetch_samples <- function(cohort, data_synapse, df_record_ids) {
-  # get `cohort` ---
-  cohort_temp <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
-                                    multiple = FALSE
-  )
+fetch_samples <- function(data_synapse, df_record_ids) {
+
 
 
   if (missing(df_record_ids)) {

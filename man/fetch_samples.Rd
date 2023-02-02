@@ -4,12 +4,9 @@
 \alias{fetch_samples}
 \title{fetch_samples}
 \usage{
-fetch_samples(cohort, data_synapse, df_record_ids)
+fetch_samples(data_synapse, df_record_ids)
 }
 \arguments{
-\item{cohort}{GENIE BPC Project cancer. Must be one of "NSCLC", "CRC",
-or "BrCa"}
-
 \item{data_synapse}{The item from the nested list returned from
 `pull_data_synapse()`}
 
@@ -30,5 +27,5 @@ corresponding GENIE genomic data.
 Subset cancer panel test data to patients in the cohort of interest
 }
 \author{
-Axel Martin
+Axel Martin, Hannah Fuchs, Michael Curry
 }

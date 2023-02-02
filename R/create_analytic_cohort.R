@@ -732,7 +732,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # cancer panel test information
   cohort_ngs <- fetch_samples(
-    cohort = cohort_temp,
+
     data_synapse = data_synapse,
     df_record_ids = cohort_ca_dx
   )

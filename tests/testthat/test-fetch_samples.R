@@ -3,11 +3,11 @@ test_that("missing input parameters", {
   expect_error(genieBPC:::fetch_samples())
 
   # record_id object not specified
-  expect_error(genieBPC:::fetch_samples(cohort = "NSCLC"))
+  expect_error(genieBPC:::fetch_samples())
 
   # record_id object specified, but doesn't have variable record_id
   expect_error(genieBPC:::fetch_samples(
-    cohort = "NSCLC",
+
     df_record_ids = tibble(
       cohort = "NSCLC",
       record_id = "123"
@@ -29,7 +29,7 @@ test_that("function returns correct number of samples", {
   )
 
   test1 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC",
+
     data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
@@ -48,7 +48,7 @@ test_that("function returns correct number of samples", {
   )
 
   test2 <- genieBPC:::fetch_samples(
-    cohort = "NSCLC",
+
     data_synapse = nsclc_data$NSCLC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
