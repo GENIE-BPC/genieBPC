@@ -1,4 +1,4 @@
-#' fetch_samples
+#' Link patients with corresponding next-generation sequencing reports
 #'
 #' This function links patients in a cohort (created by
 #' create_analytic_cohort()) with their corresponding

@@ -1,4 +1,4 @@
-#' synapse_version
+#' Return list of available GENIE BPC data releases
 #'
 #' GENIE BPC data are updated periodically to add variables and reflect
 #' additional data cleaning. Each time the data are updated the data release
