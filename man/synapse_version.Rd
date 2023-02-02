@@ -2,7 +2,7 @@
 % Please edit documentation in R/synapse_version.R
 \name{synapse_version}
 \alias{synapse_version}
-\title{synapse_version}
+\title{Return list of available GENIE BPC data releases}
 \usage{
 synapse_version(most_recent = FALSE)
 }

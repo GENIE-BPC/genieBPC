@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch_samples.R
 \name{fetch_samples}
 \alias{fetch_samples}
-\title{fetch_samples}
+\title{Link patients with corresponding next-generation sequencing reports}
 \usage{
 fetch_samples(data_synapse, df_record_ids)
 }
