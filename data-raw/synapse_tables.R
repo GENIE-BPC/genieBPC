@@ -1,7 +1,7 @@
 synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
   # TEMPORARY FIX TO KEEP FUNCTIONS WORKING,
   # WILL REMOVE
-  mutate(dataset = factor(case_when(
+  dplyr::mutate(dataset = factor(case_when(
     dataset == "patient_level_dataset" ~ "pt_char",
     dataset == "cancer_level_dataset_index" ~ "ca_dx_index",
     dataset == "cancer_level_dataset_non_index" ~ "ca_dx_non_index",
@@ -19,9 +19,9 @@ synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
   levels = c("pt_char", "ca_dx_index", "ca_dx_non_index",
              "ca_drugs", "prissmm_imaging", "prissmm_pathology",
              "ca_radtx", "prissmm_md", "tumor_marker",
-             "cpt", "fusions", "mutations_extended", "cna"))) %>%
-  arrange(release_date, cohort, version, dataset) %>%
-  rename(df = dataset)
+             "cpt", "mutations_extended", "fusions", "cna"))) %>%
+  dplyr::arrange(release_date, cohort, version, dataset) %>%
+  dplyr::rename(df = dataset)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
 
