@@ -88,7 +88,7 @@ test_that("function returns correct number of samples", {
   )
 
   test1 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
+     data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test1))
@@ -105,7 +105,7 @@ test_that("function returns correct number of samples", {
   )
 
   test2 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
+data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
   expect_true(tibble::is_tibble(test2))
@@ -121,7 +121,7 @@ test_that("function returns correct number of samples", {
   )
 
   test3 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx
   )
 
@@ -132,7 +132,7 @@ test_that("function returns correct number of samples", {
   expect_equal(unique(test3$institution), "DFCI")
 
   expect_error(test4 <- genieBPC:::fetch_samples(
-    cohort = "CRC", data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data$CRC_v1.1,
     df_record_ids = cohort_temp$cohort_ca_dx %>%
       rename(some_name = record_id)
   ))
