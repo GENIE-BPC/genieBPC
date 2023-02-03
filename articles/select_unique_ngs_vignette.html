@@ -8,10 +8,10 @@
 <meta name="description" content="genieBPC">
 <title>Tutorial: select_unique_ngs • genieBPC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial: select_unique_ngs">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial: select_unique_ngs">
 <meta property="og:description" content="genieBPC">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,8 @@
 
 
 
-<script src="select_unique_ngs_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Tutorial: select_unique_ngs</h1>
             
@@ -86,17 +87,18 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>genieBPC</code> package allows users to link the clinical data to patients’ corresponding genomic samples.</p>
+<p>The <code>genieBPC</code> package allows users to link the clinical
+data to patients’ corresponding genomic samples.</p>
 </div>
 <div class="section level2">
 <h2 id="modifying-function-arguments">Modifying Function Arguments<a class="anchor" aria-label="anchor" href="#modifying-function-arguments"></a>
 </h2>
-<div id="rnxjfyihog" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wyjnxxcyvx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rnxjfyihog .gt_table {
+#wyjnxxcyvx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -121,7 +123,7 @@
   border-left-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_heading {
+#wyjnxxcyvx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -133,7 +135,12 @@
   border-right-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_title {
+#wyjnxxcyvx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wyjnxxcyvx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -145,7 +152,7 @@
   border-bottom-width: 0;
 }
 
-#rnxjfyihog .gt_subtitle {
+#wyjnxxcyvx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -157,13 +164,13 @@
   border-top-width: 0;
 }
 
-#rnxjfyihog .gt_bottom_border {
+#wyjnxxcyvx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_col_headings {
+#wyjnxxcyvx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -178,7 +185,7 @@
   border-right-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_col_heading {
+#wyjnxxcyvx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -198,7 +205,7 @@
   overflow-x: hidden;
 }
 
-#rnxjfyihog .gt_column_spanner_outer {
+#wyjnxxcyvx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -210,15 +217,15 @@
   padding-right: 4px;
 }
 
-#rnxjfyihog .gt_column_spanner_outer:first-child {
+#wyjnxxcyvx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rnxjfyihog .gt_column_spanner_outer:last-child {
+#wyjnxxcyvx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rnxjfyihog .gt_column_spanner {
+#wyjnxxcyvx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -230,7 +237,7 @@
   width: 100%;
 }
 
-#rnxjfyihog .gt_group_heading {
+#wyjnxxcyvx .gt_group_heading {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -253,9 +260,10 @@
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
+  text-align: left;
 }
 
-#rnxjfyihog .gt_empty_group_heading {
+#wyjnxxcyvx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -270,15 +278,15 @@
   vertical-align: middle;
 }
 
-#rnxjfyihog .gt_from_md > :first-child {
+#wyjnxxcyvx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rnxjfyihog .gt_from_md > :last-child {
+#wyjnxxcyvx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rnxjfyihog .gt_row {
+#wyjnxxcyvx .gt_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -297,7 +305,7 @@
   overflow-x: hidden;
 }
 
-#rnxjfyihog .gt_stub {
+#wyjnxxcyvx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -310,7 +318,7 @@
   padding-right: 5px;
 }
 
-#rnxjfyihog .gt_stub_row_group {
+#wyjnxxcyvx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -324,11 +332,11 @@
   vertical-align: top;
 }
 
-#rnxjfyihog .gt_row_group_first td {
+#wyjnxxcyvx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rnxjfyihog .gt_summary_row {
+#wyjnxxcyvx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -338,16 +346,16 @@
   padding-right: 5px;
 }
 
-#rnxjfyihog .gt_first_summary_row {
+#wyjnxxcyvx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_first_summary_row.thick {
+#wyjnxxcyvx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rnxjfyihog .gt_last_summary_row {
+#wyjnxxcyvx .gt_last_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -357,7 +365,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_grand_summary_row {
+#wyjnxxcyvx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -367,7 +375,7 @@
   padding-right: 5px;
 }
 
-#rnxjfyihog .gt_first_grand_summary_row {
+#wyjnxxcyvx .gt_first_grand_summary_row {
   padding-top: 1px;
   padding-bottom: 1px;
   padding-left: 5px;
@@ -377,11 +385,11 @@
   border-top-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_striped {
+#wyjnxxcyvx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rnxjfyihog .gt_table_body {
+#wyjnxxcyvx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -390,7 +398,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_footnotes {
+#wyjnxxcyvx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -404,7 +412,7 @@
   border-right-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_footnote {
+#wyjnxxcyvx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 1px;
@@ -413,7 +421,7 @@
   padding-right: 5px;
 }
 
-#rnxjfyihog .gt_sourcenotes {
+#wyjnxxcyvx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -427,7 +435,7 @@
   border-right-color: #D3D3D3;
 }
 
-#rnxjfyihog .gt_sourcenote {
+#wyjnxxcyvx .gt_sourcenote {
   font-size: 90%;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -435,64 +443,64 @@
   padding-right: 5px;
 }
 
-#rnxjfyihog .gt_left {
+#wyjnxxcyvx .gt_left {
   text-align: left;
 }
 
-#rnxjfyihog .gt_center {
+#wyjnxxcyvx .gt_center {
   text-align: center;
 }
 
-#rnxjfyihog .gt_right {
+#wyjnxxcyvx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rnxjfyihog .gt_font_normal {
+#wyjnxxcyvx .gt_font_normal {
   font-weight: normal;
 }
 
-#rnxjfyihog .gt_font_bold {
+#wyjnxxcyvx .gt_font_bold {
   font-weight: bold;
 }
 
-#rnxjfyihog .gt_font_italic {
+#wyjnxxcyvx .gt_font_italic {
   font-style: italic;
 }
 
-#rnxjfyihog .gt_super {
+#wyjnxxcyvx .gt_super {
   font-size: 65%;
 }
 
-#rnxjfyihog .gt_footnote_marks {
+#wyjnxxcyvx .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rnxjfyihog .gt_asterisk {
+#wyjnxxcyvx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rnxjfyihog .gt_indent_1 {
+#wyjnxxcyvx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rnxjfyihog .gt_indent_2 {
+#wyjnxxcyvx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rnxjfyihog .gt_indent_3 {
+#wyjnxxcyvx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rnxjfyihog .gt_indent_4 {
+#wyjnxxcyvx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rnxjfyihog .gt_indent_5 {
+#wyjnxxcyvx .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -501,49 +509,79 @@
 <td colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`select_unique_ngs()` Function Arguments</td>
     </tr></thead>
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Argument</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Description</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Argument">Argument</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Description">Description</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
-<td class="gt_row gt_left"><div class="gt_from_md">
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
 <p><code>data_cohort</code></p>
 </div></td>
-<td class="gt_row gt_left">Output object of the create_analytic_cohort function.</td>
+<td headers="Description" class="gt_row gt_left">Output object of the create_analytic_cohort function.</td>
 </tr>
 <tr>
-<td class="gt_row gt_left"><div class="gt_from_md">
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
 <p><code>oncotree_code</code></p>
 </div></td>
-<td class="gt_row gt_left">Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.</td>
+<td headers="Description" class="gt_row gt_left">Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.</td>
 </tr>
 <tr>
-<td class="gt_row gt_left"><div class="gt_from_md">
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
 <p><code>sample_type</code></p>
 </div></td>
-<td class="gt_row gt_left">Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type.</td>
+<td headers="Description" class="gt_row gt_left">Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type.</td>
 </tr>
 <tr>
-<td class="gt_row gt_left"><div class="gt_from_md">
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
 <p><code>min_max_time</code></p>
 </div></td>
-<td class="gt_row gt_left">Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last).</td>
+<td headers="Description" class="gt_row gt_left">Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last).</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The <code><a href="../reference/select_unique_ngs.html">select_unique_ngs()</a></code> function returns the ‘cohort_ngs’ object of the create_analytic_cohort with a unique genomic sample per patient for each diagnosis for the purpose of creating an analytic dataset based on user-defined criterion, including OncoTree code, primary vs. metastatic tumor sample, and earliest vs. most recent sample. If multiple reports for a patient remain available after the user-defined specifications, or if no specifications are provided, the panel with the largest number of genes is selected by default. Sample optimization is performed in the order that the arguments are specified in the function, regardless of the arguments’ order provided by the user. Namely the OncoTree code is prioritized first, sample type is prioritized second and finally the time is prioritized last. For patients with exactly one genomic sample, that unique genomic sample will be returned regardless of whether it meets the user-specified parameters; the purpose of this function is to specify criteria for selecting a single NGS in the case that there are multiple NGS reports associated with a single cancer diagnosis. Running the select_unique_ngs() function will ensure that the resulting dataset returned by merging the next generation sequencing report data onto the analytic dataset returned by create_analytic_cohort() will maintain a structure of one record per patient.</p>
-<p>Note that the NGS dataset serves as the link between the clinical and genomic data, where the NGS dataset includes one record per NGS report per patient, including the NGS sample ID that is used to link to the genomic data files. Merging data from the NGS report onto the analytic cohort returned from create_analytic_cohort() therefore allows users to utilize all clinical and genomic data available.</p>
+<p>The <code><a href="../reference/select_unique_ngs.html">select_unique_ngs()</a></code> function returns the
+‘cohort_ngs’ object of the create_analytic_cohort with a unique genomic
+sample per patient for each diagnosis for the purpose of creating an
+analytic dataset based on user-defined criterion, including OncoTree
+code, primary vs. metastatic tumor sample, and earliest vs. most recent
+sample. If multiple reports for a patient remain available after the
+user-defined specifications, or if no specifications are provided, the
+panel with the largest number of genes is selected by default. Sample
+optimization is performed in the order that the arguments are specified
+in the function, regardless of the arguments’ order provided by the
+user. Namely the OncoTree code is prioritized first, sample type is
+prioritized second and finally the time is prioritized last. For
+patients with exactly one genomic sample, that unique genomic sample
+will be returned regardless of whether it meets the user-specified
+parameters; the purpose of this function is to specify criteria for
+selecting a single NGS in the case that there are multiple NGS reports
+associated with a single cancer diagnosis. Running the
+select_unique_ngs() function will ensure that the resulting dataset
+returned by merging the next generation sequencing report data onto the
+analytic dataset returned by create_analytic_cohort() will maintain a
+structure of one record per patient.</p>
+<p>Note that the NGS dataset serves as the link between the clinical and
+genomic data, where the NGS dataset includes one record per NGS report
+per patient, including the NGS sample ID that is used to link to the
+genomic data files. Merging data from the NGS report onto the analytic
+cohort returned from create_analytic_cohort() therefore allows users to
+utilize all clinical and genomic data available.</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Before going through the tutorial, load the {genieBPC} library and log into Synapse using the <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> function. For more information on <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the <code>Tutorial: pull_data_synapse()</code> vignette.</p>
+<p>Before going through the tutorial, load the {genieBPC} library and
+log into Synapse using the <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>
+function. For more information on
+<code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>, refer to the
+<code>Tutorial: pull_data_synapse()</code> vignette.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://genie-bpc.github.io/genieBPC/">genieBPC</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This tutorial will utilize the data downloaded in the <code>Tutorial: pull_data_synapse()</code> vignette, as shown below:</p>
+<p>This tutorial will utilize the data downloaded in the
+<code>Tutorial: pull_data_synapse()</code> vignette, as shown below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nsclc_2_0</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -553,8 +591,15 @@
 <div class="section level3">
 <h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h3>
-<p>Select unique genomic samples from patients with stage IV NSCLC of histology adenocarcinoma. For patients with multiple samples, select the sample with OncoTree code LUAD. For patients with multiple samples with OncoTree code LUAD, select the metastatic genomic sample. If any patients have multiple metastatic samples with OncoTree code LUAD, take the later of the samples.</p>
-<p>Note: for patients with exactly one genomic sample, that unique genomic sample will be returned regardless of whether it meets the argument criteria specified below.</p>
+<p>Select unique genomic samples from patients with stage IV NSCLC of
+histology adenocarcinoma. For patients with multiple samples, select the
+sample with OncoTree code LUAD. For patients with multiple samples with
+OncoTree code LUAD, select the metastatic genomic sample. If any
+patients have multiple metastatic samples with OncoTree code LUAD, take
+the later of the samples.</p>
+<p>Note: for patients with exactly one genomic sample, that unique
+genomic sample will be returned regardless of whether it meets the
+argument criteria specified below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span>
 <span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
@@ -572,9 +617,16 @@
 <div class="section level3">
 <h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen, and select corresponding genomic samples.</p>
-<p>For patients with multiple samples, first select samples with OncoTree code LUAD. If multiple samples per patient remain, prioritize samples from the primary tumor. Finally, prioritize the sample taken earliest.</p>
-<p>Note: for patients with exactly one genomic sample, that unique genomic sample will be returned regardless of whether it meets the argument criteria specified below.</p>
+<p>Create a cohort of all NSCLC patients who received Cisplatin,
+Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen,
+and select corresponding genomic samples.</p>
+<p>For patients with multiple samples, first select samples with
+OncoTree code LUAD. If multiple samples per patient remain, prioritize
+samples from the primary tumor. Finally, prioritize the sample taken
+earliest.</p>
+<p>Note: for patients with exactly one genomic sample, that unique
+genomic sample will be returned regardless of whether it meets the
+argument criteria specified below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span>
 <span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span>
@@ -599,12 +651,12 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Axel Martin.</p>
+<p>Developed by Jessica A. Lavery, Michael A. Curry, Samantha Brown, Karissa Whiting, Hannah Fuchs, Axel Martin.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
