@@ -8,7 +8,8 @@
 #'
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
-#'   "BrCa" (Breast Cancer).
+#'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
+#'   and "BLADDER" (Bladder Cancer).
 #' @param version Vector specifying the version of the data. Must be one of the
 #'   following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
 #'   "v2.0-public". When entering multiple cohorts, the order of the version
@@ -57,7 +58,14 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn50612821}{PANC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn50612204}{Prostate v1.2-Consortium Analytic Data Guide}
 #' }
 #'
 #' @return Returns a nested list of clinical and genomic data corresponding to
@@ -100,7 +108,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   token <- .get_synapse_token(username = username, password = password)
 
   # get `cohort` ---
-  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa"),
+  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
     multiple = TRUE
   )
 
@@ -111,7 +119,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     cli::cli_abort("Version needs to be specified.
                 Use {.code synapse_version()} to see what data is available.")
 
-  } else if (length(setdiff(version, unique(synapse_tables$version))) > 0){
+  } else if (length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0){
 
     cli::cli_abort("{.code version} must be one of the following:
                        {unique(synapse_tables$version)}")
@@ -125,7 +133,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   } else {
 
-    rlang::arg_match(version, unique(synapse_tables$version),
+    rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
                               multiple = TRUE)
 
   }
@@ -400,7 +408,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
     if (file_type == "text/csv"){
 
-      returned_files <- read.csv(resolved_file_path, na.strings = "")
+      returned_files <- utils::read.csv(resolved_file_path, na.strings = "")
 
     } else if (file_type == "text/plain") {
 

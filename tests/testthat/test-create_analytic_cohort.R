@@ -454,7 +454,8 @@ test_that("drug regimen specified, order not specified", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     filter(regimen_drugs == c("Carboplatin, Pemetrexed Disodium"))
 
@@ -493,7 +494,8 @@ test_that("drug regimen specified, order not specified", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     filter(regimen_drugs %in% c(
       "Carboplatin, Pemetrexed Disodium",
@@ -519,7 +521,8 @@ test_that("drug regimen specified, order not specified", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     filter(grepl("Carboplatin", regimen_drugs) |
       grepl("Nivolumab", regimen_drugs))
@@ -545,7 +548,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
   nsclc_data$NSCLC_v1.1$ca_drugs,
-  by = c("cohort", "record_id", "ca_seq")
+  by = c("cohort", "record_id", "ca_seq"),
+  multiple = "all"
   ) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
@@ -568,7 +572,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
     slice(which.min(ca_seq)) %>%
     select(cohort, record_id, ca_seq),
   nsclc_data$NSCLC_v1.1$ca_drugs,
-  by = c("cohort", "record_id", "ca_seq")
+  by = c("cohort", "record_id", "ca_seq"),
+  multiple = "all"
   ) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
@@ -595,7 +600,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -624,7 +630,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -653,7 +660,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -687,7 +695,8 @@ test_that("exact drug regimen specified,
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id, regimen_drugs) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -713,7 +722,8 @@ test_that("exact drug regimen specified,
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id, regimen_drugs) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -744,7 +754,8 @@ test_that("exact drug regimen specified,
   nsclc_data$NSCLC_v1.1$ca_drugs,
   by = c(
     "cohort", "record_id", "ca_seq"
-  )
+  ),
+  multiple = "all"
   ) %>%
     group_by(record_id, regimen_drugs) %>%
     mutate(new_reg_number = 1:n()) %>%
@@ -795,7 +806,8 @@ test_that("containing drug regimen specified,
     by = c(
       "cohort", "record_id",
       "regimen_number"
-    )
+    ),
+    multiple = "all"
   )
 
   # merge cohort with patients who received drug regimens of interest

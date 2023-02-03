@@ -68,18 +68,17 @@ test_that("test `version` argument specification", {
 
 test_that("Number of columns and rows for each NSCLC dataset", {
   skip_if_not(.is_connected_to_genie())
-  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
-  nsclc_data <- nsclc_data$NSCLC_v1.1
+  nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")$NSCLC_v1.1
 
   col_length <- vapply(nsclc_data, length, FUN.VALUE = numeric(1))
   row_length <- vapply(nsclc_data, nrow, FUN.VALUE = numeric(1))
   names(col_length) <- NULL
   names(row_length) <- NULL
 
-  expect_equal(col_length, c(33, 110, 83, 114, 42, 195, 11, 19, 9, 1782, 54))
+  expect_equal(col_length, c(33, 110, 83, 114, 42, 195, 11, 19, 54, 9, 1782))
   expect_equal(row_length, c(
     1849, 1874, 810, 4032, 35113, 8329,
-    24950, 2026, 821, 930, 17574
+    24950, 2026, 17574, 821, 930
   ))
 })
 
@@ -132,7 +131,7 @@ test_that("Test NA conversion", {
   #### test BrCa
   brca_cohort <- pull_data_synapse(cohort = c("BrCa"),
                                   version = c("v1.1-consortium"))
-  # CRC 1.1-consortium
+
   brca_nomissing_1.1 <- sum(sapply(brca_cohort$BrCa_v1.1, function(x) {
     any(x == "", na.rm = TRUE) == FALSE
   }))

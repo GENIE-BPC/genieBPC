@@ -66,7 +66,7 @@ tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
   "`data_synapse`",       "The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.",
   "`index_ca_seq`",       "Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. Specifying multiple index cancer sequences, e.g. index_ca_seq = c(1, 2), will return index cancers to patients with 1 index cancer and will return the first AND second index cancers to patients with multiple.",
-  "`institution`",        "GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for    NSCLC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC and BrCa. Default selection is all institutions. This parameter corresponds to the variable `institution` in the Analytic Data Guide.",
+  "`institution`",        "GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for    NSCLC, BLADDER, Prostate, and PANC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC and BrCa. Default selection is all institutions. This parameter corresponds to the variable `institution` in the Analytic Data Guide.",
   "`stage_dx`",        "Stage at diagnosis. Must be one of 'Stage I', 'Stage II', 'Stage III', 'Stage I-III NOS', 'Stage IV'. Default selection is all stages. This parameter corresponds to the variable `stage_dx` in the
  Analytic Data Guide.",
   "`histology`",        "Cancer histology. For all cancer cohorts except for BrCa

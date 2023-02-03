@@ -34,8 +34,8 @@ knitr::opts_chunk$set(
   2. Colon/rectal cancer (CRC)
   3. Breast cancer (BrCa)
   4. Pancreas cancer (PANC)
-  5. Prostate cancer (Prostate)
-  6. Bladder cancer (BLADDER)
+  5. Bladder cancer (BLADDER)
+  6. Prostate cancer (Prostate)
 
 
 ## GENIE BPC Elements

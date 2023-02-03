@@ -24,6 +24,7 @@ Authors:
   \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown (\href{https://orcid.org/0000-0001-5352-974X}{ORCID})
   \item Karissa Whiting (\href{https://orcid.org/0000-0002-4683-1868}{ORCID})
+  \item Hannah Fuchs (\href{https://orcid.org/0000-0003-2426-0096}{ORCID})
   \item Axel Martin
 }
 

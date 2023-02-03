@@ -91,7 +91,7 @@ Let's start by reviewing the `pull_data_synapse()` arguments.
 ```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::.is_connected_to_genie()}
 tibble::tribble(
   ~Argument,       ~Description,
-  "`cohort`",       "Vector or list specifying the cohort(s) of interest. Must be one of 'NSCLC' (Non-Small Cell Lung Cancer), 'CRC' (Colorectal Cancer), or 'BrCa' (Breast Cancer)",
+  "`cohort`",       "Vector or list specifying the cohort(s) of interest. Must be one of 'NSCLC' (Non-Small Cell Lung Cancer), 'CRC' (Colorectal Cancer), 'BrCa' (Breast Cancer), 'BLADDER' (Bladder Cancer), 'PANC' (Pancreatic Cancer), or 'Prostate' (Prostate Cancer)",
   "`version`",        "Vector specifying the version of the data. Must be one of the following: 'v1.1-consortium', 'v1.2-consortium', 'v2.1-consortium', 'v2.0-public'. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data.",
   "`download_location`",        "If `NULL` (default), data will be returned as a list of dataframes with requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there. When a path is specified, data are not read into the R environment.",
   "`username`",        "Synapse username",

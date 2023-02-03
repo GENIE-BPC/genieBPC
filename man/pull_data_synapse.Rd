@@ -15,7 +15,8 @@ pull_data_synapse(
 \arguments{
 \item{cohort}{Vector or list specifying the cohort(s) of interest. Must be
 one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
-"BrCa" (Breast Cancer).}
+"BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
+and "BLADDER" (Bladder Cancer).}
 
 \item{version}{Vector specifying the version of the data. Must be one of the
 following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
@@ -81,7 +82,14 @@ your passwords outside of your scripts for security purposes.
   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn50612821}{PANC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn50612204}{Prostate v1.2-Consortium Analytic Data Guide}
 }
 }
 

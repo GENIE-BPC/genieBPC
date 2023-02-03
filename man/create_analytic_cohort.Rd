@@ -32,7 +32,7 @@ patients with 1 index cancer and will return the first AND second index
 cancers to patients with multiple.}
 
 \item{institution}{GENIE BPC participating institution. Must be one of
-"DFCI", "MSK", "UHN", or "VICC" for NSCLC cohorts; must be one of "DFCI",
+"DFCI", "MSK", "UHN", or "VICC" for NSCLC, BLADDER, Prostate, and PANC cohorts; must be one of "DFCI",
 "MSK", "VICC" for CRC and BrCa. Default selection is all institutions.
 This parameter corresponds to the variable `institution` in the
 Analytic Data Guide.}
