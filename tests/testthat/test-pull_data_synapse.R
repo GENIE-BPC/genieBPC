@@ -2,15 +2,29 @@ test_that("Missing cohort parameter", {
   expect_error(pull_data_synapse())
 })
 
-test_that("Test class and length of list for NSCLC", {
+test_that("Test class and length of list for public data", {
   skip_if_not(.is_connected_to_genie())
 
   nsclc_data <- pull_data_synapse("NSCLC", version = "v1.1-consortium")
+  nsclc_public <- pull_data_synapse("NSCLC", version = "v2.0-public")
   crc_data <- pull_data_synapse(c("CRC"), version = "v1.1-consortium")
+  crc_public <- pull_data_synapse("CRC", "v2.0-public")
+
+
+
+  test_list <- list(nsclc_data, nsclc_public, crc_data, crc_public)
+
+  # start here tomorrow
+
+  # per Sammi: tm in CRC, BrCa, PANC, Prostate
+  # radiation for PANC, prostate, BLADDER
+  test_list <- lapply(test_list, function(x) )
 
   expect_equal(length(nsclc_data[[1]]), 11)
   expect_equal(length(crc_data[[1]]), 12)
   expect_equal(class(nsclc_data[1]), "list")
+
+  expect_equal(length(crc_public[[2]]), )
 })
 
 
