@@ -203,3 +203,12 @@ sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 the first treatment regimen:*
 
 # <img src="man/figures/genieBPC_sunburst2.png" height="400" /></a>
+
+
+## GENIE BPC Publications
+
+Lavery JA, Lepisto EM, Brown S, Rizvi H, McCarthy C, LeNoue-Newton M, Yu C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas KS. [A Scalable Quality Assurance Process for Curating Oncology Electronic Health Records: The Project GENIE Biopharma Collaborative Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin Cancer Inform. 2022 Feb;6:e2100105. doi: 10.1200/CCI.21.00105. PMID: 35192403; PMCID: PMC8863125.
+
+Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM, Rizvi H, McCarthy CG, Schultz N, Warner JL, Park BH, Bedard PL, Riely GJ, Schrag D, Panageas KS; AACR Project GENIE Consortium. [Implications of Selection Bias Due to Delayed Study Entry in Clinical Genomic Studies.](https://jamanetwork.com/journals/jamaoncology/fullarticle/2785693) JAMA Oncol. 2022 Feb 1;8(2):287-291. doi: 10.1001/jamaoncol.2021.5153. PMID: 34734967; PMCID: PMC9190030.
+
+Kehl KL, Riely GJ, Lepisto EM, Lavery JA, Warner JL, LeNoue-Newton ML, Sweeney SM, Rudolph JE, Brown S, Yu C, Bedard PL, Schrag D, Panageas KS; American Association of Cancer Research (AACR) Project Genomics Evidence Neoplasia Information Exchange (GENIE) Consortium. [Correlation Between Surrogate End Points and Overall Survival in a Multi-institutional Clinicogenomic Cohort of Patients With Non-Small Cell Lung or Colorectal Cancer.](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2782339) JAMA Netw Open. 2021 Jul 1;4(7):e2117547. doi: 10.1001/jamanetworkopen.2021.17547. PMID: 34309669; PMCID: PMC8314138.
