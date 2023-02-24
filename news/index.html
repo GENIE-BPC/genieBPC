@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="geniebpc-development-version">genieBPC (development version)<a class="anchor" aria-label="anchor" href="#geniebpc-development-version"></a></h2>
-<ul><li><p>Updated pull_data_synapse() to read NAs as NA values instead of as character NA values so that CNA data is numeric (<a href="https://github.com/GENIE-BPC/genieBPC/issues/88" class="external-link">#88</a>)</p></li>
+<ul><li><p>Removed <code>fetch_samples()</code> function (<a href="https://github.com/GENIE-BPC/genieBPC/issues/91" class="external-link">#91</a>)</p></li>
+<li><p>Updated <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> to read NAs as NA values instead of as character NA values so that CNA data is numeric (<a href="https://github.com/GENIE-BPC/genieBPC/issues/88" class="external-link">#88</a>)</p></li>
 <li><p>Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases</p></li>
 <li><p>Ensure consistent order of datasets returned from calls to <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code></p></li>
 </ul></div>
