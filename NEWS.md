@@ -1,6 +1,8 @@
 # genieBPC (development version)
 
-* Updated pull_data_synapse() to read NAs as NA values instead of as character NA values so that CNA data is numeric (#88)
+* Removed `fetch_samples()` function (#91)
+
+* Updated `pull_data_synapse()` to read NAs as NA values instead of as character NA values so that CNA data is numeric (#88)
 
 * Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC
 v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases
