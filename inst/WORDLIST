@@ -23,6 +23,8 @@ FOLFOX
 Farber
 GJ
 Guo
+IGR
+Intron
 Investigational
 JA
 JAMA
@@ -59,14 +61,18 @@ Scalable
 Schrag
 Shen
 Synapse’
+TERT
 UHN
+UTR
 VICC
 Yu
 adeno
 arguments’
 bpc
 brca
+cBioPortal
 carboplatin
+cbioportalR
 clinico
 cmd
 codecov
@@ -81,6 +87,7 @@ env
 environ
 genomically
 github
+gnomeR
 gtsummary
 histologies
 https
