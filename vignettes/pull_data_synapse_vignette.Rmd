@@ -169,3 +169,18 @@ pull_data_synapse(c("NSCLC", "CRC"),
 ## Future Work
 
 * As of June 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.
+
+## Differences Between Synapse and cBioPortal Genomic Data
+
+Please note that pulling genomic GENIE data from Synapse using `pull_data_synapse()` and pulling GENIE data from cBioPortal may result in small differences in the data due to systematic differences in the processing pipelines employed by Synapse and cBioPortal. These differences may include: 
+
+* Data formatting - Some data sets (e.g. CNA files) may appear in wide format in Synapse data versus long format in cBioPortal data, or column attributes and names may appear sightly different (e.g. fusions files).
+
+* Default filtering - By default, cBioPortal filters out Silent, Intron, IGR, 3'UTR, 5'UTR, 3'Flank and 5'Flank, except for the promoter mutations of the TERT gene. See [cBioPortal documentation](https://docs.cbioportal.org/file-formats/#mutation-data) for more details. These are retained in Synapse processing pipelines.
+
+* Hugo Symbols - Some genes have more than one accepted Hugo Symbol and may be referred to differently between data sources (eg. `NSD3` is an alias for `WHSC1L1`). Some tools exist to help you resolve gene aliases across genomic data sources. See `gnomeR::recode_alias()`, `cbioportal::get_alias()` and vignettes from the [{gnomeR}](https://mskcc-epi-bio.github.io/gnomeR/) and [{cbioportalR}](https://www.karissawhiting.com/cbioportalR/) for more information on how to use these functions and work with gene aliases.
+
+
+
+
+
