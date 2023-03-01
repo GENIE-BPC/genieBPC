@@ -1,16 +1,16 @@
-# genieBPC (development version)
-
-* Removed `fetch_samples()` function (#91)
-
-* Updated `pull_data_synapse()` to read NAs as NA values instead of as character NA values so that CNA data is numeric (#88)
+# genieBPC 1.0.2
 
 * Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC
 v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases
 
+* Removed `fetch_samples()` function (#91)
+
+* Updated `pull_data_synapse()` to read "NA" as NA values instead of as character "NA" so that CNA columns are numeric, as expected (#88)
+
 * Ensure consistent order of datasets returned from calls to
 `pull_data_synapse()`
 
-* Added citations & links to GENIE BPC publications (as of 2023-02-24)
+* Added citations & links to GENIE BPC publications to README
 
 # genieBPC 1.0.1
 
