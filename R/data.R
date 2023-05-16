@@ -81,5 +81,8 @@
 #'     \item{prissmm_pathology}{PRISSMM Pathology report data.frame}
 #'     \item{prissmm_md}{PRISSMM medical oncologist report data.frame}
 #'     \item{cpt}{CPT/NGS data.frame}
+#'     \item{mutations_extended}{Mutations data.frame}
+#'     \item{fusions}{Fusions data.frame}
+#'     \item{cpt}{Copy Number Alteration (CNA) data.frame}
 #' }
 "nsclc_test_data"
