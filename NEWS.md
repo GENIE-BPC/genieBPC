@@ -1,3 +1,7 @@
+# genieBPC (1.1.0.9000)
+
+* Updated `genieBPC::nsclc_test_data` to randomly sample from cancer diagnosis dataset, stratified by stage, and incorporate genomic data into dataset.
+
 # genieBPC 1.1.0
 
 * Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC
