@@ -82,9 +82,10 @@ order to use this function. To obtain access:
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#). Accept the **Synapse account terms of use.**
 
-2.  Navigate to the data release and request accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the ['Synapse' page](https://www.synapse.org/#!Synapse:syn27056697) for the data release). Towards the top of the page, there is information including the *'Synapse' ID*, *DOI*, *Item count*, and *Access.* Next to *Access* is a link that reads *Request Access*. 
+2.  Navigate to the data release and accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the ['Synapse' page](https://www.synapse.org/#!Synapse:syn27056697) for the data release). Towards the top of the page, there is information including the *'Synapse' ID*, *DOI*, *Item count*, and *Access.* Next to *Access* is a link that reads *Request Access*. 
 
-3. Select *Request Access*, review the **terms of data use** and select *Accept*
+3. Navigate to [GENIE Biopharma Collaborative Public page](https://www.synapse.org/#!Synapse:syn27056172/wiki/616601) --> Files --> Data Releases --> Select *Request Access*, **review the terms of data use** and select *Accept*
+
 
 *Note that permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.*
 
