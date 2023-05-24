@@ -1,3 +1,5 @@
+# genieBPC (development version)
+
 # genieBPC (1.1.0.9000)
 
 * Updated `genieBPC::nsclc_test_data` to randomly sample from cancer diagnosis dataset, stratified by stage, and incorporate genomic data into dataset.
