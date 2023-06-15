@@ -67,9 +67,9 @@
 "synapse_tables"
 
 
-#' Simulated fake synapse data for function examples and tests
+#' Simulated fake GENIE BPC data for function examples and tests
 #'
-#' A named list of simulated NSCLC clinical data
+#' A named list of simulated NSCLC clinical and genomic data
 #'
 #' @format A list of clinical data frames
 #' \describe{

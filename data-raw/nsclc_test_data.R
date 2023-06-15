@@ -1,4 +1,4 @@
-# Create fake example data set derived from NSCLC public
+# Create example data set derived from NSCLC public
 library(genieBPC)
 
 genieBPC::set_synapse_credentials()
@@ -120,10 +120,81 @@ nsclc_test_data_clinical <- purrr::map(nsclc_test_data_clinical, function(df){
 })
 
 # combine clinical + genomic data together in a single list of the test data
-nsclc_test_data <- c(nsclc_test_data_clinical,
+nsclc_test_data_1 <- c(nsclc_test_data_clinical,
                      list("mutations_extended" = nsclc_test_data_mutations,
-                          "fusions" = nsclc_test_data_fusions,
-                          "cna" = nsclc_test_data_cna))
+                          "fusions" = nsclc_test_data_fusions
+                          # "cna" = nsclc_test_data_cna
+                          ))
+
+# modify the test data to de-identify
+# for each dataframe, split into two sets of columns,
+# randomly order the rows within each of the two
+# then cbind back together
+# result is that we don't have any rows that align to any actual data
+nsclc_test_data_2 <- imap(nsclc_test_data_1, function(x, y) {
+  set.seed(1123)
+
+  # define column names in the df
+  col_names <- names(x)
+
+  # pull out relevant ID columns separately to maintain merges across datasets
+  if (y %in% c("pt_char")) {
+    id_cols <- c("record_id", "institution")
+  } else if (y %in% c("ca_dx_index", "ca_dx_non_index", "ca_drugs")) {
+    id_cols <- c("record_id", "institution", "ca_seq")
+  } else if (y == "prissmm_pathology") {
+    id_cols <- c("record_id", "institution", "path_proc_number", "path_rep_number")
+  } else if (y %in% c("prissmm_imaging", "prissmm_pathology", "prissmm_md")) {
+    id_cols <- c("record_id", "institution")
+  } else if (y == "cpt") {
+    id_cols <- c(
+      "record_id", "institution", "ca_seq", "path_proc_number", "path_rep_number",
+      "cpt_genie_sample_id")
+  } else if (y %in% c("mutations_extended", "fusions")) {
+    id_cols <- c("record_id", "Tumor_Sample_Barcode")
+  }
+
+  # randomly select columns to be in each dataset
+  c <- tibble(
+    names = sample(col_names),
+    split = rep(1:5, length = length(names))
+  ) %>%
+    # exclude the id columns
+    filter(!(names %in% c(id_cols))) %>%
+    split(.$split)
+
+  # set up two dataframes based on randomly selected columns
+  df_id_cols <- x[, id_cols]
+  df_col1 <- x[, pull(c$`1`, names)]
+  df_col2 <- x[, pull(c$`2`, names)]
+  df_col3 <- x[, pull(c$`3`, names)]
+  df_col4 <- x[, pull(c$`4`, names)]
+  df_col5 <- x[, pull(c$`5`, names)]
+
+  # within each df, randomly sort the rows
+  # sample with replacement to introduce even more distinction from true data
+  df_col1_sample <- slice_sample(df_col1, replace = TRUE, prop = 1)
+  df_col2_sample <- slice_sample(df_col2, replace = TRUE, prop = 1)
+  df_col3_sample <- slice_sample(df_col3, replace = TRUE, prop = 1)
+  df_col4_sample <- slice_sample(df_col4, replace = TRUE, prop = 1)
+  df_col5_sample <- slice_sample(df_col5, replace = TRUE, prop = 1)
+
+  # bind columns back together, select variables in original order
+  cbind(
+    df_id_cols,
+    df_col1_sample, df_col2_sample, df_col3_sample,
+    df_col4_sample, df_col5_sample
+  ) %>%
+    select(names(x))
+})
+
+# sort data for CNA (data are structured with 1 col/pt, above function does not work since re-shuffling data within columns)
+# instead, sample the rows
+cna_shuffle <- slice_sample(nsclc_test_data_cna, replace = TRUE, prop = 1)
+
+# set up nsclc_test_data
+nsclc_test_data <- c(nsclc_test_data_1,
+                     list("cna" = cna_shuffle))
 
 names(nsclc_test_data)
 
