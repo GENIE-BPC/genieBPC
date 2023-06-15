@@ -237,7 +237,7 @@ create_analytic_cohort <- function(data_synapse,
     }
   }
 
-  if (missing(institution) & stringr::str_to_upper(cohort_temp) %in% c("NSCLC", "PANC", "BLADDER", "Prostate")) {
+  if (missing(institution) & stringr::str_to_upper(cohort_temp) %in% stringr::str_to_upper(c("NSCLC", "PANC", "BLADDER", "Prostate"))) {
     institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
   } else if (missing(institution) &
     stringr::str_to_upper(cohort_temp) %in% c("CRC", "BRCA")) {
