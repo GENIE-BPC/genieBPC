@@ -3,7 +3,7 @@
 \docType{data}
 \name{nsclc_test_data}
 \alias{nsclc_test_data}
-\title{Simulated fake synapse data for function examples and tests}
+\title{Simulated fake GENIE BPC data for function examples and tests}
 \format{
 A list of clinical data frames
 \describe{
@@ -24,6 +24,6 @@ A list of clinical data frames
 nsclc_test_data
 }
 \description{
-A named list of simulated NSCLC clinical data
+A named list of simulated NSCLC clinical and genomic data
 }
 \keyword{datasets}
