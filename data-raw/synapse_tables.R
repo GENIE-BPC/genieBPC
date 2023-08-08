@@ -1,27 +1,118 @@
-synapse_tables <- readxl::read_excel("data-raw/synapse_tables.xlsx") %>%
-  # TEMPORARY FIX TO KEEP FUNCTIONS WORKING,
-  # WILL REMOVE
-  dplyr::mutate(dataset = factor(case_when(
-    dataset == "patient_level_dataset" ~ "pt_char",
-    dataset == "cancer_level_dataset_index" ~ "ca_dx_index",
-    dataset == "cancer_level_dataset_non_index" ~ "ca_dx_non_index",
-    dataset == "regimen_cancer_level_dataset" ~ "ca_drugs",
-    dataset == "imaging_level_dataset" ~ "prissmm_imaging",
-    dataset == "pathology_report_level_dataset" ~ "prissmm_pathology",
-    dataset == "ca_radtx_dataset" ~ "ca_radtx",
-    dataset == "med_onc_note_level_dataset" ~ "prissmm_md",
-    dataset == "tm_level_dataset" ~ "tumor_marker",
-    dataset == "cancer_panel_test_level_dataset" ~ "cpt",
-    dataset == "data_cna" ~ "cna",
-    dataset == "data_fusions" ~ "fusions",
-    dataset == "data_mutations_extended" ~ "mutations_extended"
-  ),
-  levels = c("pt_char", "ca_dx_index", "ca_dx_non_index",
-             "ca_drugs", "prissmm_imaging", "prissmm_pathology",
-             "ca_radtx", "prissmm_md", "tumor_marker",
-             "cpt", "mutations_extended", "fusions", "cna"))) %>%
-  dplyr::arrange(release_date, cohort, version, dataset) %>%
-  dplyr::rename(df = dataset)
+library(synapser)
+synLogin()
+
+# manually record release dates (can't pull from Synapse)
+release_dates <- tibble::tribble(
+  ~cohort, ~version, ~release_date,
+  "NSCLC", "v1.1-consortium", "2020-10",
+  "NSCLC", "v2.1-consortium", "2021-08",
+  "NSCLC", "v2.0-public", "2022-05",
+  "CRC", "v1.1-consortium", "2021-02",
+  "CRC", "v1.2-consortium", "2021-08",
+  "BrCa", "v1.1-consortium", "2021-10",
+  "CRC", "v2.0-public", "2022-10",
+  "PANC", "v1.1-consortium", "2022-02",
+  "BLADDER", "v1.1-consortium", "2022-11",
+  "BrCa", "v1.2-consortium", "2022-10",
+  "Prostate", "v1.1-consortium", "2022-03",
+  "PANC", "v1.2-consortium", "2023-01",
+  "Prostate", "v1.2-consortium", "2023-01"
+)
+
+# get list of all folders in the consortium and public data releases folders
+data_release_folders <- list("syn21241322", "syn27056700")
+names(data_release_folders) <- c("Consortium", "Public")
+
+release_cohorts <- map_df(data_release_folders,
+  ~ bind_rows(as.list(synGetChildren(.))),
+  .id = "release"
+) %>%
+  select(release, name, id) %>%
+  filter(name != "Main GENIE cBioPortal Releases") %>%
+  mutate(release_cohort = paste0(release, "--", name)) %>%
+  split(.$release_cohort) %>%
+  map(., "id")
+
+# for each cohort, get subfolders
+releases_by_cohort <- map_df(release_cohorts,
+  ~ bind_rows(as.list(synGetChildren(.))),
+  .id = "cohort"
+) %>%
+  select(cohort, name, id) %>%
+  mutate(release_cohort_version = paste0(cohort, "--", name)) %>%
+  split(., ~release_cohort_version)
+
+# for each data release, get subfolders (clinical files, portal, documentation)
+releases_by_cohort_subfolders <- map_df(releases_by_cohort,
+  ~ bind_rows(as.list(synGetChildren(.))),
+  .id = "cohort_release"
+) %>%
+  select(cohort_release, name, id) %>%
+  mutate(cohort_release_folder = paste0(cohort_release, "--", name)) %>%
+  split(., ~cohort_release_folder) %>%
+  map(., "id")
+
+# get names of items in the folder
+all_syn_ids <- map_df(releases_by_cohort_subfolders,
+  ~ bind_rows(as.list(synGetChildren(.))),
+  .id = "cohort_release_folder"
+) %>%
+  select(cohort_release_folder, name, id) %>%
+  separate(cohort_release_folder,
+    into = c("release", "cohort", "version", "folder"),
+    sep = "--", extra = "merge"
+  ) %>%
+  # exclude files that are the public data release that's published in the consortium folder
+  filter(!(grepl("public", version, ignore.case = TRUE) &
+    release == "Consortium")) %>%
+  # add "v" in front of version
+  mutate(version = paste0("v", version))
+
+# keep files of interest
+synapse_tables_new <- all_syn_ids %>%
+  filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
+    (grepl("variable_synopsis|fusions|CNA|mutations_extended", name) &
+      !grepl("meta", name))) %>%
+  mutate(
+    filename_pre = str_remove(
+      pattern = ".csv|.txt",
+      string = name
+    ),
+    filename = case_when(
+      grepl("variable_synopsis", filename_pre) ~ "variable_synopsis",
+      TRUE ~ filename_pre
+    )
+  ) %>%
+  dplyr::mutate(df = factor(
+    case_when(
+      str_to_lower(filename) == "patient_level_dataset" ~ "pt_char",
+      str_to_lower(filename) == "cancer_level_dataset_index" ~ "ca_dx_index",
+      str_to_lower(filename) == "cancer_level_dataset_non_index" ~ "ca_dx_non_index",
+      str_to_lower(filename) == "regimen_cancer_level_dataset" ~ "ca_drugs",
+      str_to_lower(filename) == "imaging_level_dataset" ~ "prissmm_imaging",
+      str_to_lower(filename) == "pathology_report_level_dataset" ~ "prissmm_pathology",
+      str_to_lower(filename) == "ca_radtx_dataset" ~ "ca_radtx",
+      str_to_lower(filename) == "med_onc_note_level_dataset" ~ "prissmm_md",
+      str_to_lower(filename) == "tm_level_dataset" ~ "tumor_marker",
+      str_to_lower(filename) == "cancer_panel_test_level_dataset" ~ "cpt",
+      str_to_lower(filename) == "data_cna" ~ "cna",
+      str_to_lower(filename) == "data_fusions" ~ "fusions",
+      str_to_lower(filename) == "data_mutations_extended" ~ "mutations_extended",
+      TRUE ~ filename
+    ),
+    levels = c(
+      "pt_char", "ca_dx_index", "ca_dx_non_index",
+      "ca_drugs", "prissmm_imaging", "prissmm_pathology",
+      "ca_radtx", "prissmm_md", "tumor_marker",
+      "cpt", "mutations_extended", "fusions", "cna",
+      "variable_synopsis"
+    )
+  )) %>%
+  # merge on release dates
+  left_join(., release_dates,
+    by = c("cohort", "version")
+  ) %>%
+  dplyr::select(release_date, cohort, version, df, synapse_id = id) %>%
+  dplyr::arrange(release_date, cohort, version, df)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
-
