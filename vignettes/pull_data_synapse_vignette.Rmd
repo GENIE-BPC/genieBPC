@@ -122,7 +122,7 @@ nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
-The resulting `nsclc_data` object is a list of elements, such that each element represents a dataset:
+The resulting `nsclc_2_0` object is a list of elements, such that each element represents a dataset:
 
 
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
@@ -168,4 +168,6 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of June 2022, the non-small cell lung cancer (NSCLC), colorectal cancer (CRC), and breast cancer (BrCa) cohorts are available to access. Future cohorts will include pancreas, prostate and bladder cancers.
+* As of March 2023, all six cancer cohorts  &mdash; non-small cell lung cancer (NSCLC), colorectal cancer (CRC), breast cancer (BrCa), pancreatic cancer (PANC), prostate cancer (Prostate), bladder cancer (BLADDER) &mdash; have undergone consortium data releases. Additionally, the NSCLC and CRC cohorts have been released publicly. Future public data releases for the remaining cohorts are planned.
+
+
