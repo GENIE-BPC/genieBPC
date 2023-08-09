@@ -14,6 +14,8 @@ create_analytic_cohort(
   regimen_type = "Exact",
   regimen_order,
   regimen_order_type,
+  dmets_type,
+  dmets_order,
   return_summary = FALSE
 )
 }
@@ -82,6 +84,17 @@ receipt of the drug regimen within the times that that drug regimen was
 administered (e.g. the first time carboplatin pemetrexed was received, out
 of all times that the patient received carboplatin pemetrexed; "within
 regimen"). Acceptable values are "within cancer" and "within regimen".}
+
+\item{dmets_type}{A character or a vector of characters that indicate which
+distant metastases the cohort should have. Choose from the following: "Any",
+"Abdomen", "Bone", "Brain", "Breast", "Extremity", "Head & Neck", "Heme",
+"Liver", "Pelvis", "Thorax", "Trunk". If left blank, all records will be
+returned regardless of distant metastasis status.}
+
+\item{dmets_order}{A character that indicates which the first distant
+metastasis observed. The met could be the first and only observed, or it
+could be first among many. Choose from the list above. If left blank, metastasis
+order is not taken into account.}
 
 \item{return_summary}{Specifies whether a summary table for the cohort is
 returned. Default is FALSE. The `gtsummary` package is required to return a

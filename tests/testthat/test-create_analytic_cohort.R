@@ -135,6 +135,7 @@ test_that("correct number of objects returned from create cohort", {
   expect_equal(class(test3), "list")
 })
 
+################## TO CHANGE #########################
 test_that("only 1 cohort is specified, else error", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie())
@@ -888,6 +889,78 @@ test_that("regimen_order_type", {
     regimen_order_type =
       "within cancer"
   ))
+})
+
+
+test_that("dmets_site parameter", {
+  # exit if user isn't logged in
+  testthat::skip_if_not(.is_connected_to_genie())
+
+  # invalid value provided for dmets_site
+  expect_error(create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = c("All")
+  ))
+
+  expect_error(create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = 1
+  ))
+
+  expect_error(create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = as.list(c("test", "Brain"))
+  ))
+
+
+  # test one string provided
+  expect_no_error(brca_brain_dmet <- create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = "Brain"
+  ))
+
+  expect_equal(brca_brain_dmet %>%
+                 pluck("cohort_ca_dx")%>%
+                 nrow(),
+               brca_data %>%
+                 pluck("BrCa_v1.1")%>%
+                 pluck("ca_dx_index")%>%
+                 filter(dmets_brain == 1)%>%
+                 nrow()
+               )
+
+  expect_equal(brca_brain_dmet %>%
+                 pluck("cohort_ca_dx")%>%
+                 pull(dmets_brain) %>%
+                 unique(), 1)
+
+  # test multiple strings provided
+      # no type specified
+  expect_error(create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = c("Head_neck", "Bone", "Brain")
+  ), "Please specify `dmets_type`.*")
+
+  expect_no_error(brca_hn_bone_brain <- create_analytic_cohort(
+    data_synapse = brca_data$BrCa_v1.1,
+    dmets_site = c("Head_neck", "Bone", "Brain"),
+    dmets_type = "all_of"
+  ))
+
+  expect_equal(brca_hn_bone_brain %>%
+                 pluck("cohort_ca_dx")%>%
+                 nrow(),
+               brca_data[[1]]%>%
+                 pluck("ca_dx_index")%>%
+                 filter(dmets_head_neck == 1 & dmets_bone == 1 &
+                          dmets_brain == 1)%>%
+                 nrow())
+
+  expect_equal(brca_hn_bone_brain %>%
+                 pluck("cohort_ca_dx")%>%
+                 count(dmets_head_neck, dmets_bone, dmets_brain) %>%
+                 nrow(), 1)
+
 })
 
 test_that("No patients met criteria", {

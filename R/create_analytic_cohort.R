@@ -68,14 +68,17 @@
 #' administered (e.g. the first time carboplatin pemetrexed was received, out
 #' of all times that the patient received carboplatin pemetrexed; "within
 #' regimen"). Acceptable values are "within cancer" and "within regimen".
-#' @param dmets_type A character or a vector of characters that indicate which
+#' @param dmets_site A character or a vector of characters that indicate which
 #' distant metastases the cohort should have. Choose from the following: "Any",
 #' "Abdomen", "Bone", "Brain", "Breast", "Extremity", "Head & Neck", "Heme",
 #' "Liver", "Pelvis", "Thorax", "Trunk". If left blank, all records will be
 #' returned regardless of distant metastasis status.
-#' @param dmets_order A character that indicates which the first distant
+#' @param dmets_type Choice of "any_of" or "all_of" to indicate if the cohort
+#' should include patients with any of the selected dmets sites or all of them.
+#' If `dmets_site` = "Any" then this can parameter can be `NULL`.
+#' @param dmets_first A character that indicates which the first distant
 #' metastasis observed. The met could be the first and only observed, or it
-#' could be first among many. Choose from the list above. If left blank, metastasis
+#' could be first among many. Choose from the options above. If left blank, metastasis
 #' order is not taken into account.
 #' @param return_summary Specifies whether a summary table for the cohort is
 #' returned. Default is FALSE. The `gtsummary` package is required to return a
@@ -160,8 +163,9 @@ create_analytic_cohort <- function(data_synapse,
                                    regimen_type = "Exact",
                                    regimen_order,
                                    regimen_order_type,
-                                   dmets_type,
-                                   dmets_order,
+                                   dmets_site,
+                                   dmets_type = NULL,
+                                   dmets_first,
                                    return_summary = FALSE) {
   # check parameters --------------------------------
   # cohort object
@@ -360,49 +364,129 @@ create_analytic_cohort <- function(data_synapse,
     regimen_order_type <- NULL
   }
 
-  # dmets_type could be a character string or just one character
 
+  # create list of allowable dmets types (can always add more later)
+  dmets_allowed <- c("Any", "Abdomen", "Bone", "Brain",
+                     "Breast", "Extremity", "Head_neck", "Heme",
+                     "Liver", "Pelvis", "Thorax", "Trunk")
+
+
+  # dmets_site could be a character string or just one character
+  if (!missing(dmets_site) && !all(dmets_site %in% dmets_allowed)){
+    stop(paste0("Please ensure `dmets_site` only includes options from the ",
+                "vector provided in `help(create_analytic_cohort)`."))
+  }
+
+  # if you have dmets_sites and there is more than one of interest
+  if (!missing(dmets_site) && length(dmets_site) > 1) {
+    # but dmets_type is missing or not an accepted option
+    if (is.null(dmets_type)) {
+      stop(
+        "Please specify `dmets_type`. Would you like to return patients with observed
+         dmets for either a) 'any_of' the listed `dmets_sites` or b) 'all_of' the `dmets_sites`?"
+      )
+    } else if (length(dmets_type) != 1) {
+      stop("Please specify only one `dmets_type`.")
+    } else if (!(dmets_type %in% c("any_of", "all_of"))) {
+      stop(
+        "Please specify `dmets_type`. Would you like to return patients with observed
+         dmets for either a) 'any_of' the listed `dmets_sites` or b) 'all_of' the `dmets_sites`?"
+      )
+    }
+  } else if (missing(dmets_site)) {
+    dmets_type = NULL
+  }
+
+
+
+
+  # dmets_first specification
+  if(!missing(dmets_first) && length(dmets_first) > 1){
+    stop("Please only specify one type of distant metastasis that is first observed.")
+  } else if(!missing(dmets_first) && !(dmets_first %in% dmets_allowed)){
+    stop(paste0("Please ensure `dmets_first` is one of the ",
+                "list provided in `help(create_analytic_cohort)` under `dmets_site`."))
+  }
 
   ##############################################################################
   #                             pull cancer cohort                             #
   ##############################################################################
   # select patients based on cohort, institution, stage at diagnosis,
-  # histology and cancer number
+  # histology, cancer number, and observed dmets
+  cohort_ca_dx <- pluck(data_synapse, "ca_dx_index") %>%
+    # re-number index cancer diagnoses
+    dplyr::group_by(.data$cohort, .data$record_id) %>%
+    dplyr::mutate(index_ca_seq = 1:n()) %>%
+    dplyr::ungroup() %>%
+    # apply filter(s)
+    dplyr::filter(
+      stringr::str_to_lower(.data$institution) %in%
+        stringr::str_to_lower(c(institution_temp)),
+      stringr::str_to_lower(.data$stage_dx) %in%
+        stringr::str_to_lower(c(stage_dx_temp)),
+      .data$index_ca_seq %in% c({{ index_ca_seq }}))
+
+
   if (cohort_temp != "BrCa") {
-    cohort_ca_dx <- pluck(data_synapse, "ca_dx_index") %>%
-      # re-number index cancer diagnoses
-      dplyr::group_by(.data$cohort, .data$record_id) %>%
-      dplyr::mutate(index_ca_seq = 1:n()) %>%
-      dplyr::ungroup() %>%
-      # apply filter(s)
-      dplyr::filter(
-        stringr::str_to_lower(.data$institution) %in%
-          stringr::str_to_lower(c(institution_temp)),
-        stringr::str_to_lower(.data$stage_dx) %in%
-          stringr::str_to_lower(c(stage_dx_temp)),
-        stringr::str_to_lower(.data$ca_hist_adeno_squamous) %in%
-          stringr::str_to_lower(c(histology_temp)),
-        .data$index_ca_seq %in% c({{ index_ca_seq }})
-      )
+    cohort_ca_dx <- cohort_ca_dx %>%
+      filter(stringr::str_to_lower(.data$ca_hist_adeno_squamous) %in%
+               stringr::str_to_lower(c(histology_temp)))
   } else {
-    cohort_ca_dx <- pluck(data_synapse, "ca_dx_index") %>%
-      # re-number index cancer diagnoses
-      dplyr::group_by(.data$cohort, .data$record_id) %>%
-      dplyr::mutate(index_ca_seq = 1:n()) %>%
-      dplyr::ungroup() %>%
-      # # apply filter(s)
-      dplyr::filter(
-        stringr::str_to_lower(.data$institution) %in%
-          stringr::str_to_lower(c(institution_temp)),
-        stringr::str_to_lower(.data$stage_dx) %in%
-          stringr::str_to_lower(c(stage_dx_temp)),
+    cohort_ca_dx <- cohort_ca_dx %>%
+      filter(
         stringr::str_to_lower(.data$ca_hist_brca) %in%
-          stringr::str_to_lower(c(histology_temp)),
-        .data$index_ca_seq %in% c({{ index_ca_seq }})
-      )
+          stringr::str_to_lower(c(histology_temp)))
   }
 
+  if (!missing(dmets_site)) {
+    # if specific types are given
+    if (length(dmets_site) > 1 && any(dmets_site != "Any")) {
+      dmet_search <- cohort_ca_dx %>%
+        select('cohort',
+               'record_id',
+               'institution',
+               "stage_dx",
+               starts_with("dmets_")) %>%
+        pivot_longer(!c('cohort', "record_id", "institution", "stage_dx")) %>%
+        separate_wider_delim(
+          name,
+          names = c("prefix", "ending"),
+          delim = "_",
+          too_many = "merge"
+        ) %>%
+        select(-"prefix") %>%
+        filter(ending %in% stringr::str_to_lower(dmets_site)) %>%
+        group_by(.data$record_id,
+                 .data$cohort,
+                 .data$institution,
+                 .data$stage_dx) %>%
+        summarise(sum_dmet = sum(value, na.rm = T)) %>%
+        ungroup()
 
+      if (!is.null(dmets_type) && dmets_type == "any_of") {
+        dmet_search <- dmet_search %>%
+          filter(sum_dmet > 1)
+      } else if (!is.null(dmets_type) && dmets_type == "all_of") {
+        dmet_search <- dmet_search %>%
+          filter(sum_dmet == length(dmets_site))
+      } else if (is.null(dmets_type)){
+        dmet_search <- dmet_search %>%
+          filter(sum_dmet == 1)
+      }
+
+      cohort_ca_dx <- dmet_search %>%
+        select(-"sum_dmet")%>%
+        left_join(cohort_ca_dx)
+
+    }
+    # if any dmet is of interest
+    else if (dmets_site == "Any"){
+      cohort_ca_dx <- cohort_ca_dx %>%
+        # because stage was already filtered this is all we need to do
+        filter(dmets_stage_i_iii == 1 | ca_dmets_yn == "Yes")
+    }
+
+  }
 
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
@@ -416,36 +500,32 @@ create_analytic_cohort <- function(data_synapse,
     # create order for drug regimen within cancer and within times the
     # drug was received
     dplyr::group_by(.data$cohort, .data$record_id, .data$ca_seq) %>%
-    dplyr::arrange(
-      .data$cohort, .data$record_id,
-      .data$ca_seq, .data$regimen_number
-    ) %>%
+    dplyr::arrange(.data$cohort,
+                   .data$record_id,
+                   .data$ca_seq,
+                   .data$regimen_number) %>%
     dplyr::mutate(order_within_cancer = 1:n()) %>%
     dplyr::ungroup() %>%
     # order drugs w/in regimen, have to account for structure of data which is
     # 1 reg:assoc ca dx
     # (may have more than one row for a drug regimen even if it's the first time
     # that drug regimen was received)
-    dplyr::left_join(.,
+    dplyr::left_join(
+      .,
       pluck(data_synapse, "ca_drugs") %>%
-        dplyr::distinct(
-          .data$record_id, .data$regimen_number,
-          .data$regimen_drugs
-        ) %>%
+        dplyr::distinct(.data$record_id, .data$regimen_number,
+                        .data$regimen_drugs) %>%
         dplyr::group_by(.data$record_id, .data$regimen_drugs) %>%
-        dplyr::arrange(
-          .data$record_id, .data$regimen_number,
-          .data$regimen_drugs
-        ) %>%
+        dplyr::arrange(.data$record_id, .data$regimen_number,
+                       .data$regimen_drugs) %>%
         dplyr::mutate(order_within_regimen = 1:n()) %>%
         dplyr::ungroup() %>%
         dplyr::select(-"regimen_drugs"),
       by = c("record_id", "regimen_number")
     ) %>%
     dplyr::left_join(.,
-      genieBPC::regimen_abbreviations,
-      by = c("regimen_drugs")
-    )
+                     genieBPC::regimen_abbreviations,
+                     by = c("regimen_drugs"))
 
 
 
