@@ -68,6 +68,15 @@
 #' administered (e.g. the first time carboplatin pemetrexed was received, out
 #' of all times that the patient received carboplatin pemetrexed; "within
 #' regimen"). Acceptable values are "within cancer" and "within regimen".
+#' @param dmets_type A character or a vector of characters that indicate which
+#' distant metastases the cohort should have. Choose from the following: "Any",
+#' "Abdomen", "Bone", "Brain", "Breast", "Extremity", "Head & Neck", "Heme",
+#' "Liver", "Pelvis", "Thorax", "Trunk". If left blank, all records will be
+#' returned regardless of distant metastasis status.
+#' @param dmets_order A character that indicates which the first distant
+#' metastasis observed. The met could be the first and only observed, or it
+#' could be first among many. Choose from the list above. If left blank, metastasis
+#' order is not taken into account.
 #' @param return_summary Specifies whether a summary table for the cohort is
 #' returned. Default is FALSE. The `gtsummary` package is required to return a
 #' summary table.
@@ -151,9 +160,10 @@ create_analytic_cohort <- function(data_synapse,
                                    regimen_type = "Exact",
                                    regimen_order,
                                    regimen_order_type,
+                                   dmets_type,
+                                   dmets_order,
                                    return_summary = FALSE) {
-
-  # check parameters
+  # check parameters --------------------------------
   # cohort object
   if (missing(data_synapse)) {
     stop("Specify the cohort object from the nested list returned by the
@@ -350,6 +360,9 @@ create_analytic_cohort <- function(data_synapse,
     regimen_order_type <- NULL
   }
 
+  # dmets_type could be a character string or just one character
+
+
   ##############################################################################
   #                             pull cancer cohort                             #
   ##############################################################################
@@ -394,10 +407,11 @@ create_analytic_cohort <- function(data_synapse,
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
-  cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
-   dplyr::select("cohort", "record_id", "ca_seq"),
-  pluck(data_synapse, "ca_drugs"),
-  by = c("cohort", "record_id", "ca_seq")
+  cohort_ca_drugs <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id", "ca_seq"),
+    pluck(data_synapse, "ca_drugs"),
+    by = c("cohort", "record_id", "ca_seq")
   ) %>%
     # create order for drug regimen within cancer and within times the
     # drug was received
@@ -442,7 +456,6 @@ create_analytic_cohort <- function(data_synapse,
   # regimen_type = "within cancer"
   if (missing(regimen_drugs) && !missing(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
-
     # cohort_ca_drugs <- dplyr::left_join(cohort_ca_dx,
     #   pluck(data_synapse, paste0("ca_drugs_", cohort_temp)),
     #   by = c("cohort", "record_id", "institution", "ca_seq")
@@ -686,46 +699,52 @@ create_analytic_cohort <- function(data_synapse,
 
   # for patients meeting the specified criteria, also pull related datasets
   # patient characteristics
-  cohort_pt_char <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
-  pluck(data_synapse, "pt_char"),
-  by = c("cohort", "record_id")
+  cohort_pt_char <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id"),
+    pluck(data_synapse, "pt_char"),
+    by = c("cohort", "record_id")
   )
 
   # non-index cancer
-  cohort_ca_dx_non_index <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
-  pluck(data_synapse, "ca_dx_non_index"),
-  by = c("cohort", "record_id")
+  cohort_ca_dx_non_index <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id"),
+    pluck(data_synapse, "ca_dx_non_index"),
+    by = c("cohort", "record_id")
   )
 
   # PRISSMM Path
-  cohort_prissmm_pathology <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
-  pluck(data_synapse, "prissmm_pathology"),
-  by = c("cohort", "record_id")
+  cohort_prissmm_pathology <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id"),
+    pluck(data_synapse, "prissmm_pathology"),
+    by = c("cohort", "record_id")
   )
 
   # PRISSMM Imaging
-  cohort_prissmm_imaging <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
-  pluck(data_synapse, "prissmm_imaging"),
-  by = c("cohort", "record_id")
+  cohort_prissmm_imaging <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id"),
+    pluck(data_synapse, "prissmm_imaging"),
+    by = c("cohort", "record_id")
   )
 
   # PRISSMM Med Onc
-  cohort_prissmm_md <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
-  pluck(data_synapse, "prissmm_md"),
-  by = c("cohort", "record_id")
+  cohort_prissmm_md <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id"),
+    pluck(data_synapse, "prissmm_md"),
+    by = c("cohort", "record_id")
   )
 
   # TM (if applicable)
   if (!is.null(pluck(data_synapse, "tumor_marker"))) {
-    cohort_tumor_marker <- dplyr::inner_join(cohort_ca_dx %>%
-      dplyr::select("cohort", "record_id"),
-    pluck(data_synapse, "tumor_marker"),
-    by = c("cohort", "record_id")
+    cohort_tumor_marker <- dplyr::inner_join(
+      cohort_ca_dx %>%
+        dplyr::select("cohort", "record_id"),
+      pluck(data_synapse, "tumor_marker"),
+      by = c("cohort", "record_id")
     )
   }
 
@@ -739,9 +758,8 @@ create_analytic_cohort <- function(data_synapse,
   ) %>%
     distinct()
 
-  if(any(names(cohort_ngs) == "cpt_sample_type") &
-     !any(names(cohort_ngs) == "sample_type")){
-
+  if (any(names(cohort_ngs) == "cpt_sample_type") &
+    !any(names(cohort_ngs) == "sample_type")) {
     cohort_ngs <- cohort_ngs %>%
       dplyr::mutate(sample_type = case_when(
         str_to_lower(.data$cpt_sample_type)
@@ -773,8 +791,11 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   if (!is.null(pluck(data_synapse, "mutations_extended"))) {
-    cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse,
-                                                         "mutations_extended"),
+    cohort_mutations_extended <- dplyr::inner_join(
+      pluck(
+        data_synapse,
+        "mutations_extended"
+      ),
       cohort_ngs %>%
         dplyr::select("cohort", "cpt_genie_sample_id"),
       by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
@@ -808,7 +829,6 @@ create_analytic_cohort <- function(data_synapse,
 
   # return a table 1 to describe the cancer cohort if the user specifies
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
-
     # number of records per patient in the diagnosis dataset
     n_rec_dx_dset <- cohort_ca_dx %>%
       dplyr::group_by(.data$record_id) %>%
@@ -883,8 +903,10 @@ create_analytic_cohort <- function(data_synapse,
         # dplyr::mutate(n_rec_pt = n()) %>%
         # dplyr::ungroup() %>%
         gtsummary::tbl_summary(
-          include = c("cohort", "institution", "stage_dx",
-                             "ca_hist_brca"),
+          include = c(
+            "cohort", "institution", "stage_dx",
+            "ca_hist_brca"
+          ),
           label = list(
             cohort ~ "Cohort (cohort)",
             institution ~ "Institution (institution)",
@@ -920,8 +942,10 @@ create_analytic_cohort <- function(data_synapse,
 
     tbl_ngs <- cohort_ngs %>%
       gtsummary::tbl_summary(
-        include = c("cohort", "institution",
-                           "cpt_oncotree_code", "cpt_seq_assay_id"),
+        include = c(
+          "cohort", "institution",
+          "cpt_oncotree_code", "cpt_seq_assay_id"
+        ),
         label = list(
           cohort ~ "Cohort (cohort)",
           institution ~ "Institution (institution)",
@@ -942,9 +966,11 @@ create_analytic_cohort <- function(data_synapse,
   cohort_ca_dx <- cohort_ca_dx %>% select(-"index_ca_seq")
 
   cohort_ca_drugs <- cohort_ca_drugs %>%
-    dplyr::select(-"order_within_cancer",
-                  -"order_within_regimen",
-                  -"abbreviation")
+    dplyr::select(
+      -"order_within_cancer",
+      -"order_within_regimen",
+      -"abbreviation"
+    )
 
   # order of dataframes, should they exist
   df_order <- c(
