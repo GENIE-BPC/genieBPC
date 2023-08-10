@@ -1,5 +1,6 @@
+library(tidyverse)
 library(synapser)
-synLogin()
+synapser::synLogin()
 
 # manually record release dates (can't pull from Synapse)
 release_dates <- tibble::tribble(
@@ -23,63 +24,63 @@ release_dates <- tibble::tribble(
 data_release_folders <- list("syn21241322", "syn27056700")
 names(data_release_folders) <- c("Consortium", "Public")
 
-release_cohorts <- map_df(data_release_folders,
-  ~ bind_rows(as.list(synGetChildren(.))),
+release_cohorts <- purrr::map_df(data_release_folders,
+  ~ dplyr::bind_rows(as.list(synapser::synGetChildren(.))),
   .id = "release"
 ) %>%
-  select(release, name, id) %>%
-  filter(name != "Main GENIE cBioPortal Releases") %>%
-  mutate(release_cohort = paste0(release, "--", name)) %>%
+  dplyr::select(release, name, id) %>%
+  dplyr::filter(name != "Main GENIE cBioPortal Releases") %>%
+  dplyr::mutate(release_cohort = paste0(release, "--", name)) %>%
   split(.$release_cohort) %>%
-  map(., "id")
+  purrr::map(., "id")
 
 # for each cohort, get subfolders
-releases_by_cohort <- map_df(release_cohorts,
-  ~ bind_rows(as.list(synGetChildren(.))),
+releases_by_cohort <- purrr::map_df(release_cohorts,
+  ~ dplyr::bind_rows(as.list(synGetChildren(.))),
   .id = "cohort"
 ) %>%
-  select(cohort, name, id) %>%
-  mutate(release_cohort_version = paste0(cohort, "--", name)) %>%
+  dplyr::select(cohort, name, id) %>%
+  dplyr::mutate(release_cohort_version = paste0(cohort, "--", name)) %>%
   split(., ~release_cohort_version)
 
 # for each data release, get subfolders (clinical files, portal, documentation)
-releases_by_cohort_subfolders <- map_df(releases_by_cohort,
-  ~ bind_rows(as.list(synGetChildren(.))),
+releases_by_cohort_subfolders <- purrr::map_df(releases_by_cohort,
+  ~ dplyr::bind_rows(as.list(synGetChildren(.))),
   .id = "cohort_release"
 ) %>%
-  select(cohort_release, name, id) %>%
-  mutate(cohort_release_folder = paste0(cohort_release, "--", name)) %>%
+  dplyr::select(cohort_release, name, id) %>%
+  dplyr::mutate(cohort_release_folder = paste0(cohort_release, "--", name)) %>%
   split(., ~cohort_release_folder) %>%
-  map(., "id")
+  purrr::map(., "id")
 
 # get names of items in the folder
-all_syn_ids <- map_df(releases_by_cohort_subfolders,
-  ~ bind_rows(as.list(synGetChildren(.))),
+all_syn_ids <- purrr::map_df(releases_by_cohort_subfolders,
+  ~ dplyr::bind_rows(as.list(synGetChildren(.))),
   .id = "cohort_release_folder"
 ) %>%
-  select(cohort_release_folder, name, id) %>%
-  separate(cohort_release_folder,
+  dplyr::select(cohort_release_folder, name, id) %>%
+  tidyr::separate(cohort_release_folder,
     into = c("release", "cohort", "version", "folder"),
     sep = "--", extra = "merge"
   ) %>%
   # exclude files that are the public data release that's published in the consortium folder
-  filter(!(grepl("public", version, ignore.case = TRUE) &
+  dplyr::filter(!(grepl("public", version, ignore.case = TRUE) &
     release == "Consortium")) %>%
   # add "v" in front of version
-  mutate(version = paste0("v", version))
+  dplyr::mutate(version = paste0("v", version))
 
 # keep files of interest
-synapse_tables_new <- all_syn_ids %>%
-  filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
-    (grepl("variable_synopsis|fusions|CNA|mutations_extended", name) &
+synapse_tables <- all_syn_ids %>%
+  dplyr::filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
+    (grepl("synopsis|fusions|CNA|mutations_extended", name) &
       !grepl("meta", name))) %>%
-  mutate(
+  dplyr::mutate(
     filename_pre = str_remove(
       pattern = ".csv|.txt",
       string = name
     ),
     filename = case_when(
-      grepl("variable_synopsis", filename_pre) ~ "variable_synopsis",
+      grepl("synopsis", filename_pre) ~ "variable_synopsis",
       TRUE ~ filename_pre
     )
   ) %>%
@@ -109,7 +110,7 @@ synapse_tables_new <- all_syn_ids %>%
     )
   )) %>%
   # merge on release dates
-  left_join(., release_dates,
+  dplyr::left_join(., release_dates,
     by = c("cohort", "version")
   ) %>%
   dplyr::select(release_date, cohort, version, df, synapse_id = id) %>%
