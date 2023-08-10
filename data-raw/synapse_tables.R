@@ -113,7 +113,7 @@ synapse_tables <- all_syn_ids %>%
   dplyr::left_join(., release_dates,
     by = c("cohort", "version")
   ) %>%
-  dplyr::select(release_date, cohort, version, df, synapse_id = id) %>%
+  dplyr::select(cohort, version, release_date, df, synapse_id = id) %>%
   dplyr::arrange(release_date, cohort, version, df)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)

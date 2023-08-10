@@ -57,8 +57,8 @@
 #' @format A lookup table for 'Synapse' data table IDs:
 #' \describe{
 #'   \item{cohort}{GENIE BPC Project Cohort}
-#'   \item{release_date}{Month and year of data release}
 #'   \item{version}{Release version}
+#'   \item{release_date}{Month and year of data release}
 #'   \item{df}{Clinical, Genomic, or Metadata Dataset}
 #'   \item{synapse_id}{'Synapse' table ID for each dataset}
 #'   ...
