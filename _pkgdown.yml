@@ -4,6 +4,28 @@ template:
   bootstrap: 5
   bootswatch: sandstone
 
+navbar:
+  type: default
+  left:
+  - icon: fa-home
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: "Tutorial: GENIE BPC Data Structure"
+      href: articles/clinical_data_structure_vignette.html
+    - text: "Tutorial: pull_data_synapse"
+      href: articles/pull_data_synapse_vignette.html
+    - text: "Tutorial: create_analytic_cohort"
+      href: articles/create_analytic_cohort_vignette.html
+    - text: "Tutorial: select_unique_ngs"
+      href: articles/select_unique_ngs_vignette.html
+    - text: "Tutorial: drug_regimen_sunburst"
+      href: articles/drug_regimen_sunburst_vignette.html
+  - text: Changelog
+    href: news/index.html
+
 reference:
 - title: "genieBPC Functions"
   desc: "Functions for abstracting and manipulating GENIE BPC data"
