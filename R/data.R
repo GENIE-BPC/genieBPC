@@ -52,15 +52,15 @@
 #' 'Synapse' table IDs
 #'
 #' A dataset containing the 'Synapse' table IDs for
-#' each clinical dataset in GENIE BPC.
+#' each dataset in GENIE BPC.
 #'
-#' @format A lookup table for 'Synapse' clinical data table IDs:
+#' @format A lookup table for 'Synapse' data table IDs:
 #' \describe{
 #'   \item{cohort}{GENIE BPC Project Cohort}
-#'   \item{df}{Clinical dataset}
-#'   \item{version}{Release version}
-#'   \item{synapse_id}{'Synapse' table ID for each dataset}
 #'   \item{release_date}{Month and year of data release}
+#'   \item{version}{Release version}
+#'   \item{df}{Clinical, Genomic, or Metadata Dataset}
+#'   \item{synapse_id}{'Synapse' table ID for each dataset}
 #'   ...
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
@@ -71,7 +71,7 @@
 #'
 #' A named list of simulated NSCLC clinical and genomic data
 #'
-#' @format A list of clinical data frames
+#' @format A list of data frames
 #' \describe{
 #'     \item{pt_char}{Patient characteristic data.frame}
 #'     \item{ca_dx_index}{Index cancer diagnosis data.frame}
