@@ -170,7 +170,7 @@ with Stage IV adenocarcinoma NSCLC.
 *Pull data for NSCLC version 2.0-public:*
 
 ``` r
-nsclc_2_1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
+nsclc_2_0 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
 ```
 
 *Select stage IV adenocarcinoma NSCLC diagnoses:*
