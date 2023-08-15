@@ -115,7 +115,7 @@ order to use this function. To obtain access:
 
 ***Authenticate yourself***
 
-4.  Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see `set_synapse_credentials()`), or store your credentials as environmental variables. See [Tutorial: pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html) for more details.
+Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see `set_synapse_credentials()`), or store your credentials as environmental variables. See [Tutorial: pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html) for more details.
 
 
 ## Analytic Data Guides
