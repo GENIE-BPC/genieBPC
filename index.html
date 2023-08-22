@@ -46,7 +46,7 @@
     
     <a class="navbar-brand me-2" href="index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,7 +109,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"genieBPC"</span><span class="op">)</span></span></code></pre></div>
 <p>Install the development version of {genieBPC} with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="overview-of-geniebpc-functions">Overview of {genieBPC} Functions<a class="anchor" aria-label="anchor" href="#overview-of-geniebpc-functions"></a>
@@ -135,22 +135,24 @@
 <p>Access to the GENIE BPC data release folders on ‘Synapse’ is required in order to use this function. To obtain access:</p>
 <p><strong><em>For public data releases:</em></strong></p>
 <ol style="list-style-type: decimal">
-<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Accept the <strong>Synapse account terms of use.</strong></p></li>
-<li><p>Navigate to the data release and accept terms of use (e.g., for the NSCLC 2.0-public data release, navigate to the <a href="https://www.synapse.org/#!Synapse:syn27056697" class="external-link">‘Synapse’ page</a> for the data release). Towards the top of the page, there is information including the <em>‘Synapse’ ID</em>, <em>DOI</em>, <em>Item count</em>, and <em>Access.</em> Next to <em>Access</em> is a link that reads <em>Request Access</em>.</p></li>
-<li><p>Navigate to <a href="https://www.synapse.org/#!Synapse:syn27056172/wiki/616601" class="external-link">GENIE Biopharma Collaborative Public page</a> –&gt; Files –&gt; Data Releases –&gt; Select <em>Request Access</em>, <strong>review the terms of data use</strong> and select <em>Accept</em></p></li>
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Be sure to create a username and password. <em>Note: do NOT connect via your Google account.</em></p></li>
+<li><p>Accept the <strong>Synapse account terms of use.</strong></p></li>
+<li><p>Navigate to <a href="https://www.synapse.org/" class="external-link">GENIE Biopharma Collaborative Public page</a>.</p></li>
+<li><p>In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.</p></li>
+<li><p>Select <em>Request Access</em>, <strong>review the terms of data use,</strong> and select <em>Accept.</em></p></li>
 </ol>
-<p><em>Note that permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
 <p><strong><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></strong></p>
 <ol style="list-style-type: decimal">
-<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a></p></li>
-<li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request.</p></li>
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Be sure to create a username and password. <em>Note: do NOT connect via your Google account.</em></p></li>
+<li><p>Accept the <strong>Synapse account terms of use.</strong></p></li>
+<li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request. <em>(Note: Please allow up to a week to review and grant access.)</em></p></li>
 <li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma Collaborative projects</a>.</p></li>
+<li><p>In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.</p></li>
+<li><p>Select <em>Request Access</em>, <strong>review the terms of data use,</strong> and select <em>Accept.</em></p></li>
 </ol>
-<p><em>Note: Please allow up to a week to review and grant access.</em></p>
+<p><em>Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
 <p><strong><em>Authenticate yourself</em></strong></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see <code><a href="reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>), or store your credentials as environmental variables. See <a href="https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a> for more details.</li>
-</ol>
+<p>Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see <code><a href="reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>), or store your credentials as environmental variables. See <a href="https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a> for more details.</p>
 </div>
 <div class="section level2">
 <h2 id="analytic-data-guides">Analytic Data Guides<a class="anchor" aria-label="anchor" href="#analytic-data-guides"></a>
@@ -182,7 +184,7 @@
 <p>The following example creates an analytic cohort of patients diagnosed with Stage IV adenocarcinoma NSCLC.</p>
 <p><em>Pull data for NSCLC version 2.0-public:</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nsclc_2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
 <p><em>Select stage IV adenocarcinoma NSCLC diagnoses:</em></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nsclc_stg_iv_adeno</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span>data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>, </span>
