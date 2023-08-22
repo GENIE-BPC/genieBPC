@@ -214,13 +214,37 @@ the first treatment regimen:*
 
 ## GENIE BPC Publications
 
+Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H,
+Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N,
+LeNoue-Newton M, Micheel C, Warner JL, Ginsberg MS, Plodkowski A,
+Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz
+N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world
+repository integrating standardized clinical and genomic data for 1,846
+patients with non-small cell lung
+cancer](https://aacrjournals.org/clincancerres/article/doi/10.1158/1078-0432.CCR-23-0580/727800/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
+Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
+
+Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas
+KS. [Elucidating Analytic Bias Due to Informative Cohort Entry in Cancer
+Clinico-genomic
+Datasets](https://aacrjournals.org/cebp/article/32/3/344/718498/Elucidating-Analytic-Bias-Due-to-Informative).
+Cancer Epidemiol Biomarkers Prev. 2023 March; 32 (3): 344–352. doi:
+10.1158/1055-9965.EPI-22-0875.
+
+Lavery JA, Brown S, Curry MA, Martin A, Sjoberg DD, Whiting K. [A data
+processing pipeline for the AACR project GENIE biopharma collaborative
+data with the {genieBPC} R
+package](https://academic.oup.com/bioinformatics/article/39/1/btac796/6909009)
+Bioinformatics. Volume 39, Issue 1. 2023 Jan; doi:
+10.1093/bioinformatics/btac796
+
 Lavery JA, Lepisto EM, Brown S, Rizvi H, McCarthy C, LeNoue-Newton M, Yu
 C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE
 Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas
 KS. [A Scalable Quality Assurance Process for Curating Oncology
 Electronic Health Records: The Project GENIE Biopharma Collaborative
 Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin
-Cancer Inform. 2022 Feb;6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
+Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
 35192403; PMCID: PMC8863125.
 
 Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM,
