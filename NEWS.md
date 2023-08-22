@@ -1,4 +1,14 @@
-# genieBPC 1.0.2
+# genieBPC (development version)
+
+* Updated `genieBPC::nsclc_test_data` to ensure unique sample ids for CNA file.
+
+* Updated README and 'Pull Data Synapse Vignette' to clarify instructions for registering for a 'Synapse' account
+
+# genieBPC (1.1.0.9000)
+
+* Updated `genieBPC::nsclc_test_data` to randomly sample from cancer diagnosis dataset, stratified by stage, and incorporate genomic data into dataset.
+
+# genieBPC 1.1.0
 
 * Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC
 v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases
