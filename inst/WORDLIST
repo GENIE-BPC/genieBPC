@@ -34,6 +34,8 @@ Groha
 Guo
 Gusev
 Hellmann
+IGR
+Intron
 Investigational
 JA
 JAMA
@@ -77,7 +79,9 @@ Scalable
 Schrag
 Shen
 Synapse’
+TERT
 UHN
+UTR
 Uno
 VICC
 Yu
@@ -88,7 +92,9 @@ biopharma
 bpc
 brca
 btac
+cBioPortal
 carboplatin
+cbioportalR
 clinico
 cmd
 codecov
@@ -104,6 +110,7 @@ env
 environ
 genomically
 github
+gnomeR
 gtsummary
 histologies
 https
