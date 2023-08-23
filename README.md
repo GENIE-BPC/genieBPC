@@ -66,49 +66,58 @@ order to use this function. To obtain access:
 
 ***For public data releases:***
 
-1.  Register for a [‘Synapse’ account](https://www.synapse.org/#).
-    Accept the **Synapse account terms of use.**
+1.  Register for a [‘Synapse’ account](https://www.synapse.org/#). Be
+    sure to create a username and password. *Note: do NOT connect via
+    your Google account.*
 
-2.  Navigate to the data release and accept terms of use (e.g., for the
-    NSCLC 2.0-public data release, navigate to the [‘Synapse’
-    page](https://www.synapse.org/#!Synapse:syn27056697) for the data
-    release). Towards the top of the page, there is information
-    including the *‘Synapse’ ID*, *DOI*, *Item count*, and *Access.*
-    Next to *Access* is a link that reads *Request Access*.
+2.  Accept the **Synapse account terms of use.**
 
 3.  Navigate to [GENIE Biopharma Collaborative Public
-    page](https://www.synapse.org/#!Synapse:syn27056172/wiki/616601) –\>
-    Files –\> Data Releases –\> Select *Request Access*, **review the
-    terms of data use** and select *Accept*
+    page](https://www.synapse.org/).
 
-*Note that permissions for Synapse and permissions for each data release
-are distinct. Both permissions must be accepted to successfully access
-the data.*
+4.  In the Files folder, navigate to Data Releases and click on the
+    cancer cohort and data release version of choice.
+
+5.  Select *Request Access*, **review the terms of data use,** and
+    select *Accept.*
 
 ***For consortium data releases (restricted to GENIE consortium members
 & BPC pharmaceutical partners):***
 
-1.  Register for a [‘Synapse’ account](https://www.synapse.org/#)
+1.  Register for a [‘Synapse’ account](https://www.synapse.org/#). Be
+    sure to create a username and password. *Note: do NOT connect via
+    your Google account.*
 
-2.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
+2.  Accept the **Synapse account terms of use.**
+
+3.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
     the GENIE BPC team list and request to join the team. Please include
     your full name and affiliation in the message before sending out the
-    request.
+    request. *(Note: Please allow up to a week to review and grant
+    access.)*
 
-3.  Once the request is accepted, you may access the data in the [GENIE
+4.  Once the request is accepted, you may access the data in the [GENIE
     Biopharma Collaborative
     projects](https://www.synapse.org/#!Synapse:syn21226493).
 
-*Note: Please allow up to a week to review and grant access.*
+5.  In the Files folder, navigate to Data Releases and click on the
+    cancer cohort and data release version of choice.
+
+6.  Select *Request Access*, **review the terms of data use,** and
+    select *Accept.*
+
+*Note: permissions for Synapse and permissions for each data release are
+distinct. Both permissions must be accepted to successfully access the
+data.*
 
 ***Authenticate yourself***
 
-4.  Whether you are using public or consortium data, you will need to
-    authenticate yourself at the beginning of each R session in which
-    you use {genieBPC} to pull data (see `set_synapse_credentials()`),
-    or store your credentials as environmental variables. See [Tutorial:
-    pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html)
-    for more details.
+Whether you are using public or consortium data, you will need to
+authenticate yourself at the beginning of each R session in which you
+use {genieBPC} to pull data (see `set_synapse_credentials()`), or store
+your credentials as environmental variables. See [Tutorial:
+pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html)
+for more details.
 
 ## Analytic Data Guides
 
@@ -170,7 +179,7 @@ with Stage IV adenocarcinoma NSCLC.
 *Pull data for NSCLC version 2.0-public:*
 
 ``` r
-nsclc_2_1 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
+nsclc_2_0 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
 ```
 
 *Select stage IV adenocarcinoma NSCLC diagnoses:*
@@ -205,13 +214,37 @@ the first treatment regimen:*
 
 ## GENIE BPC Publications
 
+Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H,
+Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N,
+LeNoue-Newton M, Micheel C, Warner JL, Ginsberg MS, Plodkowski A,
+Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz
+N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world
+repository integrating standardized clinical and genomic data for 1,846
+patients with non-small cell lung
+cancer](https://aacrjournals.org/clincancerres/article/doi/10.1158/1078-0432.CCR-23-0580/727800/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
+Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
+
+Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas
+KS. [Elucidating Analytic Bias Due to Informative Cohort Entry in Cancer
+Clinico-genomic
+Datasets](https://aacrjournals.org/cebp/article/32/3/344/718498/Elucidating-Analytic-Bias-Due-to-Informative).
+Cancer Epidemiol Biomarkers Prev. 2023 March; 32 (3): 344–352. doi:
+10.1158/1055-9965.EPI-22-0875.
+
+Lavery JA, Brown S, Curry MA, Martin A, Sjoberg DD, Whiting K. [A data
+processing pipeline for the AACR project GENIE biopharma collaborative
+data with the {genieBPC} R
+package](https://academic.oup.com/bioinformatics/article/39/1/btac796/6909009)
+Bioinformatics. Volume 39, Issue 1. 2023 Jan; doi:
+10.1093/bioinformatics/btac796
+
 Lavery JA, Lepisto EM, Brown S, Rizvi H, McCarthy C, LeNoue-Newton M, Yu
 C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE
 Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas
 KS. [A Scalable Quality Assurance Process for Curating Oncology
 Electronic Health Records: The Project GENIE Biopharma Collaborative
 Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin
-Cancer Inform. 2022 Feb;6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
+Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
 35192403; PMCID: PMC8863125.
 
 Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM,

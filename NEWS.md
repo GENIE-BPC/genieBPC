@@ -2,6 +2,12 @@
 
 * Updated `genieBPC::nsclc_test_data` to ensure unique sample ids for CNA file.
 
+* Updated README and 'Pull Data Synapse Vignette' to clarify instructions for registering for a 'Synapse' account (#100, #105)
+
+* Add publications (#96, #110)
+
+* Add information about genomic differences between genomic data downloaded from cBioPortal versus Synapse (#92)
+
 # genieBPC (1.1.0.9000)
 
 * Updated `genieBPC::nsclc_test_data` to randomly sample from cancer diagnosis dataset, stratified by stage, and incorporate genomic data into dataset.
