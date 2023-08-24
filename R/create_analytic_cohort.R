@@ -167,7 +167,7 @@ create_analytic_cohort <- function(data_synapse,
   # check input parameter
   # trying to check that the pull_data_synapse object returned is
   # specific to the cohort
-  map(data_synapse, function(x){
+  purrr::map(data_synapse, function(x){
     names <- x %>%
       names()
 
@@ -189,7 +189,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # get cohort name and how it is capitalized in the data_synapse object
 
-  cohort_temp <- map(data_synapse, ~.x %>%
+  cohort_temp <- purrr::map(data_synapse, ~.x %>%
                        pluck("pt_char")%>%
                        distinct(.data$cohort)%>%
                        pull("cohort"))
@@ -198,7 +198,7 @@ create_analytic_cohort <- function(data_synapse,
   # how they are stored in variable
   # regimen_drugs
   if (!missing(regimen_drugs)) {
-    regimen_drugs_sorted <- map_chr(
+    regimen_drugs_sorted <- purrr::map_chr(
       strsplit(regimen_drugs, ","), ~
         toString(str_to_lower(str_sort(
           (str_trim(.x))
@@ -209,12 +209,12 @@ create_analytic_cohort <- function(data_synapse,
   # index cancer sequence
   # get max # index cancers/pt
   max_index_ca <- data_synapse %>%
-    map(., ~.x %>% pluck("ca_dx_index") %>%
+    purrr::map(., ~.x %>% pluck("ca_dx_index") %>%
     group_by(.data$cohort, .data$record_id) %>%
     summarize(n_index = n(), .groups = "drop") %>%
     summarize(max_n_index = max(.data$n_index)))
 
-  map(max_index_ca, function(x){
+  purrr::map(max_index_ca, function(x){
     if (max(index_ca_seq) > x$max_n_index) {
     stop(paste0(
       "There are no patients in the cohort with ", x$max_n_index,
@@ -231,7 +231,7 @@ create_analytic_cohort <- function(data_synapse,
   # then assign if not missing
   # if missing, assign all for a given cohort
   if (!missing(institution)) {
-    map(1:length(data_synapse), function(x) {
+    purrr::map(1:length(data_synapse), function(x) {
       if (sum(grepl("^NSCLC$", stringr::str_to_upper(cohort_temp[[x]])) > 0) > 1) {
         if (sum(!grepl(
           c("^DFCI$|^MSK$|^VICC$|^UHN$"),
@@ -259,7 +259,7 @@ create_analytic_cohort <- function(data_synapse,
       }
     })
   } else {
-    institution_temp <- map(1:length(data_synapse), function(x) {
+    institution_temp <- purrr::map(1:length(data_synapse), function(x) {
       if (stringr::str_to_upper(cohort_temp[[x]]) %in% stringr::str_to_upper(c("NSCLC", "PANC", "BLADDER", "Prostate"))) {
         c("DFCI", "MSK", "UHN", "VICC")
       } else if (stringr::str_to_upper(cohort_temp[[x]]) %in% c("CRC", "BRCA")) {
@@ -271,11 +271,11 @@ create_analytic_cohort <- function(data_synapse,
   # to account for unspecified stage
 
   if(missing(stage_dx)){
-    stage_dx_temp <- map(data_synapse, function(x) {
+    stage_dx_temp <- purrr::map(data_synapse, function(x) {
     pull(pluck(x, "ca_dx_index") %>%
       dplyr::distinct(stage_dx), stage_dx)})
   } else {
-    stage_dx_temp <- map(1:length(stage_dx), ~stage_dx[[.x]])
+    stage_dx_temp <- purrr::map(1:length(stage_dx), ~stage_dx[[.x]])
   }
 
   # stage mis-specified
@@ -292,7 +292,7 @@ create_analytic_cohort <- function(data_synapse,
 
   histology_temp <- if (!missing(histology)) {
     # is histology mis-specified?
-    map(1:length(data_synapse), hystology, function(x, y){
+    purrr::map(1:length(data_synapse), hystology, function(x, y){
       if (cohort_temp[[x]] != "BrCa" &&
         sum(!grepl(
           c(
@@ -321,7 +321,7 @@ create_analytic_cohort <- function(data_synapse,
     }else {
       stringr::str_to_lower(y)
     }})} else {
-      map(1:length(data_synapse), function(x){
+      purrr::map(1:length(data_synapse), function(x){
         if (cohort_temp[[x]] != "BrCa") {
           pull(
             pluck(data_synapse[[x]], "ca_dx_index") %>%
@@ -385,7 +385,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
-  cohort_ca_dx <- map(1:length(data_synapse), function(x){
+  cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x){
     if (cohort_temp[[x]] != "BrCa") {
     pluck(data_synapse[[x]], "ca_dx_index") %>%
       # re-number index cancer diagnoses
@@ -425,7 +425,7 @@ create_analytic_cohort <- function(data_synapse,
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
-  cohort_ca_drugs <- map2(cohort_ca_dx, data_synapse, function(x, y){
+  cohort_ca_drugs <- purrr::map2(cohort_ca_dx, data_synapse, function(x, y){
     dplyr::inner_join(x %>%
    dplyr::select("cohort", "record_id", "ca_seq"),
   pluck(y, "ca_drugs"),
@@ -474,7 +474,7 @@ create_analytic_cohort <- function(data_synapse,
   # regimen_type = "within cancer"
   if(missing(regimen_drugs) && !missing(regimen_order) &&
      stringr::str_to_lower(regimen_order_type) == "within cancer"){
-    map(1:length(data_synapse), function(x){
+    purrr::map(1:length(data_synapse), function(x){
       cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
         dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }}))
 
@@ -498,7 +498,7 @@ create_analytic_cohort <- function(data_synapse,
   if (!missing(regimen_drugs) && missing(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
-    map(1:length(data_synapse), function(x){
+    purrr::map(1:length(data_synapse), function(x){
       cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
       dplyr::filter(
         str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
@@ -523,7 +523,7 @@ create_analytic_cohort <- function(data_synapse,
     if (!missing(regimen_drugs) && missing(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "containing") {
 
-    map(1:length(data_synapse), function(x){
+    purrr::map(1:length(data_synapse), function(x){
       # identify instances of that drug regimen
     cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
       dplyr::filter(grepl(
@@ -550,7 +550,7 @@ create_analytic_cohort <- function(data_synapse,
     if (!missing(regimen_drugs) && !missing(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
     stringr::str_to_lower(regimen_type) == "exact") {
-      map(1:length(data_synapse), function(x){
+      purrr::map(1:length(data_synapse), function(x){
         # identify instances of that drug regimen
         cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
           dplyr::filter(str_to_lower(.data$regimen_drugs)
@@ -578,7 +578,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
     stringr::str_to_lower(regimen_type) == "containing") {
 
-      map(1:length(data_synapse), function(x){
+      purrr::map(1:length(data_synapse), function(x){
         # identify instances of that drug regimen
         # have to start with full drugs dataset for 'within regimen',
         # otherwise are left with all drug regimens to pts in this cohort
@@ -622,7 +622,7 @@ create_analytic_cohort <- function(data_synapse,
                                  str_to_lower(.data$abbreviation)
                                )) %>%
                              # get distinct regimen administrations (since regs
-                             # potentially mapped to multiple ca types)
+                             # potentially purrr::mapped to multiple ca types)
                              dplyr::distinct(
                                .data$record_id, .data$regimen_number,
                                .data$regimen_drugs
@@ -677,7 +677,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_type) == "exact" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
-      map(1:length(data_synapse), function(x){
+      purrr::map(1:length(data_synapse), function(x){
         # identify instances of that drug regimen
         cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
           dplyr::filter(
@@ -705,7 +705,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_type) == "containing" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
-    map(1:length(data_synapse), function(x){
+    purrr::map(1:length(data_synapse), function(x){
       # identify instances of that drug regimen
       cohort_ca_drugs[[x]] <- cohort_ca_drugs[[x]] %>%
         dplyr::filter(
@@ -742,14 +742,15 @@ create_analytic_cohort <- function(data_synapse,
   cohort_dfs <- c("cohort_pt_char", "cohort_ca_dx_non_index",
                      "cohort_prissmm_pathology", "cohort_prissmm_imaging",
                      "cohort_prissmm_md", "cohort_tumor_marker",
-                     "cohort_ngs", )
+                     "cohort_ngs", "cohort_mutations_extended",
+                  "cohort_cna", "cohort_fusions")
 
 
 
 ################ START HERE ###############
-  fin_cht_dfs <- map(1:length(data_synapse), function(x) {
-    map(genie_dfs, function(b) {
-      if (!(b %in% c("tumor_marker", "fusion", "mutations_extended",
+  fin_cht_dfs <- purrr::map(1:length(data_synapse), function(x) {
+    purrr::map(genie_dfs, function(b) {
+      if (!(b %in% c("tumor_marker", "fusions", "mutations_extended",
                      "cna")) | (b == "tumor_marker" &&
                                 !is.null(pluck(data_synapse[[x]], "tumor_marker")))) {
         dplyr::inner_join(
@@ -769,9 +770,9 @@ create_analytic_cohort <- function(data_synapse,
         ) %>%
           distinct()
 
-        if (any(names(data) == "cpt_sample_type") &
-            !any(names(data) == "sample_type")) {
-          ngs_data %>%
+        if (any(names(cohort_ngs) == "cpt_sample_type") &
+            !any(names(cohort_ngs) == "sample_type")) {
+          cohort_ngs %>%
             dplyr::mutate(
               sample_type = case_when(
                 str_to_lower(.data$cpt_sample_type)
@@ -793,30 +794,46 @@ create_analytic_cohort <- function(data_synapse,
               )
             )
         } else{
-          ngs_data
+          cohort_ngs
         }
+      } else if (b == "cna"){
+
+        # cna file is 1 col / tumor sample barcode
+        # all genes are first column and every name is a column title.
+        if (!is.null(pluck(data_synapse[[x]], b))) {
+          # get list of IDs to keep
+          cpt_barcode_keep <- pluck(data_synapse[[x]], "cpt") %>%
+            mutate(
+              Tumor_Sample_Barcode =
+                stringr::str_replace_all(.data$cpt_genie_sample_id,
+                                         pattern = "-",
+                                         replacement = "\\."
+                )
+            ) %>%
+            pull("Tumor_Sample_Barcode")
+
+          pluck(data_synapse[[x]], b) %>%
+            select("Hugo_Symbol", any_of(cpt_barcode_keep))
+        }
+      } else if (b %in% c("fusions", "mutations_extended") &&
+                 !is.null(pluck(data_synapse[[x]], b))) {
+          dplyr::inner_join(
+            pluck(data_synapse[[x]], b),
+            pluck(data_synapse[[x]], "cpt") %>%
+              dplyr::select("cohort", "cpt_genie_sample_id")%>%
+              distinct(),
+            by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
+          )
+        } else{
+        NULL
       }
-
-
-
-    #   } else if (b %in% c("fusion", "mutations_extended") &&
-    #              !is.null(pluck(data_synapse, b))) {
-    #       dplyr::inner_join(
-    #         pluck(data_synapse[[x]], b),
-    #         cohort_ngs %>%
-    #           dplyr::select("cohort", "cpt_genie_sample_id"),
-    #         by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
-    #       )
-    #     } else{
-    #     NULL
-    #   }
-    # })
-  })})
+    })
+  })
 
 
 
   # name each cohort
-  names(fin_cht_dfs) <- cohort_temp
+  names(fin_cht_dfs) <- unlist(cohort_temp)
 
   # name each dataset within the cohort
   for(x in 1:length(data_synapse)) {
@@ -824,38 +841,36 @@ create_analytic_cohort <- function(data_synapse,
   }
 
 
-  # cna file is 1 col / tumor sample barcode
-  if (!is.null(pluck(data_synapse, "cna"))) {
-    # get list of IDs to keep
-    cpt_barcode_keep <- pluck(data_synapse, "cpt") %>%
-      mutate(
-        Tumor_Sample_Barcode =
-          stringr::str_replace_all(.data$cpt_genie_sample_id,
-            pattern = "-",
-            replacement = "\\."
-          )
-      ) %>%
-      pull("Tumor_Sample_Barcode")
-
-    cohort_cna <- pluck(data_synapse, "cna") %>%
-      select("Hugo_Symbol", any_of(cpt_barcode_keep))
-  }
 
   # if 0 patients are returned
-  map(cohort_temp, cohort_ca_dx, function(x, y){
-    if (nrow(y) == 0) {
+    # vector to store indexes of issues
+
+  zero_pats <- purrr::map(cohort_ca_dx, ~nrow(.) == 0)
+
+  if(TRUE %in% zero_pats){
+    message_coh <- cohort_temp[unlist(zero_pats)] %>% unlist() %>%
+      paste(sep = "/")
+
     message(paste0("No patients meeting the specified criteria were returned for the ",
-                   x, " cohort. Ensure that all parameters were correctly specified. Specifically,
+                   message_coh, " cohort(s). Ensure that all parameters were correctly specified. Specifically,
             the list of acceptable drugs can be found in the `drug_regimen_list` dataset available with this package."))
   }
-  })
+
+  #make sure to add in the cohort_ca_dx and cohort_ca_drugs files
+  ################ START HERE IT"S BROKEN################
+  fin_cht_dfs <- map2(fin_cht_dfs, cohort_ca_dx, function(x, y){
+    list(x, y)})%>%
+    map2(., cohort_ca_drugs, ~append(.x, .y))
+
+  final_data <- .bind_genie_data(fin_cht_dfs[!(unlist(zero_pats))])
 
 
   # return a table 1 to describe the cancer cohort if the user specifies
-  if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
+  if (nrow(final_data %>% pluck("cohort_ca_dx")) > 0 && return_summary == TRUE) {
 
     # number of records per patient in the diagnosis dataset
-    n_rec_dx_dset <- cohort_ca_dx %>%
+    n_rec_dx_dset <- final_data %>%
+      pluck("cohort_ca_dx") %>%
       dplyr::group_by(.data$record_id) %>%
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
@@ -871,7 +886,8 @@ create_analytic_cohort <- function(data_synapse,
         quiet = TRUE
       )
 
-    n_rec_drugs_dset <- cohort_ca_drugs %>%
+    n_rec_drugs_dset <- final_data %>%
+      pluck("cohort_ca_drugs") %>%
       dplyr::group_by(.data$record_id) %>%
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
@@ -881,7 +897,8 @@ create_analytic_cohort <- function(data_synapse,
         type = n_rec_pt ~ "categorical"
       )
 
-    n_rec_cpt_dset <- cohort_ngs %>%
+    n_rec_cpt_dset <- final_data %>%
+      pluck("cohort_ngs") %>%
       dplyr::group_by(.data$record_id) %>%
       dplyr::summarize(n_rec_pt = n(), .groups = "drop") %>%
       gtsummary::tbl_summary(
@@ -902,7 +919,8 @@ create_analytic_cohort <- function(data_synapse,
       gtsummary::bold_labels()
 
     if (cohort_temp != "BrCa") {
-      tbl_cohort <- cohort_ca_dx %>%
+      tbl_cohort <- final_data %>%
+        pluck("cohort_ca_dx") %>%
         gtsummary::tbl_summary(
           include = c(
             "cohort", "institution",
@@ -923,7 +941,8 @@ create_analytic_cohort <- function(data_synapse,
           quiet = TRUE
         )
     } else {
-      tbl_cohort <- cohort_ca_dx %>%
+      tbl_cohort <- final_data %>%
+        pluck("cohort_ca_dx") %>%
         # dplyr::group_by(.data$record_id) %>%
         # dplyr::mutate(n_rec_pt = n()) %>%
         # dplyr::ungroup() %>%
@@ -946,7 +965,8 @@ create_analytic_cohort <- function(data_synapse,
         )
     }
 
-    tbl_drugs <- cohort_ca_drugs %>%
+    tbl_drugs <- final_data %>%
+      pluck("cohort_ca_drugs") %>%
       gtsummary::tbl_summary(
         include = c("cohort", "institution", "regimen_drugs"),
         label = list(
@@ -963,7 +983,8 @@ create_analytic_cohort <- function(data_synapse,
         quiet = TRUE
       )
 
-    tbl_ngs <- cohort_ngs %>%
+    tbl_ngs <- final_data %>%
+      pluck("cohort_ngs") %>%
       gtsummary::tbl_summary(
         include = c("cohort", "institution",
                            "cpt_oncotree_code", "cpt_seq_assay_id"),
@@ -984,9 +1005,9 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # drop variable before returning data frame
-  cohort_ca_dx <- map(cohort_ca_dx, ~.x %>% select(-"index_ca_seq"))
+  cohort_ca_dx <- purrr::map(cohort_ca_dx, ~.x %>% select(-"index_ca_seq"))
 
-  cohort_ca_drugs <- map(cohort_ca_drugs, ~.x %>%
+  cohort_ca_drugs <- purrr::map(cohort_ca_drugs, ~.x %>%
     dplyr::select(-"order_within_cancer",
                   -"order_within_regimen",
                   -"abbreviation"))

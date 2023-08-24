@@ -18,8 +18,9 @@ create_analytic_cohort(
 )
 }
 \arguments{
-\item{data_synapse}{The item from the nested list returned from
-pull_data_synapse() that corresponds to the cancer cohort of interest.}
+\item{data_synapse}{A nested list returned from the `pull_data_synapse()` function.
+Each item in the list should correspond to a particular cohort/version. Ex:
+CRC_v1.2, NSCLC_v2.0, etc.}
 
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
