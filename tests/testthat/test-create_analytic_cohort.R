@@ -2,18 +2,18 @@
 test_that("No specifications- runs with no error", {
 
   expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data), NA)
+    data_synapse = list(genieBPC::nsclc_test_data)), NA)
 
 })
 
 test_that("Institution- argument check", {
 
-  expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
-    institution = "DFCI"), NA)
+  expect_no_error(create_analytic_cohort(
+    data_synapse = list(genieBPC::nsclc_test_data),
+    institution = "DFCI"))
 
   expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
+    data_synapse = list(genieBPC::nsclc_test_data),
     institution = "non-existant"), "*")
 
 })
@@ -22,11 +22,11 @@ test_that("Institution- argument check", {
 test_that("stage_dx- argument check", {
 
   expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
+    data_synapse = list(genieBPC::nsclc_test_data),
     stage_dx = "Stage IV"), NA)
 
   expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
+    data_synapse = list(genieBPC::nsclc_test_data),
     stage_dx = "none"), "*")
 
 })
@@ -47,9 +47,11 @@ test_that("multiple cohorts- argument check", {
                                    version = c("v1.1-consortium",
                                                "v1.1-consortium"))
 
-  expect_error(create_analytic_cohort(
-    data_synapse = two_cohorts)
+  expect_error(test_two <- create_analytic_cohort(
+    data_synapse = two_cohorts), NA
   )
+
+  expect_true(unique(unique(test_two[[1]]$cohort) == c("CRC", "NSCLC")))
 })
 
 # pull data for each cohort
@@ -85,7 +87,7 @@ test_that("correct number of objects returned from create cohort", {
 
   # NSCLC
   test1a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
@@ -93,7 +95,7 @@ test_that("correct number of objects returned from create cohort", {
   expect_equal(class(test1a), "list")
 
   test1b <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     return_summary = TRUE
   )
 
@@ -102,7 +104,7 @@ test_that("correct number of objects returned from create cohort", {
 
   # CRC
   test2a <- create_analytic_cohort(
-    data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data,
     return_summary = FALSE
   )
 
@@ -110,7 +112,7 @@ test_that("correct number of objects returned from create cohort", {
   expect_equal(class(test2a), "list")
 
   test2b <- create_analytic_cohort(
-    data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data,
     return_summary = TRUE
   )
 
@@ -119,7 +121,7 @@ test_that("correct number of objects returned from create cohort", {
 
   # repeat for BrCa
   test3 <- create_analytic_cohort(
-    data_synapse = brca_data$BrCa_v1.1,
+    data_synapse = brca_data,
     return_summary = FALSE
   )
 
@@ -127,24 +129,12 @@ test_that("correct number of objects returned from create cohort", {
   expect_equal(class(test3), "list")
 
   test3 <- create_analytic_cohort(
-    data_synapse = brca_data$BrCa_v1.1,
+    data_synapse = brca_data,
     return_summary = TRUE
   )
 
   expect_equal(length(test3), 16)
   expect_equal(class(test3), "list")
-})
-
-test_that("only 1 cohort is specified, else error", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
-
-  expect_error(create_analytic_cohort(
-    data_synapse = pull_data_synapse(
-      cohort = c("NSCLC", "CRC"),
-      version = c("v1.1-consortium", "v1.1-consortium")
-    )
-  ))
 })
 
 test_that("pull data synapse object is missing", {
@@ -156,7 +146,7 @@ test_that("correct cohort returned from create cohort", {
   testthat::skip_if_not(.is_connected_to_genie())
 
   test1 <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     return_summary = FALSE
   )
 
@@ -166,7 +156,7 @@ test_that("correct cohort returned from create cohort", {
 
   # check CRC
   test2 <- create_analytic_cohort(
-    data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data,
     return_summary = FALSE
   )
 
@@ -183,7 +173,7 @@ test_that("cohort and data_synapse", {
   # expect that the first index cancer is returned without any other
   # incl criteria
   test_1a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1
+    data_synapse = nsclc_data
   )
 
   test_1b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
@@ -207,7 +197,7 @@ test_that("index_ca_seq", {
   # if patient only has 1 index cancer, it should be returned
   # if patient has 2+ index cancers, the first two should be returned
   test_1a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     index_ca_seq = c(1, 2),
     return_summary = TRUE
   )
@@ -225,13 +215,13 @@ test_that("index_ca_seq", {
 
   # an index cancer # that doesn't exist in the data is specified
   expect_error(create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     index_ca_seq = 100
   ))
 
   ## index cancer #s in cohort_ngs match those in cohort_ca_dx
   test2a <- create_analytic_cohort(
-    data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data,
     index_ca_seq = c(1, 2)
   )
 
@@ -251,7 +241,7 @@ test_that("institution", {
 
   # institution is specified and correct institution is returned
   test_1a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     institution = "dfci"
   )
 
@@ -279,13 +269,13 @@ test_that("institution", {
 
   # a non-existent institution is specified
   expect_error(create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     institution = "uDFCI"
   ))
 
 
   expect_error(create_analytic_cohort(
-    data_synapse = crc_data$CRC_v1.1,
+    data_synapse = crc_data,
     institution = "UHN"
   ))
 })
@@ -296,7 +286,7 @@ test_that("stage_dx", {
 
   # stage dx is specified and correct stage is returned
   test_1a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     stage_dx = "stage ii"
   )
 
@@ -310,7 +300,7 @@ test_that("stage_dx", {
 
   # multiple stage values are specified
   test_2a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     stage_dx = c("Stage I", "stage ii")
   )
 
@@ -324,7 +314,7 @@ test_that("stage_dx", {
 
   # non-existent stage is specified
   expect_error(create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     stage_dx = "3A"
   ))
 })
@@ -335,7 +325,7 @@ test_that("histology", {
 
   # no histology is specified, call are returned
   test0a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1
+    data_synapse = nsclc_data
   )
 
   test0b <- nsclc_data$NSCLC_v1.1$ca_dx_index %>%
@@ -347,7 +337,7 @@ test_that("histology", {
 
   # repeat for brca
   test0c <- create_analytic_cohort(
-    data_synapse = brca_data$BrCa_v1.1
+    data_synapse = brca_data
   )
 
   test0d <- brca_data$BrCa_v1.1$ca_dx_index %>%
@@ -373,7 +363,7 @@ test_that("histology", {
 
   # repeat for BrCa
   test_1c <- create_analytic_cohort(
-    data_synapse = brca_data$BrCa_v1.1,
+    data_synapse = brca_data,
     histology = "invasive ductal carcinoma"
   )
 
@@ -387,7 +377,7 @@ test_that("histology", {
 
   # multiple histologies are specified and returned
   test_2a <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     histology = c("adenocarcinoma", "squamous cell")
   )
 
@@ -401,12 +391,12 @@ test_that("histology", {
 
   # a non-existent histology is specified
   expect_error(create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data,
     histology = "squamous_adeno"
   ))
 
   expect_error(create_analytic_cohort(
-    data_synapse = brca_data$BrCa_v1.1,
+    data_synapse = brca_data,
     histology = "squamous_adeno"
   ))
 })

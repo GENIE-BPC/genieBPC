@@ -232,7 +232,7 @@ create_analytic_cohort <- function(data_synapse,
   # if missing, assign all for a given cohort
   if (!missing(institution)) {
     purrr::map(1:length(data_synapse), function(x) {
-      if (sum(grepl("^NSCLC$", stringr::str_to_upper(cohort_temp[[x]])) > 0) > 1) {
+      if (sum(grepl("^NSCLC$", stringr::str_to_upper(cohort_temp[[x]])) > 0) >= 1) {
         if (sum(!grepl(
           c("^DFCI$|^MSK$|^VICC$|^UHN$"),
           stringr::str_to_upper(institution[[x]])
@@ -292,7 +292,7 @@ create_analytic_cohort <- function(data_synapse,
 
   histology_temp <- if (!missing(histology)) {
     # is histology mis-specified?
-    purrr::map(1:length(data_synapse), hystology, function(x, y){
+    purrr::map(1:length(data_synapse), histology, function(x, y){
       if (cohort_temp[[x]] != "BrCa" &&
         sum(!grepl(
           c(
@@ -747,7 +747,7 @@ create_analytic_cohort <- function(data_synapse,
 
 
 
-################ START HERE ###############
+
   fin_cht_dfs <- purrr::map(1:length(data_synapse), function(x) {
     purrr::map(genie_dfs, function(b) {
       if (!(b %in% c("tumor_marker", "fusions", "mutations_extended",
@@ -857,12 +857,29 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   #make sure to add in the cohort_ca_dx and cohort_ca_drugs files
-  ################ START HERE IT"S BROKEN################
-  fin_cht_dfs <- map2(fin_cht_dfs, cohort_ca_dx, function(x, y){
-    list(x, y)})%>%
-    map2(., cohort_ca_drugs, ~append(.x, .y))
+  # and drop vars not needed here
 
-  final_data <- .bind_genie_data(fin_cht_dfs[!(unlist(zero_pats))])
+  fin_cht_dfs_all <- map2(fin_cht_dfs, cohort_ca_dx, ~append(.x,
+                                                             list(.y %>% select(-"index_ca_seq"))))%>%
+    map2(., cohort_ca_drugs, ~append(.x, list(.y %>%
+                                                dplyr::select(-"order_within_cancer",
+                                                              -"order_within_regimen",
+                                                              -"abbreviation"))))
+
+  for(x in 1:length(fin_cht_dfs_all)){
+    names(fin_cht_dfs_all[[x]]) <- c(cohort_dfs, "cohort_ca_dx",
+                                     "cohort_ca_drugs")
+  }
+
+  if(length(fin_cht_dfs_all) > 1){
+    final_data <- .bind_genie_data(fin_cht_dfs_all[!(unlist(zero_pats))])
+  } else {
+    final_data <- fin_cht_dfs_all[[1]]
+  }
+
+
+
+
 
 
   # return a table 1 to describe the cancer cohort if the user specifies
@@ -918,7 +935,7 @@ create_analytic_cohort <- function(data_synapse,
     ) %>%
       gtsummary::bold_labels()
 
-    if (cohort_temp != "BrCa") {
+    if (!("BrCa" %in% cohort_temp)) {
       tbl_cohort <- final_data %>%
         pluck("cohort_ca_dx") %>%
         gtsummary::tbl_summary(
@@ -948,6 +965,7 @@ create_analytic_cohort <- function(data_synapse,
         # dplyr::ungroup() %>%
         gtsummary::tbl_summary(
           include = c("cohort", "institution", "stage_dx",
+                      "ca_hist_adeno_squamous",
                              "ca_hist_brca"),
           label = list(
             cohort ~ "Cohort (cohort)",
@@ -1002,15 +1020,16 @@ create_analytic_cohort <- function(data_synapse,
         ),
         quiet = TRUE
       )
+
+    final_data$tbl_overall_summary <- tbl_overall_summary
+    final_data$tbl_cohort <- tbl_cohort
+    final_data$tbl_drugs <- tbl_drugs
+    final_data$tbl_ngs <- tbl_ngs
+
   }
 
   # drop variable before returning data frame
-  cohort_ca_dx <- purrr::map(cohort_ca_dx, ~.x %>% select(-"index_ca_seq"))
 
-  cohort_ca_drugs <- purrr::map(cohort_ca_drugs, ~.x %>%
-    dplyr::select(-"order_within_cancer",
-                  -"order_within_regimen",
-                  -"abbreviation"))
 
   # order of dataframes, should they exist
   df_order <- c(
@@ -1024,21 +1043,14 @@ create_analytic_cohort <- function(data_synapse,
     "tbl_overall_summary", "tbl_cohort", "tbl_drugs", "tbl_ngs"
   )
 
-  # return data frames & tables that are present in the function's environment
-  rtn <- mget(ls(environment(), pattern = "^cohort_|^tbl"),
-    envir = environment()
-  )
-
-
-
   # save elements on list in order that we want (clinical datasets, genomic
   # datasets, tables) and drop any items that don't appear in this run of
   # create_analytic_cohort
-  rtn_ordered <- rtn[c(df_order)] %>%
+  final_data <- final_data[c(df_order)] %>%
     purrr::compact()
 
 
-  if (nrow(cohort_ca_dx) > 0) {
-    return(rtn_ordered)
+  if (nrow(final_data$cohort_ca_dx) > 0) {
+    return(final_data)
   }
 } # end of function

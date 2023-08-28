@@ -10,7 +10,8 @@
 #'
 
 .bind_genie_data <- function(data_list) {
-  dataset_cohorts <- c("cohort_pt_char", "cohort_ca_dx_non_index",
+  dataset_cohorts <- c("cohort_pt_char", "cohort_ca_dx",
+                       "cohort_ca_drugs", "cohort_ca_dx_non_index",
                                      "cohort_prissmm_pathology", "cohort_prissmm_imaging",
                                      "cohort_prissmm_md", "cohort_tumor_marker",
                                      "cohort_ngs", "cohort_mutations_extended",
@@ -33,10 +34,10 @@ save <-  imap((dataset_cohorts), \(y, idx){
       # reassign these variables to character because for
       # one cohort or another there is a character option
       # such as "Not applicable" written out as a word
-      if (y == "cohort_ca_dx_index") {
+      if (y %in% c("cohort_ca_dx_non_index", "cohort_ca_dx")) {
         z <- z %>%
-          mutate(across(c(naaccr_laterality_cd,
-                          naaccr_tnm_path_desc), ~as.character(.)))
+          mutate(across(any_of(c("naaccr_laterality_cd",
+                          "naaccr_tnm_path_desc")), ~as.character(.)))
       }
 
       if (y == "cohort_prissmm_pathology") {
@@ -53,6 +54,12 @@ save <-  imap((dataset_cohorts), \(y, idx){
       z <- z %>%
           mutate(release_version = as.character(release_version))
       }
+
+      if ("cpt_seq_date" %in% names(z)){
+        z <- z %>%
+          mutate(cpt_seq_date = as.numeric(cpt_seq_date))%>%
+          base::suppressWarnings()
+      }
         z
       }
 
@@ -61,7 +68,8 @@ save <-  imap((dataset_cohorts), \(y, idx){
     # drop any NULL lists
     compact()%>%
     # full join all datasets with the same name
-    reduce(full_join)
+    reduce(full_join)%>%
+    suppressMessages()
   })
 
 # label the datsets accordingly
