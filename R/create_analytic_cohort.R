@@ -742,18 +742,31 @@ create_analytic_cohort <- function(data_synapse,
   # for patients meeting the specified criteria, also pull related datasets
 
   # match genieBPC names to cohort df names
-  genie_dfs <- list(
-    "pt_char", "ca_dx_non_index", "prissmm_pathology",
+  genie_dfs <-     c(
+    "pt_char",
+    "ca_dx_non_index",
     "prissmm_imaging",
-    "prissmm_md", "tumor_marker", "cpt", "mutations_extended",
-    "cna", "fusions"
+    "prissmm_pathology",
+    "ca_radtx",
+    "prissmm_md",
+    "tumor_marker",
+    "cpt",
+    "mutations_extended",
+    "fusions",
+    "cna"
   )
-  cohort_dfs <- c(
-    "cohort_pt_char", "cohort_ca_dx_non_index",
-    "cohort_prissmm_pathology", "cohort_prissmm_imaging",
-    "cohort_prissmm_md", "cohort_tumor_marker",
-    "cohort_ngs", "cohort_mutations_extended",
-    "cohort_cna", "cohort_fusions"
+  cohort_dfs <-  c(
+    "cohort_pt_char",
+    "cohort_ca_dx_non_index",
+    "cohort_prissmm_imaging",
+    "cohort_prissmm_pathology",
+    "cohort_ca_radtx",
+    "cohort_prissmm_md",
+    "cohort_tumor_marker",
+    "cohort_ngs",
+    "cohort_mutations_extended",
+    "cohort_fusions",
+    "cohort_cna"
   )
 
 
@@ -763,9 +776,11 @@ create_analytic_cohort <- function(data_synapse,
     purrr::map(genie_dfs, function(b) {
       if (!(b %in% c(
         "tumor_marker", "fusions", "mutations_extended",
-        "cna"
+        "cna", "cpt", "ca_radtx"
       )) | (b == "tumor_marker" &&
-        !is.null(pluck(data_synapse[[x]], "tumor_marker")))) {
+        !is.null(pluck(data_synapse[[x]], b))) |
+      (b == "ca_radtx" &&
+       !is.null(pluck(data_synapse[[x]], b)))) {
         dplyr::inner_join(
           cohort_ca_dx[[x]] %>%
             dplyr::select("cohort", "record_id"),
@@ -846,12 +861,6 @@ create_analytic_cohort <- function(data_synapse,
 
   # name each cohort
   names(fin_cht_dfs) <- unlist(cohort_temp)
-
-  # name each dataset within the cohort
-  for (x in 1:length(data_synapse)) {
-    names(fin_cht_dfs[[x]]) <- cohort_dfs
-  }
-
 
 
   # if 0 patients are returned
@@ -1058,7 +1067,7 @@ create_analytic_cohort <- function(data_synapse,
   df_order <- c(
     "cohort_pt_char", "cohort_ca_dx",
     "cohort_ca_dx_non_index",
-    "cohort_ca_rad_tx", "cohort_ca_drugs",
+    "cohort_ca_radtx", "cohort_ca_drugs",
     "cohort_prissmm_imaging", "cohort_prissmm_pathology",
     "cohort_prissmm_md", "cohort_tumor_marker",
     "cohort_ngs",

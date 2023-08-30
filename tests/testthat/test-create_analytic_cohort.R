@@ -133,6 +133,30 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
   brca_data <- list("a")
 }) > 0)
 
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  bladder_data <- pull_data_synapse("BLADDER",
+                                 version = "v1.1-consortium"
+  )
+} else {
+  bladder_data <- list("a")
+}) > 0)
+
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  panc_data <- pull_data_synapse("PANC",
+                                    version = "v1.2-consortium"
+  )
+} else {
+  panc_data <- list("a")
+}) > 0)
+
+testthat::expect_true(length(if (.is_connected_to_genie()) {
+  prost_data <- pull_data_synapse("Prostate",
+                                 version = "v1.2-consortium"
+  )
+} else {
+  prost_data <- list("a")
+}) > 0)
+
 test_that("multiple cohorts- argument check", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie())
@@ -158,7 +182,7 @@ test_that("multiple cohorts- argument check", {
     data_synapse = list(genieBPC::nsclc_test_data, crc_data$CRC_v1.1)
   ), NA)
 
-  expect_true(unique(unique(two_list[[1]]$cohort) == c("CRC", "NSCLC")))
+  expect_true(all(unique(two_list[[1]]$cohort) %in% c("CRC", "NSCLC")))
 
 
 })
@@ -218,6 +242,42 @@ test_that("correct number of objects returned from create cohort", {
 
   expect_equal(length(test3), 16)
   expect_equal(class(test3), "list")
+
+  # repeat for multi-cohort case with one cohort having no tumor_marker data
+  test4a <- create_analytic_cohort(
+    data_synapse = list(crc_data$CRC_v1.1, nsclc_data$NSCLC_v1.1),
+    return_summary = FALSE
+  )
+
+  test4b <- create_analytic_cohort(
+    data_synapse = list(crc_data$CRC_v1.1, nsclc_data$NSCLC_v1.1),
+    return_summary = TRUE
+  )
+
+  test4c <- create_analytic_cohort(
+    data_synapse = list(bladder_data$BLADDER_v1.1, nsclc_data$NSCLC_v1.1),
+    return_summary = TRUE
+  )
+
+  test4d <- create_analytic_cohort(
+    data_synapse = list(prost_data$Prostate_v1.2, panc_data$PANC_v1.2),
+    return_summary = FALSE
+  )
+
+  expect_equal(length(test4a), 12)
+  expect_equal(length(test4b), 16)
+  expect_equal(length(test4c), 16)
+  expect_equal(length(test4d), 13)
+
+  expect_false("cohort_tumor_marker" %in% names(test4c))
+  expect_true("cohort_ca_radtx" %in% names(test4c))
+
+  expect_equal(unique(test4a$cohort_tumor_marker$cohort), "CRC")
+  expect_equal(unique(test4c$cohort_ca_radtx$cohort), "BLADDER")
+  expect_true(all(unique(test4d$cohort_tumor_marker$cohort %in%
+                           c("Prostate", "PANC"))))
+
+
 })
 
 test_that("pull data synapse object is missing", {
