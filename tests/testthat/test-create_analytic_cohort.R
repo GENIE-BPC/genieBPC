@@ -440,7 +440,7 @@ test_that("stage_dx", {
     filter(stage_dx == "Stage II")
 
   expect_equal(test_1a$cohort_ca_dx, test_1b)
-
+  expect_equal(nrow(test_1a$cohort_ca_dx), nrow(test_1b))
   # multiple stage values are specified
   test_2a <- create_analytic_cohort(
     data_synapse = nsclc_data,
@@ -453,13 +453,15 @@ test_that("stage_dx", {
     ungroup() %>%
     filter(stage_dx %in% c("Stage I", "Stage II"))
 
+  expect_true(sum(unique(test_2a$cohort_ca_dx$stage_dx) %in% c("Stage I",
+                                                               "Stage II")) == 2)
   expect_equal(test_2a$cohort_ca_dx, test_2b)
 
   # non-existent stage is specified
   expect_error(create_analytic_cohort(
     data_synapse = nsclc_data,
     stage_dx = "3A"
-  ))
+  ), "Select from available stages:*")
 })
 
 test_that("histology", {
@@ -536,12 +538,12 @@ test_that("histology", {
   expect_error(create_analytic_cohort(
     data_synapse = nsclc_data,
     histology = "squamous_adeno"
-  ))
+  ), "Select from available histology categories: Ade*")
 
   expect_error(create_analytic_cohort(
     data_synapse = brca_data,
     histology = "squamous_adeno"
-  ))
+  ), "Select from available histology categories: Invas*")
 })
 
 test_that("no regimen specified", {
@@ -637,7 +639,7 @@ test_that("drug regimen specified, order not specified", {
 
   expect_equal(test_3a$cohort_ca_drugs, test_3b)
 
-  # multiple drug regimens specified, regimen_type = containing
+  # multiple drug regimens specified, regimen_type = containing (option 3b in code)
   test_4a <- create_analytic_cohort(
     data_synapse = nsclc_data,
     regimen_drugs = c("Carboplatin", "Nivolumab"),
