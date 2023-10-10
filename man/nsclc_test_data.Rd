@@ -5,7 +5,7 @@
 \alias{nsclc_test_data}
 \title{Simulated fake GENIE BPC data for function examples and tests}
 \format{
-A list of clinical data frames
+A list of data frames
 \describe{
     \item{pt_char}{Patient characteristic data.frame}
     \item{ca_dx_index}{Index cancer diagnosis data.frame}
