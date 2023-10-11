@@ -3,9 +3,9 @@
 \docType{data}
 \name{nsclc_test_data}
 \alias{nsclc_test_data}
-\title{Simulated fake synapse data for function examples and tests}
+\title{Simulated fake GENIE BPC data for function examples and tests}
 \format{
-A list of clinical data frames
+A list of data frames
 \describe{
     \item{pt_char}{Patient characteristic data.frame}
     \item{ca_dx_index}{Index cancer diagnosis data.frame}
@@ -14,13 +14,16 @@ A list of clinical data frames
     \item{prissmm_imaging}{PRISSMM Imaging report data.frame}
     \item{prissmm_pathology}{PRISSMM Pathology report data.frame}
     \item{prissmm_md}{PRISSMM medical oncologist report data.frame}
-    \item{cpt}{CPT/NGS data.frame}
+    \item{cpt}{Cancer Panel Test (CPT)/Next Generation Sequencing (NGS) data.frame}
+    \item{mutations_extended}{Mutations data.frame}
+    \item{fusions}{Fusions data.frame}
+    \item{cpt}{Copy Number Alteration (CNA) data.frame}
 }
 }
 \usage{
 nsclc_test_data
 }
 \description{
-A named list of simulated NSCLC clinical data
+A named list of simulated NSCLC clinical and genomic data
 }
 \keyword{datasets}

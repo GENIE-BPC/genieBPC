@@ -408,12 +408,13 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
     if (file_type == "text/csv"){
 
-      returned_files <- utils::read.csv(resolved_file_path, na.strings = "")
+      returned_files <- utils::read.csv(resolved_file_path,
+                                        na.strings = c("", "NA"))
 
     } else if (file_type == "text/plain") {
 
       returned_files <- utils::read.delim(resolved_file_path, sep = "\t",
-                                              na.strings = "")
+                                          na.strings = c("", "NA"))
 
     } else {
       cli::cli_abort(

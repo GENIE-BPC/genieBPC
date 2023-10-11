@@ -52,26 +52,26 @@
 #' 'Synapse' table IDs
 #'
 #' A dataset containing the 'Synapse' table IDs for
-#' each clinical dataset in GENIE BPC.
+#' each dataset in GENIE BPC.
 #'
-#' @format A lookup table for 'Synapse' clinical data table IDs:
+#' @format A lookup table for 'Synapse' data table IDs:
 #' \describe{
 #'   \item{cohort}{GENIE BPC Project Cohort}
-#'   \item{df}{Clinical dataset}
 #'   \item{version}{Release version}
-#'   \item{synapse_id}{'Synapse' table ID for each dataset}
 #'   \item{release_date}{Month and year of data release}
+#'   \item{df}{Clinical, Genomic, or Metadata Dataset}
+#'   \item{synapse_id}{'Synapse' table ID for each dataset}
 #'   ...
 #' }
 #' @source \url{https://www.synapse.org/#!Synapse:syn21226493/wiki/599164}
 "synapse_tables"
 
 
-#' Simulated fake synapse data for function examples and tests
+#' Simulated fake GENIE BPC data for function examples and tests
 #'
-#' A named list of simulated NSCLC clinical data
+#' A named list of simulated NSCLC clinical and genomic data
 #'
-#' @format A list of clinical data frames
+#' @format A list of data frames
 #' \describe{
 #'     \item{pt_char}{Patient characteristic data.frame}
 #'     \item{ca_dx_index}{Index cancer diagnosis data.frame}
@@ -80,6 +80,9 @@
 #'     \item{prissmm_imaging}{PRISSMM Imaging report data.frame}
 #'     \item{prissmm_pathology}{PRISSMM Pathology report data.frame}
 #'     \item{prissmm_md}{PRISSMM medical oncologist report data.frame}
-#'     \item{cpt}{CPT/NGS data.frame}
+#'     \item{cpt}{Cancer Panel Test (CPT)/Next Generation Sequencing (NGS) data.frame}
+#'     \item{mutations_extended}{Mutations data.frame}
+#'     \item{fusions}{Fusions data.frame}
+#'     \item{cpt}{Copy Number Alteration (CNA) data.frame}
 #' }
 "nsclc_test_data"

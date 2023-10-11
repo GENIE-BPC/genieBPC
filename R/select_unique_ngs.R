@@ -101,7 +101,7 @@ select_unique_ngs <- function(data_cohort,
   # perform checks #
   if (missing(data_cohort)) {
     cli::cli_abort(
-      "The 'data_cohort' argument is needed to perform this process. 'data_cohort' is the output created by the 'fetch_samples' function, or the list object 'cohort_cpt' returned from the create_analytic_cohort() function.")
+      "The 'data_cohort' argument is needed to perform this process. 'data_cohort' is the list object 'cohort_cpt' returned from the create_analytic_cohort() function.")
   }
 
   if (!is.null(min_max_time) && (sum(!min_max_time %in% c("min", "max")) > 0 ||
@@ -119,7 +119,6 @@ select_unique_ngs <- function(data_cohort,
 
   # if(sum(grepl("samples_data",names(data_cohort))) != 1)
   #   stop("The 'data_cohort' input did not contain the 'samples_data' object.
-  # Is 'data_cohort' input an output of the 'fetch_samples' function?")
   if (is.null(oncotree_code) && is.null(sample_type) && is.null(min_max_time)) {
     cli::cli_alert_warning("None of the optimization arguments were specified. The sample with the largest panel size will be returned. In the case of ties a random sample will be returned.")
   }

@@ -237,7 +237,7 @@ create_analytic_cohort <- function(data_synapse,
     }
   }
 
-  if (missing(institution) & stringr::str_to_upper(cohort_temp) %in% c("NSCLC", "PANC", "BLADDER", "Prostate")) {
+  if (missing(institution) & stringr::str_to_upper(cohort_temp) %in% stringr::str_to_upper(c("NSCLC", "PANC", "BLADDER", "Prostate"))) {
     institution_temp <- c("DFCI", "MSK", "UHN", "VICC")
   } else if (missing(institution) &
     stringr::str_to_upper(cohort_temp) %in% c("CRC", "BRCA")) {
@@ -729,13 +729,39 @@ create_analytic_cohort <- function(data_synapse,
     )
   }
 
-
   # cancer panel test information
-  cohort_ngs <- fetch_samples(
+  # keep records based on record_id + cancer sequence of interest
+  cohort_ngs <- dplyr::inner_join(
+    cohort_ca_dx %>%
+      dplyr::select("cohort", "record_id", "ca_seq"),
+    pluck(data_synapse, "cpt"),
+    by = c("cohort", "record_id", "ca_seq")
+  ) %>%
+    distinct()
 
-    data_synapse = data_synapse,
-    df_record_ids = cohort_ca_dx
-  )
+  if(any(names(cohort_ngs) == "cpt_sample_type") &
+     !any(names(cohort_ngs) == "sample_type")){
+
+    cohort_ngs <- cohort_ngs %>%
+      dplyr::mutate(sample_type = case_when(
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("1", "primary", "primary tumor") ~ "Primary tumor",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("2", "lymph node metastasis") ~ "Lymph node metastasis",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("3", "distant organ metastasis") ~ "Distant organ metastasis",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("4", "metastasis site unspecified", "metastatic recurrence") ~
+          "Metastasis site unspecified",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("5", "local recurrence") ~ "Local recurrence",
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("6", "unspecified") ~ as.character(NA),
+        str_to_lower(.data$cpt_sample_type)
+        %in% c("7", "not applicable or hematologic malignancy") ~
+          "Not applicable or hematologic malignancy"
+      ))
+  }
 
   # genomic sequencing information
   if (!is.null(pluck(data_synapse, "fusions"))) {
