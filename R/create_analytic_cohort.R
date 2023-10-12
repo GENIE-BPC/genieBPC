@@ -729,6 +729,15 @@ create_analytic_cohort <- function(data_synapse,
     )
   }
 
+  # RT (if applicable)
+  if (!is.null(pluck(data_synapse, "ca_radtx"))) {
+    cohort_ca_radtx <- dplyr::inner_join(cohort_ca_dx %>%
+                                               dplyr::select("cohort", "record_id", "ca_seq"),
+                                             pluck(data_synapse, "ca_radtx"),
+                                             by = c("cohort", "record_id", "ca_seq")
+    )
+  }
+
   # cancer panel test information
   # keep records based on record_id + cancer sequence of interest
   cohort_ngs <- dplyr::inner_join(
@@ -950,7 +959,7 @@ create_analytic_cohort <- function(data_synapse,
   df_order <- c(
     "cohort_pt_char", "cohort_ca_dx",
     "cohort_ca_dx_non_index",
-    "cohort_ca_rad_tx", "cohort_ca_drugs",
+    "cohort_ca_radtx", "cohort_ca_drugs",
     "cohort_prissmm_imaging", "cohort_prissmm_pathology",
     "cohort_prissmm_md", "cohort_tumor_marker",
     "cohort_ngs",
