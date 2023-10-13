@@ -319,7 +319,10 @@ test_that("Number of columns and rows for each data release", {
     "Prostate_v1.2-consortium", "fusions", 1148, 9,
     "Prostate_v1.2-consortium", "cna", 965, 1167
   ) %>%
-    mutate(data_release_factor = fct_inorder(factor(data_release))) %>%
+    mutate(data_release_factor = factor(data_release,
+                                        levels = paste0(data_releases$cohort,
+                                                        "_",
+                                                        data_releases$version))) %>%
     # separate(data_release, into = c("cohort", "data_release"), sep = "_") %>%
     split(~data_release_factor)
 
