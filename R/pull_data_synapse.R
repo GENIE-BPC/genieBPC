@@ -100,12 +100,12 @@
 
 pull_data_synapse <- function(cohort = NULL, version = NULL,
                               download_location = NULL,
-                              username = NULL, password = NULL) {
+                              username = NULL, password = NULL, pat = NULL) {
 
   # Check parameters ---------------------------------------------------------
 
   # Make sure credentials are available and get token ---
-  token <- .get_synapse_token(username = username, password = password)
+  token <- pat %||% .get_synapse_token(username = username, password = password)
 
   # get `cohort` ---
   select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
