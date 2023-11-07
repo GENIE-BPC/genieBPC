@@ -10,34 +10,43 @@ test_that("pull data synapse object is missing", {
 })
 
 test_that("Institution- argument check", {
-  expect_error(create_analytic_cohort(
+  expect_error(msk <- create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     institution = "MSK"
   ), NA)
 
-  expect_error(create_analytic_cohort(
+  expect_equal("MSK", unique(msk[[1]]$institution))
+
+  expect_error(dfci <- create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     institution = "DFCI"
   ), NA)
 
-  expect_error(create_analytic_cohort(
+  expect_equal("DFCI", unique(dfci[[1]]$institution))
+
+  expect_error(vicc <- create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     institution = "VICC"
   ), NA)
 
-  expect_error(create_analytic_cohort(
+  expect_equal("VICC", unique(vicc[[1]]$institution))
+
+  expect_error(uhn <- create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     institution = "UHN"
   ), NA)
 
+  expect_equal("UHN", unique(uhn[[1]]$institution))
+
   expect_error(create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     institution = "non-existant"
-  ), "*")
+  ), "Select from*")
 })
 
 
 test_that("stage_dx- argument check", {
+
   expect_error(create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data,
     stage_dx = "Stage I"
