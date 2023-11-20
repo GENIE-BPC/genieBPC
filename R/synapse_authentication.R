@@ -229,25 +229,40 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' .get_synapse_token(username = "test", password = "test")
 #' }
 .get_synapse_token <- function(username = NULL, password = NULL, pat = NULL) {
-  resolved_username <- username %||% .get_env("username") %||%
-    Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-
-  resolved_password <- password %||% .get_env("password") %||%
-    Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
 
 
-  # ensure a username and password is supplied---------------------------------
-  switch(any(is.na(c(resolved_username, resolved_password))),
-    cli::cli_abort("No credentials found. Have you authenticated yourself?
-                   Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code username} and {.code password}
-                   (see README:'Data Access & Authentication' for details on authentication).")
-  )
+# Check User Authentication -----------------------------------------------
 
-  # query to get token --------------------------------------------------------
+  # first look for PAT
+  resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
+
   requested_objects <- jsonlite::toJSON(list(
-    "email" = resolved_username,
-    "password" = resolved_password
+    "token" = resolved_pat
   ), pretty = TRUE, auto_unbox = TRUE)
+
+  if(is.na(resolved_pat)) {
+
+    resolved_username <- username %||% .get_env("username") %||%
+      Sys.getenv("SYNAPSE_USERNAME", unset = NA)
+
+    resolved_password <- password %||% .get_env("password") %||%
+      Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
+
+
+    # ensure a username and password is supplied---------------------------------
+    switch(any(is.na(c(resolved_username, resolved_password))),
+      cli::cli_abort("No credentials found. Have you authenticated yourself?
+                     Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code username} and {.code password}
+                     (see README:'Data Access & Authentication' for details on authentication).")
+    )
+
+    # query to get token --------------------------------------------------------
+    requested_objects <- jsonlite::toJSON(list(
+      "email" = resolved_username,
+      "password" = resolved_password
+    ), pretty = TRUE, auto_unbox = TRUE)
+
+  }
 
   resp <- httr::POST("https://auth-prod.prod.sagebase.org/auth/v1/session",
     body = requested_objects,
