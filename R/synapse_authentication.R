@@ -220,7 +220,8 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #'
 #' @inheritParams check_genie_access
 #'
-#' @return a 'Synapse' token
+#' @return a 'Synapse' token. Will first look for PAT and return that if successful HTTP call, else
+#' will try with username and password
 #' @keywords internal
 #' @export
 #'
@@ -231,55 +232,38 @@ check_genie_access <- function(username = NULL, password = NULL) {
 .get_synapse_token <- function(username = NULL, password = NULL, pat = NULL) {
 
 
-# Check User Authentication -----------------------------------------------
+  # If no pat supplied, but username/password supplied ---------------
+  if(is.null(pat) & (!is.null(username) & !is.null(password))) {
 
-  # first look for PAT
-  resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
+    .get_token_by_username(username, password)
 
-  requested_objects <- jsonlite::toJSON(list(
-    "token" = resolved_pat
-  ), pretty = TRUE, auto_unbox = TRUE)
-
-  if(is.na(resolved_pat)) {
-
-    resolved_username <- username %||% .get_env("username") %||%
-      Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-
-    resolved_password <- password %||% .get_env("password") %||%
-      Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
-
-
-    # ensure a username and password is supplied---------------------------------
-    switch(any(is.na(c(resolved_username, resolved_password))),
-      cli::cli_abort("No credentials found. Have you authenticated yourself?
-                     Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code username} and {.code password}
-                     (see README:'Data Access & Authentication' for details on authentication).")
-    )
-
-    # query to get token --------------------------------------------------------
-    requested_objects <- jsonlite::toJSON(list(
-      "email" = resolved_username,
-      "password" = resolved_password
-    ), pretty = TRUE, auto_unbox = TRUE)
-
+  # if no PAT supplied --------------------------------------------------
   }
 
-  resp <- httr::POST("https://auth-prod.prod.sagebase.org/auth/v1/session",
-    body = requested_objects,
-    encode = "json",
-    httr::add_headers(`accept` = "application/json"),
-    httr::content_type("application/json")
-  )
+  # If pat supplied try that, if not, get environmental saved pat
+    resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
 
-  token <- httr::content(resp, "parsed")$sessionToken
+    # if no pat found, look for saved username credentials
+    if(is.na(resolved_pat)) {
 
-  token %||%
-    cli::cli_abort("There was an error authenticating your
-                   username ({resolved_username}) or password.
-                   Please make sure you can login to the 'Synapse' website
-                   with the given credentials.")
+      resolved_username <- username %||% .get_env("username") %||%
+        Sys.getenv("SYNAPSE_USERNAME", unset = NA)
 
-  return(token)
+      resolved_password <- password %||% .get_env("password") %||%
+        Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
+
+      # ensure a username and password is supplied
+      switch(any(is.na(c(resolved_username, resolved_password))),
+             cli::cli_abort("No credentials found. Have you authenticated yourself?
+                     Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code pat}, or {.code username} and {.code password}
+                     (see README:'Data Access & Authentication' for details on authentication)."))
+
+      .get_token_by_username(username = resolved_username, password = resolved_password)
+    }
+
+    # otherwise, use supplied or resolved PAT
+    .check_and_return_pat(pat = resolved_pat)
+
 }
 
 #' Check Synapse Login Status & Ability to Access Data
@@ -298,4 +282,48 @@ check_genie_access <- function(username = NULL, password = NULL) {
     error = function(e) FALSE,
     message = function(m) TRUE
   )
+}
+
+
+
+.get_token_by_username <- function(username, password) {
+
+  # query to get token
+  requested_objects <- jsonlite::toJSON(list(
+    "email" = username,
+    "password" = password
+  ), pretty = TRUE, auto_unbox = TRUE)
+
+  resp <- httr::POST("https://auth-prod.prod.sagebase.org/auth/v1/session",
+                     body = requested_objects,
+                     encode = "json",
+                     httr::add_headers(`accept` = "application/json"),
+                     httr::content_type("application/json")
+  )
+
+  token <- httr::content(resp, "parsed")$sessionToken
+
+  token %||%
+    cli::cli_abort("There was an error authenticating your
+                   username ({username}) or password.
+                   Please make sure you can login to the 'Synapse' website
+                   with the given credentials.")
+
+}
+
+.check_and_return_pat <- function(pat) {
+
+  resp <- httr::GET(
+    paste0("https://auth-prod.prod.sagebase.org/repo/v1/userProfile"),
+    httr::add_headers(Authorization = paste("Bearer ",
+                                            pat,
+                                            sep = "")),
+    #   body = requested_objects,
+    encode = "json",
+    httr::add_headers(`accept` = "application/json"),
+    httr::content_type("application/json")
+  ) %>%
+    stop_for_status("authenticate with PAT. Please check your PAT or supply a username and password")
+
+  return(pat)
 }
