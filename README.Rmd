@@ -161,6 +161,9 @@ its corresponding variables for each data release.
 -   [BLADDER v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30787692)
     
+-   [BLADDER v1.2-Consortium Analytic Data 
+    Guide](https://www.synapse.org/#!Synapse:syn53018714)
+    
 -   [Prostate v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30148714)
     
