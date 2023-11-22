@@ -3,17 +3,18 @@ test_that("Testing synapse version", {
   testthat::skip_if_not(.is_connected_to_genie())
 
   expect_equal(
-    class(synapse_version(FALSE)),
+    class(synapse_version(most_recent = FALSE)),
     c("tbl_df", "tbl", "data.frame")
   )
 
   expect_equal(
-    class(synapse_version(TRUE)),
+    class(synapse_version(most_recent = TRUE)),
     c("tbl_df", "tbl", "data.frame")
   )
 
   expect_equal(
-    nrow(synapse_version(TRUE)) < nrow(synapse_version(FALSE)),
+    nrow(synapse_version(most_recent = TRUE)) <
+      nrow(synapse_version(most_recent = FALSE)),
     TRUE
   )
 })
