@@ -4,9 +4,14 @@
 \alias{synapse_version}
 \title{Return list of available GENIE BPC data releases}
 \usage{
-synapse_version(most_recent = FALSE)
+synapse_version(cohort = NULL, most_recent = FALSE)
 }
 \arguments{
+\item{cohort}{Vector or list specifying the cohort(s) of interest. Must be
+one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
+"BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
+and "BLADDER" (Bladder Cancer).}
+
 \item{most_recent}{Indicates whether the function will return only the most
 recent version number for each cohort (`most_recent` = TRUE) or all
 available version numbers for each cohort (`most_recent`= FALSE)}
