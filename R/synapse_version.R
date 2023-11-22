@@ -9,7 +9,7 @@
 #' Specifies the version numbers available for each cancer cohort. Version
 #' numbers are specified as part of the call to `pull_data_synapse()`.
 #'
-#' @param cohort Vector or list specifying the cohort(s) of interest. Must be
+#' @param cohort Vector specifying the cohort(s) of interest. Cohorts must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 #'   and "BLADDER" (Bladder Cancer).
