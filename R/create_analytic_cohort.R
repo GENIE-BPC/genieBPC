@@ -12,9 +12,9 @@
 #'
 #' See the \href{https://genie-bpc.github.io/genieBPC/articles/create_analytic_cohort_vignette.html}{create_analytic_cohort vignette} for further documentation and examples.
 #'
-#' @param data_synapse A nested list returned from the `pull_data_synapse()` function.
-#' Each item in the list should correspond to a particular cohort/version. Ex:
-#' CRC_v1.2, NSCLC_v2.0, etc.
+#' @param data_synapse Either the object returned from the `pull_data_synapse()`
+#' function or a specific nested list (data release) returned from the
+#' `pull_data_synapse()` function.
 #' @param index_ca_seq Index cancer sequence. Default is 1, indicating the
 #' patient's first index cancer. The index cancer is also referred to as the
 #' BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
@@ -154,14 +154,46 @@ create_analytic_cohort <- function(data_synapse,
                                    regimen_order_type,
                                    return_summary = FALSE) {
   # check parameters
-  # cohort object
-  if (missing(data_synapse)) {
-    stop("Specify the cohort object(s) returned by the
+
+  # determine if the user passed the data release object, or an object with
+  # multiple cohorts pulled if data_synapse_depth = 4, they supplied the
+  # pull_data_synapse() object if data_synapse_depth = 3, they supplied the data
+  # release object, nested within the pull_data_synapse() object
+  # e.g., pull_data_syn_obj$NSCLC_v2.0 (depth 3) vs pull_data_syn_obj
+  # (depth 4)
+  data_synapse_depth <- purrr::pluck_depth(data_synapse)
+
+  # check the cohort object
+  if (missing(data_synapse) & data_synapse_depth == 3) {
+    stop("Specify the data release object from the nested list returned by the
+         pull_data_synapse() function.")
+  } else if (missing(data_synapse) & data_synapse_depth == 4) {
+    stop("Specify the object returned by the
          pull_data_synapse() function.")
   } else if (is.null(data_synapse)) {
     stop("The object specified for data_synapse does not exist.")
   }
 
+  # if the data_synapse list specified is of depth 3 (i.e., user specified
+  # pull_data_syn_obj$data_release), then make into higher level list to use
+  # purrr mapping below
+  #
+  # the purpose of this is to maintain compatability with the user specifying
+  # the data release object from pull_data_synapse, as in the original release
+  # of this package, while utilizing the updated code in
+  # create_analytic_cohort() that now processes multiple cohorts at a time
+  if (data_synapse_depth == 3){
+    # name of data_synapse input object
+    data_synapse_character <- deparse(substitute(data_synapse))
+
+    # save original data_synapse object
+    data_synapse_original <- data_synapse
+
+    # update data_synapse object to be a nested list
+    assign("data_synapse", list(data_synapse_original))
+
+    names(data_synapse) <- word(data_synapse_character, 2, sep = "\\$")
+  }
 
   # check input parameter
   # trying to check that the pull_data_synapse object returned is
@@ -429,6 +461,8 @@ create_analytic_cohort <- function(data_synapse,
   })
 
 
+  # only continue if patients met the inclusion criteria
+  if (nrow(bind_rows(cohort_ca_dx)) > 0){
 
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
@@ -875,7 +909,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # name each cohort
   names(fin_cht_dfs) <- unlist(cohort_temp)
-
+} # end if statement for processing cohort only if patients met cancer diagnosis dataset inclusion criteria
 
   # if 0 patients are returned
   # vector to store indexes of issues
@@ -889,14 +923,12 @@ create_analytic_cohort <- function(data_synapse,
 
     message(paste0(
       "No patients meeting the specified criteria were returned for the ",
-      message_coh, " cohort(s). Ensure that all parameters were correctly specified. Specifically,
-            the list of acceptable drugs can be found in the `drug_regimen_list` dataset available with this package."
+      message_coh, " cohort(s). Ensure that all parameters were correctly specified and check the raw data returned by the pull_data_synapse() call to ensure that there are patients that met the specified criteria (e.g., that there were patients with the specified combination of cancer type, institution, histology, stage, etc.). Additionally, the list of acceptable drugs can be found in the `drug_regimen_list` dataset available within this package."
     ))
-  }
+  } else {
 
-  # make sure to add in the cohort_ca_dx and cohort_ca_drugs files
-  # and drop vars not needed here
-
+  # cohort_ca_dx and cohort_ca_drugs files
+  # drop vars not needed here
   fin_cht_dfs_all <- map2(fin_cht_dfs, cohort_ca_dx, ~ append(
     .x,
     list(.y %>% select(-"index_ca_seq"))
@@ -1099,4 +1131,5 @@ create_analytic_cohort <- function(data_synapse,
   if (nrow(final_data$cohort_ca_dx) > 0) {
     return(final_data)
   }
+  } # end of else statement to proceed when patients are returned that met the criteria
 } # end of function
