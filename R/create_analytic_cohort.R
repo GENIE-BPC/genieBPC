@@ -829,11 +829,10 @@ create_analytic_cohort <- function(data_synapse,
         !is.null(pluck(data_synapse[[x]], b))) |
       (b == "ca_radtx" &&
        !is.null(pluck(data_synapse[[x]], b)))) {
-        dplyr::inner_join(
-          cohort_ca_dx[[x]] %>%
-            dplyr::select("cohort", "record_id"),
-          pluck(data_synapse[[x]], b),
-          by = c("cohort", "record_id")
+        dplyr::inner_join(cohort_ca_dx %>%
+                             dplyr::select("cohort", "record_id", "ca_seq"),
+                           pluck(data_synapse, b),
+                           by = c("cohort", "record_id", "ca_seq")
         )
       } else if (b == "cpt") {
         # cancer panel test information
