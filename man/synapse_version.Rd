@@ -7,7 +7,7 @@
 synapse_version(cohort = NULL, most_recent = FALSE)
 }
 \arguments{
-\item{cohort}{Vector or list specifying the cohort(s) of interest. Must be
+\item{cohort}{Vector specifying the cohort(s) of interest. Cohorts must be
 one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 and "BLADDER" (Bladder Cancer).}
