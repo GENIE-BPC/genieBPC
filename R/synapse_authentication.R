@@ -231,6 +231,14 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' }
 .get_synapse_token <- function(username = NULL, password = NULL, pat = NULL) {
 
+  all_args_null <- all(purrr::map_lgl(list(username, password, pat), is.null))
+
+  resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
+
+  no_genie_env_args <- all(purrr::map_lgl(list(.get_env("username"),
+                            .get_env("password"),
+                            .get_env("pat")), is.null))
+
 
   # If no pat supplied, but username/password supplied ---------------
   if(is.null(pat) & (!is.null(username) & !is.null(password))) {
