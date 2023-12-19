@@ -39,7 +39,7 @@ Therefore, use of the GENIE BPC data requires a rigorous process for
 preparing and merging the data to build analytic models. The {genieBPC}
 package is a user-friendly data processing pipeline to streamline the
 process for developing analytic cohorts that are ready for
-clinico-genomic analyses.
+clinico-genomic analyses. 
 
 ## Installation
 
@@ -160,6 +160,9 @@ its corresponding variables for each data release.
 
 -   [BLADDER v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30787692)
+    
+-   [BLADDER v1.2-Consortium Analytic Data 
+    Guide](https://www.synapse.org/#!Synapse:syn53018714)
     
 -   [Prostate v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn30148714)
