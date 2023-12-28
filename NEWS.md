@@ -1,5 +1,11 @@
 # genieBPC (development version)
 
+* Add BLADDER v1.2-consortium data release
+
+* Add 'cohort' parameter to `synapse_version()` to enable the user to subset by cohort(s) of interest
+
+# genieBPC (1.1.0.9004)
+
 * Updated `genieBPC::nsclc_test_data` to ensure unique sample ids for CNA file.
 
 * Updated README and 'Pull Data Synapse Vignette' to clarify instructions for registering for a 'Synapse' account (#100, #105)
@@ -7,6 +13,10 @@
 * Add publications (#96, #110)
 
 * Add information about genomic differences between genomic data downloaded from cBioPortal versus Synapse (#92)
+
+* Update tests to test across all data releases (#56)
+
+* Fix bug related to radiation therapy data not being returned in `create_analytic_cohort()` 
 
 # genieBPC (1.1.0.9000)
 
