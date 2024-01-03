@@ -35,7 +35,8 @@ genieBPC_env <- rlang::new_environment()
 #' environmental variables for `SYNAPSE_USERNAME`.
 #' @param password 'Synapse' password. If NULL, package will search
 #' environmental variables for `SYNAPSE_PASSWORD`.
-
+#' @param pat 'Synapse' Personal Access Token. If NULL, package will search
+#' environmental variables for `SYNAPSE_PAT`.
 #' @return A success message if you credentials are valid for 'Synapse'
 #' platform; otherwise an error
 #'
@@ -48,102 +49,141 @@ genieBPC_env <- rlang::new_environment()
 #'   username = "your-username",
 #'   password = "your-password"
 #' )
+#' set_synapse_credentials(
+#'   pat = "your-personal-access-token"
+#' )
 #' }
 #'
-set_synapse_credentials <- function(username = NULL, password = NULL, pat = NULL) {
+set_synapse_credentials <- function(username = NULL,
+                                    password = NULL,
+                                    pat = NULL) {
 
-  # if no args passed, check sys environment
-  # first check PAT - preferred authentication method
-  get_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
+  # Use Passed Arguments First ----------------------------------------------
 
-  assign("resolved_pat",
-         value = get_pat,
-         envir = genieBPC_env
-  )
+  # * If PAT passed, use that -----------
+  if(!is.null(pat)) {
 
-  # if no pat, try username and password
-  if(is.na(get_pat)) {
+    verify_cred_works = .get_token_by_pat(pat)
+    assign("pat", value = pat, envir = genieBPC_env)
+    cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code pat}) for this R session!")
+    return(invisible())
+  }
 
-    resolved_username <- username %||% Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-    resolved_password <- password %||% Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
+  # * If no PAT but username or password --------
+  null_username_password <- sum(purrr::map_lgl(list(username, password), ~is.null(.x)))
 
-    if (any(is.na(c(resolved_username, resolved_password))) & is.na(resolved_pat)) {
-      rlang::abort("No personal access token (`pat`), `username` or `password` specified and no
-                   `SYNAPSE_PAT`, `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`.
-                   Try specifying `pat`, `username` or `password` arguments or use
-                   `usethis::edit_r_environ()` to add to your global variables")
+  if(sum(null_username_password) < 2) {
+
+    # Throw error if only username or password given but not both
+    if(sum(null_username_password) == 1) {
+      rlang::abort("User must specify either a `pat`, or BOTH a `username` & `password`.")
     }
+
+    verify_cred_works = .get_token_by_username(username, password)
 
     # assign username credentials to package environment
     assign("username",
-           value = resolved_username,
+           value = username,
            envir = genieBPC_env
     )
 
     assign("password",
-           value = resolved_password,
+           value = password,
            envir = genieBPC_env
     )
 
+    cli::cli_alert_success("You are now connected to 'Synapse' as
+                         {.field {username}} for this R session!")
+    return(invisible())
   }
 
+  # If None Passed, Use Env Arguments  -------------
 
+  # Try saved PAT
+  pat_from_env = Sys.getenv("SYNAPSE_PAT", unset = NA)
+  username_from_env = Sys.getenv("SYNAPSE_USERNAME", unset = NA)
+  password_from_env = Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
 
-  # check the credentials with a call
-  x <- .get_synapse_token(
-    username = resolved_username,
-    password = resolved_password
-  )
+  if(!is.na(pat_from_env)) {
 
-  cli::cli_alert_success("You are now connected to 'Synapse' as
-                         {.field {resolved_username}} for this R session!")
+    verify_cred_works = .get_token_by_pat(pat_from_env)
+    assign("pat", value = pat_from_env, envir = genieBPC_env)
+    cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code SYNAPSE_PAT}) for this R session!")
+    return()
+
+  } else if(all(!is.na(c(username_from_env, password_from_env)))) {
+
+    verify_cred_works = .get_token_by_username(username_from_env, password_from_env)
+
+    # assign username credentials to package environment
+    assign("username",
+           value = username_from_env,
+           envir = genieBPC_env
+    )
+
+    assign("password",
+           value = password_from_env,
+           envir = genieBPC_env
+    )
+    cli::cli_alert_success("You are now connected to 'Synapse' as
+                         {.field {username_from_env}} for this R session!")
+    return(invisible())
+  } else {
+    rlang::abort("No personal access token (`pat`), `username` or `password` specified and no
+    `SYNAPSE_PAT`, `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`.
+    Try specifying `pat`, `username` or `password` arguments
+                 or use `usethis::edit_r_environ()` to add to your global variables")
+  }
 }
 
-set_synapse_credentials <- function(username = NULL, password = NULL) {
 
-  # if no args passed, check sys environment
-  resolved_username <- username %||% Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-  resolved_password <- password %||% Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
 
-  switch(any(is.na(c(resolved_username, resolved_password))),
-         {
-           rlang::abort("No `username` or `password` specified and no
-                   `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`.
-                   Try specifying `username` or `password` arguments or use
-                   `usethis::edit_r_environ()` to add to your global variables")
-         }
-  )
 
-  # assign credentials to package environment
-  assign("username",
-         value = resolved_username,
-         envir = genieBPC_env
-  )
-
-  assign("password",
-         value = resolved_password,
-         envir = genieBPC_env
-  )
-
-  # check the credentials with a call
-  x <- .get_synapse_token(
-    username = resolved_username,
-    password = resolved_password
-  )
-
-  cli::cli_alert_success("You are now connected to 'Synapse' as
-                         {.field {resolved_username}} for this R session!")
-}
+#
+# set_synapse_credentials <- function(username = NULL, password = NULL) {
+#
+#   # if no args passed, check sys environment
+#   resolved_username <- username %||% Sys.getenv("SYNAPSE_USERNAME", unset = NA)
+#   resolved_password <- password %||% Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
+#
+#   switch(any(is.na(c(resolved_username, resolved_password))),
+#          {
+#            rlang::abort("No `username` or `password` specified and no
+#                    `SYNAPSE_USERNAME` or `SYNAPSE_PASSWORD` in `.Renviron`.
+#                    Try specifying `username` or `password` arguments or use
+#                    `usethis::edit_r_environ()` to add to your global variables")
+#          }
+#   )
+#
+#   # assign credentials to package environment
+#   assign("username",
+#          value = resolved_username,
+#          envir = genieBPC_env
+#   )
+#
+#   assign("password",
+#          value = resolved_password,
+#          envir = genieBPC_env
+#   )
+#
+#   # check the credentials with a call
+#   x <- .get_synapse_token(
+#     username = resolved_username,
+#     password = resolved_password
+#   )
+#
+#   cli::cli_alert_success("You are now connected to 'Synapse' as
+#                          {.field {resolved_username}} for this R session!")
+# }
 
 #' Check Access to GENIE Data
 #'
 #' @param username 'Synapse' username. If NULL, package will search package
-#'   environment for "username". If not found, package will look in
-#'   environmental variables for `SYNAPSE_USERNAME`.
+#'   environment for "username".
 #' @param password 'Synapse' password. If NULL, package will search package
-#'   environment for "password". If not found package will search environmental
-#'   variables for `SYNAPSE_PASSWORD`.
-#'
+#'   environment for "password".
+#' @param pat 'Synapse' Personal Access Token. If NULL, package will search package
+#'   environment for "pat".
 #' @return A success message if you are able to access GENIE BPC data; otherwise
 #'   an error
 #' @author Karissa Whiting
@@ -154,10 +194,10 @@ set_synapse_credentials <- function(username = NULL, password = NULL) {
 #' # if credentials are saved:
 #' check_genie_access()
 #' }
-check_genie_access <- function(username = NULL, password = NULL) {
+check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
 
   # first get token
-  token <- .get_synapse_token(username = username, password = password)
+  token <- .get_synapse_token(username = username, password = password, pat = NULL)
 
   # now do genie-specific test query
   query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
@@ -231,46 +271,44 @@ check_genie_access <- function(username = NULL, password = NULL) {
 #' }
 .get_synapse_token <- function(username = NULL, password = NULL, pat = NULL) {
 
-  all_args_null <- all(purrr::map_lgl(list(username, password, pat), is.null))
-
-  resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
-
-  no_genie_env_args <- all(purrr::map_lgl(list(.get_env("username"),
-                            .get_env("password"),
-                            .get_env("pat")), is.null))
-
-
-  # If no pat supplied, but username/password supplied ---------------
-  if(is.null(pat) & (!is.null(username) & !is.null(password))) {
-
-    .get_token_by_username(username, password)
-
-  # if no PAT supplied --------------------------------------------------
+  # check user passed pat
+  if(!is.null(pat)) {
+    token <- .get_token_by_pat(pat)
+    return(token)
   }
 
-  # If pat supplied try that, if not, get environmental saved pat
-    resolved_pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
-
-    # if no pat found, look for saved username credentials
-    if(is.na(resolved_pat)) {
-
-      resolved_username <- username %||% .get_env("username") %||%
-        Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-
-      resolved_password <- password %||% .get_env("password") %||%
-        Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
-
-      # ensure a username and password is supplied
-      switch(any(is.na(c(resolved_username, resolved_password))),
-             cli::cli_abort("No credentials found. Have you authenticated yourself?
-                     Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code pat}, or {.code username} and {.code password}
-                     (see README:'Data Access & Authentication' for details on authentication)."))
-
-      .get_token_by_username(username = resolved_username, password = resolved_password)
+  # check user passed username/password
+  if(!is.null(username)) {
+    if(is.null(password)) {
+      rlang::abort("User must specify either a `pat`, or BOTH a `username` & `password`.")
+    } else {
+      token <- .get_token_by_username(username = username, password = password)
+      return(token)
     }
+  }
 
-    # otherwise, use supplied or resolved PAT
-    .check_and_return_pat(pat = resolved_pat)
+  # if no user passed args
+  resolved_pat <- pat %||% .get_env("pat")
+  resolved_username <- username %||% .get_env("username")
+  resolved_password <- password %||% .get_env("username")
+
+  # if none found in env
+  if(is.null(resolved_pat)) {
+    if(is.null(resolved_username) | is.null(resolved_password)) {
+    cli::cli_abort("No credentials found. Have you authenticated yourself?
+                     Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code pat}, or {.code username} AND {.code password}
+                     (see README:'Data Access & Authentication' for details on authentication).")
+    }
+  }
+
+  # use package env creds
+  if(!is.null(resolved_pat)) {
+    token <- .get_token_by_pat(resolved_pat)
+    return(token)
+  } else if(!is.null(resolved_pat)) {
+    token <- .get_token_by_username(resolved_username, resolved_password)
+    return(token)
+  }
 
 }
 
@@ -293,7 +331,18 @@ check_genie_access <- function(username = NULL, password = NULL) {
 }
 
 
-
+#' Retrieve a synapse token using username and password
+#'
+#' @inheritParams check_genie_access
+#'
+#' @return a 'Synapse' token.
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' .get_token_by_username(username = "test", password = "test")
+#' }
 .get_token_by_username <- function(username, password) {
 
   # query to get token
@@ -316,11 +365,27 @@ check_genie_access <- function(username = NULL, password = NULL) {
                    username ({username}) or password.
                    Please make sure you can login to the 'Synapse' website
                    with the given credentials.")
+  return(token)
 
 }
 
-.check_and_return_pat <- function(pat) {
+#' Retrieve a synapse token using personal access token
+#'
+#' @inheritParams check_genie_access
+#'
+#' @return a 'Synapse' token
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' .get_token_by_pat(pat = "test")
+#' }
+.get_token_by_pat <- function(pat) {
 
+  if(is.null(pat)) {
+    cli::cli_abort("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
+  }
   resp <- httr::GET(
     paste0("https://auth-prod.prod.sagebase.org/repo/v1/userProfile"),
     httr::add_headers(Authorization = paste("Bearer ",
@@ -331,7 +396,7 @@ check_genie_access <- function(username = NULL, password = NULL) {
     httr::add_headers(`accept` = "application/json"),
     httr::content_type("application/json")
   ) %>%
-    stop_for_status("authenticate with PAT. Please check your PAT or supply a username and password")
+    stop_for_status("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
 
   return(pat)
 }

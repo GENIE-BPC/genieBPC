@@ -4,16 +4,17 @@
 \alias{check_genie_access}
 \title{Check Access to GENIE Data}
 \usage{
-check_genie_access(username = NULL, password = NULL)
+check_genie_access(username = NULL, password = NULL, pat = NULL)
 }
 \arguments{
 \item{username}{'Synapse' username. If NULL, package will search package
-environment for "username". If not found, package will look in
-environmental variables for `SYNAPSE_USERNAME`.}
+environment for "username".}
 
 \item{password}{'Synapse' password. If NULL, package will search package
-environment for "password". If not found package will search environmental
-variables for `SYNAPSE_PASSWORD`.}
+environment for "password".}
+
+\item{pat}{'Synapse' Personal Access Token. If NULL, package will search package
+environment for "pat".}
 }
 \value{
 A success message if you are able to access GENIE BPC data; otherwise

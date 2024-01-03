@@ -4,7 +4,7 @@
 \alias{set_synapse_credentials}
 \title{Connect to 'Synapse' API}
 \usage{
-set_synapse_credentials(username = NULL, password = NULL)
+set_synapse_credentials(username = NULL, password = NULL, pat = NULL)
 }
 \arguments{
 \item{username}{'Synapse' username. If NULL, package will search
@@ -12,6 +12,9 @@ environmental variables for `SYNAPSE_USERNAME`.}
 
 \item{password}{'Synapse' password. If NULL, package will search
 environmental variables for `SYNAPSE_PASSWORD`.}
+
+\item{pat}{'Synapse' Personal Access Token. If NULL, package will search
+environmental variables for `SYNAPSE_PAT`.}
 }
 \value{
 A success message if you credentials are valid for 'Synapse'
@@ -48,6 +51,9 @@ your passwords outside of your scripts for security purposes.
 set_synapse_credentials(
   username = "your-username",
   password = "your-password"
+)
+set_synapse_credentials(
+  pat = "your-personal-access-token"
 )
 }
 

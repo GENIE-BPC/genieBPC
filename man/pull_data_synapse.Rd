@@ -9,7 +9,8 @@ pull_data_synapse(
   version = NULL,
   download_location = NULL,
   username = NULL,
-  password = NULL
+  password = NULL,
+  pat = NULL
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ specified, data are not read into the R environment.}
 \item{username}{'Synapse' username}
 
 \item{password}{'Synapse' password}
+
+\item{pat}{'Synapse' personal access token}
 }
 \value{
 Returns a nested list of clinical and genomic data corresponding to

@@ -23,6 +23,7 @@
 #'   specified, data are not read into the R environment.
 #' @param username 'Synapse' username
 #' @param password 'Synapse' password
+#' @param pat 'Synapse' personal access token
 #'
 #' @section Authentication:
 #' To access data, users must have a valid 'Synapse' account with permission to
@@ -106,7 +107,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # Check parameters ---------------------------------------------------------
 
   # Make sure credentials are available and get token ---
-  token <- pat %||% .get_synapse_token(username = username, password = password)
+  token <- .get_synapse_token(username = username,
+                                       password = password,
+                                       pat = pat)
 
   # get `cohort` ---
   select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
