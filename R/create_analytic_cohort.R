@@ -146,12 +146,12 @@
 create_analytic_cohort <- function(data_synapse,
                                    index_ca_seq = 1,
                                    institution = NULL,
-                                   stage_dx,
-                                   histology,
-                                   regimen_drugs,
+                                   stage_dx = NULL,
+                                   histology = NULL,
+                                   regimen_drugs = NULL,
                                    regimen_type = "Exact",
-                                   regimen_order,
-                                   regimen_order_type,
+                                   regimen_order = NULL,
+                                   regimen_order_type = NULL,
                                    return_summary = FALSE) {
   # check parameters
 
@@ -164,10 +164,10 @@ create_analytic_cohort <- function(data_synapse,
   data_synapse_depth <- purrr::pluck_depth(data_synapse)
 
   # check the cohort object
-  if (missing(data_synapse) & data_synapse_depth == 3) {
+  if (is.null(data_synapse) & data_synapse_depth == 3) {
     stop("Specify the data release object from the nested list returned by the
          pull_data_synapse() function.")
-  } else if (missing(data_synapse) & data_synapse_depth == 4) {
+  } else if (is.null(data_synapse) & data_synapse_depth == 4) {
     stop("Specify the object returned by the
          pull_data_synapse() function.")
   } else if (is.null(data_synapse)) {
@@ -220,7 +220,7 @@ create_analytic_cohort <- function(data_synapse,
   #        NSCLC, CRC, BrCa (not case sensitive)")
   # }
 
-  #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !missing(institution_temp) ,
+  #  if ( sum(!grepl("^NSCLC$", cohort)>0 , !is.null(institution_temp) ,
   # !grepl(c("^DFCI$|^MSK$|^VICC$|^UHN$"), institution_temp)>0 ) >0  ){
 
   # get cohort name and how it is capitalized in the data_synapse object
@@ -233,7 +233,7 @@ create_analytic_cohort <- function(data_synapse,
   # alphabetize drugs in regimen to match
   # how they are stored in variable
   # regimen_drugs
-  if (!missing(regimen_drugs)) {
+  if (!is.null(regimen_drugs)) {
     regimen_drugs_sorted <- purrr::map_chr(
       strsplit(regimen_drugs, ","), ~
         toString(str_to_lower(str_sort(
@@ -305,7 +305,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # to account for unspecified stage
 
-  if (missing(stage_dx)) {
+  if (is.null(stage_dx)) {
     stage_dx_temp <- purrr::map(data_synapse, function(x) {
       pull(pluck(x, "ca_dx_index") %>%
         dplyr::distinct(stage_dx), stage_dx)
@@ -315,7 +315,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # stage mis-specified
-  if (!missing(stage_dx) &&
+  if (!is.null(stage_dx) &&
     any(!grepl(
       c("^stage i$|^stage ii$|^stage iii$|
                  ^stage i-iii nos$|^stage iv$"),
@@ -325,7 +325,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
 
-  histology_temp <- if (!missing(histology)) {
+  histology_temp <- if (!is.null(histology)) {
     # is histology mis-specified?
     purrr::map(1:length(data_synapse), function(x) {
       if (cohort_temp[[x]] != "BrCa" &&
@@ -376,19 +376,19 @@ create_analytic_cohort <- function(data_synapse,
 
   ### drug regimen parameter checks
   # if regimen type is mis-specified
-  if (!missing(regimen_type) | is.numeric(regimen_type)) {
+  if (!is.null(regimen_type) | is.numeric(regimen_type)) {
     if (!(stringr::str_to_lower(regimen_type) %in% c("exact", "containing"))) {
       stop("For regimen_type select from 'exact' or 'containing'")
     }
   }
 
   # if regimen_order is not numeric
-  if (!missing(regimen_order) && !is.numeric(regimen_order)) {
+  if (!is.null(regimen_order) && !is.numeric(regimen_order)) {
     stop("The regimen_order parameter must be a numeric value >=1.")
   }
 
   # if regimen_order_type is mis-specified
-  if (!missing(regimen_order_type) &&
+  if (!is.null(regimen_order_type) &&
     (is.numeric(regimen_order_type) ||
       !(stringr::str_to_lower(regimen_order_type) %in% c(
         "within cancer",
@@ -399,22 +399,22 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # regimen_order_type needs to be specified if regimen_order is specified
-  if (missing(regimen_order_type) && !missing(regimen_order)) {
+  if (is.null(regimen_order_type) && !is.null(regimen_order)) {
     stop("Regimen order type must also be specified. Choose from
          'within cancer' or 'within regimen'")
   }
 
   # can't only specify regimen_order_type
-  if (!missing(regimen_order_type) && missing(regimen_order)) {
+  if (!is.null(regimen_order_type) && is.null(regimen_order)) {
     stop("Numeric order must also be specified in 'regimen_order' argument.")
   }
 
   # if regimen_type is specified, regimen_drugs must also be specified
-  if (!missing(regimen_type) && missing(regimen_drugs)) {
+  if (regimen_type != "Exact" && is.null(regimen_drugs)) {
     stop("If regimen_type is specified, regimen_drugs must also be specified.")
   }
 
-  if (missing(regimen_order_type)) {
+  if (is.null(regimen_order_type)) {
     regimen_order_type <- NULL
   }
 
@@ -462,7 +462,7 @@ create_analytic_cohort <- function(data_synapse,
 
 
   # only continue if patients met the inclusion criteria
-  if (nrow(bind_rows(cohort_ca_dx)) > 0){
+  if (any(nrow(cohort_ca_dx)) > 0){
 
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
@@ -515,7 +515,7 @@ create_analytic_cohort <- function(data_synapse,
   # specific regimen number to all pts in cohort, any regimen name
   # regimen_drugs is not specified, regimen_order is specified and
   # regimen_type = "within cancer"
-  if (missing(regimen_drugs) && !missing(regimen_order) &&
+  if (is.null(regimen_drugs) && !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
       cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
@@ -541,7 +541,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # if specific drug regimen is requested; exact regimen
   # option 3a: all times that exact drug regimen was received
-  if (!missing(regimen_drugs) && missing(regimen_order) &&
+  if (!is.null(regimen_drugs) && is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
     cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
@@ -568,7 +568,7 @@ create_analytic_cohort <- function(data_synapse,
 
   # option 3b: all times that regimen containing drugs was received
 
-  if (!missing(regimen_drugs) && missing(regimen_order) &&
+  if (!is.null(regimen_drugs) && is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "containing") {
     cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
       # identify instances of that drug regimen
@@ -596,7 +596,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # option 4a: 1st (or other) time that exact regimen was received
-  if (!missing(regimen_drugs) && !missing(regimen_order) &&
+  if (!is.null(regimen_drugs) && !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
     stringr::str_to_lower(regimen_type) == "exact") {
 
@@ -624,8 +624,8 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   # option 4b: 1st (or other) time that regimen containing was received
-  if (!missing(regimen_drugs) &&
-    !missing(regimen_order) &&
+  if (!is.null(regimen_drugs) &&
+    !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within regimen" &&
     stringr::str_to_lower(regimen_type) == "containing") {
 
@@ -724,8 +724,8 @@ create_analytic_cohort <- function(data_synapse,
 
   # option 5a: specific drugs within a cancer diagnosis, exact regimen
 
-  if (!missing(regimen_drugs) &&
-    !missing(regimen_order) &&
+  if (!is.null(regimen_drugs) &&
+    !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "exact" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
@@ -754,8 +754,8 @@ create_analytic_cohort <- function(data_synapse,
 
 
   # option 5b: specific drugs within a cancer diagnosis, regimen containing
-  if (!missing(regimen_drugs) &&
-    !missing(regimen_order) &&
+  if (!is.null(regimen_drugs) &&
+    !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "containing" &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
