@@ -14,6 +14,7 @@ release_dates <- tibble::tribble(
   "CRC", "v2.0-public", "2022-10",
   "PANC", "v1.1-consortium", "2022-02",
   "BLADDER", "v1.1-consortium", "2022-11",
+  "BLADDER", "v1.2-consortium", "2023-11",
   "BrCa", "v1.2-consortium", "2022-10",
   "Prostate", "v1.1-consortium", "2022-03",
   "PANC", "v1.2-consortium", "2023-01",

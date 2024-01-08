@@ -106,7 +106,7 @@ test_that("correct release returned", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie())
 
-  # not all data releases had a release_verison variable
+  # not all data releases had a release_version variable
   test_list_release_version_avail <- within(test_list,
                                             rm(`NSCLC_v1.1-consortium`,
                                                `CRC_v1.1-consortium`))
@@ -292,6 +292,18 @@ test_that("Number of columns and rows for each data release", {
     "BLADDER_v1.1-consortium", "mutations_extended", 11000, 64,
     "BLADDER_v1.1-consortium", "fusions", 242, 9,
     "BLADDER_v1.1-consortium", "cna", 965, 698,
+    "BLADDER_v1.2-consortium", "pt_char", 716, 39,
+    "BLADDER_v1.2-consortium", "ca_dx_index", 716, 143,
+    "BLADDER_v1.2-consortium", "ca_dx_non_index", 523, 111,
+    "BLADDER_v1.2-consortium", "ca_drugs", 2269, 103,
+    "BLADDER_v1.2-consortium", "prissmm_imaging", 13563, 42,
+    "BLADDER_v1.2-consortium", "prissmm_pathology", 7944, 374,
+    "BLADDER_v1.2-consortium", "ca_radtx", 533, 81,
+    "BLADDER_v1.2-consortium", "prissmm_md", 10367, 15,
+    "BLADDER_v1.2-consortium", "cpt", 748, 29,
+    "BLADDER_v1.2-consortium", "mutations_extended", 12994, 64,
+    "BLADDER_v1.2-consortium", "fusions", 242, 9,
+    "BLADDER_v1.2-consortium", "cna", 999, 674,
     "PANC_v1.2-consortium", "pt_char", 1109, 52,
     "PANC_v1.2-consortium", "ca_dx_index", 1110, 141,
     "PANC_v1.2-consortium", "ca_dx_non_index", 279, 108,
