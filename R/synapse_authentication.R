@@ -305,7 +305,7 @@ check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
   if(!is.null(resolved_pat)) {
     token <- .get_token_by_pat(resolved_pat)
     return(token)
-  } else if(!is.null(resolved_pat)) {
+  } else if(is.null(resolved_pat)) {
     token <- .get_token_by_username(resolved_username, resolved_password)
     return(token)
   }
