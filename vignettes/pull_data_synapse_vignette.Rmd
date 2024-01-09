@@ -38,13 +38,12 @@ The `pull_data_synapse()` function accesses the specified version of the clinica
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
-
 ## Setup
 
 Access to the GENIE BPC data release folders on 'Synapse' is required in
 order to use this function. To obtain access:
-***For public data releases:***
 
+***For public data releases:***
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#). Be sure to create a username and password. *Note: do NOT connect via your Google account.*
 
@@ -55,7 +54,6 @@ order to use this function. To obtain access:
 4.  In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.
 
 5.  Select *Request Access*, **review the terms of data use,** and select *Accept.*
-
 
 ***For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):***
 
@@ -78,24 +76,51 @@ order to use this function. To obtain access:
 
 *Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.*
 
+***Generate Synapse Personal Access Token (PAT)***
+
+- On the Synapse dashboard, navigate to **Account Settings.**
+
+- Towards the bottom of the page, select **Manage Personal Access Tokens.**
+
+- Create a personal access token by clicking **Create New Token.**
+
 ***Authenticate yourself***
 
-Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data.  To set your Synapse credentials during each session, call:
+Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data.  To set your Synapse credentials during each session, call `set_synapse_credentials()` using your PAT: <br>
 
-  `set_synapse_credentials(username = "your_username", password = "your_password")`
+<center>
+
+`set_synapse_credentials(pat = "your_pat")` <br>
+
+</center>
+  
+Alternatively, you may pass your Synapse username and password through `set_synapse_credentials()`: <br>
+
+<center>
+
+`set_synapse_credentials(username = "your_username", password = "your_password")` <br>
+
+</center>
+
+- **Note: connecting to Synapse via username and password will soon be deprecated. Instead, connecting via PAT is preferred.**
   
 - If your credentials are stored as environmental variables, you do not need to call `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables, add the following to your .Renviron file, then **restart your R session** (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
-  `SYNAPSE_USERNAME = <your-username>`
-  `SYNAPSE_PASSWORD = <your-password>`
+<center>
 
-Alternatively, you can pass your username and password to each individual data pull function if preferred, although it is recommended that you manage your passwords outside of your scripts for security purposes.
+`SYNAPSE_PAT = <your-pat>` <br>
+  
+`SYNAPSE_USERNAME = <your-username>` <br>
+  
+`SYNAPSE_PASSWORD = <your-password>`
 
+</center>
+
+Alternatively, you can pass your PAT or username/password to each individual data pull function if preferred, although it is recommended that you manage your passwords outside of your scripts for security purposes.
 
 ## Usage
 
 Let's start by reviewing the `pull_data_synapse()` arguments.
-
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::.is_connected_to_genie()}
 tibble::tribble(
@@ -104,7 +129,8 @@ tibble::tribble(
   "`version`",        "Vector specifying the version of the data. Must be one of the following: 'v1.1-consortium', 'v1.2-consortium', 'v2.1-consortium', 'v2.0-public'. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data.",
   "`download_location`",        "If `NULL` (default), data will be returned as a list of dataframes with requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there. When a path is specified, data are not read into the R environment.",
   "`username`",        "Synapse username",
-  "`password`",        "Synapse password"
+  "`password`",        "Synapse password",
+  "`pat`",             "Synapse personal access token"
 ) %>%
   gt::gt() %>%
   gt::fmt_markdown(columns = c(Argument)) %>%
@@ -117,10 +143,7 @@ tibble::tribble(
                   row_group.padding = gt::px(1))
 ```
 
-&nbsp;
-
 ## Examples
-
 
 ### Example 1
 
@@ -130,39 +153,36 @@ Pull version 2.0-public of the NSCLC data from Synapse and store in the local en
 nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
-
 The resulting `nsclc_2_0` object is a list of elements, such that each element represents a dataset:
-
 
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
 nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
-
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
-ls(nsclc_2_0$NSCLC_v2.0) %>% 
-  as.data.frame() %>% 
-  mutate(clinical_vs_genomic = case_when(. %in% c("cna", "fusions",
-                                                  "mutations_extended") ~ "Genomic Data",
-                                         TRUE ~ "Clinical Data")) %>% 
-  gt::gt() %>% 
-  gt::cols_label(.data = .,
-                 `.` = md("**Datasets Returned**"),
-             clinical_vs_genomic = md("**Clinical/Genomic Data**"))
+ls(nsclc_2_0$NSCLC_v2.0) %>%
+  as.data.frame() %>%
+  mutate(clinical_vs_genomic = case_when(
+    . %in% c("cna", "fusions",
+             "mutations_extended") ~ "Genomic Data",
+    TRUE ~ "Clinical Data"
+  )) %>%
+  gt::gt() %>%
+  gt::cols_label(
+    .data = .,
+    `.` = md("**Datasets Returned**"),
+    clinical_vs_genomic = md("**Clinical/Genomic Data**")
+  )
 ```
-
-
 
 ### Example 2
 
 Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
 
 ```{r, eval = FALSE}
-pull_data_synapse(c("NSCLC", "CRC"), 
-                  version = c("v2.1-consortium","v1.1-consortium"))
+pull_data_synapse(c("NSCLC", "CRC"),
+                  version = c("v2.1-consortium", "v1.1-consortium"))
 ```
-
-
 
 ### Example 3
 
@@ -172,8 +192,6 @@ Pull version 1.2-consortium of the NSCLC data and version 1.1-consortium of the 
 pull_data_synapse(c("NSCLC", "CRC"),
                   version = c("v1.2-consortium", "v1.1-consortium"))
 ```
-
-
 
 ## Future Work
 
@@ -188,4 +206,3 @@ Please note that pulling genomic GENIE data from Synapse using `pull_data_synaps
 * Default filtering - By default, cBioPortal filters out Silent, Intron, IGR, 3'UTR, 5'UTR, 3'Flank and 5'Flank, except for the promoter mutations of the TERT gene. See [cBioPortal documentation](https://docs.cbioportal.org/file-formats/#mutation-data) for more details. These mutations are retained in Synapse processing pipelines.
 
 * Hugo Symbols - Some genes have more than one accepted Hugo Symbol and may be referred to differently between data sources (e.g. `NSD3` is an alias for `WHSC1L1`). Some tools exist to help you resolve gene aliases across genomic data sources. See `gnomeR::recode_alias()`, `cbioportal::get_alias()` and vignettes from the [{gnomeR}](https://mskcc-epi-bio.github.io/gnomeR/) and [{cbioportalR}](https://www.karissawhiting.com/cbioportalR/) for more information on how to use these functions and work with gene aliases.
-
