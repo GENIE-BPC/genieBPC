@@ -290,7 +290,7 @@ check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
   # if no user passed args
   resolved_pat <- pat %||% .get_env("pat")
   resolved_username <- username %||% .get_env("username")
-  resolved_password <- password %||% .get_env("username")
+  resolved_password <- password %||% .get_env("password")
 
   # if none found in env
   if(is.null(resolved_pat)) {
