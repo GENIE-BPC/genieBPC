@@ -3,6 +3,8 @@ test_that("No specifications- runs with no error", {
   expect_error(create_analytic_cohort(
     data_synapse = genieBPC::nsclc_test_data
   ), NA)
+  expect_error(create_analytic_cohort(
+    data_synapse = list(genieBPC::nsclc_test_data)))
 })
 
 test_that("pull data synapse object is missing", {
@@ -970,3 +972,41 @@ test_that("No patients met criteria", {
     regimen_order_type = "within cancer"
   ))
 })
+
+test_that("multiple cohorts requested runs smoothly"){
+  testthat::skip_if_not(.is_connected_to_genie())
+
+  cohort <- create_analytic_cohort(pull_data_synapse(cohort = c("NSCLC", "CRC"),
+                                                     version = c(
+                                                       "v2.0-public", "v2.0-public")))
+
+  expect_true(class(cohort), list)
+  expect_true(any(grepl("pt_char", names(cohort))))
+  expect_true(any(grepl("tumor_marker", names(cohort))))
+  expect_true(any(grepl("rad", names(cohort))))
+  expect_true(length(cohort) == 12) # should be equal to the larger of the two list sizes
+}
+
+test_that("multiple cohorts missing/incorrect values"){
+  expect_error(create_analytic_cohort(
+    pull_data_synapse(
+      cohort = c("NSCLC", "wrong"), version = c("v2.0-public", "v2.0-public"))))
+
+  # missing second cohort name
+  expect_error(create_analytic_cohort(
+    pull_data_synapse(
+      cohort = c("NSCLC"), version = c("v2.0-public", "v1.2-consortium"))))
+
+}
+
+# should probably alter message
+test_that("data returned for multiple cohorts even if one cohort has no cases", {
+expect_message(create_analytic_cohort(
+  data_synapse = pull_data_synapse(c("NSCLC", "BrCa"), version = c("v2.0-public",
+                                                                   "v1.2-consortium")),
+  institution = "UHN"), "No patients meeting the specified criteria were returned for the BrCa cohort(s)*"
+)
+})
+
+
+
