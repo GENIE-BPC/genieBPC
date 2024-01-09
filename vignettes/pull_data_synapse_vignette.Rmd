@@ -49,7 +49,7 @@ order to use this function. To obtain access:
 
 2.  Accept the **Synapse account terms of use.**
 
-3.  Navigate to [GENIE Biopharma Collaborative Public page](https://www.synapse.org/).
+3.  Navigate to [GENIE Biopharma Collaborative Public page](https://www.synapse.org/#!Synapse:syn27056172/wiki/616601).
 
 4.  In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.
 
@@ -64,7 +64,7 @@ order to use this function. To obtain access:
 3.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
     the GENIE BPC team list and request to join the team. Please include
     your full name and affiliation in the message before sending out the
-    request. *(Note: Please allow up to a week to review and grant access.)*
+    request. *(Note: Please allow up to one week to review and grant access.)*
 
 3.  Once the request is accepted, you may access the data in the [GENIE
     Biopharma Collaborative
