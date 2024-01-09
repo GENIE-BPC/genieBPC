@@ -10,6 +10,8 @@
 #'
 
 .bind_genie_data <- function(data_list) {
+
+  # list all cohort df names in order
   dataset_cohorts <-
     c(
       "cohort_pt_char",
@@ -27,7 +29,12 @@
       "cohort_cna"
     )
 
+  # imap is identity, so idx = index within the vector
+  # so for each cohort dataset....
 save <- imap((dataset_cohorts), \(y, idx){
+
+  #.... go through all of the cohorts supplied (ex: NSCLC, CRC)
+  # and pull the dataset of interest from each list
     map(data_list, function(x) {
 
       # skip rad/tm if in cohorts without it
@@ -62,25 +69,34 @@ save <- imap((dataset_cohorts), \(y, idx){
                           'pdl1_lcpsrange')), ~as.character(.)))
       }
 
+        # make sure release version is a character
       if ("release_version" %in% names(z)){
       z <- z %>%
           mutate(release_version = as.character(release_version))
       }
 
+        # this was providing a gross warning, but you don't need to show
+        # to the user
       if ("cpt_seq_date" %in% names(z)){
         z <- z %>%
           mutate(cpt_seq_date = as.numeric(cpt_seq_date))%>%
           base::suppressWarnings()
       }
 
+        # if the dataset of interest is of mutations...
       if(y == "cohort_mutations_extended"){
 
+        #... Find which variables match this name and save
         allele_vars <- names(z)[grepl("Match_Norm_Seq_Allele", names(z))]
 
 
+        # For each variable name in that vector...
         for(var in c(allele_vars)){
 
+          #... AND some NAs exist...
           if (any(is.na(z %>% pull(var)))){
+
+            # ...reassign them to integer version because they are numeric
             z[names(z) == var] <- case_when(
               z %>% pull(var) %>% is.na() ~ NA_integer_,
               TRUE ~ z %>% pull(var) %>% as.numeric()%>%
@@ -90,6 +106,7 @@ save <- imap((dataset_cohorts), \(y, idx){
 
         }
 
+        # again, some datasets have this as all NA_integer, so supress warning
         if("Protein_position" %in% names(z) &&
            class(z$Protein_position) != "character"){
           z <- z %>%
@@ -98,6 +115,7 @@ save <- imap((dataset_cohorts), \(y, idx){
         }
 
       }
+        # return the dataset we want!
         z
       }
 
@@ -110,6 +128,8 @@ save <- imap((dataset_cohorts), \(y, idx){
 # label the datsets accordingly
 names(save) <- dataset_cohorts
 
+# again, drop any null objects in list and then bind data from all cohorts
+# together as one dataset
 save <- compact(save) %>%
   map(., ~.x %>% reduce(full_join))
 
