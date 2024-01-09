@@ -396,7 +396,7 @@ check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
     httr::add_headers(`accept` = "application/json"),
     httr::content_type("application/json")
   ) %>%
-    stop_for_status("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
+    httr::stop_for_status("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
 
   return(pat)
 }
