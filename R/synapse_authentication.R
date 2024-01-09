@@ -194,13 +194,25 @@ set_synapse_credentials <- function(username = NULL,
 #' # if credentials are saved:
 #' check_genie_access()
 #' }
-check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
+check_genie_access <- function(username = NULL, password = NULL,
+                               pat = NULL,
+                               check_consortium_access = FALSE) {
 
   # first get token
-  token <- .get_synapse_token(username = username, password = password, pat = NULL)
+  token <- .get_synapse_token(username = username, password = password, pat = pat)
+
+  # query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
 
   # now do genie-specific test query
-  query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
+
+  if(check_consortium_access) {
+    # private GENIE (consortium)
+    query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn21241322/bundle2"
+  } else {
+    # public GENIE
+    query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn27056172/bundle2"
+  }
+
 
   requested_objects <- jsonlite::toJSON(list(
     "includeEntity" = TRUE,
@@ -323,8 +335,13 @@ check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
 #' @export
 #' @examples
 #' .is_connected_to_genie()
-.is_connected_to_genie <- function() {
-  tryCatch(check_genie_access(),
+.is_connected_to_genie <- function(username = NULL, password = NULL,
+                                   pat = NULL,
+                                   check_consortium_access = FALSE) {
+  tryCatch(check_genie_access(username = username,
+                              password = password,
+                              pat = pat,
+                              check_consortium_access = check_consortium_access),
     error = function(e) FALSE,
     message = function(m) TRUE
   )
