@@ -59,7 +59,7 @@ test_that("test `cohort` argument specification", {
   # try to misspecify cohort (lower cases instead of capital)
   expect_error(pull_data_synapse(
     cohort = "nsclc",
-    version = "v1.1-consortium"
+    version = "v2.2-consortium"
   ), "*")
 })
 
@@ -84,8 +84,8 @@ test_that("test `version` argument specification", {
     pull_data_synapse(
       cohort = "NSCLC",
       version = c(
-        "v1.1-consortium",
-        "v2.1-consortium"
+        "v2.2-consortium",
+        "v2.0-public"
       )
     ),
     "*You have selected"
@@ -98,7 +98,7 @@ test_that("test `version` argument specification", {
       cohort = "BrCa",
       version = c("v2.1-consortium")
     ),
-    "You have selected a version that is not available for this cohort*"
+    "`version` must be one of the following:*"
   )
 })
 
@@ -107,13 +107,13 @@ test_that("correct release returned", {
   testthat::skip_if_not(.is_connected_to_genie())
 
   # not all data releases had a release_version variable
-  test_list_release_version_avail <- within(test_list,
-                                            rm(`NSCLC_v1.1-consortium`,
-                                               `CRC_v1.1-consortium`))
+  # test_list_release_version_avail <- within(test_list,
+  #                                           rm(`NSCLC_v1.1-consortium`,
+  #                                              `CRC_v1.1-consortium`))
 
   # for each data frame returned with a cohort, get the release_version variable
   # remove genomic data frames since we don't expect them to have a release_version variable
-  test_list_release_version_avail_no_genomic <- map_depth(test_list_release_version_avail,
+  test_list_release_version_avail_no_genomic <- map_depth(test_list,
                                                           .depth = 2,
                                                 ~within(.x,
                                                         rm(cna,
@@ -161,52 +161,29 @@ test_that("Number of columns and rows for each data release", {
   # requires update for each data release
   expected_length <- tibble::tribble(
     ~data_release, ~df, ~expected_nrow, ~expected_ncol,
-    "NSCLC_v1.1-consortium", "pt_char", 1849, 33,
-    "NSCLC_v1.1-consortium", "ca_dx_index", 1874, 110,
-    "NSCLC_v1.1-consortium", "ca_dx_non_index", 810, 83,
-    "NSCLC_v1.1-consortium", "ca_drugs", 4032, 114,
-    "NSCLC_v1.1-consortium", "prissmm_imaging", 35113, 42,
-    "NSCLC_v1.1-consortium", "prissmm_pathology", 8329, 195,
-    "NSCLC_v1.1-consortium", "prissmm_md", 24950, 11,
-    "NSCLC_v1.1-consortium", "cpt", 2026, 19,
-    "NSCLC_v1.1-consortium", "mutations_extended", 17574, 54,
-    "NSCLC_v1.1-consortium", "fusions", 821, 9,
-    "NSCLC_v1.1-consortium", "cna", 930, 1782,
-    "CRC_v1.1-consortium", "pt_char", 1500, 37,
-    "CRC_v1.1-consortium", "ca_dx_index", 1510, 111,
-    "CRC_v1.1-consortium", "ca_dx_non_index", 353, 87,
-    "CRC_v1.1-consortium", "ca_drugs", 5459, 102,
-    "CRC_v1.1-consortium", "prissmm_imaging", 26500, 42,
-    "CRC_v1.1-consortium", "prissmm_pathology", 7216, 340,
-    "CRC_v1.1-consortium", "prissmm_md", 28467, 11,
-    "CRC_v1.1-consortium", "tumor_marker", 24708, 12,
-    "CRC_v1.1-consortium", "cpt", 1576, 25,
-    "CRC_v1.1-consortium", "mutations_extended", 23445, 54,
-    "CRC_v1.1-consortium", "fusions", 406, 9,
-    "CRC_v1.1-consortium", "cna", 930, 1505,
-    "CRC_v1.2-consortium", "pt_char", 1498, 40,
-    "CRC_v1.2-consortium", "ca_dx_index", 1508, 152,
-    "CRC_v1.2-consortium", "ca_dx_non_index", 346, 97,
-    "CRC_v1.2-consortium", "ca_drugs", 5453, 102,
-    "CRC_v1.2-consortium", "prissmm_imaging", 26479, 43,
-    "CRC_v1.2-consortium", "prissmm_pathology", 7207, 341,
-    "CRC_v1.2-consortium", "prissmm_md", 28401, 12,
-    "CRC_v1.2-consortium", "tumor_marker", 24715, 14,
-    "CRC_v1.2-consortium", "cpt", 1574, 26,
-    "CRC_v1.2-consortium", "mutations_extended", 23250, 64,
-    "CRC_v1.2-consortium", "fusions", 403, 9,
-    "CRC_v1.2-consortium", "cna", 965, 1492,
-    "NSCLC_v2.1-consortium", "pt_char", 1875, 35,
-    "NSCLC_v2.1-consortium", "ca_dx_index", 1901, 152,
-    "NSCLC_v2.1-consortium", "ca_dx_non_index", 820, 97,
-    "NSCLC_v2.1-consortium", "ca_drugs", 4066, 101,
-    "NSCLC_v2.1-consortium", "prissmm_imaging", 35449, 43,
-    "NSCLC_v2.1-consortium", "prissmm_pathology", 8437, 196,
-    "NSCLC_v2.1-consortium", "prissmm_md", 25165, 12,
-    "NSCLC_v2.1-consortium", "cpt", 2046, 26,
-    "NSCLC_v2.1-consortium", "mutations_extended", 17526, 64,
-    "NSCLC_v2.1-consortium", "fusions", 819, 9,
-    "NSCLC_v2.1-consortium", "cna", 965, 1779,
+    "NSCLC_v2.2-consortium", "pt_char", 1832, 35,
+    "NSCLC_v2.2-consortium", "ca_dx_index", 1858, 152,
+    "NSCLC_v2.2-consortium", "ca_dx_non_index", 791, 97,
+    "NSCLC_v2.2-consortium", "ca_drugs", 4012, 101,
+    "NSCLC_v2.2-consortium", "prissmm_imaging", 34926, 43,
+    "NSCLC_v2.2-consortium", "prissmm_pathology", 8277, 196,
+    "NSCLC_v2.2-consortium", "prissmm_md", 24804, 12,
+    "NSCLC_v2.2-consortium", "cpt", 2002, 26,
+    "NSCLC_v2.2-consortium", "mutations_extended", 17430, 64,
+    "NSCLC_v2.2-consortium", "fusions", 815, 9,
+    "NSCLC_v2.2-consortium", "cna", 965, 1764,
+    "CRC_v1.3-consortium", "pt_char", 1476, 40,
+    "CRC_v1.3-consortium", "ca_dx_index", 1485, 152,
+    "CRC_v1.3-consortium", "ca_dx_non_index", 328, 97,
+    "CRC_v1.3-consortium", "ca_drugs", 5401, 102,
+    "CRC_v1.3-consortium", "prissmm_imaging", 26091, 43,
+    "CRC_v1.3-consortium", "prissmm_pathology", 7112, 341,
+    "CRC_v1.3-consortium", "prissmm_md", 27954, 12,
+    "CRC_v1.3-consortium", "tumor_marker", 24219, 14,
+    "CRC_v1.3-consortium", "cpt", 1551, 26,
+    "CRC_v1.3-consortium", "mutations_extended", 22903, 64,
+    "CRC_v1.3-consortium", "fusions", 395, 9,
+    "CRC_v1.3-consortium", "cna", 965, 1479,
     "BrCa_v1.1-consortium", "pt_char", 1130, 40,
     "BrCa_v1.1-consortium", "ca_dx_index", 1141, 159,
     "BrCa_v1.1-consortium", "ca_dx_non_index", 194, 103,
