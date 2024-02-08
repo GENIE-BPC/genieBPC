@@ -7,9 +7,11 @@ release_dates <- tibble::tribble(
   ~cohort, ~version, ~release_date,
   "NSCLC", "v1.1-consortium", "2020-10",
   "NSCLC", "v2.1-consortium", "2021-08",
+  "NSCLC", "v2.2-consortium", "2024-02",
   "NSCLC", "v2.0-public", "2022-05",
   "CRC", "v1.1-consortium", "2021-02",
   "CRC", "v1.2-consortium", "2021-08",
+  "CRC", "v1.3-consortium", "2024-02",
   "BrCa", "v1.1-consortium", "2021-10",
   "CRC", "v2.0-public", "2022-10",
   "PANC", "v1.1-consortium", "2022-02",
@@ -75,6 +77,10 @@ synapse_tables <- all_syn_ids %>%
   dplyr::filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
     (grepl("synopsis|fusions|CNA|mutations_extended", name) &
       !grepl("meta", name))) %>%
+  # exclude NSCLC v1.1 and v2.1-consortium and CRC v1.1 and v1.2-consortium releases
+  # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
+  filter(!(cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.1-consortium")),
+         !(cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium"))) %>%
   dplyr::mutate(
     filename_pre = str_remove(
       pattern = ".csv|.txt",
@@ -118,3 +124,4 @@ synapse_tables <- all_syn_ids %>%
   dplyr::arrange(release_date, cohort, version, df)
 
 usethis::use_data(synapse_tables, internal = FALSE, overwrite = TRUE)
+
