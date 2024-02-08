@@ -10,13 +10,11 @@
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 #'   and "BLADDER" (Bladder Cancer).
-#' @param version Vector specifying the version of the data. Must be one of the
-#'   following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
-#'   "v2.0-public". When entering multiple cohorts, the order of the version
-#'   numbers corresponds to the order that the cohorts are specified; the cohort
-#'   and version number must be in the same order in order to pull the correct
-#'   data. See examples below.
-#'
+#' @param version Vector specifying the version of the data. Must be a value
+#'   corresponding to a cohort via `synapse_version()`. When entering multiple
+#'   cohorts, the order of the version numbers corresponds to the order that the
+#'   cohorts are specified; the cohort and version number must be in the same
+#'   order in order to pull the correct data. See examples below.
 #' @param download_location if `NULL` (default), data will be returned as a list
 #'   of dataframes with requested data as list items. Otherwise, specify a
 #'   folder path to have data automatically downloaded there. When a path is
@@ -132,6 +130,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available")
 
+  } else if (cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.1-consortium")){
+    cli::cli_abort("The NSCLC v1.1-consortium and v2.1-consortium releases have been replaced by the NSCLC v2.2-consortium release.
+                   AACR is asking users to delete any local copies of the v1.1-consortium and v2.1-consortium data and re-run analyses using the v2.2-consoritum or v2.0-public data.")
+  } else if (cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium")){
+    cli::cli_abort("The CRC v1.1-consortium and v1.2-consortium releases have been replaced by the CRC v1.3-consortium release.
+                   AACR is asking users to delete any local copies of the v1.1-consortium and v1.2-consortium data and re-run analyses using the v1.3-consoritum or v2.0-public data.")
   } else {
 
     rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
