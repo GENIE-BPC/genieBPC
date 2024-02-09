@@ -53,9 +53,11 @@
 #' \itemize{
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn53463493}{NSCLC v2.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
@@ -82,11 +84,11 @@
 #' synapse_version(most_recent = TRUE)
 #'
 #' # Pull version 2.0-public for non-small cell lung cancer
-#' # and version 1.1-consortium for colorectal cancer data
+#' # and version 2.0-public for colorectal cancer data
 #'
 #'  ex1 <- pull_data_synapse(
-#'    cohort = c("NSCLC", "BrCa"),
-#'    version = c("v2.0-public", "v1.1-consortium")
+#'    cohort = c("NSCLC", "CRC"),
+#'    version = c("v2.0-public", "v2.0-public")
 #'  )
 #'
 #'  names(ex1)
@@ -228,12 +230,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' temp_directory <- tempdir()
 #'
 #' syn_df <- data.frame(
-#'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
-#'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
-#'   version_num = c("NSCLC_v2.1", "NSCLC_v2.1", "NSCLC_v2.1"),
-#'   download_folder = c(temp_directory, temp_directory, temp_directory),
-#'   df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
-#'   synapse_id = c("syn25985884", "syn25985882", "syn25985883")
+#'   cohort = c("NSCLC", "NSCLC"),
+#'   version = c("v2.2-consortium", "v2.0-public"),
+#'   version_num = c("NSCLC_v2.2", "NSCLC_v2.0"),
+#'   download_folder = c(temp_directory, temp_directory),
+#'   df = c("pt_char", "ca_dx_index"),
+#'   synapse_id = c("syn53470868", "syn30350575")
 #' )
 #'
 #' .pull_data_by_cohort(
