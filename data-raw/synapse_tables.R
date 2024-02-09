@@ -77,9 +77,9 @@ synapse_tables <- all_syn_ids %>%
   dplyr::filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
     (grepl("synopsis|fusions|CNA|mutations_extended", name) &
       !grepl("meta", name))) %>%
-  # exclude NSCLC v1.1 and v2.1-consortium and CRC v1.1 and v1.2-consortium releases
+  # exclude NSCLC v2.1-consortium and CRC v1.1 and v1.2-consortium releases
   # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
-  filter(!(cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.1-consortium")),
+  filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium")),
          !(cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium"))) %>%
   dplyr::mutate(
     filename_pre = str_remove(

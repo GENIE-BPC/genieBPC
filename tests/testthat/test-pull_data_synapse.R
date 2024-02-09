@@ -161,6 +161,17 @@ test_that("Number of columns and rows for each data release", {
   # requires update for each data release
   expected_length <- tibble::tribble(
     ~data_release, ~df, ~expected_nrow, ~expected_ncol,
+    "NSCLC_v1.1-consortium", "pt_char", 1849, 33,
+    "NSCLC_v1.1-consortium", "ca_dx_index", 1874, 110,
+    "NSCLC_v1.1-consortium", "ca_dx_non_index", 810, 83,
+    "NSCLC_v1.1-consortium", "ca_drugs", 4032, 114,
+    "NSCLC_v1.1-consortium", "prissmm_imaging", 35113, 42,
+    "NSCLC_v1.1-consortium", "prissmm_pathology", 8329, 195,
+    "NSCLC_v1.1-consortium", "prissmm_md", 24950, 11,
+    "NSCLC_v1.1-consortium", "cpt", 2026, 19,
+    "NSCLC_v1.1-consortium", "mutations_extended", 17574, 54,
+    "NSCLC_v1.1-consortium", "fusions", 821, 9,
+    "NSCLC_v1.1-consortium", "cna", 930, 1782,
     "NSCLC_v2.2-consortium", "pt_char", 1832, 35,
     "NSCLC_v2.2-consortium", "ca_dx_index", 1858, 152,
     "NSCLC_v2.2-consortium", "ca_dx_non_index", 791, 97,

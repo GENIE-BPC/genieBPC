@@ -120,11 +120,6 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     cli::cli_abort("Version needs to be specified.
                 Use {.code synapse_version()} to see what data is available.")
 
-  } else if (length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0){
-
-    cli::cli_abort("{.code version} must be one of the following:
-                       {unique(synapse_tables$version)}")
-
   } else if (length(select_cohort) < length(version)){
 
     cli::cli_abort(
@@ -132,36 +127,49 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
              Make sure cohort and version inputs have the same length.
          Use {.code synapse_version()} to see what data is available")
 
-  } else if (cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.1-consortium")){
-    cli::cli_abort("The NSCLC v1.1-consortium and v2.1-consortium releases have been replaced by the NSCLC v2.2-consortium release.
-                   AACR is asking users to delete any local copies of the v1.1-consortium and v2.1-consortium data and re-run analyses using the v2.2-consoritum or v2.0-public data.")
-  } else if (cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium")){
-    cli::cli_abort("The CRC v1.1-consortium and v1.2-consortium releases have been replaced by the CRC v1.3-consortium release.
-                   AACR is asking users to delete any local copies of the v1.1-consortium and v1.2-consortium data and re-run analyses using the v1.3-consoritum or v2.0-public data.")
   } else {
+    # create `version-number` ---
+    sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
+      dplyr::distinct()
 
-    rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
-                              multiple = TRUE)
+    version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
+                                         "version" = version))
 
-  }
+    # specific messaging when a version that was previously available is no longer
+    # available
+    # removed versions
+    removed_versions <- dplyr::tribble(~cohort, ~version,
+                                       "NSCLC", "v2.1-consortium",
+                                       "CRC", "v1.1-consortium",
+                                       "CRC", "v1.2-consortium")
 
-  # create `version-number` ---
-  sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
-    dplyr::distinct()
+    # only print for one removed version at a time
+    specified_version_removed <- dplyr::inner_join(removed_versions,
+                                                   version_num,
+                                                   by = c("cohort", "version")) %>%
+      dplyr::slice(1)
 
-  version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
-                                       "version" = version))
+    # version specified that doesn't exist
+    version_not_available <- dplyr::anti_join(version_num, sv,
+                                              by = c("cohort", "version"))
 
-  version_not_available <- dplyr::anti_join(version_num, sv,
-                                            by = c("cohort", "version"))
-
-  if (nrow(version_not_available) > 0) {
-    cli::cli_abort(c("You have selected a version that is not available for
-                     this cohort (use `synapse_tables` to see what versions
+     if (nrow(specified_version_removed) >0){
+      cli::cli_abort(c("The {.val {paste0(specified_version_removed, collapse = ' ')}} data release is no longer available. AACR is asking users to delete any local copies of the data and re-run analyses using more recently released data (use `synapse_tables` to see the currently available versions)",
+                       "x" = "{.val {paste0(specified_version_removed, collapse = ' ')}}"
+      ))
+    } else if (nrow(version_not_available) > 0 |
+               length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0) {
+      cli::cli_abort(c("You have selected a version that is not available for
+                     this cohort (use {.code synapse_version()} to see what versions
                      are available):",
-      "x" = "{.val {version_not_available}}"
-    ))
-  }
+                     "x" = "{.val {version_not_available}}"
+      ))
+      } else {
+        rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
+                              multiple = TRUE)
+      }
+    }
+
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%
