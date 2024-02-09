@@ -98,7 +98,7 @@ test_that("test `version` argument specification", {
       cohort = "BrCa",
       version = c("v2.1-consortium")
     ),
-    "`version` must be one of the following:*"
+    "You have selected a version that is not available for this cohort*"
   )
 })
 
@@ -107,13 +107,12 @@ test_that("correct release returned", {
   testthat::skip_if_not(.is_connected_to_genie())
 
   # not all data releases had a release_version variable
-  # test_list_release_version_avail <- within(test_list,
-  #                                           rm(`NSCLC_v1.1-consortium`,
-  #                                              `CRC_v1.1-consortium`))
+  test_list_release_version_avail <- within(test_list,
+                                            rm(`NSCLC_v1.1-consortium`))
 
   # for each data frame returned with a cohort, get the release_version variable
   # remove genomic data frames since we don't expect them to have a release_version variable
-  test_list_release_version_avail_no_genomic <- map_depth(test_list,
+  test_list_release_version_avail_no_genomic <- map_depth(test_list_release_version_avail,
                                                           .depth = 2,
                                                 ~within(.x,
                                                         rm(cna,
