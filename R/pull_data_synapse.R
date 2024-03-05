@@ -10,11 +10,12 @@
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 #'   and "BLADDER" (Bladder Cancer).
-#' @param version Vector specifying the version of the data. Must be a value
-#'   corresponding to a cohort via `synapse_version()`. When entering multiple
-#'   cohorts, the order of the version numbers corresponds to the order that the
-#'   cohorts are specified; the cohort and version number must be in the same
-#'   order in order to pull the correct data. See examples below.
+#' @param version Vector specifying the version of the cohort. Must match one of the
+#'   release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
+#'   When entering multiple cohorts, it is inferred that the order of the version
+#'   numbers passed corresponds to the order of the cohorts passed.
+#'   Therefore, `cohort` and `version` must be in the same
+#'   order to ensure the correct data versions are pulled. See examples below for details.
 #' @param download_location if `NULL` (default), data will be returned as a list
 #'   of dataframes with requested data as list items. Otherwise, specify a
 #'   folder path to have data automatically downloaded there. When a path is
