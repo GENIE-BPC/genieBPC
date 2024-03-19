@@ -55,7 +55,6 @@ order to use this function. To obtain access:
 
 5.  Select *Request Access*, **review the terms of data use,** and select *Accept.*
 
-
 ***For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):***
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#). Be sure to create a username and password. *Note: do NOT connect via your Google account.*
