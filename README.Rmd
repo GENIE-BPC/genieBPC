@@ -136,16 +136,7 @@ its corresponding variables for each data release.
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
     
--   [NSCLC v2.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26008058)
-    
 -   [NSCLC v2.2-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463493)
-    
--   [CRC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23764204)
-    
--   [CRC v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077308)
     
 -   [CRC v1.3-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463650)
     

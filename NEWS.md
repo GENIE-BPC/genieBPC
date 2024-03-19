@@ -4,6 +4,7 @@
 
 * Add 'cohort' parameter to `synapse_version()` to enable the user to subset by cohort(s) of interest
 
+
 # genieBPC (1.1.0.9004)
 
 * Updated `genieBPC::nsclc_test_data` to ensure unique sample ids for CNA file.
