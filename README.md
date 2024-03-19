@@ -110,6 +110,30 @@ order to use this function. To obtain access:
 distinct. Both permissions must be accepted to successfully access the
 data.*
 
+***Request a Synapse Personal Access Token (PAT):***
+
+Once you are logged into your Synapse account, you may request a Synapse
+personal access token (PAT).
+
+1.  In the left hand panel towards the bottom, click the button that
+    shows the first letter of your first name. This button displays the
+    text “Your Account” when hovered over and appears directly above the
+    question mark button.
+
+2.  Next, select *Account Settings* and then scroll to the bottom of the
+    page.
+
+3.  Under the “Personal Access Tokens” section, select *Manage Personal
+    Access Tokens.*
+
+4.  On the “Personal Access Tokens” page, click on *Create New Token* to
+    generate a Synapse Personal Access Token.
+
+5.  Specify a Token Name and click the checkbox that will allow you to
+    *Download* the data, and then select *Create Token.*
+
+6.  Save your Synapse Personal Access Token in a secure location.
+
 ***Authenticate yourself***
 
 Whether you are using public or consortium data, you will need to
@@ -164,6 +188,9 @@ releases.*
 
 - [BLADDER v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30787692)
+
+- [BLADDER v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn53018714)
 
 - [Prostate v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30148714)
