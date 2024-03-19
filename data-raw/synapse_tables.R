@@ -23,6 +23,7 @@ release_dates <- tibble::tribble(
   "Prostate", "v1.2-consortium", "2023-01"
 )
 
+
 # get list of all folders in the consortium and public data releases folders
 data_release_folders <- list("syn21241322", "syn27056700")
 names(data_release_folders) <- c("Consortium", "Public")
