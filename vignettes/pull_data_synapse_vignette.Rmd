@@ -38,7 +38,6 @@ The `pull_data_synapse()` function accesses the specified version of the clinica
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
-
 ## Setup
 
 Access to the GENIE BPC data release folders on 'Synapse' is required in
