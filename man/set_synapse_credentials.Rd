@@ -31,6 +31,10 @@ Users must authenticate themselves in their current R session.
 To set your 'Synapse' credentials during each session, call:
  `set_synapse_credentials(username = "your_username", password = "your_password")`.
 
+In addition to passing your 'Synapse' username and password, you may choose to set
+your 'Synapse' Personal Access Token (PAT) by calling:
+ `set_synapse_credentials(pat = "your_pat")`.
+
 If your credentials are stored as environmental variables, you do not need to call
 `set_synapse_credentials()` explicitly each session. To store authentication
 information in your environmental variables, add the following to your
@@ -40,9 +44,10 @@ information in your environmental variables, add the following to your
 \itemize{
    \item `SYNAPSE_USERNAME = <your-username>`
    \item `SYNAPSE_PASSWORD = <your-password>`
+   \item `SYNAPSE_PAT = <your-pat>`
    }
 
-Alternatively, you can pass your username and password to each individual
+Alternatively, you can pass your username and password or your PAT to each individual
 data pull function if preferred, although it is recommended that you manage
 your passwords outside of your scripts for security purposes.
 }
