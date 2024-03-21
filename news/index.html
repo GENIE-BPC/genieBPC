@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,17 +62,40 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="geniebpc-development-version">genieBPC (development version)<a class="anchor" aria-label="anchor" href="#geniebpc-development-version"></a></h2>
-<ul><li><p>Add BLADDER v1.2-consortium data release</p></li>
-<li><p>Add ‘cohort’ parameter to <code><a href="../reference/synapse_version.html">synapse_version()</a></code> to enable the user to subset by cohort(s) of interest</p></li>
+<ul><li><p>Add ‘cohort’ parameter to <code><a href="../reference/synapse_version.html">synapse_version()</a></code> to enable the user to subset by cohort(s) of interest</p></li>
+<li><p>Updated <code><a href="../reference/nsclc_test_data.html">genieBPC::nsclc_test_data</a></code> to ensure unique sample ids for CNA file.</p></li>
+<li><p>Updated <code><a href="../reference/nsclc_test_data.html">genieBPC::nsclc_test_data</a></code> to randomly sample from cancer diagnosis dataset, stratified by stage, and incorporate genomic data into dataset.</p></li>
+<li><p>Updated README and ‘Pull Data Synapse Vignette’ to clarify instructions for registering for a ‘Synapse’ account (<a href="https://github.com/GENIE-BPC/genieBPC/issues/100" class="external-link">#100</a>, <a href="https://github.com/GENIE-BPC/genieBPC/issues/105" class="external-link">#105</a>)</p></li>
+<li><p>Add publications (<a href="https://github.com/GENIE-BPC/genieBPC/issues/96" class="external-link">#96</a>, <a href="https://github.com/GENIE-BPC/genieBPC/issues/110" class="external-link">#110</a>)</p></li>
+<li><p>Add information about genomic differences between genomic data downloaded from cBioPortal versus Synapse (<a href="https://github.com/GENIE-BPC/genieBPC/issues/92" class="external-link">#92</a>)</p></li>
+<li><p>Update tests to test across all data releases (<a href="https://github.com/GENIE-BPC/genieBPC/issues/56" class="external-link">#56</a>)</p></li>
+<li><p>Fix bug related to radiation therapy data not being returned in <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code></p></li>
+</ul><div class="section level4">
+<h4 id="data-release-updates-development-version">Data Release Updates<a class="anchor" aria-label="anchor" href="#data-release-updates-development-version"></a></h4>
+<ul><li><p>Added <strong>BLADDER v1.2-consortium</strong> release</p></li>
+<li><p>Added <strong>NSCLC 2.3-consortium</strong> release</p></li>
+<li><p>Added <strong>CRC v1.3-consortium</strong> release</p></li>
+<li><p>Removed <strong>NSCLC 2.1-consortium</strong> release - Due to the inadvertent inclusion of data indicative of ages over 89 for data associated with the Project GENIE BioPharma Collaborative, this release was replaced with the <strong>NSCLC 2.3-consortium</strong> release.</p></li>
+<li><p>Removed <strong>CRC v1.1-consortium</strong> release - Due to the inadvertent inclusion of data indicative of ages over 89 for data associated with the Project GENIE BioPharma Collaborative, this release was replaced with the newly added <strong>CRC v1.3-consortium</strong> release.</p></li>
+<li><p>Removed <strong>CRC v1.2-consortium</strong> release - Due to the inadvertent inclusion of data indicative of ages over 89 for data associated with the Project GENIE BioPharma Collaborative, this release was replaced with the newly added <strong>CRC v1.3-consortium</strong> release.</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="geniebpc-110">genieBPC 1.1.0<a class="anchor" aria-label="anchor" href="#geniebpc-110"></a></h2><p class="text-muted">CRAN release: 2023-03-03</p>
-<ul><li><p>Add PANC v1.1-consortium, Prostate v1.1-consortium, BrCa 1.2-consortium, PANC v1.2-consortium, Prostate v1.2-consortium, CRC 2.0-public data releases</p></li>
-<li><p>Removed <code>fetch_samples()</code> function (<a href="https://github.com/GENIE-BPC/genieBPC/issues/91" class="external-link">#91</a>)</p></li>
+<ul><li><p>Removed <code>fetch_samples()</code> function (<a href="https://github.com/GENIE-BPC/genieBPC/issues/91" class="external-link">#91</a>)</p></li>
 <li><p>Updated <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> to read “NA” as NA values instead of as character “NA” so that CNA columns are numeric, as expected (<a href="https://github.com/GENIE-BPC/genieBPC/issues/88" class="external-link">#88</a>)</p></li>
 <li><p>Ensure consistent order of datasets returned from calls to <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code></p></li>
 <li><p>Added citations &amp; links to GENIE BPC publications to README</p></li>
+</ul><div class="section level4">
+<h4 id="data-release-updates-1-1-0">Data Release Updates<a class="anchor" aria-label="anchor" href="#data-release-updates-1-1-0"></a></h4>
+<ul><li><p>Added <strong>PANC v1.1-consortium</strong> release</p></li>
+<li><p>Added <strong>Prostate v1.1-consortium</strong> release</p></li>
+<li><p>Added <strong>BrCa 1.2-consortium</strong> release</p></li>
+<li><p>Added <strong>PANC v1.2-consortium</strong> release</p></li>
+<li><p>Added <strong>Prostate v1.2-consortium</strong> release</p></li>
+<li><p>Added <strong>CRC 2.0-public</strong> release</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="geniebpc-101">genieBPC 1.0.1<a class="anchor" aria-label="anchor" href="#geniebpc-101"></a></h2><p class="text-muted">CRAN release: 2022-10-27</p>
 <ul><li><p>Updates to <code><a href="../reference/select_unique_ngs.html">select_unique_ngs()</a></code> documentation and vignettes, as well as clarification of the messaging returned when the function is run (<a href="https://github.com/GENIE-BPC/genieBPC/issues/57" class="external-link">#57</a>)</p></li>
@@ -87,13 +110,16 @@
 <h2 class="pkg-version" data-toc-text="1.0.0" id="geniebpc-100">genieBPC 1.0.0<a class="anchor" aria-label="anchor" href="#geniebpc-100"></a></h2><p class="text-muted">CRAN release: 2022-08-14</p>
 <ul><li><p>Changed <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> to <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> in <code><a href="../reference/select_unique_ngs.html">select_unique_ngs()</a></code></p></li>
 <li><p>Removed <code>TramineR</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/50" class="external-link">#50</a>)</p></li>
-<li><p>Incorporated the most recent public and consortium data releases (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/42" class="external-link">#42</a>)</p></li>
 <li><p>Removed <code>synapser</code> from dependencies file (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/45" class="external-link">#45</a>)</p></li>
 <li><p>Fixed <code>cpt_sample_type</code>/<code>sample_type</code> issue in <code>fetch_samples.R</code> (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/43" class="external-link">#43</a>)</p></li>
 <li><p>Added <code><a href="../reference/dot-is_connected_to_genie.html">.is_connected_to_genie()</a></code> to replace <code>.check_synapse_login()</code> and return logical TRUE/FALSE. This is an internal function that can be used to trigger tests/checks as needed and will hopefully allow the package to now pass the CRAN checks.</p></li>
 <li><p>Added drug names for breast cancer cohort</p></li>
 <li><p>Update examples to use test data, when possible</p></li>
+</ul><div class="section level4">
+<h4 id="data-release-updates-1-0-0">Data Release Updates<a class="anchor" aria-label="anchor" href="#data-release-updates-1-0-0"></a></h4>
+<ul><li>Incorporated the most recent public and consortium data releases (issue <a href="https://github.com/GENIE-BPC/genieBPC/issues/42" class="external-link">#42</a>)</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="geniebpc-010">genieBPC 0.1.0<a class="anchor" aria-label="anchor" href="#geniebpc-010"></a></h2>
 <ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>

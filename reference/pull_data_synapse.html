@@ -18,7 +18,7 @@ for further documentation and examples."><!-- mathjax --><script src="https://cd
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,12 +98,12 @@ and "BLADDER" (Bladder Cancer).</p></dd>
 
 
 <dt>version</dt>
-<dd><p>Vector specifying the version of the data. Must be one of the
-following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
-"v2.0-public". When entering multiple cohorts, the order of the version
-numbers corresponds to the order that the cohorts are specified; the cohort
-and version number must be in the same order in order to pull the correct
-data. See examples below.</p></dd>
+<dd><p>Vector specifying the version of the cohort. Must match one of the
+release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
+When entering multiple cohorts, it is inferred that the order of the version
+numbers passed corresponds to the order of the cohorts passed.
+Therefore, `cohort` and `version` must be in the same
+order to ensure the correct data versions are pulled. See examples below for details.</p></dd>
 
 
 <dt>download_location</dt>
@@ -156,10 +156,9 @@ your passwords outside of your scripts for security purposes.</p>
 
 <p>Documentation corresponding to the clinical data files
   can be found on 'Synapse' in the Analytic Data Guides:</p><ul><li><p><a href="https://www.synapse.org/#!Synapse:syn23002641" class="external-link">NSCLC v1.1-Consortium Analytic Data Guide</a></p></li>
-<li><p><a href="https://www.synapse.org/#!Synapse:syn26008058" class="external-link">NSCLC v2.1-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn53463493" class="external-link">NSCLC v2.2-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn30557304" class="external-link">NSCLC v2.0-Public Analytic Data Guide</a></p></li>
-<li><p><a href="https://www.synapse.org/#!Synapse:syn23764204" class="external-link">CRC v1.1-Consortium Analytic Data Guide</a></p></li>
-<li><p><a href="https://www.synapse.org/#!Synapse:syn26077308" class="external-link">CRC v1.2-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn53463650" class="external-link">CRC v1.3-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn31751466" class="external-link">CRC v2.0-Public Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa v1.1-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn32330194" class="external-link">BrCa v1.2-Consortium Analytic Data Guide</a></p></li>
@@ -181,7 +180,7 @@ your passwords outside of your scripts for security purposes.</p>
 <span class="r-in"><span><span class="co"># Set up 'Synapse' credentials</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="set_synapse_credentials.html">set_synapse_credentials</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> You are now connected to 'Synapse' as</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">browns7</span> for this R session!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">bstgeniebpc</span> for this R session!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print available versions of the data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="synapse_version.html">synapse_version</a></span><span class="op">(</span>most_recent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -190,32 +189,32 @@ your passwords outside of your scripts for security purposes.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BLADDER  v1.2-consortium 2023-11      Most Recent Versions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> BrCa     v1.2-consortium 2022-10      Most Recent Versions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> CRC      v1.2-consortium 2021-08      Most Recent Versions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> CRC      v2.0-public     2022-10      Most Recent Versions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> NSCLC    v2.1-consortium 2021-08      Most Recent Versions</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> NSCLC    v2.0-public     2022-05      Most Recent Versions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> CRC      v2.0-public     2022-10      Most Recent Versions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> CRC      v1.3-consortium 2024-02      Most Recent Versions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> NSCLC    v2.0-public     2022-05      Most Recent Versions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> NSCLC    v2.2-consortium 2024-02      Most Recent Versions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> PANC     v1.2-consortium 2023-01      Most Recent Versions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Prostate v1.2-consortium 2023-01      Most Recent Versions</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pull version 2.0-public for non-small cell lung cancer</span></span></span>
-<span class="r-in"><span><span class="co"># and version 1.1-consortium for colorectal cancer data</span></span></span>
+<span class="r-in"><span><span class="co"># and version 2.0-public for colorectal cancer data</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">pull_data_synapse</span><span class="op">(</span></span></span>
-<span class="r-in"><span>   cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"BrCa"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>   version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v2.0-public"</span>, <span class="st">"v1.1-consortium"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v2.0-public"</span>, <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">tumor_marker</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"BrCa_v1.1"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">tumor_marker</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"CRC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
@@ -229,7 +228,7 @@ your passwords outside of your scripts for security purposes.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ex1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BrCa_v1.1"  "NSCLC_v2.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CRC_v2.0"   "NSCLC_v2.0"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
