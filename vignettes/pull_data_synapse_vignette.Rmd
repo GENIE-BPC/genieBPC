@@ -38,7 +38,6 @@ The `pull_data_synapse()` function accesses the specified version of the clinica
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
-
 ## Setup
 
 Access to the GENIE BPC data release folders on 'Synapse' is required in
@@ -155,11 +154,11 @@ ls(nsclc_2_0$NSCLC_v2.0) %>%
 
 ### Example 2
 
-Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
+Pull version 2.2-consortium of the NSCLC data and version 1.3-consortium of the CRC data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"), 
-                  version = c("v2.1-consortium","v1.1-consortium"))
+                  version = c("v2.2-consortium","v1.3-consortium"))
 ```
 
 

@@ -3,11 +3,11 @@
 # each test
 testthat::expect_true(length(if (.is_connected_to_genie()) {
   nsclc_data <- pull_data_synapse("NSCLC",
-    version = "v1.1-consortium"
+    version = "v2.0-public"
   )
 
   cohort <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v2.0,
     stage_dx = c("Stage IV"),
     histology = "Adenocarcinoma",
     regimen_drugs = "Afatinib Dimaleate",
@@ -15,7 +15,7 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
   )
 
   plot1 <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v2.0,
     data_cohort = cohort,
     max_n_regimens = 4
   )
@@ -83,7 +83,7 @@ test_that("data_cohort parameter", {
 
   # data_cohort parameter is a list, but isn't the right list
   expect_error(drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v2.0,
     data_cohort = list("a", "b")
   ))
 })
@@ -93,14 +93,14 @@ test_that("lines of tx specified", {
 
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v2.0,
     data_cohort = cohort
   )
 
 
   # compare to manually inputting the max number
   max_n <- left_join(cohort$cohort_ca_dx,
-    nsclc_data$NSCLC_v1.1$ca_drugs,
+    nsclc_data$NSCLC_v2.0$ca_drugs,
     by = c("cohort", "record_id", "ca_seq"),
     multiple = "all"
   ) %>%
@@ -110,7 +110,7 @@ test_that("lines of tx specified", {
     pull(n_reg)
 
   test1b <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v1.1,
+    data_synapse = nsclc_data$NSCLC_v2.0,
     data_cohort = cohort,
     max_n_regimens = max_n
   )
