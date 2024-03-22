@@ -216,7 +216,7 @@ create_analytic_cohort <- function(data_synapse,
   # participating institutions by cohort
   if (sum(
     !missing(institution),
-    grepl("^NSCLC$|^PANC$|^BLADDER$", stringr::str_to_upper(cohort_temp)) > 0
+    grepl("^NSCLC$|^PANC$|^BLADDER$|^PROSTATE$", stringr::str_to_upper(cohort_temp)) > 0
   ) > 1) {
     if (sum(!grepl(
       c("^DFCI$|^MSK$|^VICC$|^UHN$"),
