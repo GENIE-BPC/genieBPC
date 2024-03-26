@@ -1,11 +1,10 @@
-test_that("Missing cohort parameter", {
-  expect_error(pull_data_synapse())
-})
 
-# pull data for each cohort
+# Pull Data For Each Cohort ----------------------------------------------
+
 # return to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(length(if (.is_connected_to_genie()) {
+testthat::expect_true(length(
+  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -43,8 +42,10 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
     )
 }) > 0)
 
+
+
 test_that("Test class and length of list for public data", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # compare to expected length
   expect_equal(data_releases$expected_n_dfs, actual_length$length)
@@ -55,8 +56,19 @@ test_that("Test class and length of list for public data", {
   expect_equal(unname(map_chr(test_list, class)), rep("list", nrow(data_releases)))
 })
 
+# Check Arguments ----------------------------------------------
+
+test_that("Missing cohort parameter", {
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+  expect_error(pull_data_synapse())
+
+})
+
+
 test_that("test `cohort` argument specification", {
   # try to misspecify cohort (lower cases instead of capital)
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   expect_error(pull_data_synapse(
     cohort = "nsclc",
     version = "v2.2-consortium"
@@ -64,6 +76,7 @@ test_that("test `cohort` argument specification", {
 })
 
 test_that("test `version` argument specification", {
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   # no version specified
   expect_error(
     pull_data_synapse(
@@ -102,9 +115,12 @@ test_that("test `version` argument specification", {
   )
 })
 
+
+# Check Pull Results ----------------------------------------------
+
 test_that("correct release returned", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # not all data releases had a release_version variable
   test_list_release_version_avail <- within(test_list,
@@ -140,7 +156,7 @@ test_that("correct release returned", {
 })
 
 test_that("Number of columns and rows for each data release", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # get number of columns for each dataframe returned
   col_lengths <- map_depth(test_list, .depth = 3, length) %>%
@@ -341,7 +357,7 @@ test_that("Number of columns and rows for each data release", {
 })
 
 test_that("Test NA conversion", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # making sure there are no character "" instead of NAs
   # count number of character "" across all columns
@@ -362,3 +378,8 @@ test_that("Test NA conversion", {
 
   expect_equal(nrow(any_blank_cols), 0)
 })
+
+
+
+# Check Consortium username/password works
+# Check Public -  General Pull Function Works for all data. Also add username and password checks
