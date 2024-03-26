@@ -19,12 +19,12 @@ one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 and "BLADDER" (Bladder Cancer).}
 
-\item{version}{Vector specifying the version of the data. Must be one of the
-following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
-"v2.0-public". When entering multiple cohorts, the order of the version
-numbers corresponds to the order that the cohorts are specified; the cohort
-and version number must be in the same order in order to pull the correct
-data. See examples below.}
+\item{version}{Vector specifying the version of the cohort. Must match one of the
+release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
+When entering multiple cohorts, it is inferred that the order of the version
+numbers passed corresponds to the order of the cohorts passed.
+Therefore, `cohort` and `version` must be in the same
+order to ensure the correct data versions are pulled. See examples below for details.}
 
 \item{download_location}{if `NULL` (default), data will be returned as a list
 of dataframes with requested data as list items. Otherwise, specify a
@@ -86,10 +86,9 @@ your passwords outside of your scripts for security purposes.
   can be found on 'Synapse' in the Analytic Data Guides:
 \itemize{
   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
-  \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn53463493}{NSCLC v2.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
-  \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
-  \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
@@ -112,11 +111,11 @@ set_synapse_credentials()
 synapse_version(most_recent = TRUE)
 
 # Pull version 2.0-public for non-small cell lung cancer
-# and version 1.1-consortium for colorectal cancer data
+# and version 2.0-public for colorectal cancer data
 
  ex1 <- pull_data_synapse(
-   cohort = c("NSCLC", "BrCa"),
-   version = c("v2.0-public", "v1.1-consortium")
+   cohort = c("NSCLC", "CRC"),
+   version = c("v2.0-public", "v2.0-public")
  )
 
  names(ex1)

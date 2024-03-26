@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 [![R-cmd-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-cmd-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/genieBPC)](https://cran.r-project.org/package=genieBPC)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://app.codecov.io/gh/GENIE-BPC/genieBPC)
-![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -153,14 +152,9 @@ its corresponding variables for each data release.
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
     
--   [NSCLC v2.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26008058)
+-   [NSCLC v2.2-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463493)
     
--   [CRC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23764204)
-    
--   [CRC v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077308)
+-   [CRC v1.3-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463650)
     
 -   [BrCa v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)

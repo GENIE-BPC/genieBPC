@@ -28,12 +28,12 @@ Function to retrieve data by synapse ID
 temp_directory <- tempdir()
 
 syn_df <- data.frame(
-  cohort = c("NSCLC", "NSCLC", "NSCLC"),
-  version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
-  version_num = c("NSCLC_v2.1", "NSCLC_v2.1", "NSCLC_v2.1"),
-  download_folder = c(temp_directory, temp_directory, temp_directory),
-  df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
-  synapse_id = c("syn25985884", "syn25985882", "syn25985883")
+  cohort = c("NSCLC", "NSCLC"),
+  version = c("v2.2-consortium", "v2.0-public"),
+  version_num = c("NSCLC_v2.2", "NSCLC_v2.0"),
+  download_folder = c(temp_directory, temp_directory),
+  df = c("pt_char", "ca_dx_index"),
+  synapse_id = c("syn53470868", "syn30350575")
 )
 
 .pull_data_by_cohort(
