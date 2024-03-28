@@ -242,9 +242,9 @@ C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE
 Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas
 KS. [A Scalable Quality Assurance Process for Curating Oncology
 Electronic Health Records: The Project GENIE Biopharma Collaborative
-Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin
-Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
-35192403; PMCID: PMC8863125.
+Approach.](https://doi.org/10.1200/CCI.21.00105) JCO Clin Cancer Inform.
+2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID: 35192403; PMCID:
+PMC8863125.
 
 Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM,
 Rizvi H, McCarthy CG, Schultz N, Warner JL, Park BH, Bedard PL, Riely
