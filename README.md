@@ -220,7 +220,7 @@ Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz
 N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world
 repository integrating standardized clinical and genomic data for 1,846
 patients with non-small cell lung
-cancer](https://aacrjournals.org/clincancerres/article/doi/10.1158/1078-0432.CCR-23-0580/727800/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
+cancer](https://aacrjournals.org/clincancerres/article/29/17/3418/728542/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
 Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
 
 Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas
