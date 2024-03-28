@@ -1,4 +1,4 @@
-# genieBPC (development version)
+# genieBPC v1.1.1
 
 * Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)
 
