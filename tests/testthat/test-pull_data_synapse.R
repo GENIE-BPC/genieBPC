@@ -5,7 +5,7 @@ test_that("Missing cohort parameter", {
 # pull data for each cohort
 # return to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(length(if (.is_connected_to_genie()) {
+testthat::expect_true(if (.is_connected_to_genie()) {
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -41,7 +41,9 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
       values_to = "length",
       values_drop_na = TRUE
     )
-}) > 0)
+
+  length(actual_length) > 0
+} else {0 == 0})
 
 test_that("Test class and length of list for public data", {
   skip_if_not(.is_connected_to_genie())
@@ -64,6 +66,8 @@ test_that("test `cohort` argument specification", {
 })
 
 test_that("test `version` argument specification", {
+  skip_if_not(.is_connected_to_genie())
+
   # no version specified
   expect_error(
     pull_data_synapse(
