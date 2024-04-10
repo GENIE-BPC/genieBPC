@@ -58,6 +58,51 @@ test_that("Test something is returned", {
   expect_error(plot1, NA)
 })
 
+test_that("Runs for all cohorts", {
+  skip_if_not(genieBPC:::.is_connected_to_genie())
+
+  # NSCLC
+  nsclc_v2_0 <- pull_data_synapse("NSCLC", "v2.0-public")
+  nsclc_cohort <- create_analytic_cohort(nsclc_v2_0$NSCLC_v2.0)
+  testthat::expect_no_error(drug_regimen_sunburst(nsclc_v2_0$NSCLC_v2.0, nsclc_cohort,
+                                                  max_n_regimens = 3))
+
+  # CRC
+  crc_v2_0 <- pull_data_synapse("CRC", "v2.0-public")
+  crc_cohort <- create_analytic_cohort(crc_v2_0$CRC_v2.0)
+  testthat::expect_no_error(drug_regimen_sunburst(crc_v2_0$CRC_v2.0,
+                                                  crc_cohort,
+                                                  max_n_regimens = 3))
+
+  # BrCa
+  brca_v1_2 <- pull_data_synapse("BrCa", "v1.2-consortium")
+  brca_cohort <- create_analytic_cohort(brca_v1_2$BrCa_v1.2)
+  testthat::expect_no_error(drug_regimen_sunburst(brca_v1_2$BrCa_v1.2,
+                                                  brca_cohort,
+                                                  max_n_regimens = 3))
+
+  # PANC
+  panc_v1_2 <- pull_data_synapse("PANC", "v1.2-consortium")
+  panc_cohort <- create_analytic_cohort(panc_v1_2$PANC_v1.2)
+  testthat::expect_no_error(drug_regimen_sunburst(panc_v1_2$PANC_v1.2,
+                                                  panc_cohort,
+                                                  max_n_regimens = 3))
+
+  # Prostate
+  prostate_v1_2 <- pull_data_synapse(cohort = "Prostate", version = "v1.2-consortium")
+  prostate_cohort <- create_analytic_cohort(data_synapse = prostate_v1_2$Prostate_v1.2)
+  testthat::expect_no_error(drug_regimen_sunburst(prostate_v1_2$Prostate_v1.2,
+                                                  prostate_cohort,
+                                                  max_n_regimens = 3))
+
+  # Bladder
+  bladder_v1_2 <- pull_data_synapse(cohort = "BLADDER", version = "v1.2-consortium")
+  bladder_cohort <- create_analytic_cohort(data_synapse = bladder_v1_2$BLADDER_v1.2)
+  testthat::expect_no_error(drug_regimen_sunburst(bladder_v1_2$BLADDER_v1.2,
+                                                  bladder_cohort,
+                                                  max_n_regimens = 3))
+})
+
 test_that("data_synapse parameter", {
   # missing the data_synapse input parameter
   expect_error(drug_regimen_sunburst())

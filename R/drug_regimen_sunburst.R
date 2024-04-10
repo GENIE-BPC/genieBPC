@@ -72,15 +72,19 @@ drug_regimen_sunburst <- function(data_synapse,
   }
 
   # if the data_synapse parameter is a list but not the right list
-  if (is.null(names(data_synapse)) |
-    min(grepl(
-      "pt_char|ca_dx|ca_drugs|prissmm|cpt|cna|fusions|mutations",
-      names(data_synapse)
-    )) == 0) {
+  if (is.null(names(data_synapse))) {
     stop("Specify the list object returned from pull_data_synapse in the
          `data_synapse` parameter.")
+  } else if (sum(grepl(
+    "pt_char|ca_dx|ca_drugs|prissmm|cpt|cna|fusions|mutations",
+    names(data_synapse)
+  )) < 11) {
+    stop("Specify the list object returned from pull_data_synapse in the
+         `data_synapse` parameter containing the nested list with the dataframes:
+         pt_char, ca_dx_index, ca_dx_non_index, ca_drugs,
+         prissmm_imaging, prissmm_pathology, prissmm_md, cpt,
+         mutations_extended, fusions, and cna.")
   }
-
 
 
   # get the name of the cohort from the data_synapse object naming convention
