@@ -21,3 +21,5 @@ test_that("explicitly call user/pass but set wrong and PAT is in environ", {
   )
 })
 
+# <needs more authentication tests testing if authentication works in all scenerios using PAT/username etc>
+# <what happens when you pass username only and no password? what happens when username is not NULL but pat is also passed? etc...>
