@@ -1,7 +1,9 @@
 # pull data for each cohort
 # return to to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(length(if (.is_connected_to_genie()) {
+testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   nsclc_data <- pull_data_synapse("NSCLC",
     version = "v2.0-public"
   )
@@ -11,7 +13,8 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
   nsclc_data <- list("a")
 }) > 0)
 
-testthat::expect_true(length(if (.is_connected_to_genie()) {
+testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   crc_data <- pull_data_synapse("CRC",
     version = "v2.0-public"
   )
