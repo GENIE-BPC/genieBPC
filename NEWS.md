@@ -1,6 +1,6 @@
-# genieBPC (development version)
+# genieBPC 1.1.1
 
-* Updated code for default insitution in `create_analytic_cohort()` to fix bug if the cohort was Prostate (#130)
+* Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)
 
 * Add 'cohort' parameter to `synapse_version()` to enable the user to subset by cohort(s) of interest
 

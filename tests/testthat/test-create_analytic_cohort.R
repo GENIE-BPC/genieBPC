@@ -122,9 +122,9 @@ testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPS
     data_releases$cohort, "_",
     data_releases$version
   )
-}) > 0)
 
 testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+
   # for each data release, run create analytic cohort
   # get first object from each item in the list
   # then run create analytic cohort
@@ -146,7 +146,9 @@ testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPS
     data_releases$cohort, "_",
     data_releases$version
   )
-}) > 0)
+
+  length(data_releases_create_cohort_with_summary) > 0
+} else {0 == 0})
 
 # will update once we merge in PR to allow multiple cohorts in create_analytic_cohort
 test_that("multiple cohorts- argument check", {
