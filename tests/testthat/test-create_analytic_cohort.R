@@ -94,7 +94,8 @@ test_that("stage_dx- argument check", {
 # pull data for each cohort
 # return to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -123,7 +124,12 @@ testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPS
     data_releases$version
   )
 
-testthat::expect_true(length(if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+  length(data_releases_pull_data) > 0 } else {
+  0 == 0
+  })
+
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
 
   # for each data release, run create analytic cohort
   # get first object from each item in the list

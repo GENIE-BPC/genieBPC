@@ -3,8 +3,8 @@
 
 # return to avoid having to re-run pull_data_synapse for
 # each test
-
-testthat::expect_true(if (.is_connected_to_genie()) {
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -382,28 +382,26 @@ test_that("Test NA conversion", {
 })
 
 
-# NOT WORKING
 # Pull Data With Username ----------------------------------------------
-# test_that("Test class and length of list for public data", {
-#   skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
-#                                      password = Sys.getenv("SYNAPSE_PASSWORD")))
-#
-#   set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME"),
-#                           password = Sys.getenv("SYNAPSE_PASSWORD"),
-#                           pat = NULL)
-#
-#   data_releases_username <- synapse_tables %>%
-#     distinct(cohort, version) %>%
-#     head(n = 2)
-#
-#   test_list <- pmap(select(data_releases_username, cohort, version),
-#                     pull_data_synapse)
-#
-# })
+test_that("Test class and length of list for public data", {
+  skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
+                                     password = Sys.getenv("SYNAPSE_PASSWORD")))
+
+  set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME"),
+                          password = Sys.getenv("SYNAPSE_PASSWORD"),
+                          pat = NULL)
+
+  data_releases_username <- synapse_tables %>%
+    distinct(cohort, version) %>%
+    head(n = 2)
+
+  test_list <- expect_no_error(pmap(select(data_releases_username, cohort, version),
+                    pull_data_synapse))
+
+})
 
 
 # Pull Public Data --------------------------------------------------------
-
 
 testthat::expect_true(length(
   if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))) {
