@@ -463,22 +463,19 @@ test_that("Test class and length of list for public data", {
 
 
 
-# No Terms ----------------------------------------------------------------
+# No Terms: Pull Public Data With Pat -----------------------------------------
 
+testthat::expect_true(length(
+  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS"))) {
 
-test_that("Test class and length of list for public data", {
-  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS"))
 
-  # compare to expected length
-  expect_equal(data_releases_public$expected_n_dfs, actual_length$length)
+    expect_error(
+      pull_data_synapse(
+        cohort = "CRC",
+        version = "v2.0-public"
+      )
+    )
 
-  # compare to expected class
-  # expect each data release returned to be a list, need to rep "list" the
-  # number of times for the data releases we have
-  expect_equal(unname(map_chr(test_list, class)), rep("list", nrow(data_releases_public)))
 })
 
-
-
-# Check Consortium username/password works
-# Check Public -  General Pull Function Works for all data. Also add username and password checks
