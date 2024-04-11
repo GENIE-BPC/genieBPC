@@ -1,5 +1,5 @@
 
-# Pull Data With Pat ----------------------------------------------
+# Pull Consortium Data With Pat ----------------------------------------------
 
 # return to avoid having to re-run pull_data_synapse for
 # each test
@@ -118,7 +118,7 @@ test_that("test `version` argument specification", {
 })
 
 
-# Check Pull Results ----------------------------------------------
+# Check Results of Pull ----------------------------------------------
 
 test_that("correct release returned", {
   # exit if user doesn't have a synapse log in or access to data.
@@ -382,7 +382,7 @@ test_that("Test NA conversion", {
 })
 
 
-# Pull Data With Username ----------------------------------------------
+# Pull Consortium Data With Username ----------------------------------------------
 test_that("Test class and length of list for public data", {
   skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
                                      password = Sys.getenv("SYNAPSE_PASSWORD")))
@@ -401,7 +401,7 @@ test_that("Test class and length of list for public data", {
 })
 
 
-# Pull Public Data --------------------------------------------------------
+# Pull Public Data With Pat --------------------------------------------------------
 
 testthat::expect_true(length(
   if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))) {

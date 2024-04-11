@@ -41,6 +41,10 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
       SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
       SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
+      SYNAPSE_PAT: ${{ secrets.SYNAPSE_PAT }}
+      SYNAPSE_USERNAME_PUBLIC: ${{ secrets.SYNAPSE_USERNAME_PUBLIC }}
+      SYNAPSE_PASSWORD_PUBLIC: ${{ secrets.SYNAPSE_PASSWORD_PUBLIC }}
+      SYNAPSE_PAT_PUBLIC: ${{ secrets.SYNAPSE_PAT_PUBLIC }}
 
     steps:
       - uses: actions/checkout@v2
