@@ -109,7 +109,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # get `cohort` ---
 
   # make cohort term not be case sensitive - will require update as new disease areas are added
-  cohort_case <- dplyr::case_when(
+  cohort <- dplyr::case_when(
     stringr::str_to_upper(cohort)=="NSCLC" |
       stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
       stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
@@ -118,10 +118,14 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     stringr::str_to_upper(cohort)=="BRCA" | stringr::str_to_upper(cohort)=="BREAST CANCER"~ "BrCa",
     stringr::str_to_upper(cohort)=="BLADDER" ~ "BLADDER",
     stringr::str_to_upper(cohort)=="PANC" | stringr::str_to_upper(cohort)=="PANCREAS" ~ "PANC",
-    stringr::str_to_upper(cohort)=="PROSTATE" ~ "Prostate"
+    stringr::str_to_upper(cohort)=="PROSTATE" ~ "Prostate",
+    # last condition to avoid error message:
+    # '`cohort` must be a single string, not a character `NA`.'
+    # when an NA is fed into arg_match below
+    TRUE ~ cohort
   )
 
-  select_cohort <- rlang::arg_match(cohort_case, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
+  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
     multiple = TRUE
   )
 
