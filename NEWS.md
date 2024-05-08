@@ -1,3 +1,7 @@
+# genieBPC (development)
+
+* Update `drug_regimen_list` lookup table to include drug names by data release, as opposed to by cohort. It is possible that drug names were modified slightly across data releases (#132)
+
 # genieBPC 1.1.1
 
 * Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)
