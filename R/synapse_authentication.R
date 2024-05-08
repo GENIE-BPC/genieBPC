@@ -408,7 +408,7 @@ check_genie_access <- function(username = NULL, password = NULL,
 #' }
 .get_token_by_pat <- function(pat) {
 
-  if(is.null(pat)) {
+  if(is.null(pat) | pat == "" | pat == " ") {
     cli::cli_abort("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
   }
   resp <- httr::GET(
