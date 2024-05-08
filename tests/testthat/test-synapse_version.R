@@ -73,3 +73,12 @@ test_that("Test `cohort` argument specification casing", {
   expect_equal(synapse_version(cohort = "BLADDER"),
                synapse_version(cohort = "Bladder"))
 })
+
+test_that("Test most_recent = TRUE", {
+  # expect 1 row per cohort
+  expect_equal(synapse_version(most_recent = TRUE) %>%
+                 nrow(),
+               synapse_version(most_recent = TRUE) %>%
+                 dplyr::distinct(cohort) %>%
+                 nrow())
+})
