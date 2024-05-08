@@ -2,6 +2,8 @@
 
 * Added **NSCLC v3.1-consortium** release
 
+* Updated list of GENIE BPC publications in README document
+
 # genieBPC 1.1.1
 
 * Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)

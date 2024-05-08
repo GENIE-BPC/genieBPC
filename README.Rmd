@@ -232,6 +232,8 @@ the first treatment regimen:*
 
 ## GENIE BPC Publications
 
+Sanz-Garcia E, Brown S, Lavery A, et al. [Genomic Characterization and Clinical Outcomes of Patients with Peritoneal Metastases from the AACR GENIE Biopharma Collaborative Colorectal Cancer Registry](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10876516/)
+
 Kehl KL, Lavery JA, Brown S, et al. [Biomarker Inference and the Timing of Next-Generation Sequencing in
 a Multi-Institutional, Cross-Cancer Clinicogenomic Data Set.](https://ascopubs.org/doi/10.1200/PO.23.00489)
 
