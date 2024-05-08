@@ -1,5 +1,9 @@
 # genieBPC (development)
 
+* Update 'cohort' parameter of `pull_data_synapse()` and `synapse_version()` to not be case-sensitive (#120)
+
+* `synapse_version(most_recent = TRUE)` now returns one row per cohort, as opposed to one row per cohort and type of data release (consortium vs public) (#128)
+
 * Update `drug_regimen_list` lookup table to include drug names by data release, as opposed to by cohort. It is possible that drug names were modified slightly across data releases (#132)
 
 # genieBPC 1.1.1
