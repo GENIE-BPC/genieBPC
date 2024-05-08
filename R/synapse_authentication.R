@@ -12,9 +12,13 @@ genieBPC_env <- rlang::new_environment()
 #' To access data, users must have a valid 'Synapse' account with permission to
 #' access the data set and they must have accepted any necessary 'Terms of Use'.
 #' Users must authenticate themselves in their current R session.
-#' (see {https://genie-bpc.github.io/genieBPC/}{README 'Data Access and Authentication'} for details).
+#' (See README 'Data Access and Authentication' at https://genie-bpc.github.io/genieBPC/ for details).
 #' To set your 'Synapse' credentials during each session, call:
 #'  `set_synapse_credentials(username = "your_username", password = "your_password")`.
+#'
+#' In addition to passing your 'Synapse' username and password, you may choose to set
+#' your 'Synapse' Personal Access Token (PAT) by calling:
+#'  `set_synapse_credentials(pat = "your_pat")`.
 #'
 #' If your credentials are stored as environmental variables, you do not need to call
 #' `set_synapse_credentials()` explicitly each session. To store authentication
@@ -25,9 +29,10 @@ genieBPC_env <- rlang::new_environment()
 #' \itemize{
 #'    \item `SYNAPSE_USERNAME = <your-username>`
 #'    \item `SYNAPSE_PASSWORD = <your-password>`
+#'    \item `SYNAPSE_PAT = <your-pat>`
 #'    }
 #'
-#' Alternatively, you can pass your username and password to each individual
+#' Alternatively, you can pass your username and password or your PAT to each individual
 #' data pull function if preferred, although it is recommended that you manage
 #' your passwords outside of your scripts for security purposes.
 #'
@@ -184,6 +189,9 @@ set_synapse_credentials <- function(username = NULL,
 #'   environment for "password".
 #' @param pat 'Synapse' Personal Access Token. If NULL, package will search package
 #'   environment for "pat".
+#' @param check_consortium_access Specifies whether access to GENIE BPC consortium
+#'   data releases (vs. public data releases) is checked. Default is FALSE,
+#'   indicating that access to GENIE BPC public data releases is checked instead.
 #' @return A success message if you are able to access GENIE BPC data; otherwise
 #'   an error
 #' @author Karissa Whiting
@@ -194,13 +202,25 @@ set_synapse_credentials <- function(username = NULL,
 #' # if credentials are saved:
 #' check_genie_access()
 #' }
-check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
+check_genie_access <- function(username = NULL, password = NULL,
+                               pat = NULL,
+                               check_consortium_access = FALSE) {
 
   # first get token
-  token <- .get_synapse_token(username = username, password = password, pat = NULL)
+  token <- .get_synapse_token(username = username, password = password, pat = pat)
+
+  # query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
 
   # now do genie-specific test query
-  query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
+
+  if(check_consortium_access) {
+    # private GENIE (consortium)
+    query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn21241322/bundle2"
+  } else {
+    # public GENIE
+    query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn27056172/bundle2"
+  }
+
 
   requested_objects <- jsonlite::toJSON(list(
     "includeEntity" = TRUE,
@@ -323,8 +343,13 @@ check_genie_access <- function(username = NULL, password = NULL, pat = NULL) {
 #' @export
 #' @examples
 #' .is_connected_to_genie()
-.is_connected_to_genie <- function() {
-  tryCatch(check_genie_access(),
+.is_connected_to_genie <- function(username = NULL, password = NULL,
+                                   pat = NULL,
+                                   check_consortium_access = FALSE) {
+  tryCatch(check_genie_access(username = username,
+                              password = password,
+                              pat = pat,
+                              check_consortium_access = check_consortium_access),
     error = function(e) FALSE,
     message = function(m) TRUE
   )

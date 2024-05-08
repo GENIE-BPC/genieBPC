@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 [![R-cmd-check](https://github.com/GENIE-BPC/genieBPC/workflows/R-cmd-check/badge.svg)](https://github.com/GENIE-BPC/genieBPC/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/genieBPC)](https://cran.r-project.org/package=genieBPC)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://app.codecov.io/gh/GENIE-BPC/genieBPC)
-![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -113,6 +112,22 @@ order to use this function. To obtain access:
 
 *Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.*
 
+***Request a Synapse Personal Access Token (PAT):***
+
+Once you are logged into your Synapse account, you may request a Synapse personal access token (PAT).
+
+1.  In the left hand panel towards the bottom, click the button that shows the first letter of your first name. This button displays the text "Your Account" when hovered over and appears directly above the question mark button.
+
+2.  Next, select *Account Settings* and then scroll to the bottom of the page.
+
+3.  Under the "Personal Access Tokens" section, select *Manage Personal Access Tokens.* 
+
+4.  On the "Personal Access Tokens" page, click on *Create New Token* to generate a Synapse Personal Access Token.
+
+5.  Specify a Token Name and click the checkbox that will allow you to *Download* the data, and then select *Create Token.*
+
+6.  Save your Synapse Personal Access Token in a secure location.
+
 ***Authenticate yourself***
 
 Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see `set_synapse_credentials()`), or store your credentials as environmental variables. See [Tutorial: pull_data_synapse](https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html) for more details.
@@ -137,14 +152,9 @@ its corresponding variables for each data release.
 -   [NSCLC v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn23002641)
     
--   [NSCLC v2.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26008058)
+-   [NSCLC v2.2-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463493)
     
--   [CRC v1.1-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn23764204)
-    
--   [CRC v1.2-Consortium Analytic Data
-    Guide](https://www.synapse.org/#!Synapse:syn26077308)
+-   [CRC v1.3-Consortium Analytic Data Guide](https://www.synapse.org/#!Synapse:syn53463650)
     
 -   [BrCa v1.1-Consortium Analytic Data
     Guide](https://www.synapse.org/#!Synapse:syn26077313)
@@ -220,13 +230,13 @@ the first treatment regimen:*
 
 ## GENIE BPC Publications
 
-Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H, Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N, LeNoue-Newton M, Micheel C, Warner JL, Ginsberg MS, Plodkowski A, Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world repository integrating standardized clinical and genomic data for 1,846 patients with non-small cell lung cancer](https://aacrjournals.org/clincancerres/article/doi/10.1158/1078-0432.CCR-23-0580/727800/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository) Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
+Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H, Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N, LeNoue-Newton M, Micheel C, Warner JL, Ginsberg MS, Plodkowski A, Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world repository integrating standardized clinical and genomic data for 1,846 patients with non-small cell lung cancer](https://aacrjournals.org/clincancerres/article/29/17/3418/728542/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository) Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
 
 Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas KS. [Elucidating Analytic Bias Due to Informative Cohort Entry in Cancer Clinico-genomic Datasets](https://aacrjournals.org/cebp/article/32/3/344/718498/Elucidating-Analytic-Bias-Due-to-Informative). Cancer Epidemiol Biomarkers Prev. 2023 March; 32 (3): 344–352. doi: 10.1158/1055-9965.EPI-22-0875.
 
 Lavery JA, Brown S, Curry MA, Martin A, Sjoberg DD, Whiting K. [A data processing pipeline for the AACR project GENIE biopharma collaborative data with the {genieBPC} R package](https://academic.oup.com/bioinformatics/article/39/1/btac796/6909009) Bioinformatics. Volume 39, Issue 1. 2023 Jan; doi: 10.1093/bioinformatics/btac796
 
-Lavery JA, Lepisto EM, Brown S, Rizvi H, McCarthy C, LeNoue-Newton M, Yu C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas KS. [A Scalable Quality Assurance Process for Curating Oncology Electronic Health Records: The Project GENIE Biopharma Collaborative Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID: 35192403; PMCID: PMC8863125.
+Lavery JA, Lepisto EM, Brown S, Rizvi H, McCarthy C, LeNoue-Newton M, Yu C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas KS. [A Scalable Quality Assurance Process for Curating Oncology Electronic Health Records: The Project GENIE Biopharma Collaborative Approach.](https://doi.org/10.1200/CCI.21.00105) JCO Clin Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID: 35192403; PMCID: PMC8863125.
 
 Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM, Rizvi H, McCarthy CG, Schultz N, Warner JL, Park BH, Bedard PL, Riely GJ, Schrag D, Panageas KS; AACR Project GENIE Consortium. [Implications of Selection Bias Due to Delayed Study Entry in Clinical Genomic Studies.](https://jamanetwork.com/journals/jamaoncology/fullarticle/2785693) JAMA Oncol. 2022 Feb 1;8(2):287-291. doi: 10.1001/jamaoncol.2021.5153. PMID: 34734967; PMCID: PMC9190030.
 

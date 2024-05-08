@@ -1,11 +1,13 @@
-test_that("Missing cohort parameter", {
-  expect_error(pull_data_synapse())
-})
 
-# pull data for each cohort
+# Consortium: Pull Consortium Data With PAT -------------------------------
+
 # return to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(length(if (.is_connected_to_genie()) {
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+
+    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -41,10 +43,14 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
       values_to = "length",
       values_drop_na = TRUE
     )
-}) > 0)
+
+  length(actual_length) > 0
+} else {0 == 0})
+
+
 
 test_that("Test class and length of list for public data", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # compare to expected length
   expect_equal(data_releases$expected_n_dfs, actual_length$length)
@@ -55,15 +61,27 @@ test_that("Test class and length of list for public data", {
   expect_equal(unname(map_chr(test_list, class)), rep("list", nrow(data_releases)))
 })
 
+# * Check Arguments ----------------------------------------------
+
+test_that("Missing cohort parameter", {
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+  expect_error(pull_data_synapse())
+
+})
+
 test_that("test `cohort` argument specification", {
   # try to misspecify cohort (lower cases instead of capital)
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   expect_error(pull_data_synapse(
     cohort = "nsclc",
-    version = "v1.1-consortium"
+    version = "v2.2-consortium"
   ), "*")
 })
 
 test_that("test `version` argument specification", {
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+
   # no version specified
   expect_error(
     pull_data_synapse(
@@ -84,8 +102,8 @@ test_that("test `version` argument specification", {
     pull_data_synapse(
       cohort = "NSCLC",
       version = c(
-        "v1.1-consortium",
-        "v2.1-consortium"
+        "v2.2-consortium",
+        "v2.0-public"
       )
     ),
     "*You have selected"
@@ -102,14 +120,16 @@ test_that("test `version` argument specification", {
   )
 })
 
+
+# * Check Results of Consortium Pull ----------------------------------------------
+
 test_that("correct release returned", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # not all data releases had a release_version variable
   test_list_release_version_avail <- within(test_list,
-                                            rm(`NSCLC_v1.1-consortium`,
-                                               `CRC_v1.1-consortium`))
+                                            rm(`NSCLC_v1.1-consortium`))
 
   # for each data frame returned with a cohort, get the release_version variable
   # remove genomic data frames since we don't expect them to have a release_version variable
@@ -141,7 +161,7 @@ test_that("correct release returned", {
 })
 
 test_that("Number of columns and rows for each data release", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # get number of columns for each dataframe returned
   col_lengths <- map_depth(test_list, .depth = 3, length) %>%
@@ -172,41 +192,29 @@ test_that("Number of columns and rows for each data release", {
     "NSCLC_v1.1-consortium", "mutations_extended", 17574, 54,
     "NSCLC_v1.1-consortium", "fusions", 821, 9,
     "NSCLC_v1.1-consortium", "cna", 930, 1782,
-    "CRC_v1.1-consortium", "pt_char", 1500, 37,
-    "CRC_v1.1-consortium", "ca_dx_index", 1510, 111,
-    "CRC_v1.1-consortium", "ca_dx_non_index", 353, 87,
-    "CRC_v1.1-consortium", "ca_drugs", 5459, 102,
-    "CRC_v1.1-consortium", "prissmm_imaging", 26500, 42,
-    "CRC_v1.1-consortium", "prissmm_pathology", 7216, 340,
-    "CRC_v1.1-consortium", "prissmm_md", 28467, 11,
-    "CRC_v1.1-consortium", "tumor_marker", 24708, 12,
-    "CRC_v1.1-consortium", "cpt", 1576, 25,
-    "CRC_v1.1-consortium", "mutations_extended", 23445, 54,
-    "CRC_v1.1-consortium", "fusions", 406, 9,
-    "CRC_v1.1-consortium", "cna", 930, 1505,
-    "CRC_v1.2-consortium", "pt_char", 1498, 40,
-    "CRC_v1.2-consortium", "ca_dx_index", 1508, 152,
-    "CRC_v1.2-consortium", "ca_dx_non_index", 346, 97,
-    "CRC_v1.2-consortium", "ca_drugs", 5453, 102,
-    "CRC_v1.2-consortium", "prissmm_imaging", 26479, 43,
-    "CRC_v1.2-consortium", "prissmm_pathology", 7207, 341,
-    "CRC_v1.2-consortium", "prissmm_md", 28401, 12,
-    "CRC_v1.2-consortium", "tumor_marker", 24715, 14,
-    "CRC_v1.2-consortium", "cpt", 1574, 26,
-    "CRC_v1.2-consortium", "mutations_extended", 23250, 64,
-    "CRC_v1.2-consortium", "fusions", 403, 9,
-    "CRC_v1.2-consortium", "cna", 965, 1492,
-    "NSCLC_v2.1-consortium", "pt_char", 1875, 35,
-    "NSCLC_v2.1-consortium", "ca_dx_index", 1901, 152,
-    "NSCLC_v2.1-consortium", "ca_dx_non_index", 820, 97,
-    "NSCLC_v2.1-consortium", "ca_drugs", 4066, 101,
-    "NSCLC_v2.1-consortium", "prissmm_imaging", 35449, 43,
-    "NSCLC_v2.1-consortium", "prissmm_pathology", 8437, 196,
-    "NSCLC_v2.1-consortium", "prissmm_md", 25165, 12,
-    "NSCLC_v2.1-consortium", "cpt", 2046, 26,
-    "NSCLC_v2.1-consortium", "mutations_extended", 17526, 64,
-    "NSCLC_v2.1-consortium", "fusions", 819, 9,
-    "NSCLC_v2.1-consortium", "cna", 965, 1779,
+    "NSCLC_v2.2-consortium", "pt_char", 1832, 35,
+    "NSCLC_v2.2-consortium", "ca_dx_index", 1858, 152,
+    "NSCLC_v2.2-consortium", "ca_dx_non_index", 791, 97,
+    "NSCLC_v2.2-consortium", "ca_drugs", 4012, 101,
+    "NSCLC_v2.2-consortium", "prissmm_imaging", 34926, 43,
+    "NSCLC_v2.2-consortium", "prissmm_pathology", 8277, 196,
+    "NSCLC_v2.2-consortium", "prissmm_md", 24804, 12,
+    "NSCLC_v2.2-consortium", "cpt", 2002, 26,
+    "NSCLC_v2.2-consortium", "mutations_extended", 17430, 64,
+    "NSCLC_v2.2-consortium", "fusions", 815, 9,
+    "NSCLC_v2.2-consortium", "cna", 965, 1764,
+    "CRC_v1.3-consortium", "pt_char", 1476, 40,
+    "CRC_v1.3-consortium", "ca_dx_index", 1485, 152,
+    "CRC_v1.3-consortium", "ca_dx_non_index", 328, 97,
+    "CRC_v1.3-consortium", "ca_drugs", 5401, 102,
+    "CRC_v1.3-consortium", "prissmm_imaging", 26091, 43,
+    "CRC_v1.3-consortium", "prissmm_pathology", 7112, 341,
+    "CRC_v1.3-consortium", "prissmm_md", 27954, 12,
+    "CRC_v1.3-consortium", "tumor_marker", 24219, 14,
+    "CRC_v1.3-consortium", "cpt", 1551, 26,
+    "CRC_v1.3-consortium", "mutations_extended", 22903, 64,
+    "CRC_v1.3-consortium", "fusions", 395, 9,
+    "CRC_v1.3-consortium", "cna", 965, 1479,
     "BrCa_v1.1-consortium", "pt_char", 1130, 40,
     "BrCa_v1.1-consortium", "ca_dx_index", 1141, 159,
     "BrCa_v1.1-consortium", "ca_dx_non_index", 194, 103,
@@ -354,7 +362,7 @@ test_that("Number of columns and rows for each data release", {
 })
 
 test_that("Test NA conversion", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # making sure there are no character "" instead of NAs
   # count number of character "" across all columns
@@ -375,3 +383,112 @@ test_that("Test NA conversion", {
 
   expect_equal(nrow(any_blank_cols), 0)
 })
+
+
+# Consortium: Pull Consortium Data With Username/Password -------------------------------
+
+test_that("Test class and length of list for public data", {
+  skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
+                                     password = Sys.getenv("SYNAPSE_PASSWORD")))
+
+  set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME"),
+                          password = Sys.getenv("SYNAPSE_PASSWORD"),
+                          pat = NULL)
+
+  data_releases_username <- synapse_tables %>%
+    distinct(cohort, version) %>%
+    head(n = 2)
+
+  test_list <- expect_no_error(pmap(select(data_releases_username, cohort, version),
+                    pull_data_synapse))
+
+})
+
+
+# Public: Pull Public Data With PAT --------------------------------------------------------
+
+testthat::expect_true(length(
+  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))) {
+
+    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+    # Get Public Releases Only
+    data_releases_public <- synapse_tables %>%
+      distinct(cohort, version) %>%
+      filter(str_detect(version, "public")) %>%
+      # define expected number of dataframes based on whether TM and RT data were released
+      mutate(expected_n_dfs = case_when(
+        # no TM or RT
+        cohort == "NSCLC" ~ 11,
+        # TM, no RT
+        cohort %in% c("CRC", "BrCa") ~ 12,
+        # RT, no TM
+        cohort == "BLADDER" ~ 12,
+        # TM and RT
+        cohort %in% c("PANC", "Prostate") ~ 13
+      ))
+
+    # for each data release, pull data into the R environment
+    test_list <- pmap(data_releases_public %>%
+                        select(cohort, version),
+                      pull_data_synapse)
+
+    # name the items in the list
+    names(test_list) <- paste0(
+      data_releases_public$cohort, "_",
+      data_releases_public$version
+    )
+
+    # get actual length of each data release returned from pull_data_synapse
+    actual_length <- map_depth(test_list, .depth = 2, length) %>%
+      bind_rows() %>%
+      pivot_longer(
+        cols = everything(),
+        names_to = "data_release",
+        values_to = "length",
+        values_drop_na = TRUE
+      )
+  }) > 0)
+
+
+
+test_that("Test class and length of list for public data", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  # compare to expected length
+  expect_equal(data_releases_public$expected_n_dfs, actual_length$length)
+
+  # compare to expected class
+  # expect each data release returned to be a list, need to rep "list" the
+  # number of times for the data releases we have
+  expect_equal(unname(map_chr(test_list, class)), rep("list", nrow(data_releases_public)))
+})
+
+
+
+# Public: Pull Public Data With Username/Password -----------------------------
+# <Needs tests>
+
+# No Terms: Pull Public Data With Username/Password -----------------------------
+# <Needs tests>
+
+
+# No Terms: Pull Public Data With PAT -----------------------------------------
+
+# Can terms error message be improved? It's layered and confusing rn but can't think
+# of best way to fix it
+# <Maybe Needs more tests>
+
+test_that("Test error when access terms not checked", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS"))
+
+    expect_error(
+      pull_data_synapse(
+        cohort = "CRC",
+        version = "v2.0-public"
+      )
+    )
+
+})
+

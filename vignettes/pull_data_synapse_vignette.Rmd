@@ -38,13 +38,12 @@ The `pull_data_synapse()` function accesses the specified version of the clinica
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
-
 ## Setup
 
 Access to the GENIE BPC data release folders on 'Synapse' is required in
 order to use this function. To obtain access:
-***For public data releases:***
 
+***For public data releases:***
 
 1.  Register for a ['Synapse' account](https://www.synapse.org/#). Be sure to create a username and password. *Note: do NOT connect via your Google account.*
 
@@ -55,7 +54,6 @@ order to use this function. To obtain access:
 4.  In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.
 
 5.  Select *Request Access*, **review the terms of data use,** and select *Accept.*
-
 
 ***For consortium data releases (restricted to GENIE consortium members & BPC pharmaceutical partners):***
 
@@ -78,18 +76,39 @@ order to use this function. To obtain access:
 
 *Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.*
 
+***Request a Synapse Personal Access Token (PAT):***
+
+Once you are logged into your Synapse account, you may request a Synapse personal access token (PAT).
+
+1.  In the left hand panel towards the bottom, click the button that shows the first letter of your first name. This button displays the text "Your Account" when hovered over and appears directly above the question mark button.
+
+2.  Next, select *Account Settings* and then scroll to the bottom of the page.
+
+3.  Under the "Personal Access Tokens" section, select *Manage Personal Access Tokens.* 
+
+4.  On the "Personal Access Tokens" page, click on *Create New Token* to generate a Synapse Personal Access Token.
+
+5.  Specify a Token Name and click the checkbox that will allow you to *Download* the data, and then select *Create Token.*
+
+6.  Save your Synapse Personal Access Token in a secure location.
+
 ***Authenticate yourself***
 
 Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data.  To set your Synapse credentials during each session, call:
 
   `set_synapse_credentials(username = "your_username", password = "your_password")`
   
+In addition to from passing your 'Synapse' username and password, you may choose to set your 'Synapse' Personal Access Token (PAT) by calling:
+
+  `set_synapse_credentials(pat = "your_pat")`
+  
 - If your credentials are stored as environmental variables, you do not need to call `set_synapse_credentials()` explicitly each session. To store authentication information in your environmental variables, add the following to your .Renviron file, then **restart your R session** (tip: you can use `usethis::edit_r_environ()` to easily open/edit this file):
 
   `SYNAPSE_USERNAME = <your-username>`
   `SYNAPSE_PASSWORD = <your-password>`
+  `SYNAPSE_PAT = <your-pat>`
 
-Alternatively, you can pass your username and password to each individual data pull function if preferred, although it is recommended that you manage your passwords outside of your scripts for security purposes.
+Alternatively, you can pass your username and password or your PAT to each individual data pull function if preferred, although it is recommended that you manage your passwords outside of your scripts for security purposes.
 
 
 ## Usage
@@ -104,7 +123,8 @@ tibble::tribble(
   "`version`",        "Vector specifying the version of the data. Must be one of the following: 'v1.1-consortium', 'v1.2-consortium', 'v2.1-consortium', 'v2.0-public'. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data.",
   "`download_location`",        "If `NULL` (default), data will be returned as a list of dataframes with requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there. When a path is specified, data are not read into the R environment.",
   "`username`",        "Synapse username",
-  "`password`",        "Synapse password"
+  "`password`",        "Synapse password",
+  "`PAT`",             "Synapse Personal Access Token"
 ) %>%
   gt::gt() %>%
   gt::fmt_markdown(columns = c(Argument)) %>%
@@ -155,11 +175,11 @@ ls(nsclc_2_0$NSCLC_v2.0) %>%
 
 ### Example 2
 
-Pull version 2.1-consortium of the NSCLC data and version 1.1-consortium of the CRC data.
+Pull version 2.2-consortium of the NSCLC data and version 1.3-consortium of the CRC data.
 
 ```{r, eval = FALSE}
 pull_data_synapse(c("NSCLC", "CRC"), 
-                  version = c("v2.1-consortium","v1.1-consortium"))
+                  version = c("v2.2-consortium","v1.3-consortium"))
 ```
 
 

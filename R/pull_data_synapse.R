@@ -10,13 +10,12 @@
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
 #'   and "BLADDER" (Bladder Cancer).
-#' @param version Vector specifying the version of the data. Must be one of the
-#'   following: "v1.1-consortium", "v1.2-consortium", "v2.1-consortium",
-#'   "v2.0-public". When entering multiple cohorts, the order of the version
-#'   numbers corresponds to the order that the cohorts are specified; the cohort
-#'   and version number must be in the same order in order to pull the correct
-#'   data. See examples below.
-#'
+#' @param version Vector specifying the version of the cohort. Must match one of the
+#'   release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
+#'   When entering multiple cohorts, it is inferred that the order of the version
+#'   numbers passed corresponds to the order of the cohorts passed.
+#'   Therefore, `cohort` and `version` must be in the same
+#'   order to ensure the correct data versions are pulled. See examples below for details.
 #' @param download_location if `NULL` (default), data will be returned as a list
 #'   of dataframes with requested data as list items. Otherwise, specify a
 #'   folder path to have data automatically downloaded there. When a path is
@@ -36,6 +35,10 @@
 #'
 #' `set_synapse_credentials(username = "your_username", password = "your_password")`
 #'
+#' In addition to passing your 'Synapse' username and password, you may choose to set
+#' your 'Synapse' Personal Access Token (PAT) by calling:
+#'  `set_synapse_credentials(pat = "your_pat")`.
+#'
 #' If your credentials are stored as environmental variables, you do not need to
 #' call `set_synapse_credentials()` explicitly each session. To store
 #' authentication information in your environmental variables, add the following
@@ -45,8 +48,9 @@
 #' \itemize{
 #'    \item `SYNAPSE_USERNAME = <your-username>`
 #'    \item `SYNAPSE_PASSWORD = <your-password>`
+#'    \item `SYNAPSE_PAT = <your-pat>`
 #'    }
-#' Alternatively, you can pass your username and password to each individual
+#' Alternatively, you can pass your username and password or your PAT to each individual
 #' data pull function if preferred, although it is recommended that you manage
 #' your passwords outside of your scripts for security purposes.
 #'
@@ -55,10 +59,9 @@
 #'   can be found on 'Synapse' in the Analytic Data Guides:
 #' \itemize{
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn26008058}{NSCLC v2.1-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn53463493}{NSCLC v2.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn23764204}{CRC v1.1-Consortium Analytic Data Guide}
-#'   \item \href{https://www.synapse.org/#!Synapse:syn26077308}{CRC v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
@@ -85,11 +88,11 @@
 #' synapse_version(most_recent = TRUE)
 #'
 #' # Pull version 2.0-public for non-small cell lung cancer
-#' # and version 1.1-consortium for colorectal cancer data
+#' # and version 2.0-public for colorectal cancer data
 #'
 #'  ex1 <- pull_data_synapse(
-#'    cohort = c("NSCLC", "BrCa"),
-#'    version = c("v2.0-public", "v1.1-consortium")
+#'    cohort = c("NSCLC", "CRC"),
+#'    version = c("v2.0-public", "v2.0-public")
 #'  )
 #'
 #'  names(ex1)
@@ -123,11 +126,6 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     cli::cli_abort("Version needs to be specified.
                 Use {.code synapse_version()} to see what data is available.")
 
-  } else if (length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0){
-
-    cli::cli_abort("{.code version} must be one of the following:
-                       {unique(synapse_tables$version)}")
-
   } else if (length(select_cohort) < length(version)){
 
     cli::cli_abort(
@@ -136,29 +134,48 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
          Use {.code synapse_version()} to see what data is available")
 
   } else {
+    # create `version-number` ---
+    sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
+      dplyr::distinct()
 
-    rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
-                              multiple = TRUE)
+    version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
+                                         "version" = version))
 
-  }
+    # specific messaging when a version that was previously available is no longer
+    # available
+    # removed versions
+    removed_versions <- dplyr::tribble(~cohort, ~version,
+                                       "NSCLC", "v2.1-consortium",
+                                       "CRC", "v1.1-consortium",
+                                       "CRC", "v1.2-consortium")
 
-  # create `version-number` ---
-  sv <- dplyr::select(genieBPC::synapse_tables, "cohort", "version") %>%
-    dplyr::distinct()
+    # only print for one removed version at a time
+    specified_version_removed <- dplyr::inner_join(removed_versions,
+                                                   version_num,
+                                                   by = c("cohort", "version")) %>%
+      dplyr::slice(1)
 
-  version_num <- dplyr::bind_cols(list("cohort" = select_cohort,
-                                       "version" = version))
+    # version specified that doesn't exist
+    version_not_available <- dplyr::anti_join(version_num, sv,
+                                              by = c("cohort", "version"))
 
-  version_not_available <- dplyr::anti_join(version_num, sv,
-                                            by = c("cohort", "version"))
-
-  if (nrow(version_not_available) > 0) {
-    cli::cli_abort(c("You have selected a version that is not available for
-                     this cohort (use `synapse_tables` to see what versions
+     if (nrow(specified_version_removed) >0){
+      cli::cli_abort(c("The {.val {paste0(specified_version_removed, collapse = ' ')}} data release is no longer available. AACR is asking users to delete any local copies of the data and re-run analyses using more recently released data (use `synapse_tables` to see the currently available versions)",
+                       "x" = "{.val {paste0(specified_version_removed, collapse = ' ')}}"
+      ))
+    } else if (nrow(version_not_available) > 0 |
+               length(setdiff(version, unique(genieBPC::synapse_tables$version))) > 0) {
+      cli::cli_abort(c("You have selected a version that is not available for
+                     this cohort (use {.code synapse_version()} to see what versions
                      are available):",
-      "x" = "{.val {version_not_available}}"
-    ))
-  }
+                     "x" = "{.val {version_not_available}}"
+      ))
+      } else {
+        rlang::arg_match(version, unique(genieBPC::synapse_tables$version),
+                              multiple = TRUE)
+      }
+    }
+
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%
@@ -227,12 +244,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' temp_directory <- tempdir()
 #'
 #' syn_df <- data.frame(
-#'   cohort = c("NSCLC", "NSCLC", "NSCLC"),
-#'   version = c("v2.1-consortium", "v2.1-consortium", "v2.1-consortium"),
-#'   version_num = c("NSCLC_v2.1", "NSCLC_v2.1", "NSCLC_v2.1"),
-#'   download_folder = c(temp_directory, temp_directory, temp_directory),
-#'   df = c("pt_char", "ca_dx_index", "ca_dx_non_index"),
-#'   synapse_id = c("syn25985884", "syn25985882", "syn25985883")
+#'   cohort = c("NSCLC", "NSCLC"),
+#'   version = c("v2.2-consortium", "v2.0-public"),
+#'   version_num = c("NSCLC_v2.2", "NSCLC_v2.0"),
+#'   download_folder = c(temp_directory, temp_directory),
+#'   df = c("pt_char", "ca_dx_index"),
+#'   synapse_id = c("syn53470868", "syn30350575")
 #' )
 #'
 #' .pull_data_by_cohort(

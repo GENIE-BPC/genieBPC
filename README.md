@@ -6,7 +6,6 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/genieBPC)](https://cran.r-project.org/package=genieBPC)
 [![codecov](https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K)](https://app.codecov.io/gh/GENIE-BPC/genieBPC)
-![r-universe](https://mskcc-epi-bio.r-universe.dev/badges/genieBPC)
 <!-- badges: end -->
 
 # genieBPC <img src="man/figures/geniebpc_hex_sticker.png" align="right" height="120" /></a>
@@ -110,6 +109,30 @@ order to use this function. To obtain access:
 distinct. Both permissions must be accepted to successfully access the
 data.*
 
+***Request a Synapse Personal Access Token (PAT):***
+
+Once you are logged into your Synapse account, you may request a Synapse
+personal access token (PAT).
+
+1.  In the left hand panel towards the bottom, click the button that
+    shows the first letter of your first name. This button displays the
+    text “Your Account” when hovered over and appears directly above the
+    question mark button.
+
+2.  Next, select *Account Settings* and then scroll to the bottom of the
+    page.
+
+3.  Under the “Personal Access Tokens” section, select *Manage Personal
+    Access Tokens.*
+
+4.  On the “Personal Access Tokens” page, click on *Create New Token* to
+    generate a Synapse Personal Access Token.
+
+5.  Specify a Token Name and click the checkbox that will allow you to
+    *Download* the data, and then select *Create Token.*
+
+6.  Save your Synapse Personal Access Token in a secure location.
+
 ***Authenticate yourself***
 
 Whether you are using public or consortium data, you will need to
@@ -141,14 +164,11 @@ releases.*
 - [NSCLC v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn23002641)
 
-- [NSCLC v2.1-Consortium Analytic Data
-  Guide](https://www.synapse.org/#!Synapse:syn26008058)
+- [NSCLC v2.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn53463493)
 
-- [CRC v1.1-Consortium Analytic Data
-  Guide](https://www.synapse.org/#!Synapse:syn23764204)
-
-- [CRC v1.2-Consortium Analytic Data
-  Guide](https://www.synapse.org/#!Synapse:syn26077308)
+- [CRC v1.3-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn53463650)
 
 - [BrCa v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn26077313)
@@ -164,6 +184,9 @@ releases.*
 
 - [BLADDER v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30787692)
+
+- [BLADDER v1.2-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn53018714)
 
 - [Prostate v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30148714)
@@ -221,7 +244,7 @@ Girshman J, Sawan P, Pillai S, Sweeney SM, Kehl KL, Panageas KS, Schultz
 N, Schrag D, Riely GJ. [The GENIE BPC NSCLC cohort: a real-world
 repository integrating standardized clinical and genomic data for 1,846
 patients with non-small cell lung
-cancer](https://aacrjournals.org/clincancerres/article/doi/10.1158/1078-0432.CCR-23-0580/727800/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
+cancer](https://aacrjournals.org/clincancerres/article/29/17/3418/728542/The-GENIE-BPC-NSCLC-Cohort-A-Real-World-Repository)
 Clin Cancer Res. 2023 May; doi: 10.1158/1078-0432.CCR-23-0580.
 
 Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas
@@ -243,9 +266,9 @@ C, Lee J, Guo X, Yu T, Rudolph J, Sweeney S; AACR Project GENIE
 Consortium, Park BH, Warner JL, Bedard PL, Riely G, Schrag D, Panageas
 KS. [A Scalable Quality Assurance Process for Curating Oncology
 Electronic Health Records: The Project GENIE Biopharma Collaborative
-Approach.](https://ascopubs.org/doi/full/10.1200/CCI.21.00105) JCO Clin
-Cancer Inform. 2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID:
-35192403; PMCID: PMC8863125.
+Approach.](https://doi.org/10.1200/CCI.21.00105) JCO Clin Cancer Inform.
+2022 Feb; 6:e2100105. doi: 10.1200/CCI.21.00105. PMID: 35192403; PMCID:
+PMC8863125.
 
 Brown S, Lavery JA, Shen R, Martin AS, Kehl KL, Sweeney SM, Lepisto EM,
 Rizvi H, McCarthy CG, Schultz N, Warner JL, Park BH, Bedard PL, Riely
