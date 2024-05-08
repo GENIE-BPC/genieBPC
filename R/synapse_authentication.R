@@ -385,11 +385,13 @@ check_genie_access <- function(username = NULL, password = NULL,
 
   token <- httr::content(resp, "parsed")$sessionToken
 
-  token %||%
+  if(is.null(token) | token == "" | token == " ") {
     cli::cli_abort("There was an error authenticating your
                    username ({username}) or password.
                    Please make sure you can login to the 'Synapse' website
                    with the given credentials.")
+  }
+
   return(token)
 
 }
