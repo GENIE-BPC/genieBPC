@@ -202,12 +202,15 @@ set_synapse_credentials <- function(username = NULL,
 #' # if credentials are saved:
 #' check_genie_access()
 #' }
-check_genie_access <- function(username = NULL, password = NULL,
+check_genie_access <- function(username = NULL,
+                               password = NULL,
                                pat = NULL,
                                check_consortium_access = FALSE) {
 
   # first get token
-  token <- .get_synapse_token(username = username, password = password, pat = pat)
+  token <- .get_synapse_token(username = username,
+                              password = password,
+                              pat = pat)
 
   # query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
 
@@ -241,9 +244,13 @@ check_genie_access <- function(username = NULL, password = NULL,
     httr::content_type("application/json")
   )
 
+  if(check_consortium_access) {
+    error_message <- c("access GENIE consortium data in 'Synapse'. Consortium releases are not available to individuals outside of the AACR Project GENIE BPC Consortium. Please check you've accepted Terms of use, or try accessing a publicly available release instead.")
+  } else {
+    error_message <- c("access GENIE data in 'Synapse'. Check that you have permission to view this data")
+  }
 
-  httr::stop_for_status(res, "access GENIE data in 'Synapse'.
-                        Check that you have permission to view this data")
+  httr::stop_for_status(res, error_message)
   cli::cli_alert_success("{httr::http_status(res)$message}:
                          You are successfully connected to the GENIE database!")
 }
@@ -385,7 +392,7 @@ check_genie_access <- function(username = NULL, password = NULL,
 
   token <- httr::content(resp, "parsed")$sessionToken
 
-  if(is.null(token) | token == "" | token == " ") {
+  if (is.null(token) || any(token == "" | token == " ")) {
     cli::cli_abort("There was an error authenticating your
                    username ({username}) or password.
                    Please make sure you can login to the 'Synapse' website
