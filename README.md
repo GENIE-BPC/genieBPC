@@ -167,6 +167,9 @@ releases.*
 - [NSCLC v2.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn53463493)
 
+- [NSCLC v3.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn58597690)
+
 - [CRC v1.3-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn53463650)
 
@@ -236,6 +239,10 @@ the first treatment regimen:*
 # <img src="man/figures/genieBPC_sunburst2.png" height="400" /></a>
 
 ## GENIE BPC Publications
+
+Kehl KL, Lavery JA, Brown S, et al. [Biomarker Inference and the Timing
+of Next-Generation Sequencing in a Multi-Institutional, Cross-Cancer
+Clinicogenomic Data Set.](https://ascopubs.org/doi/10.1200/PO.23.00489)
 
 Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H,
 Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N,

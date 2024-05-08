@@ -9,6 +9,7 @@ release_dates <- tibble::tribble(
   "NSCLC", "v2.1-consortium", "2021-08",
   "NSCLC", "v2.2-consortium", "2024-02",
   "NSCLC", "v2.0-public", "2022-05",
+  "NSCLC", "v3.1-consortium", "2024-04",
   "CRC", "v1.1-consortium", "2021-02",
   "CRC", "v1.2-consortium", "2021-08",
   "CRC", "v1.3-consortium", "2024-02",

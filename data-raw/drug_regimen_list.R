@@ -5,11 +5,11 @@ set_synapse_credentials()
 
 # load current version of derived data from Synapse
 data_pull <- pull_data_synapse(cohort = c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
-                               version = c("v2.0-public", "v2.0-public", "v1.2-consortium",
+                               version = c("v3.1-consortium", "v2.0-public", "v1.2-consortium",
                                            "v1.1-consortium", "v1.2-consortium", "v1.2-consortium"))
 
 drug_regimen_list <-
-  bind_rows(data_pull$NSCLC_v2.0$ca_drugs %>% select(c(cohort, starts_with("drugs_drug"))),
+  bind_rows(data_pull$NSCLC_v3.1$ca_drugs %>% select(c(cohort, starts_with("drugs_drug"))),
             data_pull$CRC_v2.0$ca_drugs %>% select(c(cohort, starts_with("drugs_drug"))),
             data_pull$BrCa_v1.2$ca_drugs %>% select(c(cohort, starts_with("drugs_drug"))),
             data_pull$PANC_v1.2$ca_drugs %>% select(c(cohort, starts_with("drugs_drug"))),
