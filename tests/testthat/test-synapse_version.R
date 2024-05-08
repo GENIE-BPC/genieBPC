@@ -49,3 +49,27 @@ test_that("Test cohort argument", {
            filter(cohort %in% c("NSCLC", "CRC")))
   )
 })
+
+test_that("Test `cohort` argument specification casing", {
+  # expect lower case cohort to work
+  expect_equal(synapse_version(cohort = "NSCLC"),
+               synapse_version(cohort = "nsclc"))
+
+  expect_equal(synapse_version(cohort = "CRC"),
+               synapse_version(cohort = "crC"))
+
+  expect_equal(synapse_version(cohort = "BrCa"),
+               synapse_version(cohort = "BRCA"))
+
+  expect_equal(synapse_version(cohort = "PANC"),
+               synapse_version(cohort = "Pancreas"))
+
+  expect_equal(synapse_version(cohort = "PANC"),
+               synapse_version(cohort = "Panc"))
+
+  expect_equal(synapse_version(cohort = "Prostate"),
+               synapse_version(cohort = "PROState"))
+
+  expect_equal(synapse_version(cohort = "BLADDER"),
+               synapse_version(cohort = "Bladder"))
+})
