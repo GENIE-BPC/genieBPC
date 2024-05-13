@@ -304,7 +304,13 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # file index- files must being csv or txt
   ids_txt_csv <- file_metadata %>%
     tidyr::unnest(cols = "file_info") %>%
-    filter(.data$type %in% c("text/csv", "text/plain"))
+    ## SB 2024-05-09 renamed variable synopsis file
+    dplyr::mutate(name = ifelse(
+      grepl("variable_synopsis", name),
+      "variable_synopsis.xlsx",
+      name
+    ))
+    # filter(.data$type %in% c("text/csv", "text/plain"))
 
   files <- ids_txt_csv %>%
     dplyr::select(
@@ -319,6 +325,97 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
   files <- rlang::set_names(files, ids_txt_csv$df)
+
+  for (i in 1:length(files)) {
+
+    prep_data_labels <-
+      if (names(files)[i] %in% c(
+        "pt_char",
+        "ca_drugs",
+        "ca_radtx",
+        "prissmm_imaging",
+        "prissmm_path",
+        "prissmm_md",
+        "prissmm_tm",
+        "cpt"
+      )) {
+        files$variable_synopsis %>%
+          dplyr::rename(dataset = `Dataset`,
+                        variable = `Variable Name`,
+                        variable_label = `Field Label`) %>%
+          dplyr::mutate(
+            dataset_code = case_when(
+              dataset == "Patient-level dataset" ~ "pt_char",
+              dataset == "Cancer-directed regimen dataset" ~ "ca_drugs",
+              dataset == "Cancer-directed Radiation Therapy dataset" ~ "ca_radtx",
+              dataset == "PRISSMM Imaging level dataset" ~ "prissmm_imaging",
+              dataset == "PRISSMM Pathology level dataset" ~ "prissmm_path",
+              dataset == "PRISSMM Medical Oncologist Assessment level dataset" ~ "prissmm_md",
+              dataset == "PRISSMM Tumor Marker level dataset" ~ "prissmm_tm",
+              dataset == "Cancer panel test level dataset" ~ "cpt"
+            )
+          ) %>%
+          dplyr::filter(dataset_code == names(files)[i]) %>%
+          dplyr::filter(variable %in% c(
+            files[[names(files)[i]]] %>%
+              as.data.frame() %>%
+              colnames() %>%
+              gsub(
+                pattern = ".*?\\.(.*?)",
+                replacement = "\\1",
+                x = .
+              ) %>%
+              unlist()
+          )) %>%
+          dplyr::select(variable, variable_label) %>%
+          deframe()
+
+      } else if (names(files)[i] == "ca_dx_index") {
+        files$variable_synopsis %>%
+          dplyr::rename(dataset = `Dataset`,
+                        variable = `Variable Name`,
+                        variable_label = `Field Label`) %>%
+          dplyr::filter(grepl("diagnosis", dataset)) %>%
+          dplyr::filter(variable %in% c(
+            files[[names(files)[i]]] %>%
+              as.data.frame() %>%
+              colnames() %>%
+              gsub(
+                pattern = ".*?\\.(.*?)",
+                replacement = "\\1",
+                x = .
+              ) %>%
+              unlist()
+          )) %>%
+          dplyr::select(variable, variable_label) %>%
+          deframe()
+
+      } else if (names(files)[i] == "ca_dx_non_index") {
+        files$variable_synopsis %>%
+          dplyr::rename(dataset = `Dataset`,
+                        variable = `Variable Name`,
+                        variable_label = `Field Label`) %>%
+          dplyr::filter(grepl("diagnosis", dataset)) %>%
+          dplyr::filter(variable %in% c(
+            files[[names(files)[i]]] %>%
+              as.data.frame() %>%
+              colnames() %>%
+              gsub(
+                pattern = ".*?\\.(.*?)",
+                replacement = "\\1",
+                x = .
+              ) %>%
+              unlist()
+          )) %>%
+          dplyr::select(variable, variable_label) %>%
+          deframe()
+      }
+
+    files[[names(files)[i]]] <- files[[names(files)[i]]] %>%
+      labelled::set_variable_labels(!!!prep_data_labels)
+
+
+  }
 
   return(files)
 }
@@ -429,7 +526,11 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       returned_files <- utils::read.delim(resolved_file_path, sep = "\t",
                                           na.strings = c("", "NA"))
 
-    } else {
+    } else if (grepl("openxmlformats", file_type)) {
+
+      returned_files <- readxl::read_excel(resolved_file_path, sheet = 2)
+
+      } else {
       cli::cli_abort(
           "Cannot read objects of type {file_type}.
           Try downloading directly to disk with {.code download_location}")
