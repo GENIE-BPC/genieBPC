@@ -212,8 +212,6 @@ check_genie_access <- function(username = NULL,
                               password = password,
                               pat = pat)
 
-  # query_url <- "https://repo-prod.prod.sagebase.org/repo/v1/entity/syn26948075/bundle2"
-
   # now do genie-specific test query
 
   if(check_consortium_access) {
