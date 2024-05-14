@@ -95,6 +95,8 @@
 #' dplyr
 #' dtplyr
 #' purrr
+#' readxl
+#' labelled
 
 
 pull_data_synapse <- function(cohort = NULL, version = NULL,
@@ -345,18 +347,18 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
                         variable_label = `Field Label`) %>%
           dplyr::mutate(
             dataset_code = case_when(
-              dataset == "Patient-level dataset" ~ "pt_char",
-              dataset == "Cancer-directed regimen dataset" ~ "ca_drugs",
-              dataset == "Cancer-directed Radiation Therapy dataset" ~ "ca_radtx",
-              dataset == "PRISSMM Imaging level dataset" ~ "prissmm_imaging",
-              dataset == "PRISSMM Pathology level dataset" ~ "prissmm_path",
-              dataset == "PRISSMM Medical Oncologist Assessment level dataset" ~ "prissmm_md",
-              dataset == "PRISSMM Tumor Marker level dataset" ~ "prissmm_tm",
-              dataset == "Cancer panel test level dataset" ~ "cpt"
+              .data$dataset == "Patient-level dataset" ~ "pt_char",
+              .data$dataset == "Cancer-directed regimen dataset" ~ "ca_drugs",
+              .data$dataset == "Cancer-directed Radiation Therapy dataset" ~ "ca_radtx",
+              .data$dataset == "PRISSMM Imaging level dataset" ~ "prissmm_imaging",
+              .data$dataset == "PRISSMM Pathology level dataset" ~ "prissmm_path",
+              .data$dataset == "PRISSMM Medical Oncologist Assessment level dataset" ~ "prissmm_md",
+              .data$dataset == "PRISSMM Tumor Marker level dataset" ~ "prissmm_tm",
+              .data$dataset == "Cancer panel test level dataset" ~ "cpt"
             )
           ) %>%
-          dplyr::filter(dataset_code == names(files)[i]) %>%
-          dplyr::filter(variable %in% c(
+          dplyr::filter(.data$dataset_code == names(files)[i]) %>%
+          dplyr::filter(.data$variable %in% c(
             files[[names(files)[i]]] %>%
               as.data.frame() %>%
               colnames() %>%
@@ -375,8 +377,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
           dplyr::rename(dataset = `Dataset`,
                         variable = `Variable Name`,
                         variable_label = `Field Label`) %>%
-          dplyr::filter(grepl("diagnosis", dataset)) %>%
-          dplyr::filter(variable %in% c(
+          dplyr::filter(grepl("diagnosis", .data$dataset)) %>%
+          dplyr::filter(.data$variable %in% c(
             files[[names(files)[i]]] %>%
               as.data.frame() %>%
               colnames() %>%
@@ -395,8 +397,8 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
           dplyr::rename(dataset = `Dataset`,
                         variable = `Variable Name`,
                         variable_label = `Field Label`) %>%
-          dplyr::filter(grepl("diagnosis", dataset)) %>%
-          dplyr::filter(variable %in% c(
+          dplyr::filter(grepl("diagnosis", .data$dataset)) %>%
+          dplyr::filter(.data$variable %in% c(
             files[[names(files)[i]]] %>%
               as.data.frame() %>%
               colnames() %>%
