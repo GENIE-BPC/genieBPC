@@ -99,15 +99,16 @@ testthat::expect_true(if (.is_connected_to_genie()) {
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
     # define expected number of dataframes based on whether TM and RT data were released
+    # 2024-05-15: added 1 to each to account for addition of variable synopsis
     mutate(expected_n_dfs = case_when(
       # no TM or RT
-      cohort == "NSCLC" ~ 11,
+      cohort == "NSCLC" ~ 12,
       # TM, no RT
-      cohort %in% c("CRC", "BrCa") ~ 12,
+      cohort %in% c("CRC", "BrCa") ~ 13,
       # RT, no TM
-      cohort == "BLADDER" ~ 12,
+      cohort == "BLADDER" ~ 13,
       # TM and RT
-      cohort %in% c("PANC", "Prostate") ~ 13
+      cohort %in% c("PANC", "Prostate") ~ 14
     ),
     expected_n_dfs_with_summary = expected_n_dfs + 4)
 
@@ -903,11 +904,13 @@ test_that("containing drug regimen specified,
     test_1c$cohort_ca_drugs %>%
       arrange(cohort, record_id, ca_seq) %>%
       select(cohort, record_id, ca_seq, regimen_number,
-             everything()),
+             everything()) %>%
+      labelled::remove_labels(),
     test_1d %>%
       arrange(cohort, record_id, ca_seq) %>%
       select(cohort, record_id, ca_seq, regimen_number,
-             everything())
+             everything()) %>%
+      labelled::remove_labels()
   )
 })
 

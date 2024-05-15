@@ -10,15 +10,16 @@ testthat::expect_true(if (.is_connected_to_genie()) {
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
     # define expected number of dataframes based on whether TM and RT data were released
+    # 2024-05-15: added 1 to each to account for addition of variable synopsis
     mutate(expected_n_dfs = case_when(
       # no TM or RT
-      cohort == "NSCLC" ~ 11,
+      cohort == "NSCLC" ~ 12,
       # TM, no RT
-      cohort %in% c("CRC", "BrCa") ~ 12,
+      cohort %in% c("CRC", "BrCa") ~ 13,
       # RT, no TM
-      cohort == "BLADDER" ~ 12,
+      cohort == "BLADDER" ~ 13,
       # TM and RT
-      cohort %in% c("PANC", "Prostate") ~ 13
+      cohort %in% c("PANC", "Prostate") ~ 14
     ))
 
   # for each data release, pull data into the R environment
@@ -175,6 +176,7 @@ test_that("Number of columns and rows for each data release", {
     "NSCLC_v1.1-consortium", "mutations_extended", 17574, 54,
     "NSCLC_v1.1-consortium", "fusions", 821, 9,
     "NSCLC_v1.1-consortium", "cna", 930, 1782,
+    "NSCLC_v1.1-consortium", "variable_synopsis", 563, 5,
     "NSCLC_v2.2-consortium", "pt_char", 1832, 35,
     "NSCLC_v2.2-consortium", "ca_dx_index", 1858, 152,
     "NSCLC_v2.2-consortium", "ca_dx_non_index", 791, 97,
@@ -186,6 +188,7 @@ test_that("Number of columns and rows for each data release", {
     "NSCLC_v2.2-consortium", "mutations_extended", 17430, 64,
     "NSCLC_v2.2-consortium", "fusions", 815, 9,
     "NSCLC_v2.2-consortium", "cna", 965, 1764,
+    "NSCLC_v2.2-consortium", "variable_synopsis", 570, 5,
     "CRC_v1.3-consortium", "pt_char", 1476, 40,
     "CRC_v1.3-consortium", "ca_dx_index", 1485, 152,
     "CRC_v1.3-consortium", "ca_dx_non_index", 328, 97,
@@ -198,6 +201,7 @@ test_that("Number of columns and rows for each data release", {
     "CRC_v1.3-consortium", "mutations_extended", 22903, 64,
     "CRC_v1.3-consortium", "fusions", 395, 9,
     "CRC_v1.3-consortium", "cna", 965, 1479,
+    "CRC_v1.3-consortium", "variable_synopsis", 736, 5,
     "BrCa_v1.1-consortium", "pt_char", 1130, 40,
     "BrCa_v1.1-consortium", "ca_dx_index", 1141, 159,
     "BrCa_v1.1-consortium", "ca_dx_non_index", 194, 103,
@@ -210,6 +214,7 @@ test_that("Number of columns and rows for each data release", {
     "BrCa_v1.1-consortium", "mutations_extended", 6633, 54,
     "BrCa_v1.1-consortium", "fusions", 610, 9,
     "BrCa_v1.1-consortium", "cna", 930, 1222,
+    "BrCa_v1.1-consortium", "variable_synopsis", 772, 5,
     "PANC_v1.1-consortium", "pt_char", 1109, 52,
     "PANC_v1.1-consortium", "ca_dx_index", 1110, 141,
     "PANC_v1.1-consortium", "ca_dx_non_index", 279, 108,
@@ -223,6 +228,7 @@ test_that("Number of columns and rows for each data release", {
     "PANC_v1.1-consortium", "mutations_extended", 6572, 64,
     "PANC_v1.1-consortium", "fusions", 330, 9,
     "PANC_v1.1-consortium", "cna", 965, 1059,
+    "PANC_v1.1-consortium", "variable_synopsis", 796, 5,
     "Prostate_v1.1-consortium", "pt_char", 1116, 53,
     "Prostate_v1.1-consortium", "ca_dx_index", 1116, 145,
     "Prostate_v1.1-consortium", "ca_dx_non_index", 180, 107,
@@ -236,6 +242,7 @@ test_that("Number of columns and rows for each data release", {
     "Prostate_v1.1-consortium", "mutations_extended", 6194, 64,
     "Prostate_v1.1-consortium", "fusions", 1148, 9,
     "Prostate_v1.1-consortium", "cna", 965, 1168,
+    "Prostate_v1.1-consortium", "variable_synopsis", 740, 5,
     "NSCLC_v2.0-public", "pt_char", 1846, 36,
     "NSCLC_v2.0-public", "ca_dx_index", 1869, 141,
     "NSCLC_v2.0-public", "ca_dx_non_index", 797, 86,
@@ -247,6 +254,7 @@ test_that("Number of columns and rows for each data release", {
     "NSCLC_v2.0-public", "mutations_extended", 17472, 64,
     "NSCLC_v2.0-public", "fusions", 819, 9,
     "NSCLC_v2.0-public", "cna", 964, 1779,
+    "NSCLC_v2.0-public", "variable_synopsis", 565, 5,
     "BrCa_v1.2-consortium", "pt_char", 1129, 40,
     "BrCa_v1.2-consortium", "ca_dx_index", 1140, 159,
     "BrCa_v1.2-consortium", "ca_dx_non_index", 194, 94,
@@ -259,6 +267,7 @@ test_that("Number of columns and rows for each data release", {
     "BrCa_v1.2-consortium", "mutations_extended", 6646, 64,
     "BrCa_v1.2-consortium", "fusions", 611, 9,
     "BrCa_v1.2-consortium", "cna", 965, 1222,
+    "BrCa_v1.2-consortium", "variable_synopsis", 779, 5,
     "CRC_v2.0-public", "pt_char", 1485, 51,
     "CRC_v2.0-public", "ca_dx_index", 1494, 142,
     "CRC_v2.0-public", "ca_dx_non_index", 336, 106,
@@ -271,6 +280,7 @@ test_that("Number of columns and rows for each data release", {
     "CRC_v2.0-public", "mutations_extended", 23225, 64,
     "CRC_v2.0-public", "fusions", 403, 9,
     "CRC_v2.0-public", "cna", 965, 1488,
+    "CRC_v2.0-public", "variable_synopsis", 740, 5,
     "BLADDER_v1.1-consortium", "pt_char", 716, 39,
     "BLADDER_v1.1-consortium", "ca_dx_index", 716, 143,
     "BLADDER_v1.1-consortium", "ca_dx_non_index", 523, 111,
@@ -283,6 +293,7 @@ test_that("Number of columns and rows for each data release", {
     "BLADDER_v1.1-consortium", "mutations_extended", 11000, 64,
     "BLADDER_v1.1-consortium", "fusions", 242, 9,
     "BLADDER_v1.1-consortium", "cna", 965, 698,
+    "BLADDER_v1.1-consortium", "variable_synopsis", 871, 5,
     "BLADDER_v1.2-consortium", "pt_char", 716, 39,
     "BLADDER_v1.2-consortium", "ca_dx_index", 716, 143,
     "BLADDER_v1.2-consortium", "ca_dx_non_index", 523, 111,
@@ -295,6 +306,7 @@ test_that("Number of columns and rows for each data release", {
     "BLADDER_v1.2-consortium", "mutations_extended", 12994, 64,
     "BLADDER_v1.2-consortium", "fusions", 242, 9,
     "BLADDER_v1.2-consortium", "cna", 999, 674,
+    "BLADDER_v1.2-consortium", "variable_synopsis", 866, 5,
     "PANC_v1.2-consortium", "pt_char", 1109, 52,
     "PANC_v1.2-consortium", "ca_dx_index", 1110, 141,
     "PANC_v1.2-consortium", "ca_dx_non_index", 279, 108,
@@ -308,6 +320,7 @@ test_that("Number of columns and rows for each data release", {
     "PANC_v1.2-consortium", "mutations_extended", 6567, 64,
     "PANC_v1.2-consortium", "fusions", 330, 9,
     "PANC_v1.2-consortium", "cna", 965, 1058,
+    "PANC_v1.2-consortium", "variable_synopsis", 796, 5,
     "Prostate_v1.2-consortium", "pt_char", 1116, 53,
     "Prostate_v1.2-consortium", "ca_dx_index", 1116, 145,
     "Prostate_v1.2-consortium", "ca_dx_non_index", 180, 107,
@@ -320,7 +333,8 @@ test_that("Number of columns and rows for each data release", {
     "Prostate_v1.2-consortium", "cpt", 1227, 29,
     "Prostate_v1.2-consortium", "mutations_extended", 6193, 64,
     "Prostate_v1.2-consortium", "fusions", 1148, 9,
-    "Prostate_v1.2-consortium", "cna", 965, 1167
+    "Prostate_v1.2-consortium", "cna", 965, 1167,
+    "Prostate_v1.2-consortium", "variable_synopsis", 740, 5
   ) %>%
     mutate(data_release_factor = factor(data_release,
                                         levels = paste0(data_releases$cohort,
