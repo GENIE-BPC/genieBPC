@@ -328,92 +328,94 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # maybe get rid of the _cohort?- would be nice to keep synapse file name
   files <- rlang::set_names(files, ids_txt_csv$df)
 
-  for (i in 1:length(files)) {
+  if ("variable_synopsis" %in% c(names(files))) {
 
-    prep_data_labels <-
-      if (names(files)[i] %in% c(
-        "pt_char",
-        "ca_drugs",
-        "ca_radtx",
-        "prissmm_imaging",
-        "prissmm_path",
-        "prissmm_md",
-        "prissmm_tm",
-        "cpt"
-      )) {
-        files$variable_synopsis %>%
-          dplyr::mutate(
-            dataset_code = case_when(
-              .data$`Dataset` == "Patient-level dataset" ~ "pt_char",
-              .data$`Dataset` == "Cancer-directed regimen dataset" ~ "ca_drugs",
-              .data$`Dataset` == "Cancer-directed Radiation Therapy dataset" ~ "ca_radtx",
-              .data$`Dataset` == "PRISSMM Imaging level dataset" ~ "prissmm_imaging",
-              .data$`Dataset` == "PRISSMM Pathology level dataset" ~ "prissmm_path",
-              .data$`Dataset` == "PRISSMM Medical Oncologist Assessment level dataset" ~ "prissmm_md",
-              .data$`Dataset` == "PRISSMM Tumor Marker level dataset" ~ "prissmm_tm",
-              .data$`Dataset` == "Cancer panel test level dataset" ~ "cpt"
-            ),
-            variable = .data$`Variable Name`,
-            variable_label = .data$`Field Label`
-          ) %>%
-          dplyr::filter(.data$dataset_code == names(files)[i]) %>%
-          dplyr::filter(.data$variable %in% c(
-            files[[names(files)[i]]] %>%
-              as.data.frame() %>%
-              colnames() %>%
-              gsub(
-                pattern = ".*?\\.(.*?)",
-                replacement = "\\1",
-                x = .
-              ) %>%
-              unlist()
-          )) %>%
-          dplyr::select("variable", "variable_label") %>%
-          deframe()
+    for (i in 1:length(files)) {
 
-      } else if (names(files)[i] == "ca_dx_index") {
-        files$variable_synopsis %>%
-          dplyr::mutate(variable = .data$`Variable Name`,
-                        variable_label = .data$`Field Label`) %>%
-          dplyr::filter(grepl("diagnosis", .data$`Dataset`)) %>%
-          dplyr::filter(.data$variable %in% c(
-            files[[names(files)[i]]] %>%
-              as.data.frame() %>%
-              colnames() %>%
-              gsub(
-                pattern = ".*?\\.(.*?)",
-                replacement = "\\1",
-                x = .
-              ) %>%
-              unlist()
-          )) %>%
-          dplyr::select("variable", "variable_label") %>%
-          deframe()
+      prep_data_labels <-
+        if (names(files)[i] %in% c(
+          "pt_char",
+          "ca_drugs",
+          "ca_radtx",
+          "prissmm_imaging",
+          "prissmm_path",
+          "prissmm_md",
+          "prissmm_tm",
+          "cpt"
+        )) {
+          files$variable_synopsis %>%
+            dplyr::mutate(
+              dataset_code = case_when(
+                .data$`Dataset` == "Patient-level dataset" ~ "pt_char",
+                .data$`Dataset` == "Cancer-directed regimen dataset" ~ "ca_drugs",
+                .data$`Dataset` == "Cancer-directed Radiation Therapy dataset" ~ "ca_radtx",
+                .data$`Dataset` == "PRISSMM Imaging level dataset" ~ "prissmm_imaging",
+                .data$`Dataset` == "PRISSMM Pathology level dataset" ~ "prissmm_path",
+                .data$`Dataset` == "PRISSMM Medical Oncologist Assessment level dataset" ~ "prissmm_md",
+                .data$`Dataset` == "PRISSMM Tumor Marker level dataset" ~ "prissmm_tm",
+                .data$`Dataset` == "Cancer panel test level dataset" ~ "cpt"
+              ),
+              variable = .data$`Variable Name`,
+              variable_label = .data$`Field Label`
+            ) %>%
+            dplyr::filter(.data$dataset_code == names(files)[i]) %>%
+            dplyr::filter(.data$variable %in% c(
+              files[[names(files)[i]]] %>%
+                as.data.frame() %>%
+                colnames() %>%
+                gsub(
+                  pattern = ".*?\\.(.*?)",
+                  replacement = "\\1",
+                  x = .
+                ) %>%
+                unlist()
+            )) %>%
+            dplyr::select("variable", "variable_label") %>%
+            deframe()
 
-      } else if (names(files)[i] == "ca_dx_non_index") {
-        files$variable_synopsis %>%
-          dplyr::mutate(variable = .data$`Variable Name`,
-                        variable_label = .data$`Field Label`) %>%
-          dplyr::filter(grepl("diagnosis", .data$`Dataset`)) %>%
-          dplyr::filter(.data$variable %in% c(
-            files[[names(files)[i]]] %>%
-              as.data.frame() %>%
-              colnames() %>%
-              gsub(
-                pattern = ".*?\\.(.*?)",
-                replacement = "\\1",
-                x = .
-              ) %>%
-              unlist()
-          )) %>%
-          dplyr::select("variable", "variable_label") %>%
-          deframe()
-      }
+        } else if (names(files)[i] == "ca_dx_index") {
+          files$variable_synopsis %>%
+            dplyr::mutate(variable = .data$`Variable Name`,
+                          variable_label = .data$`Field Label`) %>%
+            dplyr::filter(grepl("diagnosis", .data$`Dataset`)) %>%
+            dplyr::filter(.data$variable %in% c(
+              files[[names(files)[i]]] %>%
+                as.data.frame() %>%
+                colnames() %>%
+                gsub(
+                  pattern = ".*?\\.(.*?)",
+                  replacement = "\\1",
+                  x = .
+                ) %>%
+                unlist()
+            )) %>%
+            dplyr::select("variable", "variable_label") %>%
+            deframe()
 
-    files[[names(files)[i]]] <- files[[names(files)[i]]] %>%
-      labelled::set_variable_labels(!!!prep_data_labels)
+        } else if (names(files)[i] == "ca_dx_non_index") {
+          files$variable_synopsis %>%
+            dplyr::mutate(variable = .data$`Variable Name`,
+                          variable_label = .data$`Field Label`) %>%
+            dplyr::filter(grepl("diagnosis", .data$`Dataset`)) %>%
+            dplyr::filter(.data$variable %in% c(
+              files[[names(files)[i]]] %>%
+                as.data.frame() %>%
+                colnames() %>%
+                gsub(
+                  pattern = ".*?\\.(.*?)",
+                  replacement = "\\1",
+                  x = .
+                ) %>%
+                unlist()
+            )) %>%
+            dplyr::select("variable", "variable_label") %>%
+            deframe()
+        }
 
+      files[[names(files)[i]]] <- files[[names(files)[i]]] %>%
+        labelled::set_variable_labels(!!!prep_data_labels)
 
+    }
   }
 
   return(files)
