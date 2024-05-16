@@ -99,16 +99,16 @@ testthat::expect_true(if (.is_connected_to_genie()) {
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
     # define expected number of dataframes based on whether TM and RT data were released
-    # 2024-05-15: added 1 to each to account for addition of variable synopsis
+    # note: don't need to account for var synopsis because it's not returned in create_analytic_cohort()
     mutate(expected_n_dfs = case_when(
       # no TM or RT
-      cohort == "NSCLC" ~ 12,
+      cohort == "NSCLC" ~ 11,
       # TM, no RT
-      cohort %in% c("CRC", "BrCa") ~ 13,
+      cohort %in% c("CRC", "BrCa") ~ 12,
       # RT, no TM
-      cohort == "BLADDER" ~ 13,
+      cohort == "BLADDER" ~ 12,
       # TM and RT
-      cohort %in% c("PANC", "Prostate") ~ 14
+      cohort %in% c("PANC", "Prostate") ~ 13
     ),
     expected_n_dfs_with_summary = expected_n_dfs + 4)
 
