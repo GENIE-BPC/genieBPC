@@ -59,11 +59,68 @@ test_that("Test class and length of list for public data", {
 })
 
 test_that("test `cohort` argument specification", {
-  # try to misspecify cohort (lower cases instead of capital)
-  expect_error(pull_data_synapse(
+  skip_if_not(.is_connected_to_genie())
+
+  # expect lower case cohort to work
+  expect_equal(pull_data_synapse(
+    cohort = "NSCLC",
+    version = "v2.2-consortium"
+  ),
+  pull_data_synapse(
     cohort = "nsclc",
     version = "v2.2-consortium"
-  ), "*")
+  ))
+
+  expect_equal(pull_data_synapse(
+    cohort = "CRC",
+    version = "v2.0-public"
+  ),
+  pull_data_synapse(
+    cohort = "crc",
+    version = "v2.0-public"
+  ))
+
+  expect_equal(pull_data_synapse(
+    cohort = "BrCa",
+    version = "v1.2-consortium"
+  ),
+  pull_data_synapse(
+    cohort = "brca",
+    version = "v1.2-consortium"
+  ))
+
+  expect_equal(pull_data_synapse(
+    cohort = "PANC",
+    version = "v1.2-consortium"
+  ),
+  pull_data_synapse(
+    cohort = "pancreas",
+    version = "v1.2-consortium"
+  ))
+
+  expect_equal(pull_data_synapse(
+    cohort = "Prostate",
+    version = "v1.2-consortium"
+  ),
+  pull_data_synapse(
+    cohort = "PrOsTaTe",
+    version = "v1.2-consortium"
+  ))
+
+  expect_equal(pull_data_synapse(
+    cohort = "BLADDER",
+    version = "v1.2-consortium"
+  ),
+  pull_data_synapse(
+    cohort = "bladdER",
+    version = "v1.2-consortium"
+  ))
+
+  # try to misspecify cohort
+  expect_error(pull_data_synapse(
+    cohort = "nsclc3",
+    version = "v2.2-consortium"
+  ), "`cohort` must be one of*")
 })
 
 test_that("test `version` argument specification", {
