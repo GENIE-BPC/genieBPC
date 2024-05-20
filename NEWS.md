@@ -1,5 +1,7 @@
 # genieBPC (development version)
 
+* Add variable labels to data returned from `pull_data_synapse()` (#1)
+
 * Update 'cohort' parameter of `pull_data_synapse()` and `synapse_version()` to not be case-sensitive (#120)
 
 * `synapse_version(most_recent = TRUE)` now returns one row per cohort, as opposed to one row per cohort and type of data release (consortium vs public) (#128)
