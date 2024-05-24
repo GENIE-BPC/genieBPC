@@ -120,9 +120,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # make cohort term not be case sensitive - will require update as new disease areas are added
   cohort <- dplyr::case_when(
     stringr::str_to_upper(cohort)=="NSCLC" |
-      stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
-      stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
-      stringr::str_to_upper(cohort)=="NONSMALL CELL LUNG CANCER"~ "NSCLC",
+    stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
+    stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
+    stringr::str_to_upper(cohort)=="NONSMALL CELL LUNG CANCER"~ "NSCLC",
     stringr::str_to_upper(cohort)=="CRC" | stringr::str_to_upper(cohort)=="COLORECTAL CANCER" ~ "CRC",
     stringr::str_to_upper(cohort)=="BRCA" | stringr::str_to_upper(cohort)=="BREAST CANCER"~ "BrCa",
     stringr::str_to_upper(cohort)=="BLADDER" ~ "BLADDER",
