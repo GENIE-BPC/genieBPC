@@ -35,7 +35,21 @@ synapse_version <- function(cohort = NULL, most_recent = FALSE) {
   if (is.null(cohort)){
     select_cohort <- c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate")
   } else {
-    select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
+    cohort_case <- dplyr::case_when(
+      stringr::str_to_upper(cohort) == "NSCLC" |
+        stringr::str_to_upper(cohort) == "NON-SMALL CELL LUNG CANCER" |
+        stringr::str_to_upper(cohort) == "NON SMALL CELL LUNG CANCER" |
+        stringr::str_to_upper(cohort) == "NONSMALL CELL LUNG CANCER" ~ "NSCLC",
+      stringr::str_to_upper(cohort) == "CRC" |
+        stringr::str_to_upper(cohort) == "COLORECTAL CANCER" ~ "CRC",
+      stringr::str_to_upper(cohort) == "BRCA" |
+        stringr::str_to_upper(cohort) == "BREAST CANCER" ~ "BrCa",
+      stringr::str_to_upper(cohort) == "BLADDER" ~ "BLADDER",
+      stringr::str_to_upper(cohort) == "PANC" |
+        stringr::str_to_upper(cohort) == "PANCREAS" ~ "PANC",
+      stringr::str_to_upper(cohort) == "PROSTATE" ~ "Prostate"
+    )
+    select_cohort <- rlang::arg_match(cohort_case, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
                                     multiple = TRUE)
   }
 
@@ -61,7 +75,9 @@ synapse_version <- function(cohort = NULL, most_recent = FALSE) {
   } else {
     synapse_tables_dts %>%
       filter(.data$cohort %in% c(select_cohort)) %>%
-      group_by(.data$cohort, .data$pubcon) %>%
+      group_by(.data$cohort
+               #, .data$pubcon
+               ) %>%
       slice(which.max(.data$numeric_release_date)) %>%
       ungroup() %>%
       arrange(.data$cohort, .data$numeric_release_date) %>%
