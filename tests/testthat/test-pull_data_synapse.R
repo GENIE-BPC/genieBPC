@@ -404,6 +404,24 @@ test_that("Test class and length of list for public data", {
 
 })
 
+# Consortium: Try Consortium Data With PUBLIC Username/Password -------------------------------
+
+
+test_that("Test that trying to pull consortium with public data fails", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+  data_releases_consortium <- synapse_tables %>%
+    filter(str_detect(version, "consortium")) %>%
+    distinct(cohort, version) %>%
+    head(n = 1)
+
+  expect_error(
+    pull_data_synapse(cohort = data_releases_consortium$cohort,
+                      version = data_releases_consortium$version))
+
+})
 
 # Public: Pull Public Data With PAT --------------------------------------------------------
 
@@ -467,12 +485,37 @@ test_that("Test class and length of list for public data", {
 
 
 # Public: Pull Public Data With Username/Password -----------------------------
-# <Needs tests>
+test_that("Test no error with Public access PAT, not consortium specific check", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+  pull_data_synapse(
+    cohort = "NSCLC",
+    version = "v2.0-public",
+    pat =  Sys.getenv("SYNAPSE_PAT_PUBLIC")
+  )
+  expect_no_error(check_genie_access(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+})
+
 
 # No Terms: Pull Public Data With Username/Password -----------------------------
-# <Needs tests>
 
+test_that("Test error when access terms not checked", {
+  skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
+                                     password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS")))
 
+  set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
+                          password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS"))
+
+  expect_error(
+    pull_data_synapse(
+      cohort = "CRC",
+      version = "v2.0-public"
+    )
+  )
+
+})
 # No Terms: Pull Public Data With PAT -----------------------------------------
 
 # Can terms error message be improved? It's layered and confusing rn but can't think

@@ -4,7 +4,7 @@
 
 * NEW FEATURE: Users can now pass their Personal Access Token (as well as username/ password) to set up authentication for accessing all data. 
 
-* BREAKING CHANGE: Users must not use `set_synapse_credentials()` at the top of all scripts and explicitly set username/password or PAT.
+* BREAKING CHANGE: Users must use `set_synapse_credentials()` at the top of all scripts and explicitly set username/password or PAT for each session.
 
 
 # genieBPC 1.1.1
