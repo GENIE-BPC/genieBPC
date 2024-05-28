@@ -9,7 +9,7 @@
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-#'   and "BLADDER" (Bladder Cancer).
+#'   and "BLADDER" (Bladder Cancer). This is not case sensitive.
 #' @param version Vector specifying the version of the cohort. Must match one of the
 #'   release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
 #'   When entering multiple cohorts, it is inferred that the order of the version
@@ -115,6 +115,24 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
                                        pat = pat)
 
   # get `cohort` ---
+
+  # make cohort term not be case sensitive - will require update as new disease areas are added
+  cohort <- dplyr::case_when(
+    stringr::str_to_upper(cohort)=="NSCLC" |
+      stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
+      stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
+      stringr::str_to_upper(cohort)=="NONSMALL CELL LUNG CANCER"~ "NSCLC",
+    stringr::str_to_upper(cohort)=="CRC" | stringr::str_to_upper(cohort)=="COLORECTAL CANCER" ~ "CRC",
+    stringr::str_to_upper(cohort)=="BRCA" | stringr::str_to_upper(cohort)=="BREAST CANCER"~ "BrCa",
+    stringr::str_to_upper(cohort)=="BLADDER" ~ "BLADDER",
+    stringr::str_to_upper(cohort)=="PANC" | stringr::str_to_upper(cohort)=="PANCREAS" ~ "PANC",
+    stringr::str_to_upper(cohort)=="PROSTATE" ~ "Prostate",
+    # last condition to avoid error message:
+    # '`cohort` must be a single string, not a character `NA`.'
+    # when an NA is fed into arg_match below
+    TRUE ~ cohort
+  )
+
   select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
     multiple = TRUE
   )

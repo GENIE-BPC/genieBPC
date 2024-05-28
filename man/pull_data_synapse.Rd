@@ -17,7 +17,7 @@ pull_data_synapse(
 \item{cohort}{Vector or list specifying the cohort(s) of interest. Must be
 one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-and "BLADDER" (Bladder Cancer).}
+and "BLADDER" (Bladder Cancer). This is not case sensitive.}
 
 \item{version}{Vector specifying the version of the cohort. Must match one of the
 release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
