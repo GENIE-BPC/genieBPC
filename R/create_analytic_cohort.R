@@ -782,7 +782,7 @@ create_analytic_cohort <- function(data_synapse,
   }
 
   if (!is.null(pluck(data_synapse, "sv"))) {
-    cohort_fusions <- dplyr::inner_join(pluck(data_synapse, "sv"),
+    cohort_sv <- dplyr::inner_join(pluck(data_synapse, "sv"),
                                         cohort_ngs %>%
                                           dplyr::select("cohort", "cpt_genie_sample_id"),
                                         by = c("Sample_Id" = "cpt_genie_sample_id")
