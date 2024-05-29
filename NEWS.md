@@ -8,6 +8,8 @@
 
 * Added **NSCLC v3.1-consortium** release (#137)
 
+* Read in structural variant files for NSCLC v2.2-consortium, CRC v1.3-consortium, and Bladder v1.2-consortium. For more information on structural variant data, see: [https://docs.cbioportal.org/file-formats/#structural-variant-data](https://docs.cbioportal.org/file-formats/#structural-variant-data). 
+
 # genieBPC 1.1.1
 
 * Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)
