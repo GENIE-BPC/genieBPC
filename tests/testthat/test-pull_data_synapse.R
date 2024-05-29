@@ -14,16 +14,16 @@ testthat::expect_true(if (.is_connected_to_genie()) {
       ## no TM or RT
       cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.0-public") ~ 11,
       # sv file added to NSCLC at 2.2-consortium
-      cohort == "NSCLC" ~ 11,
+      cohort == "NSCLC" ~ 12,
       ## TM, no RT
-      cohort %in% c("CRC") & version == "v1.3-consortium" ~ 12,
+      cohort %in% c("CRC") & version == "v2.0-public" ~ 12,
       cohort %in% c("BrCa") ~ 12,
       # sv added
-      cohort %in% c("CRC") & version == "v2.0-consortium" ~ 13,
+      cohort %in% c("CRC") ~ 13,
       ## RT, no TM
       cohort == "BLADDER" & version == "v1.1-consortium" ~ 12,
       # sv added
-      cohort == "BLADDER" & version == "v1.2-consortium" ~ 12,
+      cohort == "BLADDER" & version == "v1.2-consortium" ~ 13,
       # TM and RT
       cohort %in% c("PANC", "Prostate") ~ 13
     ))
@@ -273,8 +273,8 @@ test_that("Number of columns and rows for each data release", {
     "NSCLC_v3.1-consortium", "ca_drugs", 7930, 103,
     "NSCLC_v3.1-consortium", "prissmm_imaging", 72735, 43,
     "NSCLC_v3.1-consortium", "prissmm_pathology", 16665, 196,
-    "NSCLC_v3.1-consortium", "prissmm_md", 50578, 15,
     "NSCLC_v3.1-consortium", "ca_radtx", 5038, 84,
+    "NSCLC_v3.1-consortium", "prissmm_md", 50578, 15,
     "NSCLC_v3.1-consortium", "cpt", 4238, 29,
     "NSCLC_v3.1-consortium", "mutations_extended", 42426, 64,
     "NSCLC_v3.1-consortium", "sv", 1641, 40,
