@@ -77,8 +77,8 @@ all_syn_ids <- purrr::map_df(releases_by_cohort_subfolders,
 # keep files of interest
 synapse_tables <- all_syn_ids %>%
   dplyr::filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
-    (grepl("synopsis|fusions|CNA|mutations_extended", name) &
-      !grepl("meta", name))) %>%
+    (grepl("synopsis|fusions|data_sv|CNA|mutations_extended", name, ignore.case = TRUE) &
+      !grepl("meta|seg", name))) %>%
   # exclude NSCLC v2.1-consortium and CRC v1.1 and v1.2-consortium releases
   # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
   filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium")),
@@ -89,7 +89,7 @@ synapse_tables <- all_syn_ids %>%
       string = name
     ),
     filename = case_when(
-      grepl("synopsis", filename_pre) ~ "variable_synopsis",
+      grepl("synopsis", filename_pre, ignore.case = TRUE) ~ "variable_synopsis",
       TRUE ~ filename_pre
     )
   ) %>%
@@ -107,6 +107,7 @@ synapse_tables <- all_syn_ids %>%
       str_to_lower(filename) == "cancer_panel_test_level_dataset" ~ "cpt",
       str_to_lower(filename) == "data_cna" ~ "cna",
       str_to_lower(filename) == "data_fusions" ~ "fusions",
+      str_to_lower(filename) == "data_sv" ~ "sv",
       str_to_lower(filename) == "data_mutations_extended" ~ "mutations_extended",
       TRUE ~ filename
     ),
@@ -114,7 +115,7 @@ synapse_tables <- all_syn_ids %>%
       "pt_char", "ca_dx_index", "ca_dx_non_index",
       "ca_drugs", "prissmm_imaging", "prissmm_pathology",
       "ca_radtx", "prissmm_md", "tumor_marker",
-      "cpt", "mutations_extended", "fusions", "cna",
+      "cpt", "mutations_extended", "fusions", "sv", "cna",
       "variable_synopsis"
     )
   )) %>%
