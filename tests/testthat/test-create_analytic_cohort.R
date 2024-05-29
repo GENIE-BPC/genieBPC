@@ -246,7 +246,10 @@ test_that("correct cohort returned from create cohort", {
     separate(data_release,
       into = c("cohort_expected", "data_release"),
       sep = "_"
-    )
+    ) %>%
+    # to account for NSCLC2, CRC2, need to remove the number from the cohort var
+    mutate(cohort = str_remove_all(pattern = "[:digit:]",
+                                   string = cohort))
 
   expect_equal(cohort_returned$cohort_expected, cohort_returned$cohort)
 })
@@ -265,7 +268,7 @@ test_that("check first index cancer default", {
     pluck,
     "ca_dx_index"
   ) %>%
-    map_depth(., .depth = 2, group_by, record_id) %>%
+    map_depth(., .depth = 2, group_by, cohort, record_id) %>%
     map_depth(., .depth = 2, slice_min, ca_seq) %>%
     map_depth(., .depth = 2, ungroup) %>%
     map(., 1)
