@@ -101,12 +101,19 @@ testthat::expect_true(
     distinct(cohort, version) %>%
     # define expected number of dataframes based on whether TM and RT data were released
     mutate(expected_n_dfs = case_when(
-      # no TM or RT
-      cohort == "NSCLC" ~ 11,
-      # TM, no RT
-      cohort %in% c("CRC", "BrCa") ~ 12,
-      # RT, no TM
-      cohort == "BLADDER" ~ 12,
+      ## no TM or RT
+      cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.0-public") ~ 11,
+      # sv file added to NSCLC at 2.2-consortium
+      cohort == "NSCLC" ~ 12,
+      ## TM, no RT
+      cohort %in% c("CRC") & version == "v2.0-public" ~ 12,
+      cohort %in% c("BrCa") ~ 12,
+      # sv added
+      cohort %in% c("CRC") ~ 13,
+      ## RT, no TM
+      cohort == "BLADDER" & version == "v1.1-consortium" ~ 12,
+      # sv added
+      cohort == "BLADDER" & version == "v1.2-consortium" ~ 13,
       # TM and RT
       cohort %in% c("PANC", "Prostate") ~ 13
     ),
