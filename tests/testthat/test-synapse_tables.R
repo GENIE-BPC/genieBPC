@@ -36,7 +36,11 @@ test_that("expected datasts", {
 
   # expect only certain cohorts to have radiation data
   synapse_tables_wide_rt_cohorts <- synapse_tables_wide %>%
-    dplyr::filter(stringr::str_to_upper(cohort) %in% c("PANC", "PROSTATE", "BLADDER"))
+    dplyr::filter(stringr::str_to_upper(cohort) %in% c("PANC", "PROSTATE", "BLADDER") |
+                    (stringr::str_to_upper(cohort) == "NSCLC" &
+                       !(version %in% c("v1.1-consortium",
+                                        "v2.2-consortium",
+                                        "v2.0-public"))))
 
   expect_equal(nrow(synapse_tables_wide_rt_cohorts),
                nrow(synapse_tables_wide %>%
