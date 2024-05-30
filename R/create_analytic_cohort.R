@@ -182,8 +182,11 @@ create_analytic_cohort <- function(data_synapse,
   # get cohort name and how it is capitalized in the data_synapse object
   cohort_temp <- pull(
     pluck(data_synapse, "pt_char") %>%
-      distinct(.data$cohort),
-    "cohort"
+      # remove digits to account for Phase 2 Cohorts
+      mutate(cohort_no_digits = stringr::str_remove_all(pattern = "[:digit:]",
+                              string = .data$cohort)) %>%
+      distinct(cohort_no_digits),
+    "cohort_no_digits"
   )
 
   # alphabetize drugs in regimen to match
