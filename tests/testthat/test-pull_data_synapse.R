@@ -182,10 +182,10 @@ test_that("correct release returned", {
   # remove genomic data frames since we don't expect them to have a release_version variable
   test_list_release_version_avail_no_genomic <- map_depth(test_list_release_version_avail,
                                                           .depth = 2,
-                                                ~within(.x,
-                                                        rm(cna,
-                                                           fusions,
-                                                           mutations_extended)))
+                                                ~purrr::discard_at(.x, c("cna",
+                                                                  "fusions",
+                                                                  "sv",
+                                                                  "mutations_extended")))
 
   # for each dataframe returned for a data release, get the cohort variable
   release_returned <- map_depth(test_list_release_version_avail_no_genomic, .depth = 3, select,
