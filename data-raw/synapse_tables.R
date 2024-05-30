@@ -77,8 +77,8 @@ all_syn_ids <- purrr::map_df(releases_by_cohort_subfolders,
 # keep files of interest
 synapse_tables <- all_syn_ids %>%
   dplyr::filter((grepl("clinical_data", folder) & !grepl("DEC2019", name)) |
-    (grepl("synopsis|fusions|data_sv|CNA|mutations_extended", name, ignore.case = TRUE) &
-      !grepl("meta|seg", name))) %>%
+    (grepl("synopsis|fusions|CNA|mutations_extended|sv", name) &
+      !grepl("meta", name))) %>%
   # exclude NSCLC v2.1-consortium and CRC v1.1 and v1.2-consortium releases
   # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
   filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium")),
