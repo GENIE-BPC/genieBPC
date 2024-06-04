@@ -63,6 +63,10 @@ set_synapse_credentials <- function(username = NULL,
                                     password = NULL,
                                     pat = NULL) {
 
+  # remove any former objects in environment
+  suppressWarnings(
+    rm(list = c("password", "username", "pat"), envir = genieBPC_env))
+
   # Use Passed Arguments First ----------------------------------------------
 
   # * If PAT passed, use that -----------
