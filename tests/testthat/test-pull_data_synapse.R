@@ -145,7 +145,6 @@ test_that("test `cohort` argument specification", {
 
 test_that("test `version` argument specification", {
   skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # no version specified
   expect_error(
@@ -225,7 +224,7 @@ test_that("correct release returned", {
 })
 
 test_that("Number of columns and rows for each data release", {
-  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # get number of columns for each dataframe returned
   col_lengths <- map_depth(test_list, .depth = 3, length) %>%
@@ -460,7 +459,7 @@ test_that("Number of columns and rows for each data release", {
 })
 
 test_that("Test NA conversion", {
-  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # making sure there are no character "" instead of NAs
   # count number of character "" across all columns
