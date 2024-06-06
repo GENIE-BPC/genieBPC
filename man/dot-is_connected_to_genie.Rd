@@ -4,7 +4,12 @@
 \alias{.is_connected_to_genie}
 \title{Check Synapse Login Status & Ability to Access Data}
 \usage{
-.is_connected_to_genie()
+.is_connected_to_genie(
+  username = NULL,
+  password = NULL,
+  pat = NULL,
+  check_consortium_access = FALSE
+)
 }
 \value{
 Returns message indicating user is logged into

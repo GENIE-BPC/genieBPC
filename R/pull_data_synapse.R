@@ -22,6 +22,7 @@
 #'   specified, data are not read into the R environment.
 #' @param username 'Synapse' username
 #' @param password 'Synapse' password
+#' @param pat 'Synapse' personal access token
 #'
 #' @section Authentication:
 #' To access data, users must have a valid 'Synapse' account with permission to
@@ -34,6 +35,10 @@
 #'
 #' `set_synapse_credentials(username = "your_username", password = "your_password")`
 #'
+#' In addition to passing your 'Synapse' username and password, you may choose to set
+#' your 'Synapse' Personal Access Token (PAT) by calling:
+#'  `set_synapse_credentials(pat = "your_pat")`.
+#'
 #' If your credentials are stored as environmental variables, you do not need to
 #' call `set_synapse_credentials()` explicitly each session. To store
 #' authentication information in your environmental variables, add the following
@@ -43,8 +48,9 @@
 #' \itemize{
 #'    \item `SYNAPSE_USERNAME = <your-username>`
 #'    \item `SYNAPSE_PASSWORD = <your-password>`
+#'    \item `SYNAPSE_PAT = <your-pat>`
 #'    }
-#' Alternatively, you can pass your username and password to each individual
+#' Alternatively, you can pass your username and password or your PAT to each individual
 #' data pull function if preferred, although it is recommended that you manage
 #' your passwords outside of your scripts for security purposes.
 #'
@@ -99,12 +105,14 @@
 
 pull_data_synapse <- function(cohort = NULL, version = NULL,
                               download_location = NULL,
-                              username = NULL, password = NULL) {
+                              username = NULL, password = NULL, pat = NULL) {
 
   # Check parameters ---------------------------------------------------------
 
   # Make sure credentials are available and get token ---
-  token <- .get_synapse_token(username = username, password = password)
+  token <- .get_synapse_token(username = username,
+                                       password = password,
+                                       pat = pat)
 
   # get `cohort` ---
 
@@ -186,6 +194,10 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       }
     }
 
+  # If consortium data requested, check that consortium access is granted for account
+  if(any(str_detect(version_num$version, "consortium"))) {
+    suppressMessages(check_genie_access(pat = token, check_consortium_access = TRUE))
+  }
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%

@@ -6,6 +6,11 @@
 
 * Update `drug_regimen_list` lookup table to include drug names by data release, as opposed to by cohort. It is possible that drug names were modified slightly across data releases (#132)
 
+* NEW FEATURE: Users can now pass their Personal Access Token (as well as username/ password) to set up authentication for accessing all data. 
+
+* BREAKING CHANGE: Users must use `set_synapse_credentials()` at the top of all scripts and explicitly set username/password or PAT for each session.
+
+
 # genieBPC 1.1.1
 
 * Updated code for default institution in `create_analytic_cohort()` to fix bug if the `cohort` = "Prostate" (#130)

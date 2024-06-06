@@ -94,7 +94,8 @@ test_that("stage_dx- argument check", {
 # pull data for each cohort
 # return to avoid having to re-run pull_data_synapse for
 # each test
-testthat::expect_true(if (.is_connected_to_genie()) {
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -112,11 +113,10 @@ testthat::expect_true(if (.is_connected_to_genie()) {
     expected_n_dfs_with_summary = expected_n_dfs + 4)
 
   # for each data release, pull data into the R environment
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   data_releases_pull_data <- pmap(
-    data_releases %>%
-      select(cohort, version),
-    pull_data_synapse
-  )
+      select(data_releases, cohort, version),
+        pull_data_synapse)
 
   # name the items in the list
   names(data_releases_pull_data) <- paste0(
@@ -124,10 +124,13 @@ testthat::expect_true(if (.is_connected_to_genie()) {
     data_releases$version
   )
 
-  length(data_releases_pull_data) > 0
-} else {0 == 0})
+  length(data_releases_pull_data) > 0 } else {
+  0 == 0
+  })
 
-testthat::expect_true(if (.is_connected_to_genie()) {
+testthat::expect_true(
+  if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
+
   # for each data release, run create analytic cohort
   # get first object from each item in the list
   # then run create analytic cohort
@@ -156,7 +159,7 @@ testthat::expect_true(if (.is_connected_to_genie()) {
 # will update once we merge in PR to allow multiple cohorts in create_analytic_cohort
 test_that("multiple cohorts- argument check", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   expect_error(create_analytic_cohort(
     data_synapse = data_releases_pull_data[1:2]
@@ -172,7 +175,7 @@ test_that("non-existent data_synapse", {
 
 test_that("correct number of objects returned from create cohort", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # check that number of items returned is correct
   # data releases with RT and TM
@@ -210,7 +213,7 @@ test_that("correct number of objects returned from create cohort", {
 
 test_that("correct cohort returned from create cohort", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # for each data frame returned with a cohort, get the cohort variable
   # remove genomic data frames since we don't expect them to have a cohort variable
@@ -243,7 +246,7 @@ test_that("correct cohort returned from create cohort", {
 
 test_that("check first index cancer default", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
@@ -271,7 +274,7 @@ test_that("check first index cancer default", {
 
 test_that("index_ca_seq", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # not really cohort specific, all cohorts will have index_ca_seq
   # for now, only test on lung
@@ -319,7 +322,7 @@ test_that("index_ca_seq", {
 
 test_that("institution", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # institution is specified and correct institution is returned
   # institution will be available across data releases,
@@ -367,7 +370,7 @@ test_that("institution", {
 
 test_that("stage_dx", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # stage dx is specified and correct stage is returned
   # not cohort specific, all cohorts will have stage
@@ -408,7 +411,7 @@ test_that("stage_dx", {
 
 test_that("histology", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # no histology is specified, all are returned
   test0b <- data_releases_pull_data$`NSCLC_v2.0-public`$NSCLC_v2.0$ca_dx_index %>%
@@ -477,7 +480,7 @@ test_that("histology", {
 
 test_that("no regimen specified", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # all regimens are returned
   # should match all regimens given for a patients first index cancer
@@ -499,7 +502,7 @@ test_that("no regimen specified", {
 
 test_that("drug regimen specified, order not specified", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
@@ -594,7 +597,7 @@ test_that("drug regimen specified, order not specified", {
 
 test_that("drug regimen specified, order specified to be within cancer", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
@@ -744,7 +747,7 @@ test_that("drug regimen specified, order specified to be within cancer", {
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # single regimen specified, want first time that regimen
   # was given for all cancers
@@ -843,7 +846,7 @@ test_that("exact drug regimen specified,
 test_that("containing drug regimen specified,
           order specified to be within regimen", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # specify regimen type to be containing (default is exact,
   # which is what is implemented in the above)
@@ -913,7 +916,7 @@ test_that("containing drug regimen specified,
 
 test_that("regimen_type", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_type
@@ -931,7 +934,7 @@ test_that("regimen_type", {
 
 test_that("regimen_order", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # character value provided for regimen_order
   # only testing on a single cancer cohort since not cohort-specific
@@ -943,7 +946,7 @@ test_that("regimen_order", {
 
 test_that("regimen_order_type", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_order_type
@@ -970,7 +973,7 @@ test_that("regimen_order_type", {
 
 test_that("No patients met criteria", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`$NSCLC_v2.0,
