@@ -195,6 +195,10 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
       }
     }
 
+  # If consortium data requested, check that consortium access is granted for account
+  if(any(str_detect(version_num$version, "consortium"))) {
+    suppressMessages(check_genie_access(pat = token, check_consortium_access = TRUE))
+  }
 
   version_num <- version_num %>%
     dplyr::inner_join(sv, ., by = c("cohort", "version")) %>%

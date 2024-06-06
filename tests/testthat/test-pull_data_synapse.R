@@ -65,7 +65,9 @@ test_that("Test class and length of list for public data", {
 })
 
 test_that("test `cohort` argument specification", {
-  skip_if_not(.is_connected_to_genie())
+# try to misspecify cohort (lower cases instead of capital)
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # expect lower case cohort to work
   expect_equal(pull_data_synapse(
@@ -130,7 +132,8 @@ test_that("test `cohort` argument specification", {
 })
 
 test_that("test `version` argument specification", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # no version specified
   expect_error(
@@ -172,7 +175,8 @@ test_that("test `version` argument specification", {
 
 test_that("correct release returned", {
   # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # not all data releases had a release_version variable
   test_list_release_version_avail <- within(test_list,
@@ -208,7 +212,8 @@ test_that("correct release returned", {
 })
 
 test_that("Number of columns and rows for each data release", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # get number of columns for each dataframe returned
   col_lengths <- map_depth(test_list, .depth = 3, length) %>%
@@ -443,7 +448,8 @@ test_that("Number of columns and rows for each data release", {
 })
 
 test_that("Test NA conversion", {
-  skip_if_not(.is_connected_to_genie())
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # making sure there are no character "" instead of NAs
   # count number of character "" across all columns
@@ -463,4 +469,157 @@ test_that("Test NA conversion", {
     filter(n_blanks != 0)
 
   expect_equal(nrow(any_blank_cols), 0)
+})
+
+# # Consortium: Pull Consortium Data With Username/Password -------------------------------
+
+test_that("Test class and length of list for public data", {
+  skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
+                                     password = Sys.getenv("SYNAPSE_PASSWORD")))
+
+  set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME"),
+                          password = Sys.getenv("SYNAPSE_PASSWORD"),
+                          pat = NULL)
+
+  data_releases_username <- synapse_tables %>%
+    distinct(cohort, version) %>%
+    head(n = 2)
+
+  test_list <- expect_no_error(pmap(select(data_releases_username, cohort, version),
+                    pull_data_synapse))
+
+})
+
+# # Consortium: Try Consortium Data With PUBLIC Username/Password -------------------------------
+
+
+test_that("Test that trying to pull consortium with public data fails", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+  data_releases_consortium <- synapse_tables %>%
+    filter(str_detect(version, "consortium")) %>%
+    distinct(cohort, version) %>%
+    head(n = 1)
+
+  expect_error(
+    pull_data_synapse(cohort = data_releases_consortium$cohort,
+                      version = data_releases_consortium$version))
+
+})
+
+# # Public: Pull Public Data With PAT --------------------------------------------------------
+
+testthat::expect_true(length(
+  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))) {
+
+    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+    # Get Public Releases Only
+    data_releases_public <- synapse_tables %>%
+      distinct(cohort, version) %>%
+      filter(str_detect(version, "public")) %>%
+      # define expected number of dataframes based on whether TM and RT data were released
+      mutate(expected_n_dfs = case_when(
+        # no TM or RT
+        cohort == "NSCLC" ~ 11,
+        # TM, no RT
+        cohort %in% c("CRC", "BrCa") ~ 12,
+        # RT, no TM
+        cohort == "BLADDER" ~ 12,
+        # TM and RT
+        cohort %in% c("PANC", "Prostate") ~ 13
+      ))
+
+    # for each data release, pull data into the R environment
+    test_list <- pmap(data_releases_public %>%
+                        select(cohort, version),
+                      pull_data_synapse)
+
+    # name the items in the list
+    names(test_list) <- paste0(
+      data_releases_public$cohort, "_",
+      data_releases_public$version
+    )
+
+    # get actual length of each data release returned from pull_data_synapse
+    actual_length <- map_depth(test_list, .depth = 2, length) %>%
+      bind_rows() %>%
+      pivot_longer(
+        cols = everything(),
+        names_to = "data_release",
+        values_to = "length",
+        values_drop_na = TRUE
+      )
+  }) > 0)
+
+
+
+test_that("Test class and length of list for public data", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  # compare to expected length
+  expect_equal(data_releases_public$expected_n_dfs, actual_length$length)
+
+  # compare to expected class
+  # expect each data release returned to be a list, need to rep "list" the
+  # number of times for the data releases we have
+  expect_equal(unname(map_chr(test_list, class)), rep("list", nrow(data_releases_public)))
+})
+
+
+
+# Public: Pull Public Data With Username/Password -----------------------------
+test_that("Test no error with Public access PAT, not consortium specific check", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC")))
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
+
+  expect_no_error(pull_data_synapse(
+    cohort = "NSCLC",
+    version = "v2.0-public",
+    pat =  Sys.getenv("SYNAPSE_PAT_PUBLIC")
+  ))
+
+})
+
+
+# No Terms: Pull Public Data With Username/Password -----------------------------
+
+test_that("Test error when access terms not checked", {
+  skip_if_not(.is_connected_to_genie(
+    username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
+    password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS")
+  ))
+
+  set_synapse_credentials(
+    username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
+    password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS")
+  )
+
+  expect_error(pull_data_synapse(
+    cohort = "CRC",
+    version = "v2.0-public"
+  ))
+
+})
+
+# No Terms: Pull Public Data With PAT -----------------------------------------
+
+# Can terms error message be improved? It's layered and confusing rn but can't think
+# of best way to fix it
+# <Maybe Needs more tests>
+
+test_that("Test error when access terms not checked", {
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS")))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS"))
+
+    expect_error(
+      pull_data_synapse(
+        cohort = "CRC",
+        version = "v2.0-public"
+      )
+    )
+
 })

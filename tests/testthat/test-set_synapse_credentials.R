@@ -14,6 +14,18 @@ test_that("set pat = NULL but PAT exists in environment", {
   )
 })
 
+test_that("set pat = NULL but PAT exists in environment", {
+  expect_error(
+    set_synapse_credentials(pat = ""), "*"
+  )
+})
+
+test_that("set pat = NULL but PAT exists in environment", {
+  expect_error(
+    set_synapse_credentials(pat = " "), "*"
+  )
+})
+
 test_that("explicitly call user/pass but set wrong and PAT is in environ", {
   expect_error(
     set_synapse_credentials(username = "kitty", password = "puppy"),
