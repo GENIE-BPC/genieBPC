@@ -183,7 +183,7 @@ create_analytic_cohort <- function(data_synapse,
   cohort_temp <- pull(
     pluck(data_synapse, "pt_char") %>%
       # remove digits to account for Phase 2 Cohorts
-      mutate(.data$cohort_no_digits = stringr::str_remove_all(pattern = "[:digit:]",
+      mutate(cohort_no_digits = stringr::str_remove_all(pattern = "[:digit:]",
                               string = .data$cohort)) %>%
       distinct(.data$cohort_no_digits),
     "cohort_no_digits"
