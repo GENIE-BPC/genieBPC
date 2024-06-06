@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"genieBPC"</span><span class="op">)</span></span></code></pre></div>
 <p>Install the development version of {genieBPC} with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GENIE-BPC/genieBPC"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="overview-of-geniebpc-functions">Overview of {genieBPC} Functions<a class="anchor" aria-label="anchor" href="#overview-of-geniebpc-functions"></a>
@@ -131,6 +131,16 @@
 <li><p>Select <em>Request Access</em>, <strong>review the terms of data use,</strong> and select <em>Accept.</em></p></li>
 </ol>
 <p><em>Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
+<p><strong><em>Request a Synapse Personal Access Token (PAT):</em></strong></p>
+<p>Once you are logged into your Synapse account, you may request a Synapse personal access token (PAT).</p>
+<ol style="list-style-type: decimal">
+<li><p>In the left hand panel towards the bottom, click the button that shows the first letter of your first name. This button displays the text “Your Account” when hovered over and appears directly above the question mark button.</p></li>
+<li><p>Next, select <em>Account Settings</em> and then scroll to the bottom of the page.</p></li>
+<li><p>Under the “Personal Access Tokens” section, select <em>Manage Personal Access Tokens.</em></p></li>
+<li><p>On the “Personal Access Tokens” page, click on <em>Create New Token</em> to generate a Synapse Personal Access Token.</p></li>
+<li><p>Specify a Token Name and click the checkbox that will allow you to <em>Download</em> the data, and then select <em>Create Token.</em></p></li>
+<li><p>Save your Synapse Personal Access Token in a secure location.</p></li>
+</ol>
 <p><strong><em>Authenticate yourself</em></strong></p>
 <p>Whether you are using public or consortium data, you will need to authenticate yourself at the beginning of each R session in which you use {genieBPC} to pull data (see <code><a href="reference/set_synapse_credentials.html">set_synapse_credentials()</a></code>), or store your credentials as environmental variables. See <a href="https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html">Tutorial: pull_data_synapse</a> for more details.</p>
 </div>

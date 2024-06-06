@@ -58,6 +58,12 @@
     <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_synapse_token.html</loc>
   </url>
   <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_token_by_pat.html</loc>
+  </url>
+  <url>
+    <loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_token_by_username.html</loc>
+  </url>
+  <url>
     <loc>https://genie-bpc.github.io/genieBPC/reference/dot-is_connected_to_genie.html</loc>
   </url>
   <url>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,8 @@
 <ul><li><p>Update ‘cohort’ parameter of <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> and <code><a href="../reference/synapse_version.html">synapse_version()</a></code> to not be case-sensitive (<a href="https://github.com/GENIE-BPC/genieBPC/issues/120" class="external-link">#120</a>)</p></li>
 <li><p><code>synapse_version(most_recent = TRUE)</code> now returns one row per cohort, as opposed to one row per cohort and type of data release (consortium vs public) (<a href="https://github.com/GENIE-BPC/genieBPC/issues/128" class="external-link">#128</a>)</p></li>
 <li><p>Update <code>drug_regimen_list</code> lookup table to include drug names by data release, as opposed to by cohort. It is possible that drug names were modified slightly across data releases (<a href="https://github.com/GENIE-BPC/genieBPC/issues/132" class="external-link">#132</a>)</p></li>
+<li><p>NEW FEATURE: Users can now pass their Personal Access Token (as well as username/ password) to set up authentication for accessing all data.</p></li>
+<li><p>BREAKING CHANGE: Users must use <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> at the top of all scripts and explicitly set username/password or PAT for each session.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="geniebpc-111">genieBPC 1.1.1<a class="anchor" aria-label="anchor" href="#geniebpc-111"></a></h2><p class="text-muted">CRAN release: 2024-03-29</p>

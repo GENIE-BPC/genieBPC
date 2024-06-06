@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,21 +67,35 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_genie_access</span><span class="op">(</span>username <span class="op">=</span> <span class="cn">NULL</span>, password <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_genie_access</span><span class="op">(</span></span>
+<span>  username <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  password <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pat <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  check_consortium_access <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>username</dt>
 <dd><p>'Synapse' username. If NULL, package will search package
-environment for "username". If not found, package will look in
-environmental variables for `SYNAPSE_USERNAME`.</p></dd>
+environment for "username".</p></dd>
 
 
 <dt>password</dt>
 <dd><p>'Synapse' password. If NULL, package will search package
-environment for "password". If not found package will search environmental
-variables for `SYNAPSE_PASSWORD`.</p></dd>
+environment for "password".</p></dd>
+
+
+<dt>pat</dt>
+<dd><p>'Synapse' Personal Access Token. If NULL, package will search package
+environment for "pat".</p></dd>
+
+
+<dt>check_consortium_access</dt>
+<dd><p>Specifies whether access to GENIE BPC consortium
+data releases (vs. public data releases) is checked. Default is FALSE,
+indicating that access to GENIE BPC public data releases is checked instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
