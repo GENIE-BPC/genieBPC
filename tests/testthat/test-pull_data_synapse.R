@@ -144,7 +144,7 @@ test_that("test `cohort` argument specification", {
 })
 
 test_that("test `version` argument specification", {
-  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+  skip_if_not(.is_connected_to_genie(set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))))
 
   # no version specified
   expect_error(
