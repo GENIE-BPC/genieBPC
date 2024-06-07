@@ -61,7 +61,7 @@ This vignette will describe the structure of each element (dataset).
 
 The Patient Characteristics dataset is structured as one record per patient. This dataset includes variables such as date of death, last known alive date, and number of pathology reports, imaging reports, medical oncologist assessments, along with many other demographic and vital status variables.
 
-The Patient Characteristics dataset can be linked to all other datasets using `record_id`.
+The Patient Characteristics dataset can be linked to all other datasets using `cohort` and `record_id`.
 
 ### Cancer Diagnosis
 
@@ -80,11 +80,11 @@ The BPC Project Cancer Diagnosis dataset contains one record per BPC Project can
 
 The BPC Project Cancer Diagnosis dataset can be linked to the following datasets:
 
-- Cancer-Directed Regimen dataset using variables `record_id` and `ca_seq`
+- Cancer-Directed Regimen dataset using variables `cohort`, `record_id` and `ca_seq`
 
-- Cancer Panel Test dataset using variables `record_id` and `ca_seq`
+- Cancer Panel Test dataset using variables `cohort`, `record_id` and `ca_seq`
 
-- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `cohort` and `record_id`
 
 
 ####  Cancer Diagnosis: Non-BPC Project Cancer
@@ -93,9 +93,9 @@ The Non-BPC Project Cancer Diagnosis dataset contains one record per non-BPC Pro
 
 The Non-BPC Project Cancer Diagnosis dataset can be linked to the following datasets:
 
-- Cancer-Directed Regimen Dataset using variables `record_id` and `ca_seq`
+- Cancer-Directed Regimen Dataset using variables `cohort`, `record_id` and `ca_seq`
 
-- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `cohort` and `record_id`
 
 - Cannot be linked to the Cancer Panel Test dataset because non-BPC Project cancer diagnoses were not genomically sequenced
 
@@ -113,11 +113,11 @@ If the cancer-directed drug was part of an investigational drug trial, the drug 
 
 The Cancer-Directed Regimen can be linked to the following datasets:
 
-- BPC Project and non-BPC Project Cancer Diagnosis datasets using the variables `record_id` and `ca_seq`
+- BPC Project and non-BPC Project Cancer Diagnosis datasets using the variables `cohort`, `record_id` and `ca_seq`
 
-- Cancer Panel Test dataset using the variables `record_id` and `ca_seq`
+- Cancer Panel Test dataset using the variables `cohort`, `record_id` and `ca_seq`
 
-- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `cohort` and `record_id`
 
 
 ### Cancer-Directed Radiation Therapy Dataset
@@ -147,9 +147,9 @@ All pathology reports beginning with the month and year of the first BPC Project
 
 The PRISSMM Pathology dataset can be linked to the following datasets:
 
-- Cancer Panel Test dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
+- Cancer Panel Test dataset using `cohort` and `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
-- Patient Characteristics, BPC Project and Non-BPC Project Cancer Diagnosis, Cancer-Directed Regimen, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `record_id`
+- Patient Characteristics, BPC Project and Non-BPC Project Cancer Diagnosis, Cancer-Directed Regimen, PRISSMM Imaging, and PRISSMM Medical Oncologist Assessment datasets using `cohort` and `record_id`
 
 
 ### PRISSMM Imaging Dataset
@@ -193,10 +193,10 @@ interchangeably.
 
 The Cancer Panel Test dataset can be linked to the following datasets:
 
-- BPC Project Cancer Diagnosis dataset using the variables `record_id` and `ca_seq`
+- BPC Project Cancer Diagnosis dataset using the variables `cohort`, `record_id` and `ca_seq`
 
-- Cancer-Directed Regimen dataset using the variables `record_id` and `ca_seq`
+- Cancer-Directed Regimen dataset using the variables `cohort`, `record_id` and `ca_seq`
 
-- PRISSMM Pathology dataset using `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
+- PRISSMM Pathology dataset using `cohort`,  `record_id`, `ca_seq`, `path_proc_number` and `path_report_number`
 
 *Note: this dataset cannot be linked to the non-BPC Project Cancer Diagnosis dataset because non-BPC Project cancer diagnoses were not genomically sequenced.*

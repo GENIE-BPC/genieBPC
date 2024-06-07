@@ -182,8 +182,11 @@ create_analytic_cohort <- function(data_synapse,
   # get cohort name and how it is capitalized in the data_synapse object
   cohort_temp <- pull(
     pluck(data_synapse, "pt_char") %>%
-      distinct(.data$cohort),
-    "cohort"
+      # remove digits to account for Phase 2 Cohorts
+      mutate(cohort_no_digits = stringr::str_remove_all(pattern = "[:digit:]",
+                              string = .data$cohort)) %>%
+      distinct(.data$cohort_no_digits),
+    "cohort_no_digits"
   )
 
   # alphabetize drugs in regimen to match
@@ -781,6 +784,14 @@ create_analytic_cohort <- function(data_synapse,
     )
   }
 
+  if (!is.null(pluck(data_synapse, "sv"))) {
+    cohort_sv <- dplyr::inner_join(pluck(data_synapse, "sv"),
+                                        cohort_ngs %>%
+                                          dplyr::select("cohort", "cpt_genie_sample_id"),
+                                        by = c("Sample_Id" = "cpt_genie_sample_id")
+    )
+  }
+
   if (!is.null(pluck(data_synapse, "mutations_extended"))) {
     cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse,
                                                          "mutations_extended"),
@@ -963,7 +974,7 @@ create_analytic_cohort <- function(data_synapse,
     "cohort_prissmm_imaging", "cohort_prissmm_pathology",
     "cohort_prissmm_md", "cohort_tumor_marker",
     "cohort_ngs",
-    "cohort_mutations_extended", "cohort_fusions", "cohort_cna",
+    "cohort_mutations_extended", "cohort_fusions", "cohort_sv", "cohort_cna",
     "tbl_overall_summary", "tbl_cohort", "tbl_drugs", "tbl_ngs"
   )
 

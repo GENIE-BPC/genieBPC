@@ -101,12 +101,19 @@ testthat::expect_true(
     distinct(cohort, version) %>%
     # define expected number of dataframes based on whether TM and RT data were released
     mutate(expected_n_dfs = case_when(
-      # no TM or RT
-      cohort == "NSCLC" ~ 11,
-      # TM, no RT
-      cohort %in% c("CRC", "BrCa") ~ 12,
-      # RT, no TM
-      cohort == "BLADDER" ~ 12,
+      ## no TM or RT
+      cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.0-public") ~ 11,
+      # sv file added to NSCLC at 2.2-consortium
+      cohort == "NSCLC" ~ 12,
+      ## TM, no RT
+      cohort %in% c("CRC") & version == "v2.0-public" ~ 12,
+      cohort %in% c("BrCa") ~ 12,
+      # sv added
+      cohort %in% c("CRC") ~ 13,
+      ## RT, no TM
+      cohort == "BLADDER" & version == "v1.1-consortium" ~ 12,
+      # sv added
+      cohort == "BLADDER" & version == "v1.2-consortium" ~ 13,
       # TM and RT
       cohort %in% c("PANC", "Prostate") ~ 13
     ),
@@ -239,7 +246,10 @@ test_that("correct cohort returned from create cohort", {
     separate(data_release,
       into = c("cohort_expected", "data_release"),
       sep = "_"
-    )
+    ) %>%
+    # to account for NSCLC2, CRC2, need to remove the number from the cohort var
+    mutate(cohort = str_remove_all(pattern = "[:digit:]",
+                                   string = cohort))
 
   expect_equal(cohort_returned$cohort_expected, cohort_returned$cohort)
 })
@@ -258,7 +268,7 @@ test_that("check first index cancer default", {
     pluck,
     "ca_dx_index"
   ) %>%
-    map_depth(., .depth = 2, group_by, record_id) %>%
+    map_depth(., .depth = 2, group_by, cohort, record_id) %>%
     map_depth(., .depth = 2, slice_min, ca_seq) %>%
     map_depth(., .depth = 2, ungroup) %>%
     map(., 1)

@@ -61,6 +61,7 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn23002641}{NSCLC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn53463493}{NSCLC v2.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30557304}{NSCLC v2.0-Public Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn58597690}{NSCLC v3.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
@@ -119,9 +120,9 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
   # make cohort term not be case sensitive - will require update as new disease areas are added
   cohort <- dplyr::case_when(
     stringr::str_to_upper(cohort)=="NSCLC" |
-      stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
-      stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
-      stringr::str_to_upper(cohort)=="NONSMALL CELL LUNG CANCER"~ "NSCLC",
+    stringr::str_to_upper(cohort)=="NON-SMALL CELL LUNG CANCER" |
+    stringr::str_to_upper(cohort)=="NON SMALL CELL LUNG CANCER" |
+    stringr::str_to_upper(cohort)=="NONSMALL CELL LUNG CANCER"~ "NSCLC",
     stringr::str_to_upper(cohort)=="CRC" | stringr::str_to_upper(cohort)=="COLORECTAL CANCER" ~ "CRC",
     stringr::str_to_upper(cohort)=="BRCA" | stringr::str_to_upper(cohort)=="BREAST CANCER"~ "BrCa",
     stringr::str_to_upper(cohort)=="BLADDER" ~ "BLADDER",
