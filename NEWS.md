@@ -1,4 +1,4 @@
-# genieBPC (development version)
+# genieBPC 2.0.0
 
 * Update 'cohort' parameter of `pull_data_synapse()` and `synapse_version()` to not be case-sensitive (#120)
 
