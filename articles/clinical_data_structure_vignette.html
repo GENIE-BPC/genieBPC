@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,7 +174,7 @@ known alive date, and number of pathology reports, imaging reports,
 medical oncologist assessments, along with many other demographic and
 vital status variables.</p>
 <p>The Patient Characteristics dataset can be linked to all other
-datasets using <code>record_id</code>.</p>
+datasets using <code>cohort</code> and <code>record_id</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="cancer-diagnosis">Cancer Diagnosis<a class="anchor" aria-label="anchor" href="#cancer-diagnosis"></a>
@@ -217,12 +217,13 @@ Project cancer diagnosis, per patient.</p>
 following datasets:</p>
 <ul>
 <li><p>Cancer-Directed Regimen dataset using variables
+<code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
+<li><p>Cancer Panel Test dataset using variables <code>cohort</code>,
 <code>record_id</code> and <code>ca_seq</code></p></li>
-<li><p>Cancer Panel Test dataset using variables <code>record_id</code>
-and <code>ca_seq</code></p></li>
 <li><p>Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
-PRISSMM Medical Oncologist Assessment datasets using
-<code>record_id</code></p></li>
+PRISSMM Medical Oncologist Assessment datasets using <code>cohort</code>
+and <code>record_id</code></p></li>
 </ul>
 </div>
 <div class="section level4">
@@ -236,10 +237,11 @@ situ/non-invasive cancer diagnoses, and 2) other tumors.</p>
 following datasets:</p>
 <ul>
 <li><p>Cancer-Directed Regimen Dataset using variables
-<code>record_id</code> and <code>ca_seq</code></p></li>
+<code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
 <li><p>Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
-PRISSMM Medical Oncologist Assessment datasets using
-<code>record_id</code></p></li>
+PRISSMM Medical Oncologist Assessment datasets using <code>cohort</code>
+and <code>record_id</code></p></li>
 <li><p>Cannot be linked to the Cancer Panel Test dataset because non-BPC
 Project cancer diagnoses were not genomically sequenced</p></li>
 </ul>
@@ -270,12 +272,14 @@ investigational drug(s) are required to be masked.</p>
 datasets:</p>
 <ul>
 <li><p>BPC Project and non-BPC Project Cancer Diagnosis datasets using
-the variables <code>record_id</code> and <code>ca_seq</code></p></li>
+the variables <code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
 <li><p>Cancer Panel Test dataset using the variables
-<code>record_id</code> and <code>ca_seq</code></p></li>
+<code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
 <li><p>Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
-PRISSMM Medical Oncologist Assessment datasets using
-<code>record_id</code></p></li>
+PRISSMM Medical Oncologist Assessment datasets using <code>cohort</code>
+and <code>record_id</code></p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -319,12 +323,14 @@ cancer and subsequent BPC Project cancer diagnoses).</p>
 <p>The PRISSMM Pathology dataset can be linked to the following
 datasets:</p>
 <ul>
-<li><p>Cancer Panel Test dataset using <code>record_id</code>,
-<code>ca_seq</code>, <code>path_proc_number</code> and
+<li><p>Cancer Panel Test dataset using <code>cohort</code> and
+<code>record_id</code>, <code>ca_seq</code>,
+<code>path_proc_number</code> and
 <code>path_report_number</code></p></li>
 <li><p>Patient Characteristics, BPC Project and Non-BPC Project Cancer
 Diagnosis, Cancer-Directed Regimen, PRISSMM Imaging, and PRISSMM Medical
-Oncologist Assessment datasets using <code>record_id</code></p></li>
+Oncologist Assessment datasets using <code>cohort</code> and
+<code>record_id</code></p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -376,11 +382,14 @@ used interchangeably.</p>
 datasets:</p>
 <ul>
 <li><p>BPC Project Cancer Diagnosis dataset using the variables
-<code>record_id</code> and <code>ca_seq</code></p></li>
+<code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
 <li><p>Cancer-Directed Regimen dataset using the variables
-<code>record_id</code> and <code>ca_seq</code></p></li>
-<li><p>PRISSMM Pathology dataset using <code>record_id</code>,
-<code>ca_seq</code>, <code>path_proc_number</code> and
+<code>cohort</code>, <code>record_id</code> and
+<code>ca_seq</code></p></li>
+<li><p>PRISSMM Pathology dataset using <code>cohort</code>,
+<code>record_id</code>, <code>ca_seq</code>,
+<code>path_proc_number</code> and
 <code>path_report_number</code></p></li>
 </ul>
 <p><em>Note: this dataset cannot be linked to the non-BPC Project Cancer
