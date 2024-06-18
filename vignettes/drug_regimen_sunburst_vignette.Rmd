@@ -14,12 +14,12 @@ knitr::opts_chunk$set(
   comment = "#>")
 
 # exit if user doesn't have synapser, a log in, or access to data.
-if (genieBPC:::.is_connected_to_genie() == FALSE){
+if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE){
   knitr::knit_exit()
 }
 ```
 
-```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 library(dplyr)
 library(ggplot2)
@@ -29,7 +29,7 @@ library(magrittr)
 library(tibble)
 ```
 
-```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 gt_compact_fun <- function(x) {
   gt::tab_options(x,
                   table.font.size = 'small',
@@ -50,7 +50,7 @@ The `drug_regimen_sunburst()` function allows the user to visualize the complete
 
 ## Modifying Function Arguments
 
-```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
   "`data_synapse`",       "The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.",
@@ -71,7 +71,7 @@ tbl_arguments = tibble::tribble(
 tbl_arguments
 ```
 
-```{r, echo = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, echo = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 tbl_arguments
 ```
 
@@ -81,7 +81,7 @@ Note that the innermost circle of the sunburst plot indicates the first therapie
 
 Before going through the tutorial, load the {genieBPC} library and log into Synapse using the `set_synapse_credentials()` function. For more information on `set_synapse_credentials()`, refer to the `Tutorial: pull_data_synapse()` vignette.
 
-```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 
 set_synapse_credentials()
@@ -91,7 +91,7 @@ This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synap
 
 
 
-```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
@@ -101,7 +101,7 @@ nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 The example below creates a sunburst plot of the first three cancer-directed regimens received by patients diagnosed with Stage IV NSCLC. 
 
 
-```{r, results = 'hide', message = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', message = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_stg_iv = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                       stage = c("Stage IV"))
 
@@ -110,11 +110,11 @@ nsclc_treatment = drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
                       max_n_regimens = 3)
 ```
 
-```{r, eval=genieBPC:::.is_connected_to_genie()}
+```{r, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 head(nsclc_treatment$treatment_history)
 ```
 
-```{r, fig.height=8, fig.width=8, eval=genieBPC:::.is_connected_to_genie()}
+```{r, fig.height=8, fig.width=8, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_treatment$sunburst_plot
 ```
 
