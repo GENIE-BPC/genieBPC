@@ -33,7 +33,7 @@
 #' \href{https://genie-bpc.github.io/genieBPC/articles/select_unique_ngs_vignette.html}{select_unique_ngs vignette}
 #' for further documentation and examples.
 #'
-#' @param data_cohort output object of the create_analytic_cohort function.
+#' @param data_cohort NGS dataframe returned from the create_analytic_cohort function.
 #' @param oncotree_code character vector specifying which sample
 #' OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of data_cohort argument above to get options.
