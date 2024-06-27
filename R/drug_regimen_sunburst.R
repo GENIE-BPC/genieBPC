@@ -33,7 +33,7 @@
 #'   max_n_regimens = 3
 #' )
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #' # Example 2 ----------------------------------
 #' # using pull_data_synapse
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")

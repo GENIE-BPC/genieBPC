@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 
 # exit if user doesn't have synapser, a log in, or access to data. 
-if (genieBPC:::.is_connected_to_genie() == FALSE){
+if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE){
   knitr::knit_exit()
 }
 ```
@@ -30,7 +30,7 @@ This vignette will walk a user through the `create_analytic_cohort()` function.
 
 Before going through the tutorial, install and load the {genieBPC} library and log into Synapse using the `set_synapse_credentials()` function. For more information on `set_synapse_credentials()`, refer to the `Tutorial: pull_data_synapse()` vignette.
 
-```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 
 set_synapse_credentials()
@@ -112,7 +112,7 @@ Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC cohort. To be
 
 
 
-```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
@@ -121,7 +121,7 @@ nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 Create a cohort of all patients with stage IV NSCLC adenocarcinoma and also return all of their corresponding cancer-directed drugs
 
 
-```{r, eval=genieBPC:::.is_connected_to_genie()}
+```{r, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
                                              stage_dx = "Stage IV", 
                                              histology = "Adenocarcinoma")
@@ -134,7 +134,7 @@ ls(nsclc_stg_iv_adeno)
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium or Cisplatin, Etoposide as their first drug regimen for their first index NSCLC
 
 
-```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie()}
+```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                        regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
                        regimen_order = 1,
@@ -146,7 +146,7 @@ create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
 Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodium at any time throughout the course of treatment for their cancer diagnosis, but in the event that the patient received the drug multiple times, only select the first time.
 
 
-```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                                  regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                                  regimen_order = 1,
@@ -155,18 +155,18 @@ nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_
 ```
 
 
-```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_cisplatin_pem_any$tbl_overall_summary
 ```
 
-```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_cisplatin_pem_any$tbl_cohort
 ```
 
-```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_cisplatin_pem_any$tbl_drugs
 ```
 
-```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_cisplatin_pem_any$tbl_ngs
 ```

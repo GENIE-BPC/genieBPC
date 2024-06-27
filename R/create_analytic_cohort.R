@@ -126,7 +126,7 @@
 #'   regimen_order_type = "within regimen"
 #' )
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #' # Example 4 ----------------------------------
 #' # Using create_analytic_cohort with pull_data_synapse
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
