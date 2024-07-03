@@ -23,7 +23,7 @@ downloaded 'Synapse' data as a list if `download_location`= `NULL, or
 Function to retrieve data by synapse ID
 }
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 temp_directory <- tempdir()
 

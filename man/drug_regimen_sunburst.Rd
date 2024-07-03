@@ -46,7 +46,7 @@ ex1 <- drug_regimen_sunburst(
   max_n_regimens = 3
 )
 
-\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Example 2 ----------------------------------
 # using pull_data_synapse
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")

@@ -49,7 +49,7 @@ The `genieBPC` package allows users to link the clinical data to patients' corre
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
-  "`data_cohort`",       "Output object of the create_analytic_cohort function.",
+  "`data_cohort`",       "CPT (NGS) dataframe returned from the create_analytic_cohort function.",
   "`oncotree_code`",       "Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.",
   "`sample_type`",        "Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type.",
   "`min_max_time`",        "Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last).") %>%

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{sample ID to select unique NGS report for}
 
-\item{data_cohort}{output object of the create_analytic_cohort function.}
+\item{data_cohort}{CPT (NGS) dataframe returned from the create_analytic_cohort function}
 
 \item{oncotree_code}{character vector specifying which sample
 OncoTree codes to keep. See "cpt_oncotree_code" column
@@ -30,7 +30,7 @@ a dataframe of samples with one observation per patient.
 See `select_unique_ngs` for details on selection criteria
 }
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
 ex1 <- create_analytic_cohort(
