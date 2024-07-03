@@ -50,7 +50,7 @@ selected."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/m
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,7 +138,7 @@ selected.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data_cohort</dt>
-<dd><p>output object of the create_analytic_cohort function.</p></dd>
+<dd><p>CPT (NGS) dataframe returned from the create_analytic_cohort function</p></dd>
 
 
 <dt>oncotree_code</dt>
@@ -185,11 +185,21 @@ for further documentation and examples.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># genieBPC::.is_connected_to_genie()</span></span></span>
-<span class="r-in"><span><span class="co"># Example 1 ----------------------------------</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example 1 ----------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Create a cohort of all patients with stage IV NSCLC of</span></span></span>
 <span class="r-in"><span><span class="co"># histology adenocarcinoma</span></span></span>
 <span class="r-in"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
@@ -202,6 +212,9 @@ for further documentation and examples.</p>
 <span class="r-in"><span>  data_cohort <span class="op">=</span> <span class="va">ex1</span><span class="op">$</span><span class="va">cohort_ngs</span>,</span></span>
 <span class="r-in"><span>  sample_type <span class="op">=</span> <span class="st">"Primary"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">63</span> patients with &gt; 1 next generation sequencing reports were identified</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">34</span> of <span style="color: #00BB00;">63</span> had a unique NGS report selected based on given criteria.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="color: #0000BB;">29</span> of <span style="color: #00BB00;">63</span> did not have a unique NGS report selected based on the selected criteria or by having the largest panel, so a NGS report was selected at random (be sure to set a seed for reproducbility!) See `attributes(&lt;your-results&gt;)$random_samples` to view these sample IDs.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2 ----------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Create a cohort of all NSCLC patients who</span></span></span>
@@ -223,7 +236,7 @@ for further documentation and examples.</p>
 <span class="r-in"><span>  sample_type <span class="op">=</span> <span class="st">"Metastasis"</span>,</span></span>
 <span class="r-in"><span>  min_max_time <span class="op">=</span> <span class="st">"max"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">14</span> patients with &gt; 1 next generation sequencing reports were identified</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

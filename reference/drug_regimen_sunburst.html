@@ -12,7 +12,7 @@ course for selected cancer diagnoses."><!-- mathjax --><script src="https://cdnj
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,10 +124,20 @@ for additional details and examples.</p>
 <span class="r-in"><span>  max_n_regimens <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># genieBPC::.is_connected_to_genie()</span></span></span>
 <span class="r-in"><span><span class="co"># Example 2 ----------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># using pull_data_synapse</span></span></span>
 <span class="r-in"><span><span class="va">nsclc_2_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">pt_char</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_dx_non_index</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">ca_drugs</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_imaging</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_pathology</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">prissmm_md</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cpt</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">mutations_extended</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">fusions</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">cna</span> has been imported for <span style="color: #0000BB;">"NSCLC_v2.0"</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">nsclc_stg_iv</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_analytic_cohort.html">create_analytic_cohort</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data_synapse <span class="op">=</span> <span class="va">nsclc_2_0</span><span class="op">$</span><span class="va">NSCLC_v2.0</span>,</span></span>
@@ -139,7 +149,6 @@ for additional details and examples.</p>
 <span class="r-in"><span>  data_cohort <span class="op">=</span> <span class="va">nsclc_stg_iv</span>,</span></span>
 <span class="r-in"><span>  max_n_regimens <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

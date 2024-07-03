@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,8 +90,673 @@
 
     
     
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function accesses the specified
+version of the clinical and genomic GENIE BPC data from <a href="https://www.synapse.org/#!Synapse:syn21226493/wiki/599164" class="external-link">Synapse</a>
+and reads it into the R environment.  </p>
+<p>This vignette will walk a user through the
+<code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> function.</p>
+</div>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<p>Access to the GENIE BPC data release folders on ‘Synapse’ is required
+in order to use this function. To obtain access:</p>
+<p><strong><em>For public data releases:</em></strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’
+account</a>. Be sure to create a username and password. <em>Note: do NOT
+connect via your Google account.</em></p></li>
+<li><p>Accept the <strong>Synapse account terms of
+use.</strong></p></li>
+<li><p>Navigate to <a href="https://www.synapse.org/" class="external-link">GENIE Biopharma
+Collaborative Public page</a>.</p></li>
+<li><p>In the Files folder, navigate to Data Releases and click on the
+cancer cohort and data release version of choice.</p></li>
+<li><p>Select <em>Request Access</em>, <strong>review the terms of data
+use,</strong> and select <em>Accept.</em></p></li>
+</ol>
+<p><strong><em>For consortium data releases (restricted to GENIE
+consortium members &amp; BPC pharmaceutical partners):</em></strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’
+account</a>. Be sure to create a username and password. <em>Note: do NOT
+connect via your Google account.</em></p></li>
+<li><p>Accept the <strong>Synapse account terms of
+use.</strong></p></li>
+<li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this
+link</a> to access the GENIE BPC team list and request to join the team.
+Please include your full name and affiliation in the message before
+sending out the request. <em>(Note: Please allow up to a week to review
+and grant access.)</em></p></li>
+<li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma
+Collaborative projects</a>.</p></li>
+<li><p>In the Files folder, navigate to Data Releases and click on the
+cancer cohort and data release version of choice.</p></li>
+<li><p>Select <em>Request Access</em>, <strong>review the terms of data
+use,</strong> and select <em>Accept.</em></p></li>
+</ol>
+<p><em>Note: permissions for Synapse and permissions for each data
+release are distinct. Both permissions must be accepted to successfully
+access the data.</em></p>
+<p><strong><em>Request a Synapse Personal Access Token
+(PAT):</em></strong></p>
+<p>Once you are logged into your Synapse account, you may request a
+Synapse personal access token (PAT).</p>
+<ol style="list-style-type: decimal">
+<li><p>In the left hand panel towards the bottom, click the button that
+shows the first letter of your first name. This button displays the text
+“Your Account” when hovered over and appears directly above the question
+mark button.</p></li>
+<li><p>Next, select <em>Account Settings</em> and then scroll to the
+bottom of the page.</p></li>
+<li><p>Under the “Personal Access Tokens” section, select <em>Manage
+Personal Access Tokens.</em></p></li>
+<li><p>On the “Personal Access Tokens” page, click on <em>Create New
+Token</em> to generate a Synapse Personal Access Token.</p></li>
+<li><p>Specify a Token Name and click the checkbox that will allow you
+to <em>Download</em> the data, and then select <em>Create
+Token.</em></p></li>
+<li><p>Save your Synapse Personal Access Token in a secure
+location.</p></li>
+</ol>
+<p><strong><em>Authenticate yourself</em></strong></p>
+<p>Whether you are using public or consortium data, you will need to
+authenticate yourself at the beginning of each R session in which you
+use {genieBPC} to pull data. To set your Synapse credentials during each
+session, call:</p>
+<p><code>set_synapse_credentials(username = "your_username", password = "your_password")</code></p>
+<p>In addition to from passing your ‘Synapse’ username and password, you
+may choose to set your ‘Synapse’ Personal Access Token (PAT) by
+calling:</p>
+<p><code>set_synapse_credentials(pat = "your_pat")</code></p>
+<ul>
+<li>
+<p>If your credentials are stored as environmental variables, you do
+not need to call <code><a href="../reference/set_synapse_credentials.html">set_synapse_credentials()</a></code> explicitly each
+session. To store authentication information in your environmental
+variables, add the following to your .Renviron file, then
+<strong>restart your R session</strong> (tip: you can use
+<code>usethis::edit_r_environ()</code> to easily open/edit this
+file):</p>
+<p><code>SYNAPSE_USERNAME = &lt;your-username&gt;</code>
+<code>SYNAPSE_PASSWORD = &lt;your-password&gt;</code>
+<code>SYNAPSE_PAT = &lt;your-pat&gt;</code></p>
+</li>
+</ul>
+<p>Alternatively, you can pass your username and password or your PAT to
+each individual data pull function if preferred, although it is
+recommended that you manage your passwords outside of your scripts for
+security purposes.</p>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>Let’s start by reviewing the <code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code>
+arguments.</p>
+<div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mwlefoodfi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  </main>
+#mwlefoodfi thead, #mwlefoodfi tbody, #mwlefoodfi tfoot, #mwlefoodfi tr, #mwlefoodfi td, #mwlefoodfi th {
+  border-style: none;
+}
+
+#mwlefoodfi p {
+  margin: 0;
+  padding: 0;
+}
+
+#mwlefoodfi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: small;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mwlefoodfi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mwlefoodfi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mwlefoodfi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mwlefoodfi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mwlefoodfi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mwlefoodfi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mwlefoodfi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mwlefoodfi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#mwlefoodfi .gt_group_heading {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mwlefoodfi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mwlefoodfi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mwlefoodfi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mwlefoodfi .gt_row {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mwlefoodfi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mwlefoodfi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mwlefoodfi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mwlefoodfi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#mwlefoodfi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mwlefoodfi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mwlefoodfi .gt_last_summary_row {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mwlefoodfi .gt_first_grand_summary_row {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_last_grand_summary_row_top {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mwlefoodfi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mwlefoodfi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mwlefoodfi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mwlefoodfi .gt_left {
+  text-align: left;
+}
+
+#mwlefoodfi .gt_center {
+  text-align: center;
+}
+
+#mwlefoodfi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mwlefoodfi .gt_font_normal {
+  font-weight: normal;
+}
+
+#mwlefoodfi .gt_font_bold {
+  font-weight: bold;
+}
+
+#mwlefoodfi .gt_font_italic {
+  font-style: italic;
+}
+
+#mwlefoodfi .gt_super {
+  font-size: 65%;
+}
+
+#mwlefoodfi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#mwlefoodfi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mwlefoodfi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#mwlefoodfi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#mwlefoodfi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#mwlefoodfi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#mwlefoodfi .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Argument">Argument</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Description">Description</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>cohort</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">Vector or list specifying the cohort(s) of interest. Must be one of 'NSCLC' (Non-Small Cell Lung Cancer), 'CRC' (Colorectal Cancer), 'BrCa' (Breast Cancer), 'BLADDER' (Bladder Cancer), 'PANC' (Pancreatic Cancer), or 'Prostate' (Prostate Cancer)</td>
+</tr>
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>version</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">Vector specifying the version of the data. Must be one of the following: 'v1.1-consortium', 'v1.2-consortium', 'v2.1-consortium', 'v2.0-public', 'v3.1-consortium'. When entering multiple cohorts, the order of the version numbers corresponds to the order that the cohorts are specified; the cohort and version number must be in the same order in order to pull the correct data.</td>
+</tr>
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>download_location</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">If `NULL` (default), data will be returned as a list of dataframes with requested data as list items. Otherwise, specify a folder path to have data automatically downloaded there. When a path is specified, data are not read into the R environment.</td>
+</tr>
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>username</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">Synapse username</td>
+</tr>
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>password</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">Synapse password</td>
+</tr>
+<tr>
+<td headers="Argument" class="gt_row gt_left"><div class="gt_from_md">
+<p><code>PAT</code></p>
+</div></td>
+<td headers="Description" class="gt_row gt_left">Synapse Personal Access Token</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<div class="section level3">
+<h3 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h3>
+<p>Pull version 2.0-public of the NSCLC data from Synapse and store in
+the local environment.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsclc_2_0</span> <span class="op">=</span> <span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, version <span class="op">=</span> <span class="st">"v2.0-public"</span><span class="op">)</span></span></code></pre></div>
+<p>The resulting <code>nsclc_2_0</code> object is a list of elements,
+such that each element represents a dataset:</p>
+</div>
+<div class="section level3">
+<h3 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
+</h3>
+<p>Pull version 2.2-consortium of the NSCLC data and version
+1.3-consortium of the CRC data.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>, </span>
+<span>                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v2.2-consortium"</span>,<span class="st">"v1.3-consortium"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
+</h3>
+<p>Pull version 1.2-consortium of the NSCLC data and version
+1.1-consortium of the CRC data.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pull_data_synapse.html">pull_data_synapse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NSCLC"</span>, <span class="st">"CRC"</span><span class="op">)</span>,</span>
+<span>                  version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v1.2-consortium"</span>, <span class="st">"v1.1-consortium"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="future-work">Future Work<a class="anchor" aria-label="anchor" href="#future-work"></a>
+</h2>
+<ul>
+<li>As of August 2023, all six cancer cohorts — non-small cell lung
+cancer (NSCLC), colorectal cancer (CRC), breast cancer (BrCa),
+pancreatic cancer (PANC), prostate cancer (Prostate), bladder cancer
+(BLADDER) — have undergone consortium data releases. Additionally, the
+NSCLC and CRC cohorts have been released publicly. Future public data
+releases for the remaining cohorts are planned.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="differences-between-synapse-and-cbioportal-genomic-data">Differences Between Synapse and cBioPortal Genomic Data<a class="anchor" aria-label="anchor" href="#differences-between-synapse-and-cbioportal-genomic-data"></a>
+</h2>
+<p>Please note that pulling genomic GENIE data from Synapse using
+<code><a href="../reference/pull_data_synapse.html">pull_data_synapse()</a></code> and pulling GENIE data from cBioPortal
+may result in small differences in the data due to systematic
+differences in the processing pipelines employed by Synapse and
+cBioPortal. These differences may include:</p>
+<ul>
+<li><p>Data formatting - Some data sets (e.g. CNA files) may appear in
+wide format in Synapse data versus long format in cBioPortal data, or
+column attributes and names may appear sightly different (e.g. fusions
+files).</p></li>
+<li><p>Default filtering - By default, cBioPortal filters out Silent,
+Intron, IGR, 3’UTR, 5’UTR, 3’Flank and 5’Flank, except for the promoter
+mutations of the TERT gene. See <a href="https://docs.cbioportal.org/file-formats/#mutation-data" class="external-link">cBioPortal
+documentation</a> for more details. These mutations are retained in
+Synapse processing pipelines.</p></li>
+<li><p>Hugo Symbols - Some genes have more than one accepted Hugo Symbol
+and may be referred to differently between data sources
+(e.g. <code>NSD3</code> is an alias for <code>WHSC1L1</code>). Some
+tools exist to help you resolve gene aliases across genomic data
+sources. See <code>gnomeR::recode_alias()</code>,
+<code>cbioportal::get_alias()</code> and vignettes from the <a href="https://mskcc-epi-bio.github.io/gnomeR/" class="external-link">{gnomeR}</a> and <a href="https://www.karissawhiting.com/cbioportalR/" class="external-link">{cbioportalR}</a> for
+more information on how to use these functions and work with gene
+aliases.</p></li>
+</ul>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
