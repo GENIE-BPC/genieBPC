@@ -80,7 +80,7 @@
 #' @author Karissa Whiting, Michael Curry
 #' @export
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #' # Example 1 ----------------------------------
 #' # Set up 'Synapse' credentials
 #' set_synapse_credentials()
@@ -262,7 +262,7 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
 #' @keywords internal
 #' @export
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #'
 #' temp_directory <- tempdir()
 #'

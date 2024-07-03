@@ -33,7 +33,7 @@
 #' \href{https://genie-bpc.github.io/genieBPC/articles/select_unique_ngs_vignette.html}{select_unique_ngs vignette}
 #' for further documentation and examples.
 #'
-#' @param data_cohort output object of the create_analytic_cohort function.
+#' @param data_cohort CPT (NGS) dataframe returned from the create_analytic_cohort function
 #' @param oncotree_code character vector specifying which sample
 #' OncoTree codes to keep. See "cpt_oncotree_code" column
 #' of data_cohort argument above to get options.
@@ -49,7 +49,7 @@
 #' @author Karissa Whiting
 #' @export
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #' # Example 1 ----------------------------------
 #' # Create a cohort of all patients with stage IV NSCLC of
 #' # histology adenocarcinoma
@@ -223,7 +223,7 @@ select_unique_ngs <- function(data_cohort,
 #' @return a dataframe of samples with one observation per patient.
 #' @export
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie()
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 #' nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 #'
 #' ex1 <- create_analytic_cohort(

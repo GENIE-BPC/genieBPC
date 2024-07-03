@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 )
 
 # exit if user doesn't have synapser, a log in, or access to data.
-if (genieBPC:::.is_connected_to_genie() == FALSE){
+if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE){
   knitr::knit_exit()
 }
 ```
 
-```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 library(dplyr)
 library(tibble)
@@ -116,7 +116,7 @@ Alternatively, you can pass your username and password or your PAT to each indiv
 Let's start by reviewing the `pull_data_synapse()` arguments.
 
 
-```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r echo = FALSE, warning = FALSE, message = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 tibble::tribble(
   ~Argument,       ~Description,
   "`cohort`",       "Vector or list specifying the cohort(s) of interest. Must be one of 'NSCLC' (Non-Small Cell Lung Cancer), 'CRC' (Colorectal Cancer), 'BrCa' (Breast Cancer), 'BLADDER' (Bladder Cancer), 'PANC' (Pancreatic Cancer), or 'Prostate' (Prostate Cancer)",
@@ -154,12 +154,12 @@ nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 The resulting `nsclc_2_0` object is a list of elements, such that each element represents a dataset:
 
 
-```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
-```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie()}
+```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 ls(nsclc_2_0$NSCLC_v2.0) %>% 
   as.data.frame() %>% 
   mutate(clinical_vs_genomic = case_when(. %in% c("cna", "fusions",

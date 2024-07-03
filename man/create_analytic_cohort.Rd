@@ -153,9 +153,11 @@ ex3 <- create_analytic_cohort(
   regimen_order_type = "within regimen"
 )
 
-\dontshow{if (genieBPC::.is_connected_to_genie()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Example 4 ----------------------------------
 # Using create_analytic_cohort with pull_data_synapse
+set_synapse_credentials()
+
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
 ex4 <- create_analytic_cohort(
