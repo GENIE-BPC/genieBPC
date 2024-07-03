@@ -70,6 +70,8 @@ for further documentation and examples.
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC of
 # histology adenocarcinoma
+set_synapse_credentials()
+
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
 ex1 <- create_analytic_cohort(
