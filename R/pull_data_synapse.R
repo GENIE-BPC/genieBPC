@@ -116,6 +116,12 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
                                        pat = pat)
 
   # get `cohort` ---
+  if(is.null(cohort)){
+
+    cli::cli_abort("Cohort needs to be specified.
+                Use {.code synapse_version()} to see what data is available.")
+
+  }
 
   # make cohort term not be case sensitive - will require update as new disease areas are added
   cohort <- dplyr::case_when(
