@@ -197,7 +197,7 @@ pull_data_synapse(c("NSCLC", "CRC"),
 
 ## Future Work
 
-* As of August 2023, all six cancer cohorts  &mdash; non-small cell lung cancer (NSCLC), colorectal cancer (CRC), breast cancer (BrCa), pancreatic cancer (PANC), prostate cancer (Prostate), bladder cancer (BLADDER) &mdash; have undergone consortium data releases. Additionally, the NSCLC and CRC cohorts have been released publicly. Future public data releases for the remaining cohorts are planned.
+* As of July 2024, all six cancer cohorts  &mdash; non-small cell lung cancer (NSCLC), colorectal cancer (CRC), breast cancer (BrCa), pancreatic cancer (PANC), prostate cancer (Prostate), bladder cancer (BLADDER) &mdash; have undergone consortium data releases. Additionally, the NSCLC and CRC cohorts have been released publicly. Future public data releases for the remaining cohorts are planned.
 
 ## Differences Between Synapse and cBioPortal Genomic Data
 
