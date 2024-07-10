@@ -5,7 +5,7 @@
 testthat::expect_true(
   if(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
 
-    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # data frame of each release to use for pmap
   data_releases <- synapse_tables %>%
@@ -68,6 +68,7 @@ test_that("Test class and length of list for public data", {
 # * Check Arguments ----------------------------------------------
 
 test_that("Missing cohort parameter", {
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
   expect_error(pull_data_synapse())

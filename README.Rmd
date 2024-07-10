@@ -84,7 +84,7 @@ order to use this function. To obtain access:
 
 2.  Accept the **Synapse account terms of use.**
 
-3.  Navigate to [GENIE Biopharma Collaborative Public page](https://www.synapse.org/).
+3.  Navigate to [GENIE Biopharma Collaborative Public page](https://www.synapse.org/Synapse:syn27056172/wiki/616601).
 
 4.  In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.
 
