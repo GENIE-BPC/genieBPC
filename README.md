@@ -259,8 +259,7 @@ Precis Oncol. 2024 Mar;8:e2300489. doi: 10.1200/PO.23.00489. PMID:
 
 Kehl KL, Uno H, Gusev A, Groha S, Brown S, Lavery JA, Schrag D, Panageas
 KS. [Elucidating Analytic Bias Due to Informative Cohort Entry in Cancer
-Clinico-genomic
-Datasets](https://aacrjournals.org/cebp/article/32/3/344/718498/Elucidating-Analytic-Bias-Due-to-Informative).
+Clinico-genomic Datasets](https://pubmed.ncbi.nlm.nih.gov/36626408/).
 Cancer Epidemiol Biomarkers Prev. 2023 March; 32 (3): 344–352. doi:
 10.1158/1055-9965.EPI-22-0875.
 
@@ -299,9 +298,9 @@ Mastrogiacomo B, Kundra R, Schultz N, Kehl KL, Riely GJ, Schrag D,
 Govindarajan A, Panageas KS, Bedard PL. [Genomic Characterization and
 Clinical Outcomes of Patients with Peritoneal Metastases from the AACR
 GENIE Biopharma Collaborative Colorectal Cancer
-Registry](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10876516/).
-Cancer Res Commun. 2024 Feb 20;4(2):475-486. doi:
-10.1158/2767-9764.CRC-23-0409. PMID: 38329392; PMCID: PMC10876516.
+Registry](https://pubmed.ncbi.nlm.nih.gov/38329392/) Cancer Res Commun.
+2024 Feb 20;4(2):475-486. doi: 10.1158/2767-9764.CRC-23-0409. PMID:
+38329392; PMCID: PMC10876516.
 
 Choudhury NJ, Lavery JA, Brown S, de Bruijn I, Jee J, Tran TN, Rizvi H,
 Arbour KC, Whiting K, Shen R, Hellmann M, Bedard PL, Yu C, Leighl N,
