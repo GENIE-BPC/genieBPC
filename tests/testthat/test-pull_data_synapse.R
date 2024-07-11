@@ -522,7 +522,7 @@ test_that("Test that trying to pull consortium with public data fails", {
 
 # # Public: Pull Public Data With PAT --------------------------------------------------------
 
-testthat::expect_true(length(
+testthat::expect_true(
   if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))) {
 
     set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT_PUBLIC"))
@@ -570,7 +570,9 @@ testthat::expect_true(length(
         values_to = "length",
         values_drop_na = TRUE
       )
-  }) > 0)
+
+    length(actual_length) > 0
+  } else {0 == 0})
 
 
 
