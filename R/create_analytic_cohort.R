@@ -18,7 +18,6 @@
 #'   create_analytic_cohort() for multiple cancer cohorts/data releases, supply
 #'   the list returned from the `pull_data_synapse()` function after pulling
 #'   multiple data releases.
-#' `pull_data_synapse()` function.
 #' @param index_ca_seq Index cancer sequence. Default is 1, indicating the
 #' patient's first index cancer. The index cancer is also referred to as the
 #' BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the
@@ -1038,16 +1037,16 @@ create_analytic_cohort <- function(data_synapse,
   names(data_return) <- stringr::str_replace(
     pattern = "cpt",
     replacement = "ngs",
-    string = paste0("cohort_", str_remove(pattern = "cohort_",
+    string = paste0("cohort_", stringr::str_remove(pattern = "cohort_",
                                                      string = df_list_pan_can)))
 
   # warn if >1 data release per cohort
   chk_n_release_coh <- data_return %>%
     purrr::pluck("cohort_pt_char") %>%
-    dplyr::count(.data$cohort, .data$release_version) %>%
+    dplyr::count(.data$cohort, .data$version) %>%
     dplyr::count(.data$cohort) %>%
     dplyr::filter(n > 1) %>%
-    pull(.data$cohort)
+    dplyr::pull(.data$cohort)
 
   if (length(chk_n_release_coh) > 1){
     cli::cli_warn("When creating an analytic cohort, it is recommended to use the most recent data release(s). It is not advisable to base an analytic cohort on multiple data releases of the same cancer cohort ({.val {paste0(chk_n_release_coh, collapse = ', ')}}).")
