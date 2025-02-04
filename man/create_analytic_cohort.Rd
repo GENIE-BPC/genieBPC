@@ -7,19 +7,23 @@
 create_analytic_cohort(
   data_synapse,
   index_ca_seq = 1,
-  institution,
-  stage_dx,
-  histology,
-  regimen_drugs,
+  institution = NULL,
+  stage_dx = NULL,
+  histology = NULL,
+  regimen_drugs = NULL,
   regimen_type = "Exact",
-  regimen_order,
-  regimen_order_type,
+  regimen_order = NULL,
+  regimen_order_type = NULL,
   return_summary = FALSE
 )
 }
 \arguments{
-\item{data_synapse}{The item from the nested list returned from
-pull_data_synapse() that corresponds to the cancer cohort of interest.}
+\item{data_synapse}{To run create_analytic_cohort() for a single data
+release, the item from the nested list returned from `pull_data_synapse()`
+that corresponds to the cancer cohort of interest. To run
+create_analytic_cohort() for multiple cancer cohorts/data releases, supply
+the list returned from the `pull_data_synapse()` function after pulling
+multiple data releases.}
 
 \item{index_ca_seq}{Index cancer sequence. Default is 1, indicating the
 patient's first index cancer. The index cancer is also referred to as the
@@ -169,5 +173,5 @@ ex4 <- create_analytic_cohort(
 \dontshow{\}) # examplesIf}
 }
 \author{
-Jessica Lavery
+Jessica Lavery, Hannah Fuchs
 }

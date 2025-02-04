@@ -504,10 +504,17 @@ create_analytic_cohort <- function(data_synapse,
   # only continue if patients met the inclusion criteria
   if (any(map(cohort_ca_dx, nrow) > 0)){
 
+    # browser()
+
+  # only map over cohorts that have patients that met the criteria
+  index_pts_meeting_criteria <- which((map_int(cohort_ca_dx, nrow) > 0))
+  cohort_ca_dx_incl <- cohort_ca_dx[index_pts_meeting_criteria]
+  data_synapse_incl <- data_synapse[index_pts_meeting_criteria]
+
   # pull drug regimens to those patients
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
-  cohort_ca_drugs <- purrr::map2(cohort_ca_dx, data_synapse,
+  cohort_ca_drugs <- purrr::map2(cohort_ca_dx_incl, data_synapse_incl,
                                  ~dplyr::inner_join(
       .x %>%
         dplyr::select("cohort", "record_id", "ca_seq"),
@@ -557,13 +564,13 @@ create_analytic_cohort <- function(data_synapse,
   if (is.null(regimen_drugs) && !is.null(regimen_order) &&
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
-      cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
         cohort_ca_drugs[[x]] %>%
         dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }}))
       })
 
       # restrict cancer cohort to all patients who got a drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }})) %>%
@@ -581,7 +588,7 @@ create_analytic_cohort <- function(data_synapse,
   if (!is.null(regimen_drugs) && is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "exact") {
     # identify instances of that drug regimen
-    cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+    cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
       cohort_ca_drugs[[x]] %>%
         dplyr::filter(
           str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
@@ -590,7 +597,7 @@ create_analytic_cohort <- function(data_synapse,
         )})
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           dplyr::distinct(
@@ -606,7 +613,7 @@ create_analytic_cohort <- function(data_synapse,
 
   if (!is.null(regimen_drugs) && is.null(regimen_order) &&
     stringr::str_to_lower(regimen_type) == "containing") {
-    cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+    cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
       # identify instances of that drug regimen
        cohort_ca_drugs[[x]] %>%
         dplyr::filter(grepl(
@@ -619,7 +626,7 @@ create_analytic_cohort <- function(data_synapse,
           ))})
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           dplyr::distinct(
@@ -637,7 +644,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_type) == "exact") {
 
       # identify instances of that drug regimen
-      cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
         cohort_ca_drugs[[x]] %>%
         dplyr::filter(str_to_lower(.data$regimen_drugs)
         %in% c(regimen_drugs_sorted) |
@@ -647,7 +654,7 @@ create_analytic_cohort <- function(data_synapse,
       })
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           distinct(
@@ -668,8 +675,8 @@ create_analytic_cohort <- function(data_synapse,
       # identify instances of that drug regimen
       # have to start with full drugs dataset for 'within regimen',
       # otherwise are left with all drug regimens to pts in this cohort
-      cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
-        pluck(data_synapse[[x]], "ca_drugs") %>%
+      cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
+        pluck(data_synapse_incl[[x]], "ca_drugs") %>%
         # add on abbreviations
         dplyr::left_join(.,
           genieBPC::regimen_abbreviations,
@@ -693,7 +700,7 @@ create_analytic_cohort <- function(data_synapse,
           )) %>%
         # now re-number w/in containing regimens
         dplyr::left_join(.,
-          pluck(data_synapse[[x]], "ca_drugs") %>%
+          pluck(data_synapse_incl[[x]], "ca_drugs") %>%
             # add on abbreviations
             dplyr::left_join(.,
               genieBPC::regimen_abbreviations,
@@ -746,7 +753,7 @@ create_analytic_cohort <- function(data_synapse,
       })
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           dplyr::distinct(
@@ -766,7 +773,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
       # identify instances of that drug regimen
-      cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
         cohort_ca_drugs[[x]] %>%
         dplyr::filter(
           str_to_lower(.data$regimen_drugs) %in% c(regimen_drugs_sorted) |
@@ -776,7 +783,7 @@ create_analytic_cohort <- function(data_synapse,
       })
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           distinct(
@@ -796,7 +803,7 @@ create_analytic_cohort <- function(data_synapse,
     stringr::str_to_lower(regimen_order_type) == "within cancer") {
 
       # identify instances of that drug regimen
-      cohort_ca_drugs <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_drugs <- purrr::map(1:length(data_synapse_incl), function(x) {
         cohort_ca_drugs[[x]] %>%
         dplyr::filter(
           grepl(paste(regimen_drugs_sorted,
@@ -811,7 +818,7 @@ create_analytic_cohort <- function(data_synapse,
       })
 
       # restrict cancer cohort to patients on that drug regimen
-      cohort_ca_dx <- purrr::map(1:length(data_synapse), function(x) {
+      cohort_ca_dx <- purrr::map(1:length(data_synapse_incl), function(x) {
         dplyr::inner_join(cohort_ca_dx[[x]],
         cohort_ca_drugs[[x]] %>%
           dplyr::distinct(
@@ -826,9 +833,11 @@ create_analytic_cohort <- function(data_synapse,
   # for patients meeting the specified criteria, also pull related datasets
   # for each dataframe returned by pull_data_synapse, return the data
   # subset to match the specified cohort
-  subset_all_dfs <- purrr::map(1:length(data_synapse), function(x) {
+  subset_all_dfs <- purrr::map(index_pts_meeting_criteria, function(x) {
     # get specific datasets for each cohort/data release in data_synapse
     genie_dfs <- names(data_synapse[[x]])
+
+    browser()
 
     # get cohort and version corresponding to data release to add to all returned datasets
     # variable release_version is on clinical datasets, but not on genomic data
@@ -973,30 +982,42 @@ create_analytic_cohort <- function(data_synapse,
   })
 
   # name each cohort
-  names(subset_all_dfs) <- unlist(cohort_temp)
+  names(subset_all_dfs) <- unlist(cohort_temp[index_pts_meeting_criteria])
 } # end of if statement for processing cohort only if patients met cancer
   # diagnosis dataset inclusion criteria
+
+  # browser()
 
   # if 0 patients are returned for any cancer cohort, print a message and
   # proceed with processing
   # create vector to store indexes of cohorts with zero records
   zero_pts_returned <- purrr::map(cohort_ca_dx, ~ nrow(.) == 0)
 
-  # print message
+  # stop if no patients returned for any cohort
+  if (!(FALSE %in% zero_pts_returned)){
+    stop(paste0(
+      "No patients meeting the specified criteria were returned. Ensure that all parameters were correctly specified and check the raw data returned by the pull_data_synapse() call to ensure that there are patients that met the specified criteria (e.g., that there were patients with the specified combination of cancer type, institution, histology, stage, etc.). Additionally, the list of acceptable drugs can be found in the `drug_regimen_list` dataset available within this package. Note that drug names may vary across cancer cohorts and data releases."
+    ))
+
+  }
+
+  # if no patients returned for some cohorts, print message and proceed
   if (TRUE %in% zero_pts_returned) {
     message_coh <- cohort_temp[unlist(zero_pts_returned)] %>%
       unlist() %>%
-      paste(sep = "/")
+      paste(sep = "/", collapse = ", ")
 
     message(paste0(
       "No patients meeting the specified criteria were returned for the ",
-      message_coh, " cohort(s). Ensure that all parameters were correctly specified and check the raw data returned by the pull_data_synapse() call to ensure that there are patients that met the specified criteria (e.g., that there were patients with the specified combination of cancer type, institution, histology, stage, etc.). Additionally, the list of acceptable drugs can be found in the `drug_regimen_list` dataset available within this package. Note that drug names may vary across cancer cohorts and data releases."
+      message_coh, " cohort(s). Data for other cohorts is included in the analytic cohort."
     ))
-  } else {
+  }
+
+
   # apply names to objects that are part of subset_all_dfs
   # rename ca_dx_index to ca_dx (cohort prefix added for all dfs below)
   for (i in seq_along(subset_all_dfs)) {
-    names(subset_all_dfs[[i]]) <- str_replace_all(string = names(data_synapse[[i]]),
+    names(subset_all_dfs[[i]]) <- str_replace_all(string = names(data_synapse_incl[[i]]),
                                                   pattern = c("ca_dx_index" = "ca_dx"))
   }
 
@@ -1039,6 +1060,8 @@ create_analytic_cohort <- function(data_synapse,
     replacement = "ngs",
     string = paste0("cohort_", stringr::str_remove(pattern = "cohort_",
                                                      string = df_list_pan_can)))
+
+  browser()
 
   # warn if >1 data release per cohort
   chk_n_release_coh <- data_return %>%
@@ -1228,5 +1251,5 @@ create_analytic_cohort <- function(data_synapse,
   if (nrow(data_return$cohort_ca_dx) > 0) {
     return(data_return)
   }
-  } # end of else statement to proceed when patients are returned that met the criteria
+  #} # end of else statement to proceed when patients are returned that met the criteria
 } # end of function

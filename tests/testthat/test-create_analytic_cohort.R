@@ -189,6 +189,30 @@ test_that("multiple cohorts- check warning same cohort", {
                  "When creating an analytic cohort*")
 })
 
+test_that("multiple cohorts- runs as expected"){
+  testthat::skip_if_not(.is_connected_to_genie())
+
+  cohort <- create_analytic_cohort(pull_data_synapse(cohort = c("NSCLC", "CRC"),
+                                                     version = c(
+                                                       "v2.0-public", "v2.0-public")))
+
+  expect_true(class(cohort), list)
+  expect_true(any(grepl("pt_char", names(cohort))))
+  expect_true(any(grepl("tumor_marker", names(cohort))))
+  expect_true(any(grepl("rad", names(cohort))))
+  expect_true(length(cohort) == 12) # should be equal to the larger of the two list sizes
+}
+
+test_that("multiple cohorts- data returned even if one cohort has no cases meeting criteria", {
+  expect_message(create_analytic_cohort(
+    data_synapse = pull_data_synapse(c("NSCLC", "BrCa"),
+                                     version = c("v2.0-public",
+                                                 "v1.2-consortium")),
+    institution = "UHN"),
+    "No patients meeting the specified criteria were returned for the BrCa cohort(s)*"
+  )
+})
+
 test_that("non-existent data_synapse", {
   # a non-existent data_synapse is specified
   expect_error(create_analytic_cohort(
@@ -247,7 +271,8 @@ test_that("correct cohort returned from create cohort", {
     bind_rows(., .id = "data_release") %>%
     separate(data_release,
       into = c("cohort_expected", "data_release"),
-      sep = "_"
+      sep = "_",
+      extra = "drop"
     ) %>%
     # to account for NSCLC2, CRC2, need to remove the number from the cohort var
     mutate(cohort = str_remove_all(pattern = "[:digit:]",
