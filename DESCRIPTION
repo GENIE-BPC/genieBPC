@@ -47,7 +47,7 @@ Description: The American Association Research (AACR) Project
 License: MIT + file LICENSE
 BugReports: https://github.com/GENIE-BPC/genieBPC/issues
 Depends:
-    R (>= 3.4)
+    R (>= 3.5)
 Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.0.6),
