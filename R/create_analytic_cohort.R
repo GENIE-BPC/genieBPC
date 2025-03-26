@@ -946,7 +946,7 @@ create_analytic_cohort <- function(data_synapse,
     ) %>%
       gtsummary::bold_labels()
 
-    if (cohort_temp != "BrCa") {
+    if (purrr::is_empty(grep("BrCa", cohort_temp))) {
       tbl_cohort <- cohort_ca_dx %>%
         gtsummary::tbl_summary(
           include = c(
