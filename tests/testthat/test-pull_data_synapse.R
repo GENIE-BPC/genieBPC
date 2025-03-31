@@ -26,7 +26,8 @@ testthat::expect_true(
       # sv added
       cohort == "BLADDER" & version == "v1.2-consortium" ~ 13,
       # TM and RT
-      cohort %in% c("PANC", "Prostate") ~ 13
+      cohort %in% c("PANC", "Prostate") ~ 13,
+      cohort %in% c("CRC") & version == "v3.1-consortium" ~ 13
     ))
 
   # for each data release, pull data into the R environment
@@ -324,6 +325,20 @@ test_that("Number of columns and rows for each data release", {
     "CRC_v2.0-public", "mutations_extended", 23225, 64,
     "CRC_v2.0-public", "fusions", 403, 9,
     "CRC_v2.0-public", "cna", 965, 1488,
+    # 3.1-consortium
+    "CRC_v3.1-consortium", "pt_char", 2735, 53,
+    "CRC_v3.1-consortium", "ca_dx_index", 2751, 149,
+    "CRC_v3.1-consortium", "ca_dx_non_index", 615, 116,
+    "CRC_v3.1-consortium", "ca_drugs", 9492, 104,
+    "CRC_v3.1-consortium", "prissmm_imaging", 53070, 43,
+    "CRC_v3.1-consortium", "prissmm_pathology", 13751, 357,
+    "CRC_v3.1-consortium", "ca_radtx", 2427, 84,
+    "CRC_v3.1-consortium", "prissmm_md", 51702, 16,
+    "CRC_v3.1-consortium", "tumor_marker", 43287, 15,
+    "CRC_v3.1-consortium", "cpt", 2887, 30,
+    "CRC_v3.1-consortium", "mutations_extended", 51273, 64,
+    "CRC_v3.1-consortium", "fusions", 878, 40,
+    "CRC_v3.1-consortium", "cna", 1001, 2643,
     ## BrCa
     "BrCa_v1.1-consortium", "pt_char", 1130, 40,
     "BrCa_v1.1-consortium", "ca_dx_index", 1141, 159,

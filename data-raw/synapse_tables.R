@@ -13,6 +13,7 @@ release_dates <- tibble::tribble(
   "CRC", "v1.1-consortium", "2021-02",
   "CRC", "v1.2-consortium", "2021-08",
   "CRC", "v1.3-consortium", "2024-02",
+  "CRC", "v3.1-consortium", "2024-12",
   "BrCa", "v1.1-consortium", "2021-10",
   "CRC", "v2.0-public", "2022-10",
   "PANC", "v1.1-consortium", "2022-02",
@@ -81,8 +82,8 @@ synapse_tables <- all_syn_ids %>%
       !grepl("meta|seg", name))) %>%
   # exclude NSCLC v2.1-consortium and CRC v1.1 and v1.2-consortium releases
   # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
-  filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium")),
-         !(cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium"))) %>%
+  filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium (SENSITIVE)")),
+         !(cohort == "CRC" & version %in% c("v1.1-consortium (SENSITIVE)", "v1.2-consortium (SENSITIVE)"))) %>%
   dplyr::mutate(
     filename_pre = str_remove(
       pattern = ".csv|.txt",

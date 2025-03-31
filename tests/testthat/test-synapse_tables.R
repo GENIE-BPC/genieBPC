@@ -40,6 +40,9 @@ test_that("expected datasts", {
                     (stringr::str_to_upper(cohort) == "NSCLC" &
                        !(version %in% c("v1.1-consortium",
                                         "v2.2-consortium",
+                                        "v2.0-public"))) |
+                    (stringr::str_to_upper(cohort) == "CRC" &
+                       !(version %in% c("v1.3-consortium",
                                         "v2.0-public"))))
 
   expect_equal(nrow(synapse_tables_wide_rt_cohorts),
