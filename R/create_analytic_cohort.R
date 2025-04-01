@@ -206,13 +206,13 @@ create_analytic_cohort <- function(data_synapse,
                                            tidyr::separate(version,
                                                            into = c("version", "access"),
                                                            sep = "-") %>%
-                                           dplyr::mutate(cohort_release = paste0(cohort, "_", version)) %>%
-                                           dplyr::select(cohort_release, release_date),
+                                           dplyr::mutate(cohort_release = paste0(.data$cohort, "_", .data$version)) %>%
+                                           dplyr::select(.data$cohort_release, .data$release_date),
                                          by = c("cohort_release")) %>%
-      tidyr::separate(cohort_release, into = c("cohort", "release"), sep = "_",
+      tidyr::separate(.data$cohort_release, into = c("cohort", "release"), sep = "_",
                remove = FALSE) %>%
-      dplyr::group_by(cohort) %>%
-      dplyr::slice_max(release_date) %>%
+      dplyr::group_by(.data$cohort) %>%
+      dplyr::slice_max(.data$release_date) %>%
       dplyr::ungroup()
 
     # check for multiple releases to a single cohort
@@ -246,7 +246,7 @@ create_analytic_cohort <- function(data_synapse,
                                                        "Protein_position")), ~as.character(.)))) %>%
       # this only applies when multiple cohorts are supplied
       purrr::map(., bind_rows, .id = "cohort_release") %>%
-      purrr::map(., mutate, cohort_release = str_remove_all(cohort_release,
+      purrr::map(., mutate, cohort_release = str_remove_all(.data$cohort_release,
                                                             pattern = "-public|-consortium|-pharma"))
   }
 
@@ -297,8 +297,8 @@ create_analytic_cohort <- function(data_synapse,
     )
 
     # if any institutions specified that are not available for a cohort
-    chk_inst <- setdiff(ca_inst_specified, cohort_institution) %>%
-      mutate(cohort_institution = paste0(cohort, "-", institution))
+    chk_inst <- setdiff(ca_inst_specified, genieBPC::cohort_institution) %>%
+      mutate(cohort_institution = paste0(.data$cohort, "-", institution))
 
     if (nrow(chk_inst) == nrow(ca_inst_specified)){
       stop("The specified institution is not available for any of the cancer cohorts specified. Review the lookup table `cohort_institution` for the list of available institutions by cohort.")
@@ -312,9 +312,9 @@ create_analytic_cohort <- function(data_synapse,
     institution_temp <- stringr::str_to_upper({{ institution }})
   }
   } else if (missing(institution)){
-    institution_temp <- cohort_institution %>%
+    institution_temp <- genieBPC::cohort_institution %>%
       dplyr::filter(.data$cohort %in% c(cohort_temp)) %>%
-      dplyr::pull(institution)
+      dplyr::pull(.data$institution)
   }
 
   # to account for unspecified stage
@@ -345,10 +345,10 @@ create_analytic_cohort <- function(data_synapse,
         # available histologies
         avail_histology <- data_synapse$ca_dx_index %>%
           mutate(histology_aggregated = case_when(
-            cohort == "BrCa" ~ ca_hist_brca,
-            TRUE ~ ca_hist_adeno_squamous
+            .data$cohort == "BrCa" ~ .data$ca_hist_brca,
+            TRUE ~ .data$ca_hist_adeno_squamous
           )) %>%
-          distinct(histology_aggregated)
+          distinct(.data$histology_aggregated)
 
         histology_temp <- pull(avail_histology, "histology_aggregated")
       }
@@ -422,8 +422,8 @@ create_analytic_cohort <- function(data_synapse,
       dplyr::group_by(.data$cohort, .data$record_id) %>%
       dplyr::mutate(index_ca_seq = 1:n(),
                     histology_aggregated = case_when(
-                      cohort == "BrCa" ~ ca_hist_brca,
-                      TRUE ~ ca_hist_adeno_squamous
+                      .data$cohort == "BrCa" ~ .data$ca_hist_brca,
+                      TRUE ~ .data$ca_hist_adeno_squamous
                     )) %>%
       dplyr::ungroup() %>%
       # apply filter(s)
@@ -461,7 +461,7 @@ create_analytic_cohort <- function(data_synapse,
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
-   dplyr::select("cohort", "record_id", "ca_seq"),
+   dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
   pluck(data_synapse, "ca_drugs"),
   by = c("cohort", "record_id", "ca_seq")
   ) %>%
@@ -522,7 +522,7 @@ create_analytic_cohort <- function(data_synapse,
     cohort_ca_dx <- dplyr::inner_join(cohort_ca_dx,
       cohort_ca_drugs %>%
         dplyr::filter(.data$order_within_cancer %in% c({{ regimen_order }})) %>%
-        dplyr::select("cohort", "record_id", "institution", "ca_seq"),
+        dplyr::select(.data$cohort, .data$record_id, .data$institution, .data$ca_seq),
       by = c(
         "cohort", "record_id", "institution", "ca_seq"
       )
@@ -676,7 +676,7 @@ create_analytic_cohort <- function(data_synapse,
       # patients)
       dplyr::inner_join(.,
         cohort_ca_dx %>%
-          dplyr::select("cohort", "record_id", "ca_seq"),
+          dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
         by = c("cohort", "record_id", "ca_seq")
       ) %>%
       # create blank variables (dropped below, not having them is unique to
@@ -753,35 +753,35 @@ create_analytic_cohort <- function(data_synapse,
   # for patients meeting the specified criteria, also pull related datasets
   # patient characteristics
   cohort_pt_char <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
+    dplyr::select(.data$cohort, .data$record_id),
   pluck(data_synapse, "pt_char"),
   by = c("cohort", "record_id")
   )
 
   # non-index cancer
   cohort_ca_dx_non_index <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
+    dplyr::select(.data$cohort, .data$record_id),
   pluck(data_synapse, "ca_dx_non_index"),
   by = c("cohort", "record_id")
   )
 
   # PRISSMM Path
   cohort_prissmm_pathology <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
+    dplyr::select(.data$cohort, .data$record_id),
   pluck(data_synapse, "prissmm_pathology"),
   by = c("cohort", "record_id")
   )
 
   # PRISSMM Imaging
   cohort_prissmm_imaging <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
+    dplyr::select(.data$cohort, .data$record_id),
   pluck(data_synapse, "prissmm_imaging"),
   by = c("cohort", "record_id")
   )
 
   # PRISSMM Med Onc
   cohort_prissmm_md <- dplyr::inner_join(cohort_ca_dx %>%
-    dplyr::select("cohort", "record_id"),
+    dplyr::select(.data$cohort, .data$record_id),
   pluck(data_synapse, "prissmm_md"),
   by = c("cohort", "record_id")
   )
@@ -789,7 +789,7 @@ create_analytic_cohort <- function(data_synapse,
   # TM (if applicable)
   if (!is.null(pluck(data_synapse, "tumor_marker"))) {
     cohort_tumor_marker <- dplyr::inner_join(cohort_ca_dx %>%
-      dplyr::select("cohort", "record_id"),
+      dplyr::select(.data$cohort, .data$record_id),
     pluck(data_synapse, "tumor_marker"),
     by = c("cohort", "record_id")
     )
@@ -798,7 +798,7 @@ create_analytic_cohort <- function(data_synapse,
   # RT (if applicable)
   if (!is.null(pluck(data_synapse, "ca_radtx"))) {
     cohort_ca_radtx <- dplyr::inner_join(cohort_ca_dx %>%
-                                               dplyr::select("cohort", "record_id", "ca_seq"),
+                                               dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
                                              pluck(data_synapse, "ca_radtx"),
                                              by = c("cohort", "record_id", "ca_seq")
     )
@@ -808,7 +808,7 @@ create_analytic_cohort <- function(data_synapse,
   # keep records based on record_id + cancer sequence of interest
   cohort_ngs <- dplyr::inner_join(
     cohort_ca_dx %>%
-      dplyr::select("cohort", "record_id", "ca_seq"),
+      dplyr::select(.data$cohort, .data$record_id, .data$ca_seq),
     pluck(data_synapse, "cpt"),
     by = c("cohort", "record_id", "ca_seq")
   ) %>%
@@ -842,7 +842,7 @@ create_analytic_cohort <- function(data_synapse,
   if (!is.null(pluck(data_synapse, "fusions"))) {
     cohort_fusions <- dplyr::inner_join(pluck(data_synapse, "fusions"),
       cohort_ngs %>%
-        dplyr::select("cohort", "cpt_genie_sample_id"),
+        dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
       by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
     )
   }
@@ -850,7 +850,7 @@ create_analytic_cohort <- function(data_synapse,
   if (!is.null(pluck(data_synapse, "sv"))) {
     cohort_sv <- dplyr::inner_join(pluck(data_synapse, "sv"),
                                         cohort_ngs %>%
-                                          dplyr::select("cohort", "cpt_genie_sample_id"),
+                                          dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
                                         by = c("Sample_Id" = "cpt_genie_sample_id")
     )
   }
@@ -859,7 +859,7 @@ create_analytic_cohort <- function(data_synapse,
     cohort_mutations_extended <- dplyr::inner_join(pluck(data_synapse,
                                                          "mutations_extended"),
       cohort_ngs %>%
-        dplyr::select("cohort", "cpt_genie_sample_id"),
+        dplyr::select(.data$cohort, .data$cpt_genie_sample_id),
       by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
     )
   }

@@ -72,7 +72,7 @@ set_synapse_credentials <- function(username = NULL,
   # * If PAT passed, use that -----------
   if(!is.null(pat)) {
 
-    verify_cred_works = .get_token_by_pat(pat)
+    verify_cred_works <- .get_token_by_pat(pat)
     assign("pat", value = pat, envir = genieBPC_env)
     cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code pat}) for this R session!")
     return(invisible())
@@ -88,7 +88,7 @@ set_synapse_credentials <- function(username = NULL,
       rlang::abort("User must specify either a `pat`, or BOTH a `username` & `password`.")
     }
 
-    verify_cred_works = .get_token_by_username(username, password)
+    verify_cred_works <- .get_token_by_username(username, password)
 
     # assign username credentials to package environment
     assign("username",
@@ -109,20 +109,20 @@ set_synapse_credentials <- function(username = NULL,
   # If None Passed, Use Env Arguments  -------------
 
   # Try saved PAT
-  pat_from_env = Sys.getenv("SYNAPSE_PAT", unset = NA)
-  username_from_env = Sys.getenv("SYNAPSE_USERNAME", unset = NA)
-  password_from_env = Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
+  pat_from_env <- Sys.getenv("SYNAPSE_PAT", unset = NA)
+  username_from_env <- Sys.getenv("SYNAPSE_USERNAME", unset = NA)
+  password_from_env <- Sys.getenv("SYNAPSE_PASSWORD", unset = NA)
 
   if(!is.na(pat_from_env)) {
 
-    verify_cred_works = .get_token_by_pat(pat_from_env)
+    verify_cred_works <- .get_token_by_pat(pat_from_env)
     assign("pat", value = pat_from_env, envir = genieBPC_env)
     cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code SYNAPSE_PAT}) for this R session!")
     return()
 
   } else if(all(!is.na(c(username_from_env, password_from_env)))) {
 
-    verify_cred_works = .get_token_by_username(username_from_env, password_from_env)
+    verify_cred_works <- .get_token_by_username(username_from_env, password_from_env)
 
     # assign username credentials to package environment
     assign("username",

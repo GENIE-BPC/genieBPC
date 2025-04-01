@@ -147,7 +147,7 @@ tibble::tribble(
 Pull version 2.0-public of the NSCLC data from Synapse and store in the local environment.
 
 ```{r, eval = FALSE}
-nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
@@ -155,7 +155,7 @@ The resulting `nsclc_2_0` object is a list of elements, such that each element r
 
 
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
-nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 
