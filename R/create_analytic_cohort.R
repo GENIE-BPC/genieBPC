@@ -154,7 +154,8 @@ create_analytic_cohort <- function(data_synapse,
                                    regimen_order_type,
                                    return_summary = FALSE) {
 
-  # check parameters
+
+# check input parameters --------------------------------------------------
   # cohort object
   if (missing(data_synapse)) {
     stop("Specify the cohort object from the nested list returned by the
@@ -206,13 +207,13 @@ create_analytic_cohort <- function(data_synapse,
                                            tidyr::separate(version,
                                                            into = c("version", "access"),
                                                            sep = "-") %>%
-                                           dplyr::mutate(cohort_release = paste0(cohort, "_", version)) %>%
-                                           dplyr::select(cohort_release, release_date),
+                                           dplyr::mutate(cohort_release = paste0(.data$cohort, "_", .data$version)) %>%
+                                           dplyr::select("cohort_release", "release_date"),
                                          by = c("cohort_release")) %>%
-      tidyr::separate(cohort_release, into = c("cohort", "release"), sep = "_",
+      tidyr::separate(.data$cohort_release, into = c("cohort", "release"), sep = "_",
                       remove = FALSE) %>%
-      dplyr::group_by(cohort) %>%
-      dplyr::slice_max(release_date) %>%
+      dplyr::group_by(.data$cohort) %>%
+      dplyr::slice_max(.data$release_date) %>%
       dplyr::ungroup()
 
     # check for multiple releases to a single cohort
@@ -225,6 +226,20 @@ create_analytic_cohort <- function(data_synapse,
       purrr::keep(str_remove_all(pattern = "-pharma|-consortium|-public",
                                  string = names(.))
                   %in% c(releases_supplied_clean$cohort_release))
+
+    # print message if not all datasets are available for all cohorts
+    dset_datarelease_check <- purrr::map(data_synapse, names) %>%
+      purrr::map_df(., ~tibble(dset = .), .id = "cohort_release") %>%
+      dplyr::group_by(.data$dset) %>%
+      dplyr::summarize(cohorts = paste0(.data$cohort_release, collapse = ", "),
+                       n_cohort_release = n()) %>%
+      # only keep datasets not available for all releases
+      dplyr::filter(.data$n_cohort_release != length(data_synapse))
+
+    if (length(dset_datarelease_check) > 0) {
+      cli::cli_inform(paste0("Note: Some datasets are only available for select data releases, including ",
+                             paste0(dset_datarelease_check$dset, " (only available for ", dset_datarelease_check$cohorts, ")", collapse = ", ")))
+    }
 
     # transpose the list and keep only the most recent data release
     data_synapse <- purrr::list_transpose(data_synapse) %>%
@@ -246,8 +261,9 @@ create_analytic_cohort <- function(data_synapse,
                                                        "Protein_position")), ~as.character(.)))) %>%
       # this only applies when multiple cohorts are supplied
       purrr::map(., bind_rows, .id = "cohort_release") %>%
-      purrr::map(., mutate, cohort_release = str_remove_all(cohort_release,
+      purrr::map(., mutate, cohort_release = str_remove_all(.data$cohort_release,
                                                             pattern = "-public|-consortium|-pharma"))
+
   }
 
   # get cohort name and how it is capitalized in the data_synapse object
@@ -298,7 +314,7 @@ create_analytic_cohort <- function(data_synapse,
 
     # if any institutions specified that are not available for a cohort
     chk_inst <- setdiff(ca_inst_specified, genieBPC::cohort_institution) %>%
-      mutate(cohort_institution = paste0(cohort, "-", institution))
+      mutate(cohort_institution = paste0(.data$cohort, "-", .data$institution))
 
     if (nrow(chk_inst) == nrow(ca_inst_specified)){
       stop("The specified institution is not available for any of the cancer cohorts specified. Review the lookup table `cohort_institution` for the list of available institutions by cohort.")
@@ -345,10 +361,10 @@ create_analytic_cohort <- function(data_synapse,
       # available histologies
       avail_histology <- data_synapse$ca_dx_index %>%
         mutate(histology_aggregated = case_when(
-          cohort == "BrCa" ~ ca_hist_brca,
+          .data$cohort == "BrCa" ~ ca_hist_brca,
           TRUE ~ ca_hist_adeno_squamous
         )) %>%
-        distinct(histology_aggregated)
+        distinct(.data$histology_aggregated)
 
       histology_temp <- pull(avail_histology, "histology_aggregated")
     }
@@ -367,7 +383,8 @@ create_analytic_cohort <- function(data_synapse,
          carcinoma, Invasive ductal carcinoma, Other histology (BrCa).")
   }
 
-  ### drug regimen parameter checks
+
+# drug regimen parameter checks -------------------------------------------
   # if regimen type is mis-specified
   if (!missing(regimen_type) | is.numeric(regimen_type)) {
     if (!(stringr::str_to_lower(regimen_type) %in% c("exact", "containing"))) {
@@ -411,9 +428,8 @@ create_analytic_cohort <- function(data_synapse,
     regimen_order_type <- NULL
   }
 
-  ##############################################################################
-  #                             pull cancer cohort                             #
-  ##############################################################################
+
+# pull cancer cohort ------------------------------------------------------
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
   if (!purrr::is_empty(grep("BrCa", cohort_temp))) {
@@ -436,7 +452,7 @@ create_analytic_cohort <- function(data_synapse,
           stringr::str_to_lower(c(histology_temp)),
         .data$index_ca_seq %in% c({{ index_ca_seq }})
       ) %>%
-      dplyr::select(-.data$histology_aggregated)
+      dplyr::select(-"histology_aggregated")
   } else {
     cohort_ca_dx <- pluck(data_synapse, "ca_dx_index") %>%
       # re-number index cancer diagnoses
@@ -457,7 +473,8 @@ create_analytic_cohort <- function(data_synapse,
 
 
 
-  # pull drug regimens to those patients
+
+# pull drug regimens to those patients ------------------------------------
   # option 1: all drug regimens to all patients in cohort
   # regimen_drugs is not specified, regimen_order is not specified
   cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
@@ -750,7 +767,8 @@ create_analytic_cohort <- function(data_synapse,
     )
   }
 
-  # for patients meeting the specified criteria, also pull related datasets
+
+# pull other datasets for patients meeting incl criteria ------------------
   # patient characteristics
   cohort_pt_char <- dplyr::inner_join(cohort_ca_dx %>%
                                         dplyr::select("cohort", "record_id"),
@@ -896,6 +914,7 @@ create_analytic_cohort <- function(data_synapse,
 
 
 
+# return tables -----------------------------------------------------------
   # return a table 1 to describe the cancer cohort if the user specifies
   if (nrow(cohort_ca_dx) > 0 && return_summary == TRUE) {
 
