@@ -1125,17 +1125,19 @@ test_that("multiple cohorts- number of rows per dataframe", {
 
   for (i in 1:(ncol(pairs_most_recent_release_versions))) {
     dim_individual_cohorts <- full_join(
-      create_analytic_cohort(data_synapse = data_releases_pull_data %>%
-                               purrr::keep(
-                                 names(.) %in% c(pairs_most_recent_release_versions[1, i])
-                               )) %>%
+      create_analytic_cohort(
+        data_synapse = data_releases_pull_data %>%
+          purrr::keep(
+            names(.) %in% c(pairs_most_recent_release_versions[1, i])
+            )) %>%
         map_df(., ~ tibble(
           df_name = deparse(substitute(.x)), n_row = nrow(.x)
         ), .id = "df_name"),
-      create_analytic_cohort(data_synapse = data_releases_pull_data %>%
-                               purrr::keep(
-                                 names(.) %in% c(pairs_most_recent_release_versions[2, i])
-                               )) %>%
+      create_analytic_cohort(
+        data_synapse = data_releases_pull_data %>%
+          purrr::keep(
+            names(.) %in% c(pairs_most_recent_release_versions[2, i])
+            )) %>%
         map_df(., ~ tibble(
           df_name = deparse(substitute(.x)), n_row = nrow(.x)
         ), .id = "df_name"),
@@ -1151,13 +1153,13 @@ test_that("multiple cohorts- number of rows per dataframe", {
         ), collapse = ", ")
       )
 
-    dim_multiple_cohorts <- create_analytic_cohort(data_synapse = data_releases_pull_data %>%
-                                                     purrr::keep(
-                                                       names(.) %in% c(
-                                                         pairs_most_recent_release_versions[1, i],
-                                                         pairs_most_recent_release_versions[1, i]
-                                                       )
-                                                     )) %>%
+    dim_multiple_cohorts <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[1, i]
+            ))) %>%
       map_df(., ~ tibble(
         df_name = deparse(substitute(.x)),
         total_rows = nrow(.x)
