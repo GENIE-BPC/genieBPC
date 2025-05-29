@@ -1103,4 +1103,86 @@ test_that("multiple cohorts- most recent release", {
       ungroup() %>%
       select(order(colnames(.))) %>%
       arrange(cohort, record_id))
+
+})
+
+# check that the total number of rows per dataframe are equal when pulling
+# individual cohorts and stacking as pulling multiple cohorts
+test_that("multiple cohorts- number of rows per dataframe", {
+  # exit if user doesn't have a synapse log in or access to data.
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
+
+  most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
+    mutate(cohort_version = paste0(cohort, "_", version)) %>%
+    select(cohort_version) %>%
+    unlist()
+
+  ## get unique pairs of cohorts to compare
+  pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
+
+  dim_individual_cohorts_list <- list()
+  dim_multiple_cohorts_list <- list()
+
+  for (i in 1:(ncol(pairs_most_recent_release_versions))) {
+    dim_individual_cohorts <- full_join(
+      create_analytic_cohort(data_synapse = data_releases_pull_data %>%
+                               purrr::keep(
+                                 names(.) %in% c(pairs_most_recent_release_versions[1, i])
+                               )) %>%
+        map_df(., ~ tibble(
+          df_name = deparse(substitute(.x)), n_row = nrow(.x)
+        ), .id = "df_name"),
+      create_analytic_cohort(data_synapse = data_releases_pull_data %>%
+                               purrr::keep(
+                                 names(.) %in% c(pairs_most_recent_release_versions[2, i])
+                               )) %>%
+        map_df(., ~ tibble(
+          df_name = deparse(substitute(.x)), n_row = nrow(.x)
+        ), .id = "df_name"),
+      by = "df_name"
+    ) %>%
+      mutate(
+        total_rows = select(., contains("n_row")) %>% rowSums(na.rm = TRUE),
+        cohort_names = paste0(sort(
+          c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[2, i]
+          )
+        ), collapse = ", ")
+      )
+
+    dim_multiple_cohorts <- create_analytic_cohort(data_synapse = data_releases_pull_data %>%
+                                                     purrr::keep(
+                                                       names(.) %in% c(
+                                                         pairs_most_recent_release_versions[1, i],
+                                                         pairs_most_recent_release_versions[1, i]
+                                                       )
+                                                     )) %>%
+      map_df(., ~ tibble(
+        df_name = deparse(substitute(.x)),
+        total_rows = nrow(.x)
+      ), .id = "df_name") %>%
+      mutate(cohort_names = paste0(sort(
+        c(
+          pairs_most_recent_release_versions[1, i],
+          pairs_most_recent_release_versions[2, i]
+        )
+      ), collapse = ", "))
+
+    dim_individual_cohorts_list[[i]] <- data.frame(
+      dim_individual_cohorts %>%
+        select(cohort_names, df_name, total_rows) %>%
+        arrange(df_name)
+    )
+
+    dim_multiple_cohorts_list[[i]] <- data.frame(
+      dim_multiple_cohorts %>%
+        select(cohort_names, df_name, total_rows) %>%
+        arrange(df_name)
+    )
+
+  }
+
+  expect_equal(dim_individual_cohorts_list, dim_individual_cohorts_list)
+
 })
