@@ -236,7 +236,7 @@ create_analytic_cohort <- function(data_synapse,
       # only keep datasets not available for all releases
       dplyr::filter(.data$n_cohort_release != length(data_synapse))
 
-    if (length(dset_datarelease_check) > 0) {
+    if (nrow(dset_datarelease_check) > 0) {
       cli::cli_inform(paste0("Note: Some datasets are only available for select data releases, including ",
                              paste0(dset_datarelease_check$dset, " (only available for ", dset_datarelease_check$cohorts, ")", collapse = ", ")))
     }
@@ -928,12 +928,7 @@ create_analytic_cohort <- function(data_synapse,
         data frame",
         type = n_rec_pt ~ "categorical"
       ) %>%
-      gtsummary::modify_header(
-        update = list(
-          stat_0 ~ "**N = {N} patients**"
-        ),
-        quiet = TRUE
-      )
+      gtsummary::modify_header(stat_0 ~ "**N = {N} patients**")
 
     n_rec_drugs_dset <- cohort_ca_drugs %>%
       dplyr::group_by(.data$record_id) %>%
@@ -980,12 +975,7 @@ create_analytic_cohort <- function(data_synapse,
           )
         ) %>%
         gtsummary::bold_labels() %>%
-        gtsummary::modify_header(
-          update = list(
-            stat_0 ~ "**N = {N} Diagnoses**"
-          ),
-          quiet = TRUE
-        )
+        gtsummary::modify_header(stat_0 ~ "**N = {N} Diagnoses**")
     } else {
       tbl_cohort <- cohort_ca_dx %>%
         # dplyr::group_by(.data$record_id) %>%
@@ -1002,12 +992,7 @@ create_analytic_cohort <- function(data_synapse,
           )
         ) %>%
         gtsummary::bold_labels() %>%
-        gtsummary::modify_header(
-          update = list(
-            stat_0 ~ "**N = {N} Diagnoses**"
-          ),
-          quiet = TRUE
-        )
+        gtsummary::modify_header(stat_0 ~ "**N = {N} Diagnoses**")
     }
 
     tbl_drugs <- cohort_ca_drugs %>%
@@ -1020,12 +1005,7 @@ create_analytic_cohort <- function(data_synapse,
         )
       ) %>%
       gtsummary::bold_labels() %>%
-      gtsummary::modify_header(
-        update = list(
-          stat_0 ~ "**N = {N} Regimens**"
-        ),
-        quiet = TRUE
-      )
+      gtsummary::modify_header(stat_0 ~ "**N = {N} Regimens**")
 
     tbl_ngs <- cohort_ngs %>%
       gtsummary::tbl_summary(
@@ -1039,12 +1019,7 @@ create_analytic_cohort <- function(data_synapse,
         )
       ) %>%
       gtsummary::bold_labels() %>%
-      gtsummary::modify_header(
-        update = list(
-          stat_0 ~ "**N = {N} Cancer Panel Tests**"
-        ),
-        quiet = TRUE
-      )
+      gtsummary::modify_header(stat_0 ~ "**N = {N} Cancer Panel Tests**")
   }
 
   # drop variable before returning data frame

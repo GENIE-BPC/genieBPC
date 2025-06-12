@@ -1230,7 +1230,7 @@ test_that("multiple cohorts - most recent release is returned when multiple coho
 
 # check that the total number of rows per dataframe are equal when pulling
 # individual cohorts and stacking as pulling multiple cohorts
-test_that("multiple cohorts- number of rows per dataframe", {
+test_that("multiple cohorts- names & number of rows per dataframe", {
   # exit if user doesn't have a synapse log in or access to data.
   testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
@@ -1242,9 +1242,14 @@ test_that("multiple cohorts- number of rows per dataframe", {
   ## get unique pairs of cohorts to compare
   pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
 
+  ## create empty lists to store results from foor loop
   dim_individual_cohorts_list <- list()
   dim_multiple_cohorts_list <- list()
 
+  df_names_individual_cohorts_list <- list()
+  df_names_multiple_cohorts_list <- list()
+
+  ## loop through all unique pairs of cohorts
   for (i in 1:(ncol(pairs_most_recent_release_versions))) {
     dim_individual_cohorts <- full_join(
       create_analytic_cohort(
@@ -1275,12 +1280,24 @@ test_that("multiple cohorts- number of rows per dataframe", {
         ), collapse = ", ")
       )
 
+    df_names_individual_cohorts <- c(
+      data_releases_pull_data %>%
+        purrr::keep(names(.) %in% c(pairs_most_recent_release_versions[1, i])) %>%
+        flatten() %>%
+        names(),
+      data_releases_pull_data %>%
+        purrr::keep(names(.) %in% c(pairs_most_recent_release_versions[2, i])) %>%
+        flatten() %>%
+        names()
+    ) %>%
+      unique()
+
     dim_multiple_cohorts <- create_analytic_cohort(
       data_synapse = data_releases_pull_data %>%
         purrr::keep(
           names(.) %in% c(
             pairs_most_recent_release_versions[1, i],
-            pairs_most_recent_release_versions[1, i]
+            pairs_most_recent_release_versions[2, i]
             ))) %>%
       map_df(., ~ tibble(
         df_name = deparse(substitute(.x)),
@@ -1293,11 +1310,26 @@ test_that("multiple cohorts- number of rows per dataframe", {
         )
       ), collapse = ", "))
 
+    df_names_multiple_cohorts <- c(
+      data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[2, i]
+          )
+        ) %>%
+        flatten() %>%
+        names()
+    ) %>% unique()
+
+    ## store results in list objects
     dim_individual_cohorts_list[[i]] <- data.frame(
       dim_individual_cohorts %>%
         select(cohort_names, df_name, total_rows) %>%
         arrange(df_name)
     )
+
+    df_names_individual_cohorts_list[[i]] <- sort(df_names_individual_cohorts)
 
     dim_multiple_cohorts_list[[i]] <- data.frame(
       dim_multiple_cohorts %>%
@@ -1305,9 +1337,12 @@ test_that("multiple cohorts- number of rows per dataframe", {
         arrange(df_name)
     )
 
+    df_names_multiple_cohorts_list[[i]] <- sort(df_names_multiple_cohorts)
+
   }
 
   expect_equal(dim_individual_cohorts_list, dim_individual_cohorts_list)
+  expect_equal(df_names_individual_cohorts_list, df_names_multiple_cohorts_list)
 
 })
 
