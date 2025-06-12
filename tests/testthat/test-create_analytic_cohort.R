@@ -1280,7 +1280,7 @@ test_that("multiple cohorts- number of rows per dataframe", {
         purrr::keep(
           names(.) %in% c(
             pairs_most_recent_release_versions[1, i],
-            pairs_most_recent_release_versions[1, i]
+            pairs_most_recent_release_versions[2, i]
             ))) %>%
       map_df(., ~ tibble(
         df_name = deparse(substitute(.x)),
@@ -1311,41 +1311,75 @@ test_that("multiple cohorts- number of rows per dataframe", {
 
 })
 
+# check that the column names by dataframe are equal when pulling
+# individual cohorts and stacking as pulling multiple cohorts
+test_that("multiple cohorts- column names per dataframe", {
+  # exit if user doesn't have a synapse log in or access to data.
+  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
-#
-# test_that("multiple cohorts- test that all are returned ", {
-#
-#   # exit if user doesn't have a synapse log in or access to data.
-#   testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-#
-#   nscl_crc <-  data_releases_pull_data %>%
-#     purrr::keep(names(.) %in% c("NSCLC_v3.1-consortium", "CRC_v2.0-public"))
-#
-#   n_nscl <- create_analytic_cohort(
-#     data_synapse = nscl_pub_and_con$`NSCLC_v2.0-public`)
-#
-#   n_nscl <- nscl_crc$`NSCLC_v3.1-consortium` %>% names()
-#   n_crc <- nscl_crc$`CRC_v2.0-public` %>% names()
-#
-#   setdiff(n_nscl, n_crc)
-#   setdiff(n_crc, n_nscl)
-#
-#   # check that only most recent release is returned
-#   x <- create_analytic_cohort(
-#     data_synapse = nscl_crc$`CRC_v2.0-public`)
-#
-#   y <- create_analytic_cohort(
-#     data_synapse = nscl_crc$`NSCLC_v3.1-consortium`)
-#
-#   z <- create_analytic_cohort(data_synapse = nscl_crc)
-#
-#   # lowest number ca_seq is most recent for each patient
-#   y <- data_releases_pull_data$`NSCLC_v3.1-consortium`$ca_dx_index %>%
-#     group_by(cohort, record_id) %>%
-#     slice_min(ca_seq) %>%
-#     ungroup()
-#
-#   expect_equal(x, y)
-# })
-#
-#
+  most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
+    mutate(cohort_version = paste0(cohort, "_", version)) %>%
+    select(cohort_version) %>%
+    unlist()
+
+  ## get unique pairs of cohorts to compare
+  pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
+
+  individual_cohorts_colnames_list <- list()
+  multiple_cohorts_colnames_list <- list()
+
+  for (i in 1:(ncol(pairs_most_recent_release_versions))) {
+    create_analytic_cohort_1 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[1, i])
+        ))
+
+    result_colnames_cohort_1 <- do.call(bind_rows, lapply(names(create_analytic_cohort_1), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_1[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    create_analytic_cohort_2 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[2, i])
+        ))
+
+    result_colnames_cohort_2 <- do.call(bind_rows, lapply(names(create_analytic_cohort_2), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_2[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    individual_cohorts_colnames_list[[i]] <- bind_rows(result_colnames_cohort_1, result_colnames_cohort_2) %>%
+      distinct() %>%
+      arrange(df_name, col_name)
+
+    create_analytic_cohort_multi <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[2, i]
+          )))
+
+    multiple_cohorts_colnames_list[[i]] <- do.call(bind_rows, lapply(names(create_analytic_cohort_multi), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_multi[[name]]),
+        stringsAsFactors = FALSE
+      )
+    })) %>%
+      arrange(df_name, col_name)
+
+  }
+
+  expect_equal(individual_cohorts_colnames_list, multiple_cohorts_colnames_list)
+
+})
