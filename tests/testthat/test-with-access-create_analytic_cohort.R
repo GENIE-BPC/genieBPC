@@ -1196,3 +1196,75 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
   expect_equal(df_names_individual_cohorts_list, df_names_multiple_cohorts_list)
 
 })
+
+# check that the column names by dataframe are equal when pulling
+# individual cohorts and stacking as pulling multiple cohorts
+test_that("multiple cohorts- column names per dataframe", {
+
+  most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
+    mutate(cohort_version = paste0(cohort, "_", version)) %>%
+    select(cohort_version) %>%
+    unlist()
+
+  ## get unique pairs of cohorts to compare
+  pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
+
+  individual_cohorts_colnames_list <- list()
+  multiple_cohorts_colnames_list <- list()
+
+  for (i in 1:(ncol(pairs_most_recent_release_versions))) {
+    create_analytic_cohort_1 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[1, i])
+        ))
+
+    result_colnames_cohort_1 <- do.call(bind_rows, lapply(names(create_analytic_cohort_1), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_1[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    create_analytic_cohort_2 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[2, i])
+        ))
+
+    result_colnames_cohort_2 <- do.call(bind_rows, lapply(names(create_analytic_cohort_2), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_2[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    individual_cohorts_colnames_list[[i]] <- bind_rows(result_colnames_cohort_1, result_colnames_cohort_2) %>%
+      distinct() %>%
+      arrange(df_name, col_name)
+
+    create_analytic_cohort_multi <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[2, i]
+          )))
+
+    multiple_cohorts_colnames_list[[i]] <- do.call(bind_rows, lapply(names(create_analytic_cohort_multi), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_multi[[name]]),
+        stringsAsFactors = FALSE
+      )
+    })) %>%
+      arrange(df_name, col_name)
+
+  }
+
+  expect_equal(individual_cohorts_colnames_list, multiple_cohorts_colnames_list)
+
+})
+
