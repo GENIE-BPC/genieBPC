@@ -32,16 +32,12 @@ Before going through the tutorial, install and load the {genieBPC} library and l
 
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
+library(dplyr)
+library(tibble)
+library(magrittr)
+library(gt)
 
 set_synapse_credentials()
-```
-
-
-```{r, include = FALSE}
-library(gt)
-library(dplyr)
-library(magrittr)
-library(tibble)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x,
