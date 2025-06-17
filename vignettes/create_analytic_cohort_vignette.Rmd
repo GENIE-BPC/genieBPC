@@ -58,7 +58,7 @@ The `create_analytic_cohort()` function includes several input parameters:
 
 
 ```{r, include = FALSE}
-tbl_arguments <- tibble::tribble(
+tbl_arguments = tibble::tribble(
   ~Argument,       ~Description,
   "`data_synapse`",       "The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.",
   "`index_ca_seq`",       "Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. Specifying multiple index cancer sequences, e.g. index_ca_seq = c(1, 2), will return index cancers to patients with 1 index cancer and will return the first AND second index cancers to patients with multiple.",
@@ -143,7 +143,7 @@ Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed Disodiu
 
 
 ```{r, warning = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
-nsclc_cisplatin_pem_any <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                                  regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
                                                  regimen_order = 1,
                                                  regimen_order_type = "within regimen",
