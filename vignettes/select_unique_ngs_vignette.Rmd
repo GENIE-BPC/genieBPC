@@ -22,9 +22,9 @@ if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE)
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 library(tibble)
-library(magrittr)
 library(dplyr)
 library(gt)
+library(magrittr)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x, 
