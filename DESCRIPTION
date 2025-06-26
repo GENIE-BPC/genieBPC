@@ -51,7 +51,7 @@ Depends:
 Imports:
     cli (>= 2.5.0),
     dplyr (>= 1.1.4),
-    dtplyr (>= 1.0.6),
+    dtplyr (>= 1.1.0),
     httr,
     jsonlite,
     purrr (>= 0.3.4),
