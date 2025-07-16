@@ -4,20 +4,9 @@
 \alias{check_genie_access}
 \title{Check Access to GENIE Data}
 \usage{
-check_genie_access(
-  username = NULL,
-  password = NULL,
-  pat = NULL,
-  check_consortium_access = FALSE
-)
+check_genie_access(pat = NULL, check_consortium_access = FALSE)
 }
 \arguments{
-\item{username}{'Synapse' username. If NULL, package will search package
-environment for "username".}
-
-\item{password}{'Synapse' password. If NULL, package will search package
-environment for "password".}
-
 \item{pat}{'Synapse' Personal Access Token. If NULL, package will search package
 environment for "pat".}
 

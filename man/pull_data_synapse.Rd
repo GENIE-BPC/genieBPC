@@ -8,8 +8,6 @@ pull_data_synapse(
   cohort = NULL,
   version = NULL,
   download_location = NULL,
-  username = NULL,
-  password = NULL,
   pat = NULL
 )
 }
@@ -30,10 +28,6 @@ order to ensure the correct data versions are pulled. See examples below for det
 of dataframes with requested data as list items. Otherwise, specify a
 folder path to have data automatically downloaded there. When a path is
 specified, data are not read into the R environment.}
-
-\item{username}{'Synapse' username}
-
-\item{password}{'Synapse' password}
 
 \item{pat}{'Synapse' personal access token}
 }
@@ -56,28 +50,21 @@ Users must always authenticate themselves in their current R session.
 (see \href{https://genie-bpc.github.io/genieBPC/articles/pull_data_synapse_vignette.html}{README: Data Access and Authentication}
 
 for details).
-To set your 'Synapse' credentials during each session, call:
-
-`set_synapse_credentials(username = "your_username", password = "your_password")`
-
-In addition to passing your 'Synapse' username and password, you may choose to set
-your 'Synapse' Personal Access Token (PAT) by calling:
+To set your 'Synapse' Personal Access Token (PAT) during each session, call:
  `set_synapse_credentials(pat = "your_pat")`.
 
-If your credentials are stored as environmental variables, you do not need to
+If your credentials are stored as an environmental variable, you do not need to
 call `set_synapse_credentials()` explicitly each session. To store
 authentication information in your environmental variables, add the following
 to your .Renviron file, then restart your R session ' (tip: you can use
 `usethis::edit_r_environ()` to easily open/edit this file):
 
 \itemize{
-   \item `SYNAPSE_USERNAME = <your-username>`
-   \item `SYNAPSE_PASSWORD = <your-password>`
    \item `SYNAPSE_PAT = <your-pat>`
    }
-Alternatively, you can pass your username and password or your PAT to each individual
+Alternatively, you can pass your PAT to each individual
 data pull function if preferred, although it is recommended that you manage
-your passwords outside of your scripts for security purposes.
+your PATs outside of your scripts for security purposes.
 }
 
 \section{Analytic Data Guides}{
