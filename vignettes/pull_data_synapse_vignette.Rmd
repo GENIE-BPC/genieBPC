@@ -15,6 +15,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(genieBPC)
+library(dplyr)
+library(tibble)
+library(magrittr)
+library(gt)
+
 # exit if user doesn't have synapser, a log in, or access to data.
 if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE){
   knitr::knit_exit()
@@ -22,19 +28,12 @@ if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE)
 ```
 
 ```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
-library(genieBPC)
-library(dplyr)
-library(tibble)
-library(magrittr)
-library(gt)
-
 set_synapse_credentials()
 ```
 
 ## Introduction
 
 The `pull_data_synapse()` function accesses the specified version of the clinical and genomic GENIE BPC data from [Synapse](https://www.synapse.org/#!Synapse:syn21226493/wiki/599164) and reads it into the R environment.
-&nbsp;
 
 This vignette will walk a user through the `pull_data_synapse()` function.
 
@@ -132,8 +131,6 @@ tibble::tribble(
                   source_notes.padding = gt::px(1),
                   row_group.padding = gt::px(1))
 ```
-
-&nbsp;
 
 ## Examples
 
