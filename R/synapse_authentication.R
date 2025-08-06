@@ -48,40 +48,27 @@ genieBPC_env <- rlang::new_environment()
 set_synapse_credentials <- function(pat = NULL) {
 
   # remove any former objects in environment
-  suppressWarnings(
-    rm(list = c("pat"), envir = genieBPC_env))
+  suppressWarnings(rm(list = c("pat"), envir = genieBPC_env))
 
-  # Use Passed Arguments First ----------------------------------------------
+  # Resolve PAT ----------------------------------
 
-  # * If PAT passed, use that -----------
-  if(!is.null(pat)) {
+  # prioritize function argument, then R environment variable
+  pat <- pat %||% Sys.getenv("SYNAPSE_PAT", unset = NA)
 
-    verify_cred_works = .get_token_by_pat(pat)
-    assign("pat", value = pat, envir = genieBPC_env)
-    cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code pat}) for this R session!")
-    return(invisible())
+  if (is.na(pat) || identical(trimws(pat), "")) {
+    rlang::abort("No personal access token (`pat`) specified and no `SYNAPSE_PAT` in `.Renviron`.
+Try specifying the `pat` argument or use `usethis::edit_r_environ()` to add to your global variables.
+As of July 2025, Synapse requires access via PAT and no longer allows username/password login.
+Two-factor authentication must be enabled at www.synapse.org before using your PAT.")
   }
 
-  # If None Passed, Use Env Arguments  -------------
+  # Verify PAT Works ----------------------------------
+  verify_cred_works <- .verify_pat_works(pat)
 
-  # Try saved PAT
-  pat_from_env = Sys.getenv("SYNAPSE_PAT", unset = NA)
-
-  if(!is.na(pat_from_env)) {
-
-    verify_cred_works = .get_token_by_pat(pat_from_env)
-    assign("pat", value = pat_from_env, envir = genieBPC_env)
-    cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} ({.code SYNAPSE_PAT}) for this R session!")
-    return()
-
-  }  else {
-    rlang::abort("No personal access token (`pat`) specified and no
-    `SYNAPSE_PAT` in `.Renviron`.
-    Try specifying `pat` argument or use `usethis::edit_r_environ()` to add to your global variables.
-                 As of July 2025, Synapse requires access via PAT, and no longer permits access via
-                 username and password. Additionally, you must log into Synapse via www.synapse.org to
-                 enable two-factor authentication before the PAT can be used to pull the data.")
-  }
+  # if pat works
+  assign("pat", value = pat, envir = genieBPC_env)
+  cli::cli_alert_success("You are now connected to 'Synapse' with your {.field Personal Access Token} for this R session!")
+  return(invisible())
 }
 
 
@@ -177,6 +164,36 @@ check_genie_access <- function(pat = NULL,
   thing
 }
 
+#' Verify a synapse Personal Access Token works
+#'
+#' @inheritParams check_genie_access
+#'
+#' @return a 'Synapse' token
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' .verify_pat_works(pat = "test")
+#' }
+.verify_pat_works <- function(pat) {
+
+  resp <- httr::GET(
+    paste0("https://auth-prod.prod.sagebase.org/repo/v1/userProfile"),
+    httr::add_headers(Authorization = paste("Bearer ",
+                                            pat,
+                                            sep = "")),
+    #   body = requested_objects,
+    encode = "json",
+    httr::add_headers(`accept` = "application/json"),
+    httr::content_type("application/json")
+  ) %>%
+    httr::stop_for_status("authenticate with PAT. Please check your PAT and confirm that you have logged into www.synapse.org to enable two-factor authentication.")
+
+  return(pat)
+}
+
+
 #' Retrieve a synapse token using PAT
 #'
 #' @inheritParams check_genie_access
@@ -191,27 +208,23 @@ check_genie_access <- function(pat = NULL,
 #' }
 .get_synapse_token <- function(pat = NULL) {
 
-  # check user passed pat
-  if(!is.null(pat)) {
-    token <- .get_token_by_pat(pat)
-    return(token)
-  }
+  # Resolve PAT ----------------------------------
 
-  # if no user passed args
+  # prioritize function argument, then package env
   resolved_pat <- pat %||% .get_env("pat")
 
-  # if none found in env
-  if(is.null(resolved_pat)) {
+  # have they passed `set_synapse_credentials()` yet?
+  if (is.null(resolved_pat) || identical(trimws(resolved_pat), ""))   {
     cli::cli_abort("No credentials found. Have you authenticated yourself?
                      Use {.code set_synapse_credentials()} to set credentials for this session, or pass a {.code pat}
                      (see README:'Data Access & Authentication' for details on authentication).")
   }
 
-  # use package env creds
-  if(!is.null(resolved_pat)) {
-    token <- .get_token_by_pat(resolved_pat)
-    return(token)
-  }
+  # Verify and Return PAT as Token-------------------------
+  verify <- .verify_pat_works(resolved_pat)
+
+  # if no error in above, return pat
+  return(resolved_pat)
 
 }
 
@@ -235,34 +248,4 @@ check_genie_access <- function(pat = NULL,
   )
 }
 
-#' Retrieve a synapse token using personal access token
-#'
-#' @inheritParams check_genie_access
-#'
-#' @return a 'Synapse' token
-#' @keywords internal
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' .get_token_by_pat(pat = "test")
-#' }
-.get_token_by_pat <- function(pat) {
 
-  if(is.null(pat) | pat == "" | pat == " ") {
-    cli::cli_abort("Failed to authenticate with PAT. Please check your PAT or supply a username and password")
-  }
-  resp <- httr::GET(
-    paste0("https://auth-prod.prod.sagebase.org/repo/v1/userProfile"),
-    httr::add_headers(Authorization = paste("Bearer ",
-                                            pat,
-                                            sep = "")),
-    #   body = requested_objects,
-    encode = "json",
-    httr::add_headers(`accept` = "application/json"),
-    httr::content_type("application/json")
-  ) %>%
-    httr::stop_for_status("Failed to authenticate with PAT. Please check your PAT and confirm that you have logged into www.synapse.org to enable two-factor authentication.")
-
-  return(pat)
-}
