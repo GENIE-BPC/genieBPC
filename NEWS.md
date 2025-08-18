@@ -1,3 +1,12 @@
+# genieBPC (development version)
+
+* Update github actions to v4
+
+* Deprecate functions allowing data access by username and password. 
+  - Remove `.get_token_by_username()` function
+  - Remove `.get_token_by_pat()` function (it is now redundant with `.get_synapse_token()`) 
+  - added `.verify_pat_works()` helper function
+
 # genieBPC 2.0.1
 
 * Update 'cohort' parameter of `pull_data_synapse()` and `synapse_version()` to not be case-sensitive (#120)

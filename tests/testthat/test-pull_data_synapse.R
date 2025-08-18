@@ -485,12 +485,9 @@ test_that("Test NA conversion", {
 # # Consortium: Pull Consortium Data With Username/Password -------------------------------
 
 test_that("Test class and length of list for public data", {
-  skip_if_not(.is_connected_to_genie(username = Sys.getenv("SYNAPSE_USERNAME"),
-                                     password = Sys.getenv("SYNAPSE_PASSWORD")))
+  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
-  set_synapse_credentials(username = Sys.getenv("SYNAPSE_USERNAME"),
-                          password = Sys.getenv("SYNAPSE_PASSWORD"),
-                          pat = NULL)
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   data_releases_username <- synapse_tables %>%
     distinct(cohort, version) %>%
@@ -609,13 +606,11 @@ test_that("Test no error with Public access PAT, not consortium specific check",
 
 test_that("Test error when access terms not checked", {
   skip_if_not(.is_connected_to_genie(
-    username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
-    password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS")
+    pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS")
   ))
 
   set_synapse_credentials(
-    username = Sys.getenv("SYNAPSE_USERNAME_NO_TERMS"),
-    password = Sys.getenv("SYNAPSE_PASSWORD_NO_TERMS")
+    pat = Sys.getenv("SYNAPSE_PAT_NO_TERMS")
   )
 
   expect_error(pull_data_synapse(
