@@ -1,6 +1,10 @@
 # genieBPC (development version)
 
+* Update `create_analytic_cohort()` to create cohorts based on multiple cancer types
+
 * Update github actions to v4
+
+* Remove access to GENIE BPC data on Synapse via username and password per Synapse requirements. Access to the data is now via Personal Access Token (PAT) only. 
 
 * Deprecate functions allowing data access by username and password. 
   - Remove `.get_token_by_username()` function
