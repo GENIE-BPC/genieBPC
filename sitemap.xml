@@ -18,11 +18,10 @@
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_and_query_file_url.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_env.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_synapse_token.html</loc></url>
-<url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_token_by_pat.html</loc></url>
-<url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-get_token_by_username.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-is_connected_to_genie.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-pull_data_by_cohort.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-resolve_duplicates.html</loc></url>
+<url><loc>https://genie-bpc.github.io/genieBPC/reference/dot-verify_pat_works.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/drug_regimen_list.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/drug_regimen_sunburst.html</loc></url>
 <url><loc>https://genie-bpc.github.io/genieBPC/reference/genieBPC-package.html</loc></url>
