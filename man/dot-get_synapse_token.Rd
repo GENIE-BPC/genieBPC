@@ -2,30 +2,23 @@
 % Please edit documentation in R/synapse_authentication.R
 \name{.get_synapse_token}
 \alias{.get_synapse_token}
-\title{Retrieve a synapse token using username and password}
+\title{Retrieve a synapse token using PAT}
 \usage{
-.get_synapse_token(username = NULL, password = NULL, pat = NULL)
+.get_synapse_token(pat = NULL)
 }
 \arguments{
-\item{username}{'Synapse' username. If NULL, package will search package
-environment for "username".}
-
-\item{password}{'Synapse' password. If NULL, package will search package
-environment for "password".}
-
 \item{pat}{'Synapse' Personal Access Token. If NULL, package will search package
 environment for "pat".}
 }
 \value{
-a 'Synapse' token. Will first look for PAT and return that if successful HTTP call, else
-will try with username and password
+a 'Synapse' token. Will look for PAT and return that if successful HTTP call
 }
 \description{
-Retrieve a synapse token using username and password
+Retrieve a synapse token using PAT
 }
 \examples{
 \dontrun{
-.get_synapse_token(username = "test", password = "test")
+.get_synapse_token(pat = "test")
 }
 }
 \keyword{internal}

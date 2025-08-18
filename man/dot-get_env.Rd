@@ -17,7 +17,7 @@ Get an object from the genieBPC package environment (`genieBPC_env`)
 }
 \examples{
 \dontrun{
-.get_env("username")
+.get_env("pat")
 }
 }
 \keyword{internal}
