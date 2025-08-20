@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genieBPC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +42,10 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="geniebpc-development-version">genieBPC (development version)<a class="anchor" aria-label="anchor" href="#geniebpc-development-version"></a></h2>
-<ul><li><p>Update github actions to v4</p></li>
+<h2 class="pkg-version" data-toc-text="2.1.0" id="geniebpc-210">genieBPC 2.1.0<a class="anchor" aria-label="anchor" href="#geniebpc-210"></a></h2>
+<ul><li><p>Update <code><a href="../reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> to allow cohorts to be created based on multiple cancer types. Previously, only one cancer type at a time was permitted.</p></li>
+<li><p>Update GitHub actions to v4</p></li>
+<li><p>Breaking change: Remove access to GENIE BPC data on Synapse via username and password per updated Synapse requirements. Access to the data is now via Personal Access Token (PAT) only.</p></li>
 <li>
 <p>Deprecate functions allowing data access by username and password.</p>
 <ul><li>Remove <code>.get_token_by_username()</code> function</li>
