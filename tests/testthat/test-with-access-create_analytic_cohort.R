@@ -1,115 +1,12 @@
-
-# Tests - No GENIE Access Required ---------------------------------------------
-
-test_that("No specifications- runs with no error", {
-  expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data
-  ), NA)
-})
-
-test_that("pull data synapse object is missing", {
-  expect_error(create_analytic_cohort())
-})
-
-# test_that("Institution- argument check", {
-#   expect_error(msk <- create_analytic_cohort(
-#     data_synapse = genieBPC::nsclc_test_data,
-#     institution = "MSK"
-#   ), NA)
-#
-#   expect_equal("MSK", unique(msk[[1]]$institution))
-#
-#   expect_error(dfci <- create_analytic_cohort(
-#     data_synapse = genieBPC::nsclc_test_data,
-#     institution = "DFCI"
-#   ), NA)
-#
-#   expect_equal("DFCI", unique(dfci[[1]]$institution))
-#
-#   expect_error(vicc <- create_analytic_cohort(
-#     data_synapse = genieBPC::nsclc_test_data,
-#     institution = "VICC"
-#   ), NA)
-#
-#   expect_equal("VICC", unique(vicc[[1]]$institution))
-#
-#   expect_error(uhn <- create_analytic_cohort(
-#     data_synapse = genieBPC::nsclc_test_data,
-#     institution = "UHN"
-#   ), NA)
-#
-#   expect_equal("UHN", unique(uhn[[1]]$institution))
-#
-#   expect_error(create_analytic_cohort(
-#     data_synapse = genieBPC::nsclc_test_data,
-#     institution = "non-existant"
-#   ), "The specified institution*")
-# })
-
-
-# * Check Arguments -----------
-
-# ** Institution ------
-test_that("institution - argument check", {
-  valid_institutions <- c("MSK", "DFCI", "VICC", "UHN")
-
-  for (inst in valid_institutions) {
-    expect_error(
-      cohort <- create_analytic_cohort(
-        data_synapse = genieBPC::nsclc_test_data,
-        institution = inst
-      ),
-      NA
-    )
-    expect_equal(inst, unique(cohort[[1]]$institution))
-  }
-
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = genieBPC::nsclc_test_data,
-      institution = "non-existant"
-    ),
-    "The specified institution*"
-  )
-})
-
-# ** Stage ------
-test_that("stage_dx - argument check", {
-
-  valid_stages <- c("Stage I", "Stage II", "Stage III", "Stage IV", "staGe IV")
-
-  for (stage in valid_stages) {
-    expect_error(
-      create_analytic_cohort(
-        data_synapse = genieBPC::nsclc_test_data,
-        stage_dx = stage), NA)
-    }
-})
-
-test_that("stage_dx - two args passed", {
-
-  expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
-    stage_dx = c("Stage I", "Stage IV")
-  ), NA)
-})
-
-test_that("stage_dx - no args passed", {
-  expect_error(create_analytic_cohort(
-    data_synapse = genieBPC::nsclc_test_data,
-    stage_dx = "none"
-  ), "*")
-})
+# exit if user doesn't have a synapse log in or access to data.
+testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
 
 # Tests - Requiring GENIE Access -----------------------------------------------
 
-# pull data for each cohort
-# return to avoid having to re-run pull_data_synapse for
+# pull data for each cohort to avoid having to re-run pull_data_synapse for
 # each test
-# pull data for each cohort
-# return to avoid having to re-run pull_data_synapse for
-# each test
+
 testthat::expect_true(
   if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
     # data frame of each release to use for pmap
@@ -191,8 +88,8 @@ testthat::expect_true(
 
     # create analytic cohort with return summary = TRUE
     data_releases_create_cohort_with_summary <- map(data_releases_pull_data,
-      create_analytic_cohort,
-      return_summary = TRUE
+                                                    create_analytic_cohort,
+                                                    return_summary = TRUE
     )
 
     length(data_releases_create_cohort_with_summary) > 0
@@ -204,8 +101,6 @@ testthat::expect_true(
 
 test_that("data_synapse - no argument passed", {
 
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # a non-existent data_synapse is specified
   expect_error(
     create_analytic_cohort(
@@ -216,14 +111,11 @@ test_that("data_synapse - no argument passed", {
       data_synapse = data_releases_pull_data$TEST_NONEXIST))
 })
 
-
-# * General Checks --------------------------------------------------
+#
+# # * General Checks --------------------------------------------------
 
 
 test_that("correct number of objects returned", {
-
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # check that number of items returned is correct
   # data releases with RT and TM
@@ -261,9 +153,6 @@ test_that("correct number of objects returned", {
 
 test_that("correct cohort returned from create cohort", {
 
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # for each data frame returned with a cohort, get the cohort variable
   # remove genomic data frames since we don't expect them to have a cohort variable
   data_releases_create_cohort_no_genomic <- map(
@@ -276,14 +165,14 @@ test_that("correct cohort returned from create cohort", {
 
   # for each dataframe returned for a data release, get the cohort variable
   cohort_returned <- map_depth(data_releases_create_cohort_no_genomic, select, "cohort",
-    .depth = 2
+                               .depth = 2
   ) %>%
     map(., bind_rows, .id = "df") %>%
     map(., distinct) %>%
     bind_rows(., .id = "data_release") %>%
     separate(data_release,
-      into = c("cohort_expected", "data_release"),
-      sep = "_"
+             into = c("cohort_expected", "data_release"),
+             sep = "_"
     ) %>%
     # to account for NSCLC2, CRC2, need to remove the number from the cohort var
     mutate(cohort = str_remove_all(pattern = "[:digit:]",
@@ -296,17 +185,14 @@ test_that("correct cohort returned from create cohort", {
 
 test_that("check first index cancer default", {
 
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # no diagnosis criteria specified
   # expect that the first index cancer is returned without any other
   # incl criteria
 
   # for each index cancer dataset, pick the first index cancer
   data_releases_create_cohort_ca_dx_index <- map(data_releases_pull_data,
-    pluck,
-    "ca_dx_index"
+                                                 pluck,
+                                                 "ca_dx_index"
   ) %>%
     map(., group_by, cohort, record_id) %>%
     map(., slice_min, ca_seq) %>%
@@ -321,7 +207,7 @@ test_that("check first index cancer default", {
   )
 })
 
-# ** Index Cancer ------------
+# ** ---Index Cancer ------------
 
 # not really cohort specific, all cohorts will have index_ca_seq
 # for now, only test on lung
@@ -360,7 +246,6 @@ test_that("index_ca_seq - error when doesn't exist", {
 })
 
 test_that("index_ca_seq - results consistent between cohort_ngs and cohort_ngs ", {
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   test2a <- create_analytic_cohort(
     data_synapse = data_releases_pull_data$`CRC_v2.0-public`,
@@ -378,15 +263,13 @@ test_that("index_ca_seq - results consistent between cohort_ngs and cohort_ngs "
 })
 
 
-# ** Institution -------------------
+# **--- Institution -------------------
 
 # institution is specified and correct institution is returned
 # institution will be available across data releases,
 # don't need to test on each
 
 test_that("institution - argument check 1 or more ", {
-
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # --- Single institution (DFCI, NSCLC) ---
   dfci_cohort <- create_analytic_cohort(
@@ -420,8 +303,6 @@ test_that("institution - argument check 1 or more ", {
 
 test_that("institution - non-existent or incorrect specified", {
 
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # a non-existent institution is specified
   expect_error(create_analytic_cohort(
     data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
@@ -437,20 +318,18 @@ test_that("institution - non-existent or incorrect specified", {
 
   # institution specified, only available for 1 of several cohorts
   expect_message(create_analytic_cohort(
-               data_synapse = data_releases_pull_data %>%
-                 purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
-               institution = "UHN"),
-               "The specified institution did not contribute data*")
+    data_synapse = data_releases_pull_data %>%
+      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+    institution = "UHN"),
+    "The specified institution did not contribute data*")
 })
 
-# ** Stage -------------------
+# ** ---Stage -------------------
 
 # stage dx is specified and correct stage is returned
 # not cohort specific, all cohorts will have stage
 # test only on one cohort for now
 test_that("stage_dx", {
-
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   test_1a <- create_analytic_cohort(
     data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
@@ -486,12 +365,10 @@ test_that("stage_dx", {
   ))
 })
 
-# ** Histology -------------------
+# ** ---Histology -------------------
 
 # ---- No histology specified
 test_that("histology - Returns all records when no histology is specified", {
-
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   expected <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
     group_by(cohort, record_id) %>%
@@ -570,7 +447,6 @@ test_that("histology - errors for non-existent histology (NSCLC and BrCa)", {
 
 
 
-
 # ---- Cross-cohort histology filtering
 
 test_that("BrCa + non-BrCa data, BrCa histology specified", {
@@ -637,11 +513,9 @@ test_that("BrCa + NSCLC, both histologies specified", {
 })
 
 
-# ** Regimens -------------------------------------------------------------
+# ** ---Regimens -------------------------------------------------------------
 
 test_that("no regimen specified", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # all regimens are returned
   # should match all regimens given for a patients first index cancer
@@ -751,14 +625,12 @@ test_that("drug regimen specified, order not specified", {
     multiple = "all"
   ) %>%
     filter(grepl("Carboplatin", regimen_drugs) |
-      grepl("Nivolumab", regimen_drugs))
+             grepl("Nivolumab", regimen_drugs))
 
   expect_equal(test_4a$cohort_ca_drugs, test_4b)
 })
 
 test_that("drug regimen specified, order specified to be within cancer", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
@@ -904,12 +776,8 @@ test_that("drug regimen specified, order specified to be within cancer", {
   expect_equal(test_4a$cohort_ca_drugs, test_4b)
 })
 
-
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # single regimen specified, want first time that regimen
   # was given for all cancers
   test_1a <- create_analytic_cohort(
@@ -1003,12 +871,8 @@ test_that("exact drug regimen specified,
 
   expect_equal(test_3a$cohort_ca_drugs, test_3b)
 })
-
 test_that("containing drug regimen specified,
           order specified to be within regimen", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # specify regimen type to be containing (default is exact,
   # which is what is implemented in the above)
   test_1c <- create_analytic_cohort(
@@ -1066,18 +930,20 @@ test_that("containing drug regimen specified,
   expect_equal(
     test_1c$cohort_ca_drugs %>%
       arrange(cohort, record_id, ca_seq) %>%
-      select(cohort, record_id, ca_seq, regimen_number,
-             everything()),
+      select(
+        cohort, record_id, ca_seq, regimen_number,
+        everything()
+      ),
     test_1d %>%
       arrange(cohort, record_id, ca_seq) %>%
-      select(cohort, record_id, ca_seq, regimen_number,
-             everything())
+      select(
+        cohort, record_id, ca_seq, regimen_number,
+        everything()
+      )
   )
 })
 
 test_that("regimen_type", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_type
@@ -1094,8 +960,6 @@ test_that("regimen_type", {
 })
 
 test_that("regimen_order", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # character value provided for regimen_order
   # only testing on a single cancer cohort since not cohort-specific
@@ -1106,8 +970,6 @@ test_that("regimen_order", {
 })
 
 test_that("regimen_order_type", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_order_type
@@ -1134,8 +996,6 @@ test_that("regimen_order_type", {
 
 
 test_that("No patients met criteria", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   # when a single cohort is supplied
   expect_message(create_analytic_cohort(
@@ -1172,8 +1032,6 @@ test_that("No patients met criteria", {
 
 test_that("multiple cohorts - message is thrown", {
 
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # message returned when multiple data releases are supplied for the same cohort
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
@@ -1183,8 +1041,6 @@ test_that("multiple cohorts - message is thrown", {
 
 # check that only most recent release is returned
 test_that("multiple cohorts - check most recent release is returned", {
-
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   expect_equal(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
@@ -1201,7 +1057,6 @@ test_that("multiple cohorts - check most recent release is returned", {
 # check that only most recent release is returned, with multiple of one cohort
 # AND another cohort specified
 test_that("multiple cohorts - most recent release is returned when multiple cohorts are provided", {
-  skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   selected_cohorts <- data_releases_pull_data %>%
     purrr::keep(names(.) %in% c("NSCLC_v3.1-consortium",
@@ -1226,13 +1081,9 @@ test_that("multiple cohorts - most recent release is returned when multiple coho
 
   expect_equal(result, expected)
 })
-
-
 # check that the total number of rows per dataframe are equal when pulling
 # individual cohorts and stacking as pulling multiple cohorts
 test_that("multiple cohorts- names & number of rows per dataframe", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
   most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
     mutate(cohort_version = paste0(cohort, "_", version)) %>%
@@ -1256,7 +1107,7 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
         data_synapse = data_releases_pull_data %>%
           purrr::keep(
             names(.) %in% c(pairs_most_recent_release_versions[1, i])
-            )) %>%
+          )) %>%
         map_df(., ~ tibble(
           df_name = deparse(substitute(.x)), n_row = nrow(.x)
         ), .id = "df_name"),
@@ -1264,7 +1115,7 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
         data_synapse = data_releases_pull_data %>%
           purrr::keep(
             names(.) %in% c(pairs_most_recent_release_versions[2, i])
-            )) %>%
+          )) %>%
         map_df(., ~ tibble(
           df_name = deparse(substitute(.x)), n_row = nrow(.x)
         ), .id = "df_name"),
@@ -1298,7 +1149,7 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
           names(.) %in% c(
             pairs_most_recent_release_versions[1, i],
             pairs_most_recent_release_versions[2, i]
-            ))) %>%
+          ))) %>%
       map_df(., ~ tibble(
         df_name = deparse(substitute(.x)),
         total_rows = nrow(.x)
@@ -1345,3 +1196,75 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
   expect_equal(df_names_individual_cohorts_list, df_names_multiple_cohorts_list)
 
 })
+
+# check that the column names by dataframe are equal when pulling
+# individual cohorts and stacking as pulling multiple cohorts
+test_that("multiple cohorts- column names per dataframe", {
+
+  most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
+    mutate(cohort_version = paste0(cohort, "_", version)) %>%
+    select(cohort_version) %>%
+    unlist()
+
+  ## get unique pairs of cohorts to compare
+  pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
+
+  individual_cohorts_colnames_list <- list()
+  multiple_cohorts_colnames_list <- list()
+
+  for (i in 1:(ncol(pairs_most_recent_release_versions))) {
+    create_analytic_cohort_1 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[1, i])
+        ))
+
+    result_colnames_cohort_1 <- do.call(bind_rows, lapply(names(create_analytic_cohort_1), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_1[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    create_analytic_cohort_2 <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(pairs_most_recent_release_versions[2, i])
+        ))
+
+    result_colnames_cohort_2 <- do.call(bind_rows, lapply(names(create_analytic_cohort_2), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_2[[name]]),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    individual_cohorts_colnames_list[[i]] <- bind_rows(result_colnames_cohort_1, result_colnames_cohort_2) %>%
+      distinct() %>%
+      arrange(df_name, col_name)
+
+    create_analytic_cohort_multi <- create_analytic_cohort(
+      data_synapse = data_releases_pull_data %>%
+        purrr::keep(
+          names(.) %in% c(
+            pairs_most_recent_release_versions[1, i],
+            pairs_most_recent_release_versions[2, i]
+          )))
+
+    multiple_cohorts_colnames_list[[i]] <- do.call(bind_rows, lapply(names(create_analytic_cohort_multi), function(name) {
+      data.frame(
+        df_name = name,
+        col_name = names(create_analytic_cohort_multi[[name]]),
+        stringsAsFactors = FALSE
+      )
+    })) %>%
+      arrange(df_name, col_name)
+
+  }
+
+  expect_equal(individual_cohorts_colnames_list, multiple_cohorts_colnames_list)
+
+})
+

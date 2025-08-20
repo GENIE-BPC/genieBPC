@@ -22,9 +22,9 @@ if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE)
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 library(tibble)
-library(magrittr)
 library(dplyr)
 library(gt)
+library(magrittr)
 
 gt_compact_fun <- function(x) {
   gt::tab_options(x, 
@@ -47,7 +47,7 @@ The `genieBPC` package allows users to link the clinical data to patients' corre
 
 
 ```{r, include = FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
-tbl_arguments = tibble::tribble(
+tbl_arguments <- tibble::tribble(
   ~Argument,       ~Description,
   "`data_cohort`",       "CPT (NGS) dataframe returned from the create_analytic_cohort function.",
   "`oncotree_code`",       "Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.",
@@ -91,7 +91,7 @@ This tutorial will utilize the data downloaded in the `Tutorial: pull_data_synap
 
 
 ```{r, results = 'hide', eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
-nsclc_2_0 = pull_data_synapse("NSCLC", version = "v2.0-public")
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
 ## Examples

@@ -38,6 +38,7 @@ reference:
   - check_genie_access
   - drug_regimen_list
   - genie_panels
+  - cohort_institution
   - nsclc_test_data
   - regimen_abbreviations
   - set_synapse_credentials
