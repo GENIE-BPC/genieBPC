@@ -194,8 +194,9 @@ data_releases_expected_size <- tibble::tribble(
   "BLADDER", "v1.2-consortium", "fusions", 242, 9,
   "BLADDER", "v1.2-consortium", "sv", 202, 40,
   "BLADDER", "v1.2-consortium", "cna", 999, 674
-  ) %>%
+) %>%
   mutate(data_release = paste0(cohort, "_", version))
 
 
-usethis::use_data(data_releases_expected_size, internal = TRUE, overwrite = TRUE)
+usethis::use_data(data_releases_expected_size,
+                  internal = FALSE, overwrite = TRUE)
