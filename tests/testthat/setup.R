@@ -15,8 +15,7 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
     ),
     by = c("cohort", "version")
   ) %>%
-    mutate(expected_n_dfs_with_summary = expected_n_dfs + 4) %>%
-    head(1)
+    mutate(expected_n_dfs_with_summary = expected_n_dfs + 4)
 
   # for each data release, pull data into the R environment
   test_list <- pmap(
@@ -85,5 +84,19 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   data_releases_create_cohort_with_summary <- map(data_releases_pull_data,
                                                   create_analytic_cohort,
                                                   return_summary = TRUE
+  )
+
+  # for some tests, need NSCLC and BrCa (histology tests in create_analytic_cohort)
+  # pull a lung and breast cancer data release
+  brca_nsclc_pull_data_synapse <- pull_data_synapse(
+    cohort = c("BrCa", "NSCLC"),
+    version = c("v1.2-consortium", "v3.1-consortium"))
+
+  # for some tests, need two of the same cohort
+  # pull data for 2 lung data releases
+  # 3.1-consortium is more recent than 2.0-public
+  multiple_NSCLC_pull_data_synapse <- pull_data_synapse(
+    cohort = c("NSCLC", "NSCLC"),
+    version = c("v3.1-consortium", "v2.0-public")
   )
 }
