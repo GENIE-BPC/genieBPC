@@ -3,26 +3,8 @@ testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
 
 # Tests - Requiring GENIE Access -----------------------------------------------
-test_that("data_synapse - no argument passed", {
-
-  # a non-existent data_synapse is specified
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = data_releases_pull_data$TEST_NONEXIST))
-
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = data_releases_pull_data[[1]]$TEST_NONEXIST))
-
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = data_releases_pull_data$TEST_NONEXIST))
-})
-
 
 # * General Checks --------------------------------------------------
-
-
 test_that("correct number of objects returned", {
   # check that number of items returned is correct
   # data releases with RT and TM
@@ -668,9 +650,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
   ) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
-    ungroup()
+    ungroup() %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_0a$cohort_ca_drugs, test_0b)
+  expect_equal(test_0a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_0b)
 
   # all patients whose first drug after diagnosis was carbo pem
   test_1a <- create_analytic_cohort(
@@ -705,9 +690,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
     ungroup() %>%
-    filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium")
+    filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_1a$cohort_ca_drugs, test_1b)
+  expect_equal(test_1a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_1b)
 
   # second regimen after diagnosis was carbo pem
   test_2a <- create_analytic_cohort(
@@ -747,9 +735,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
     ungroup() %>%
     filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
     filter(new_reg_number == 2) %>%
-    select(-new_reg_number)
+    select(-new_reg_number) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_2a$cohort_ca_drugs, test_2b)
+  expect_equal(test_2a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_2b)
 
   # first AND/OR second regimen after diagnosis was carbo pem
   test_3a <- create_analytic_cohort(
@@ -789,9 +780,12 @@ test_that("drug regimen specified, order specified to be within cancer", {
     ungroup() %>%
     filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
     filter(new_reg_number %in% c(1, 2)) %>%
-    select(-new_reg_number)
+    select(-new_reg_number) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_3a$cohort_ca_drugs, test_3b)
+  expect_equal(test_3a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_3b)
 
   # first AND/OR second regimen after diagnosis was carbo pem
   # regimen_type = containing rather than default of exact
@@ -1114,7 +1108,6 @@ test_that("regimen_order_type", {
   ))
 })
 
-
 test_that("No patients met criteria", {
   # when a single cohort is supplied
   expect_message(create_analytic_cohort(
@@ -1272,7 +1265,7 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
   ## get unique pairs of cohorts to compare
   pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
 
-  ## create empty lists to store results from foor loop
+  ## create empty lists to store results from for loop
   dim_individual_cohorts_list <- list()
   dim_multiple_cohorts_list <- list()
 

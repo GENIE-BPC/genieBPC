@@ -1,5 +1,20 @@
 
 # Tests - No GENIE Access Required ---------------------------------------------
+test_that("data_synapse - no argument passed", {
+
+  # a non-existent data_synapse is specified
+  expect_error(
+    create_analytic_cohort(
+      data_synapse = data_releases_pull_data$TEST_NONEXIST))
+
+  expect_error(
+    create_analytic_cohort(
+      data_synapse = data_releases_pull_data[[1]]$TEST_NONEXIST))
+
+  expect_error(
+    create_analytic_cohort(
+      data_synapse = data_releases_pull_data$TEST_NONEXIST))
+})
 
 test_that("No specifications- runs with no error", {
   expect_error(create_analytic_cohort(
