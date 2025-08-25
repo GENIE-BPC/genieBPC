@@ -297,7 +297,7 @@ create_analytic_cohort <- function(data_synapse,
 
   if (max(index_ca_seq) > max_index_ca) {
     stop(paste0(
-      "There are no patients in the cohort with ", max_index_ca,
+      "There are no patients in the cohort with >", max_index_ca,
       " index cancer diagnoses. The maximum number of index cancers to
          one patient is ", max_index_ca, "."
     ))
