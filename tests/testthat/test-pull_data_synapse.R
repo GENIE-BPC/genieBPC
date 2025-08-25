@@ -189,7 +189,7 @@ test_that("Number of columns and rows for each data release", {
   # map_df(., bind_rows, .id = "data_release")
 
   # internal df of expected number of rows and columns
-  expected_length <- data_releases_expected_size %>%
+  expected_length <- genieBPC:::data_releases_expected_size %>%
     filter(data_release %in% names(test_list)) %>%
     mutate(data_release_factor = factor(data_release,
                                         levels = paste0(data_releases$cohort,
@@ -285,7 +285,7 @@ testthat::expect_true(
       distinct(cohort, version) %>%
       filter(str_detect(version, "public")) %>%
       # merge on expected size
-      inner_join(count(data_releases_expected_size, cohort, version,
+      inner_join(count(genieBPC:::data_releases_expected_size, cohort, version,
                        name = "expected_n_dfs"),
                  by = c("cohort", "version"))
 

@@ -199,4 +199,4 @@ data_releases_expected_size <- tibble::tribble(
 
 
 usethis::use_data(data_releases_expected_size,
-                  internal = FALSE, overwrite = TRUE)
+                  internal = TRUE, overwrite = TRUE)

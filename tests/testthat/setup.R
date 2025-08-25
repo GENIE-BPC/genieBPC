@@ -8,9 +8,9 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # only pull most recent if on CRAN or GH Actions
   # if running locally, pull all data releases
   data_releases <- inner_join(
-    genieBPC::synapse_version(most_recent = on_CRAN_or_GH) %>%
+    genieBPC::synapse_version(most_recent = TRUE) %>%
       distinct(cohort, version),
-    count(genieBPC::data_releases_expected_size, cohort, version,
+    count(genieBPC:::data_releases_expected_size, cohort, version,
       name = "expected_n_dfs"
     ),
     by = c("cohort", "version")
