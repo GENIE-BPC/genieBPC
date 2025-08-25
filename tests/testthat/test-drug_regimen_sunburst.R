@@ -57,6 +57,8 @@ test_that("Test something is returned", {
 test_that("Runs for all cohorts", {
   skip_if_not(genieBPC:::.is_connected_to_genie())
 
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
+
   # NSCLC
   nsclc_v2_0 <- pull_data_synapse("NSCLC", "v2.0-public")
   nsclc_cohort <- create_analytic_cohort(nsclc_v2_0$NSCLC_v2.0)
