@@ -209,7 +209,12 @@ create_analytic_cohort <- function(data_synapse,
                                                            sep = "-") %>%
                                            dplyr::mutate(cohort_release = paste0(.data$cohort, "_", .data$version)) %>%
                                            dplyr::select("cohort_release", "release_date"),
-                                         by = c("cohort_release")) %>%
+                                         by = c("cohort_release"),
+                                         # should only have each release
+                                         # uniquely supplied, but allowing to be
+                                         # many-to-many in the case that the
+                                         # same release is listed 2x
+                                         relationship = "many-to-many") %>%
       tidyr::separate(.data$cohort_release, into = c("cohort", "release"), sep = "_",
                       remove = FALSE) %>%
       dplyr::group_by(.data$cohort) %>%
@@ -428,7 +433,6 @@ create_analytic_cohort <- function(data_synapse,
     regimen_order_type <- NULL
   }
 
-
 # pull cancer cohort ------------------------------------------------------
   # select patients based on cohort, institution, stage at diagnosis,
   # histology and cancer number
@@ -480,7 +484,9 @@ create_analytic_cohort <- function(data_synapse,
   cohort_ca_drugs <- dplyr::inner_join(cohort_ca_dx %>%
                                          dplyr::select("cohort", "record_id", "ca_seq"),
                                        pluck(data_synapse, "ca_drugs"),
-                                       by = c("cohort", "record_id", "ca_seq")
+                                       by = c("cohort", "record_id", "ca_seq"),
+                                       # can have multiple index cancers and multiple drug regimens
+                                       relationship = "many-to-many"
   ) %>%
     # create order for drug regimen within cancer and within times the
     # drug was received
@@ -509,11 +515,16 @@ create_analytic_cohort <- function(data_synapse,
         dplyr::mutate(order_within_regimen = 1:n()) %>%
         dplyr::ungroup() %>%
         dplyr::select(-"regimen_drugs"),
-      by = c("record_id", "regimen_number")
+      by = c("record_id", "regimen_number"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     ) %>%
     dplyr::left_join(.,
       genieBPC::regimen_abbreviations,
-      by = c("regimen_drugs")
+      by = c("regimen_drugs"),
+      # 1 drug regimen:1 regimen abbreviation
+      # each row in df matches at most 1 row in regimen_abbreviations
+      relationship = "many-to-one"
     )
 
 
@@ -542,7 +553,9 @@ create_analytic_cohort <- function(data_synapse,
                                         dplyr::select("cohort", "record_id", "institution", "ca_seq"),
                                       by = c(
                                         "cohort", "record_id", "institution", "ca_seq"
-                                      )
+                                      ),
+                                      # can have multiple index cancers and multiple drug regimens
+                                      relationship = "many-to-many"
     )
   }
 
@@ -567,7 +580,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -593,7 +608,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -616,7 +633,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -632,7 +651,10 @@ create_analytic_cohort <- function(data_synapse,
       # add on abbreviations
       dplyr::left_join(.,
         genieBPC::regimen_abbreviations,
-        by = c("regimen_drugs")
+        by = c("regimen_drugs"),
+        # 1 regimen name:1 regimen abbreviation
+        # each row in df matches at most 1 row in regimen_abbreviations
+        relationship = "many-to-one"
       ) %>%
       # create new order b/c this is regimen CONTAINING drugs listed
       # order drugs w/in regimen, have to account for
@@ -656,7 +678,10 @@ create_analytic_cohort <- function(data_synapse,
           # add on abbreviations
           dplyr::left_join(.,
             genieBPC::regimen_abbreviations,
-            by = c("regimen_drugs")
+            by = c("regimen_drugs"),
+            # 1 regimen name:1 regimen abbreviation
+            # each row in df matches at most 1 row in regimen_abbreviations
+            relationship = "many-to-one"
           ) %>%
           # get regimens containing drugs of interest
           dplyr::filter(grepl(
@@ -694,7 +719,9 @@ create_analytic_cohort <- function(data_synapse,
       dplyr::inner_join(.,
                         cohort_ca_dx %>%
                           dplyr::select("cohort", "record_id", "ca_seq"),
-                        by = c("cohort", "record_id", "ca_seq")
+                        by = c("cohort", "record_id", "ca_seq"),
+                        # can have multiple index cancers and multiple drug regimens
+                        relationship = "many-to-many"
       ) %>%
       # create blank variables (dropped below, not having them is unique to
       # regimen_order_type = 'containing')
@@ -710,7 +737,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -734,7 +763,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -763,7 +794,9 @@ create_analytic_cohort <- function(data_synapse,
           .data$cohort, .data$record_id, .data$institution,
           .data$ca_seq
         ),
-      by = c("cohort", "record_id", "institution", "ca_seq")
+      by = c("cohort", "record_id", "institution", "ca_seq"),
+      # can have multiple index cancers and multiple drug regimens
+      relationship = "many-to-many"
     )
   }
 
@@ -773,35 +806,45 @@ create_analytic_cohort <- function(data_synapse,
   cohort_pt_char <- dplyr::inner_join(cohort_ca_dx %>%
                                         dplyr::select("cohort", "record_id"),
                                       pluck(data_synapse, "pt_char"),
-                                      by = c("cohort", "record_id")
+                                      by = c("cohort", "record_id"),
+                                      # can have multiple index cancers but only 1 record in pt_char
+                                      relationship = "many-to-one"
   )
 
   # non-index cancer
   cohort_ca_dx_non_index <- dplyr::inner_join(cohort_ca_dx %>%
                                                 dplyr::select("cohort", "record_id"),
                                               pluck(data_synapse, "ca_dx_non_index"),
-                                              by = c("cohort", "record_id")
+                                              by = c("cohort", "record_id"),
+                                              # can have multiple index cancers and multiple non-index dx
+                                              relationship = "many-to-many"
   )
 
   # PRISSMM Path
   cohort_prissmm_pathology <- dplyr::inner_join(cohort_ca_dx %>%
                                                   dplyr::select("cohort", "record_id"),
                                                 pluck(data_synapse, "prissmm_pathology"),
-                                                by = c("cohort", "record_id")
+                                                by = c("cohort", "record_id"),
+                                                # can have multiple index cancers and multiple path reports
+                                                relationship = "many-to-many"
   )
 
   # PRISSMM Imaging
   cohort_prissmm_imaging <- dplyr::inner_join(cohort_ca_dx %>%
                                                 dplyr::select("cohort", "record_id"),
                                               pluck(data_synapse, "prissmm_imaging"),
-                                              by = c("cohort", "record_id")
+                                              by = c("cohort", "record_id"),
+                                              # can have multiple index cancers and multiple imaging reports
+                                              relationship = "many-to-many"
   )
 
   # PRISSMM Med Onc
   cohort_prissmm_md <- dplyr::inner_join(cohort_ca_dx %>%
                                            dplyr::select("cohort", "record_id"),
                                          pluck(data_synapse, "prissmm_md"),
-                                         by = c("cohort", "record_id")
+                                         by = c("cohort", "record_id"),
+                                         # can have multiple index cancers and multiple md onc reports
+                                         relationship = "many-to-many"
   )
 
   # TM (if applicable)
@@ -809,7 +852,9 @@ create_analytic_cohort <- function(data_synapse,
     cohort_tumor_marker <- dplyr::inner_join(cohort_ca_dx %>%
                                                dplyr::select("cohort", "record_id"),
                                              pluck(data_synapse, "tumor_marker"),
-                                             by = c("cohort", "record_id")
+                                             by = c("cohort", "record_id"),
+                                             # can have multiple index cancers and TM reports
+                                             relationship = "many-to-many"
     )
   }
 
@@ -818,7 +863,9 @@ create_analytic_cohort <- function(data_synapse,
     cohort_ca_radtx <- dplyr::inner_join(cohort_ca_dx %>%
                                            dplyr::select("cohort", "record_id", "ca_seq"),
                                          pluck(data_synapse, "ca_radtx"),
-                                         by = c("cohort", "record_id", "ca_seq")
+                                         by = c("cohort", "record_id", "ca_seq"),
+                                         # can have multiple index cancers and multiple radtx
+                                         relationship = "many-to-many"
     )
   }
 
@@ -828,7 +875,9 @@ create_analytic_cohort <- function(data_synapse,
     cohort_ca_dx %>%
       dplyr::select("cohort", "record_id", "ca_seq"),
     pluck(data_synapse, "cpt"),
-    by = c("cohort", "record_id", "ca_seq")
+    by = c("cohort", "record_id", "ca_seq"),
+    # can have multiple index cancers and multiple CPT reports
+    relationship = "many-to-many"
   ) %>%
     distinct()
 
@@ -861,7 +910,9 @@ create_analytic_cohort <- function(data_synapse,
     cohort_fusions <- dplyr::inner_join(pluck(data_synapse, "fusions"),
                                         cohort_ngs %>%
                                           dplyr::select("cohort", "cpt_genie_sample_id"),
-                                        by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
+                                        by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id"),
+                                        # can have multiple index cancers and multiple fusions
+                                        relationship = "many-to-many"
     )
   }
 
@@ -869,7 +920,9 @@ create_analytic_cohort <- function(data_synapse,
     cohort_sv <- dplyr::inner_join(pluck(data_synapse, "sv"),
                                    cohort_ngs %>%
                                      dplyr::select("cohort", "cpt_genie_sample_id"),
-                                   by = c("Sample_Id" = "cpt_genie_sample_id")
+                                   by = c("Sample_Id" = "cpt_genie_sample_id"),
+                                   # can have multiple index cancers and multiple SV
+                                   relationship = "many-to-many"
     )
   }
 
@@ -878,7 +931,9 @@ create_analytic_cohort <- function(data_synapse,
                                                          "mutations_extended"),
                                                    cohort_ngs %>%
                                                      dplyr::select("cohort", "cpt_genie_sample_id"),
-                                                   by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id")
+                                                   by = c("Tumor_Sample_Barcode" = "cpt_genie_sample_id"),
+                                                   # can have multiple index cancers and multiple mutations
+                                                   relationship = "many-to-many"
     )
   }
 
