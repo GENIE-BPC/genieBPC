@@ -8,7 +8,7 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   # only pull most recent if on CRAN or GH Actions
   # if running locally, pull all data releases
   data_releases <- inner_join(
-    genieBPC::synapse_version(most_recent = on_CRAN_or_GH) %>%
+    genieBPC::synapse_version(most_recent = TRUE) %>% #on_CRAN_or_GH
       distinct(cohort, version),
     count(genieBPC::data_releases_expected_size, cohort, version,
       name = "expected_n_dfs"
@@ -98,5 +98,11 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   multiple_NSCLC_pull_data_synapse <- pull_data_synapse(
     cohort = c("NSCLC", "NSCLC"),
     version = c("v3.1-consortium", "v2.0-public")
+  )
+
+  # pull data for 2 lung and 1 CRC data release
+  multiple_NSCLC_CRC_pull_data_synapse <- pull_data_synapse(
+    cohort = c("NSCLC", "NSCLC", "CRC"),
+    version = c("v3.1-consortium", "v2.0-public", "v2.0-public")
   )
 }
