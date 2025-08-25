@@ -1196,20 +1196,15 @@ test_that("multiple cohorts - check most recent release is returned", {
 # check that only most recent release is returned, with multiple of one cohort
 # AND another cohort specified
 test_that("multiple cohorts - most recent release is returned when multiple cohorts are provided", {
-  # pull data for 2 lung and 1 CRC data release
-  multiple_cohorts_pull_data_synapse <- pull_data_synapse(
-    cohort = c("NSCLC", "NSCLC", "CRC"),
-    version = c("v3.1-consortium", "v2.0-public", "v2.0-public")
-  )
 
-  result <- create_analytic_cohort(data_synapse = multiple_cohorts_pull_data_synapse) %>%
+  result <- create_analytic_cohort(data_synapse = multiple_NSCLC_CRC_pull_data_synapse) %>%
     pluck("cohort_ca_dx") %>%
     select(-cohort_release) %>%
     select(order(colnames(.))) %>%
     arrange(cohort, record_id)
 
   expected <- bind_rows(
-    multiple_cohorts_pull_data_synapse$`NSCLC_v3.1`$ca_dx_index %>%
+    multiple_NSCLC_CRC_pull_data_synapse$`NSCLC_v3.1`$ca_dx_index %>%
       mutate(across(any_of(c(
         "release_version",
         "naaccr_laterality_cd",
@@ -1226,7 +1221,7 @@ test_that("multiple cohorts - most recent release is returned when multiple coho
         "Match_Norm_Seq_Allele2",
         "Protein_position"
       )), ~ as.character(.))),
-    multiple_cohorts_pull_data_synapse$`CRC_v2.0`$ca_dx_index %>%
+    multiple_NSCLC_CRC_pull_data_synapse$`CRC_v2.0`$ca_dx_index %>%
       mutate(across(any_of(c(
         "release_version",
         "naaccr_laterality_cd",
