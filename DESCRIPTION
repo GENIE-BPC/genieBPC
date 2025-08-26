@@ -63,7 +63,7 @@ Imports:
 Suggests:
     covr (>= 3.5.1),
     ggplot2 (>= 3.3.5),
-    gt (>= 0.3.0),
+    gt (>= 0.11.1),
     gtsummary (>= 1.5.2),
     knitr (>= 1.33),
     magrittr (>= 2.0.1),
