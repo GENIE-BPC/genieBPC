@@ -58,3 +58,18 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+
+      - name: Install dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          install.packages(c("remotes", "rcmdcheck"), repos='http://cran.us.r-project.org')
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("GENIE-BPC/genieBPC")
+        shell: Rscript {0}
+
+      - name: Check
+        run: |
+         genieBPC::set_synapse_credentials()
+         rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        shell: Rscript {0}
