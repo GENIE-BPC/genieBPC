@@ -54,6 +54,12 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Update packages
+        run: sudo apt-get update
+
+      - name: Install packages
+        run: sudo apt-get install --fix-missing libgl1-mesa-dev
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
