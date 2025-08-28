@@ -65,7 +65,7 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"), repos='http://cran.us.r-project.org')
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("GENIE-BPC/genieBPC")
+          remotes::install_github("GENIE-BPC/genieBPC", dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Check
