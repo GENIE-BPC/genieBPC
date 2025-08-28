@@ -27,6 +27,11 @@ if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE)
 }
 ```
 
+```{r}
+knitr::knit_exit()
+```
+
+
 ## Introduction
 
 The `create_analytic_cohort()` function allows the user to create a cohort from the GENIE BPC data based on cancer diagnosis information such as cancer cohort, treating institution, histology, and stage at diagnosis, as well as cancer-directed regimen information including regimen name and regimen order. This function returns a list of data frames containing each of the clinical and genomic data files for patients that met criteria for the analytic cohort.

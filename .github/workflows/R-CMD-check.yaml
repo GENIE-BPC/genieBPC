@@ -27,14 +27,8 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
-      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
       SYNAPSE_PAT: ${{ secrets.SYNAPSE_PAT }}
-      SYNAPSE_USERNAME_PUBLIC: ${{ secrets.SYNAPSE_USERNAME_PUBLIC }}
-      SYNAPSE_PASSWORD_PUBLIC: ${{ secrets.SYNAPSE_PASSWORD_PUBLIC }}
       SYNAPSE_PAT_PUBLIC: ${{ secrets.SYNAPSE_PAT_PUBLIC }}
-      SYNAPSE_USERNAME_NO_TERMS: ${{ secrets.SYNAPSE_USERNAME_NO_TERMS }}
-      SYNAPSE_PASSWORD_NO_TERMS: ${{ secrets.SYNAPSE_PASSWORD_NO_TERMS }}
       SYNAPSE_PAT_NO_TERMS: ${{ secrets.SYNAPSE_PAT_NO_TERMS }}
       R_KEEP_PKG_SOURCE: yes
 
@@ -53,12 +47,6 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-
-      - name: Update packages
-        run: sudo apt-get update
-
-      - name: Install packages
-        run: sudo apt-get install --fix-missing libgl1-mesa-dev
 
       - uses: r-lib/actions/check-r-package@v2
         with:

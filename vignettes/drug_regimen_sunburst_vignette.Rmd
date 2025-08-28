@@ -19,6 +19,11 @@ if (genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) == FALSE)
 }
 ```
 
+```{r}
+knitr::knit_exit()
+```
+
+
 ```{r, include=FALSE, eval=genieBPC:::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))}
 library(genieBPC)
 library(dplyr)
