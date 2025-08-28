@@ -125,7 +125,7 @@
 #'   regimen_order_type = "within regimen"
 #' )
 #'
-#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
+#' @examplesIf genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")) & !testthat:::on_ci()
 #' # Example 4 ----------------------------------
 #' # Using create_analytic_cohort with pull_data_synapse
 #' set_synapse_credentials()
