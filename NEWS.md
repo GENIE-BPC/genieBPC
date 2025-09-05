@@ -1,7 +1,3 @@
-# genieBPC (development version)
-
-* Update tests to use setup.R file and to only run current data releases on CRAN and GitHub Actions (all data releases are tested when running locally)
-
 # genieBPC 2.1.0
 
 * Update `create_analytic_cohort()` to allow cohorts to be created based on multiple cancer types. Previously, only one cancer type at a time was permitted.
