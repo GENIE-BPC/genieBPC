@@ -1,4 +1,5 @@
 AACR
+Acebedo
 Arbour
 BH
 BPC
@@ -21,11 +22,12 @@ Cisplatin
 Clin
 Clinico
 Clinicogenomic
+Codecov
 Colorectal
 Commun
-DFCI
 Disodium
 EPI
+ESMO
 Epidemiol
 Etoposide
 FOLFOX
@@ -67,6 +69,7 @@ ORCID
 OncoTree
 Oncol
 PANC
+PATs
 PMC
 PMCID
 PMID
@@ -89,12 +92,11 @@ Schrag
 Shen
 Synapse’
 TERT
-UHN
 UTR
 Uno
-VICC
 Yu
 adeno
+al
 arguments’
 bioinformatics
 biopharma
@@ -117,6 +119,7 @@ ductal
 dx
 env
 environ
+et
 genomically
 github
 gnomeR
