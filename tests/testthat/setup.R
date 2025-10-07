@@ -2,7 +2,8 @@ if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
   set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # indicator for on CRAN or GitHub Actions
-  on_CRAN_or_GH <- (testthat:::on_cran() | testthat:::on_ci())
+  on_CRAN_or_GH <- (as.logical(Sys.getenv("NOT_CRAN", "false")) == TRUE |
+                      as.logical(Sys.getenv("CI", "false")) == TRUE)
 
   # data frame of each release to use for pmap
   # only pull most recent if on CRAN or GH Actions
