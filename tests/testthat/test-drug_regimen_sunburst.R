@@ -2,12 +2,8 @@
 # return to avoid having to re-run pull_data_synapse for
 # each test
 testthat::expect_true(length(if (.is_connected_to_genie()) {
-  nsclc_data <- pull_data_synapse("NSCLC",
-    version = "v2.0-public"
-  )
-
   cohort <- create_analytic_cohort(
-    data_synapse = nsclc_data$NSCLC_v2.0,
+    data_synapse = multiple_NSCLC_pull_data_synapse$NSCLC_v2.0,
     stage_dx = c("Stage IV"),
     histology = "Adenocarcinoma",
     regimen_drugs = "Afatinib Dimaleate",
@@ -15,12 +11,12 @@ testthat::expect_true(length(if (.is_connected_to_genie()) {
   )
 
   plot1 <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v2.0,
+    data_synapse = multiple_NSCLC_pull_data_synapse$NSCLC_v2.0,
     data_cohort = cohort,
     max_n_regimens = 4
   )
 } else {
-  nsclc_data <- list("a")
+  multiple_NSCLC_pull_data_synapse <- list("a")
 }) > 0)
 
 
@@ -60,6 +56,8 @@ test_that("Test something is returned", {
 
 test_that("Runs for all cohorts", {
   skip_if_not(genieBPC:::.is_connected_to_genie())
+
+  set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
 
   # NSCLC
   nsclc_v2_0 <- pull_data_synapse("NSCLC", "v2.0-public")
@@ -113,22 +111,22 @@ test_that("data_synapse parameter", {
   # data_synapse parameter is a list, but isn't the right list
   expect_error(drug_regimen_sunburst(data_synapse = list("a" = "a",
                                                          "b" = "b"),
-                                     data_cohort = nsclc_data))
+                                     data_cohort = multiple_NSCLC_pull_data_synapse))
 })
 
 test_that("data_cohort parameter", {
   # missing data_cohort parameter
-  expect_error(drug_regimen_sunburst(data_synapse = nsclc_data))
+  expect_error(drug_regimen_sunburst(data_synapse = multiple_NSCLC_pull_data_synapse))
 
   # data_cohort parameter isn't a list
   expect_error(drug_regimen_sunburst(
-    data_synapse = nsclc_data,
+    data_synapse = multiple_NSCLC_pull_data_synapse,
     data_cohort = "a"
   ))
 
   # data_cohort parameter is a list, but isn't the right list
   expect_error(drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v2.0,
+    data_synapse = multiple_NSCLC_pull_data_synapse$NSCLC_v2.0,
     data_cohort = list("a", "b")
   ))
 })
@@ -138,14 +136,14 @@ test_that("lines of tx specified", {
 
   # line of therapy isn't specified, select all
   test1a <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v2.0,
+    data_synapse = multiple_NSCLC_pull_data_synapse$NSCLC_v2.0,
     data_cohort = cohort
   )
 
 
   # compare to manually inputting the max number
   max_n <- left_join(cohort$cohort_ca_dx,
-    nsclc_data$NSCLC_v2.0$ca_drugs,
+    multiple_NSCLC_pull_data_synapse$NSCLC_v2.0$ca_drugs,
     by = c("cohort", "record_id", "ca_seq"),
     multiple = "all"
   ) %>%
@@ -155,7 +153,7 @@ test_that("lines of tx specified", {
     pull(n_reg)
 
   test1b <- drug_regimen_sunburst(
-    data_synapse = nsclc_data$NSCLC_v2.0,
+    data_synapse = multiple_NSCLC_pull_data_synapse$NSCLC_v2.0,
     data_cohort = cohort,
     max_n_regimens = max_n
   )

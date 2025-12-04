@@ -4,119 +4,8 @@ testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
 
 # Tests - Requiring GENIE Access -----------------------------------------------
 
-# pull data for each cohort to avoid having to re-run pull_data_synapse for
-# each test
-
-testthat::expect_true(
-  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
-    # data frame of each release to use for pmap
-    data_releases <- synapse_tables %>%
-      distinct(cohort, version) %>%
-      # define expected number of dataframes based on whether TM and RT data were released
-      mutate(
-        expected_n_dfs = case_when(
-          ## no TM or RT
-          cohort == "NSCLC" & version %in% c("v1.1-consortium", "v2.0-public") ~ 11,
-          # sv file added to NSCLC at 2.2-consortium
-          cohort == "NSCLC" ~ 12,
-          ## TM, no RT
-          cohort %in% c("CRC") & version == "v2.0-public" ~ 12,
-          cohort %in% c("BrCa") ~ 12,
-          # sv added
-          cohort %in% c("CRC") ~ 13,
-          ## RT, no TM
-          cohort == "BLADDER" & version == "v1.1-consortium" ~ 12,
-          # sv added
-          cohort == "BLADDER" & version == "v1.2-consortium" ~ 13,
-          # TM and RT
-          cohort %in% c("PANC", "Prostate") ~ 13
-        ),
-        expected_n_dfs_with_summary = expected_n_dfs + 4
-      )
-
-    # for each data release, pull data into the R environment
-    set_synapse_credentials(pat = Sys.getenv("SYNAPSE_PAT"))
-    data_releases_pull_data <- pmap(
-      select(data_releases, cohort, version),
-      pull_data_synapse
-    ) %>%
-      # remove blank level from list
-      list_flatten() %>%
-      # change variable types to align with create_analytic_cohort updates
-      # that were required to stack data for multiple cohorts together
-      map_depth(., 2, ~ mutate(
-        .x,
-        across(any_of(c(
-          "release_version",
-          "naaccr_laterality_cd",
-          "naaccr_tnm_path_desc",
-          "pdl1_iclrange",
-          "pdl1_iclrange_2",
-          "pdl1_icurange",
-          "pdl1_icurange_2",
-          "pdl1_tcurange",
-          "pdl1_lcpsrange",
-          "pdl1_ucpsrange",
-          "cpt_seq_date",
-          "Match_Norm_Seq_Allele1",
-          "Match_Norm_Seq_Allele2",
-          "Protein_position"
-        )), ~ as.character(.))
-      ))
-
-    # name the items in the list
-    names(data_releases_pull_data) <- paste0(
-      data_releases$cohort, "_",
-      data_releases$version
-    )
-
-    length(data_releases_pull_data) > 0
-  } else {
-    0 == 0
-  }
-)
-
-testthat::expect_true(
-  if (.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) {
-    # for each data release, run create analytic cohort
-    # get first object from each item in the list
-    # then run create analytic cohort
-    data_releases_create_cohort <- map(
-      data_releases_pull_data,
-      create_analytic_cohort
-    )
-
-    # create analytic cohort with return summary = TRUE
-    data_releases_create_cohort_with_summary <- map(data_releases_pull_data,
-                                                    create_analytic_cohort,
-                                                    return_summary = TRUE
-    )
-
-    length(data_releases_create_cohort_with_summary) > 0
-  } else {
-    0 == 0
-  }
-)
-
-
-test_that("data_synapse - no argument passed", {
-
-  # a non-existent data_synapse is specified
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`$TEST_NONEXIST))
-
-  expect_error(
-    create_analytic_cohort(
-      data_synapse = data_releases_pull_data$TEST_NONEXIST))
-})
-
-#
-# # * General Checks --------------------------------------------------
-
-
+# * General Checks --------------------------------------------------
 test_that("correct number of objects returned", {
-
   # check that number of items returned is correct
   # data releases with RT and TM
   actual_length <- map_df(data_releases_create_cohort, length) %>%
@@ -152,7 +41,6 @@ test_that("correct number of objects returned", {
 
 
 test_that("correct cohort returned from create cohort", {
-
   # for each data frame returned with a cohort, get the cohort variable
   # remove genomic data frames since we don't expect them to have a cohort variable
   data_releases_create_cohort_no_genomic <- map(
@@ -210,21 +98,28 @@ test_that("check first index cancer default", {
 # ** ---Index Cancer ------------
 
 # not really cohort specific, all cohorts will have index_ca_seq
-# for now, only test on lung
+# for now, only test on one dataset
 # first and second index cancer is specified
 # if patient only has 1 index cancer, it should be returned
 # if patient has 2+ index cancers, the first two should be returned
 test_that("index_ca_seq - returns correct", {
 
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   test_1a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # need to specify a cohort w/ multiple index cancers, but doesn't
+      # necessarily matter which cohort (all pts in bladder cohort only have 1
+      # index cancer, so can't use bladder)
+      purrr::keep(grepl("CRC", names(.))) %>%
+      # keep only a single data release for CRC
+      pluck(1),
     index_ca_seq = c(1, 2),
     return_summary = TRUE
   )
 
-  test_1b <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  test_1b <- data_releases_pull_data %>%
+    purrr::keep(grepl("CRC", names(.))) %>%
+    pluck(1) %>%
+    pluck("ca_dx_index") %>%
     group_by(cohort, record_id) %>%
     arrange(cohort, record_id, ca_seq) %>%
     mutate(index_ca_seq = 1:n()) %>%
@@ -240,15 +135,18 @@ test_that("index_ca_seq - error when doesn't exist", {
 
   # an index cancer # that doesn't exist in the data is specified
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     index_ca_seq = 100
-  ))
+  ), "^There are no patients in the")
 })
 
 test_that("index_ca_seq - results consistent between cohort_ngs and cohort_ngs ", {
-
+  # keep a single data release for any cohort that has patients with >1 index cancer
+  # (bladder does not)
   test2a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`CRC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      purrr::keep(grepl("CRC", names(.))) %>%
+      pluck(1),
     index_ca_seq = c(1, 2)
   )
 
@@ -270,48 +168,51 @@ test_that("index_ca_seq - results consistent between cohort_ngs and cohort_ngs "
 # don't need to test on each
 
 test_that("institution - argument check 1 or more ", {
-
   # --- Single institution (DFCI, NSCLC) ---
   dfci_cohort <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     institution = "dfci"
   )
 
-  dfci_expected <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  dfci_expected <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
     filter(institution == "DFCI")
 
-  expect_equal(dfci_cohort$cohort_ca_dx, dfci_expected)
+  expect_equal(dfci_cohort$cohort_ca_dx %>%
+                 select(-contains("cohort_release")),
+               dfci_expected)
 
   # --- Multiple institutions (MSK + DFCI, BrCa) ---
   msk_dfci_cohort <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`BrCa_v1.1-consortium`,
+    data_synapse = data_releases_pull_data[1],
     institution = c("dfci", "msk")
   )
 
-  msk_dfci_expected <- data_releases_pull_data$`BrCa_v1.1-consortium`$ca_dx_index %>%
+  msk_dfci_expected <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
     filter(institution %in% c("MSK", "DFCI"))
 
-  expect_equal(msk_dfci_cohort$cohort_ca_dx, msk_dfci_expected)
+  expect_equal(msk_dfci_cohort$cohort_ca_dx %>%
+                 select(-contains("cohort_release")),
+               msk_dfci_expected)
 
 })
 
 test_that("institution - non-existent or incorrect specified", {
-
   # a non-existent institution is specified
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     institution = "uDFCI"
   ))
 
   # UHN didn't participate in CRC
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`CRC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      purrr::keep(grepl("CRC", names(.))),
     institution = "UHN"
   ),
   "The specified institution is not available*")
@@ -319,7 +220,7 @@ test_that("institution - non-existent or incorrect specified", {
   # institution specified, only available for 1 of several cohorts
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+      purrr::keep(grepl("NSCLC|BrCa", names(.))),
     institution = "UHN"),
     "The specified institution did not contribute data*")
 })
@@ -330,52 +231,54 @@ test_that("institution - non-existent or incorrect specified", {
 # not cohort specific, all cohorts will have stage
 # test only on one cohort for now
 test_that("stage_dx", {
-
   test_1a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     stage_dx = "stage ii"
   )
 
-  test_1b <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  test_1b <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     filter(stage_dx == "Stage II")
 
-  expect_equal(test_1a$cohort_ca_dx, test_1b)
+  expect_equal(test_1a$cohort_ca_dx %>%
+                 select(-contains("cohort_release")),
+               test_1b)
 
   # multiple stage values are specified
   test_2a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     stage_dx = c("Stage I", "stage ii")
   )
 
-  test_2b <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  test_2b <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice(which.min(ca_seq)) %>%
     ungroup() %>%
     filter(stage_dx %in% c("Stage I", "Stage II"))
 
-  expect_equal(test_2a$cohort_ca_dx, test_2b)
+  expect_equal(test_2a$cohort_ca_dx %>%
+                 select(-contains("cohort_release")),
+               test_2b)
 
   # non-existent stage is specified
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     stage_dx = "3A"
-  ))
+  ), "^Select from available stages")
 })
 
 # ** ---Histology -------------------
 
 # ---- No histology specified
 test_that("histology - Returns all records when no histology is specified", {
-
-  expected <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  expected <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup()
 
-  result <- data_releases_create_cohort$`NSCLC_v2.0-public`$cohort_ca_dx
+  result <- data_releases_create_cohort[[1]]$cohort_ca_dx
 
   expect_equal(result, expected)
 })
@@ -384,26 +287,34 @@ test_that("histology - Returns all records when no histology is specified", {
 
 test_that("histology - correct returned for adenocarcinoma", {
   result <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     histology = "adenocarcinoma"
   )
 
-  expected <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  expected <- data_releases_pull_data[[1]]$ca_dx_index %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
     filter(ca_hist_adeno_squamous == "Adenocarcinoma")
 
-  expect_equal(result$cohort_ca_dx, expected)
+  expect_equal(result$cohort_ca_dx %>%
+                 select(-contains("cohort_release")),
+               expected)
 })
 
 test_that("histology - correct returned for BrCa invasive ductal carcinoma", {
   result <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`BrCa_v1.1-consortium`,
+    data_synapse = data_releases_pull_data %>%
+      # keep 1 breast cancer data release
+      purrr::keep(grepl("BrCa", names(.))) %>%
+      pluck(1),
     histology = "invasive ductal carcinoma"
   )
 
-  expected <- data_releases_pull_data$`BrCa_v1.1-consortium`$ca_dx_index %>%
+  expected <- data_releases_pull_data %>%
+    purrr::keep(grepl("BrCa", names(.))) %>%
+    pluck(1) %>%
+    pluck("ca_dx_index") %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
@@ -418,11 +329,18 @@ test_that("histology- Multiple histologies are returned correctly", {
 
 
   result <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     histology = c("adenocarcinoma", "squamous cell")
   )
 
-  expected <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+  expected <- data_releases_pull_data %>%
+    # keep single NSCLC release
+    purrr::keep(grepl("NSCLC", names(.))) %>%
+    pluck(1) %>%
+    pluck("ca_dx_index") %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
@@ -435,12 +353,18 @@ test_that("histology- Multiple histologies are returned correctly", {
 # ---- Invalid histology
 test_that("histology - errors for non-existent histology (NSCLC and BrCa)", {
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data%>%
+      # keep a single data release for lung
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     histology = "squamous_adeno"
   ))
 
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`BrCa_v1.2-consortium`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single data release for breast
+      purrr::keep(grepl("BrCa", names(.))) %>%
+      pluck(1),
     histology = "squamous_adeno"
   ))
 })
@@ -453,11 +377,16 @@ test_that("BrCa + non-BrCa data, BrCa histology specified", {
 
   result <- create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+      # keep a single BrCa release
+      purrr::keep(grepl("BrCa", names(.))) %>%
+      pluck(1),
     histology = "Invasive ductal carcinoma"
   )
 
-  expected <- data_releases_pull_data$`BrCa_v1.2-consortium`$ca_dx_index %>%
+  expected <- data_releases_pull_data %>%
+    purrr::keep(grepl("BrCa", names(.))) %>%
+    pluck(1) %>%
+    pluck("ca_dx_index") %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq) %>%
     ungroup() %>%
@@ -469,13 +398,14 @@ test_that("BrCa + non-BrCa data, BrCa histology specified", {
 
 
 test_that("BrCa + non-BrCa data, NSCLC histology specified", {
+
   result <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data %>%
-      purrr::keep( names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+    data_synapse = brca_nsclc_pull_data_synapse,
     histology = "Adenocarcinoma"
   )
 
-  expected <- data_releases_pull_data$`NSCLC_v1.1-consortium`$ca_dx_index %>%
+  expected <- brca_nsclc_pull_data_synapse$NSCLC_v3.1 %>%
+    pluck("ca_dx_index") %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq) %>%
     ungroup() %>%
@@ -488,23 +418,26 @@ test_that("BrCa + non-BrCa data, NSCLC histology specified", {
 
 test_that("BrCa + NSCLC, both histologies specified", {
   result <- create_analytic_cohort(
-    data_synapse =data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+    data_synapse = brca_nsclc_pull_data_synapse,
     histology = c("Invasive ductal carcinoma", "Adenocarcinoma")
   )$cohort_ca_dx %>%
     arrange(cohort, record_id) %>%
     select(ca_hist_brca, ca_hist_adeno_squamous)
 
   expected <- bind_rows(
-    data_releases_pull_data$`NSCLC_v1.1-consortium`$ca_dx_index,
-    data_releases_pull_data$`BrCa_v1.2-consortium`$ca_dx_index
+    brca_nsclc_pull_data_synapse$BrCa_v1.2 %>%
+      pluck("ca_dx_index") %>%
+      select(cohort, record_id, ca_seq, ca_hist_brca, ca_hist_adeno_squamous),
+    brca_nsclc_pull_data_synapse$NSCLC_v3.1 %>%
+      pluck("ca_dx_index") %>%
+      select(cohort, record_id, ca_seq, ca_hist_adeno_squamous)
   ) %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq) %>%
     ungroup() %>%
     filter(
       (cohort == "BrCa" & ca_hist_brca == "Invasive ductal carcinoma") |
-        (cohort == "NSCLC" & ca_hist_adeno_squamous == "Adenocarcinoma")
+        (grepl("NSCLC", cohort) & ca_hist_adeno_squamous == "Adenocarcinoma")
     ) %>%
     arrange(cohort, record_id) %>%
     select(ca_hist_brca, ca_hist_adeno_squamous)
@@ -516,57 +449,82 @@ test_that("BrCa + NSCLC, both histologies specified", {
 # ** ---Regimens -------------------------------------------------------------
 
 test_that("no regimen specified", {
-
   # all regimens are returned
   # should match all regimens given for a patients first index cancer
   test_1b <- inner_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC data release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC data release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c("cohort", "record_id", "ca_seq")
   )
 
   expect_equal(
-    data_releases_create_cohort$`NSCLC_v2.0-public`$cohort_ca_drugs,
-    test_1b
+    data_releases_create_cohort %>%
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("cohort_ca_drugs") %>%
+      arrange(cohort, record_id, ca_seq, regimen_number),
+    test_1b %>%
+      arrange(cohort, record_id, ca_seq, regimen_number)
   )
 })
 
 test_that("drug regimen specified, order not specified", {
-  # exit if user doesn't have a synapse log in or access to data.
-  testthat::skip_if_not(.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT")))
-
   # one drug regimen specified, but order not specified
   test_1a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    # keep a single NSCLC release
+    data_synapse = data_releases_pull_data %>%
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium")
   )
 
   # expect all times that drug was received (for the first index ca)
   # to be returned
   test_1b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      # keep a single NSCLC release
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
     multiple = "all"
   ) %>%
-    filter(regimen_drugs == c("Carboplatin, Pemetrexed Disodium"))
+    filter(regimen_drugs == c("Carboplatin, Pemetrexed Disodium")) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_1a$cohort_ca_drugs, test_1b)
+  expect_equal(test_1a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_1b)
 
   # one drug regimen specified with drugs out of ABC order and in mixed case
   # regimen order not specified
   test_2a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Pemetrexed DISODIUM, carboplatin")
   )
 
@@ -574,23 +532,36 @@ test_that("drug regimen specified, order not specified", {
   # to be returned
   # same as above
 
-  expect_equal(test_2a$cohort_ca_drugs, test_1b)
+  expect_equal(test_2a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_1b)
 
   # multiple drug regimens specified, but order not specified
   test_3a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab")
   )
 
   # expect all times that drug was received (for the first index ca)
   # to be returned
   test_3b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
@@ -599,13 +570,19 @@ test_that("drug regimen specified, order not specified", {
     filter(regimen_drugs %in% c(
       "Carboplatin, Pemetrexed Disodium",
       "Nivolumab"
-    ))
+    )) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_3a$cohort_ca_drugs, test_3b)
+  expect_equal(test_3a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_3b)
 
   # multiple drug regimens specified, regimen_type = containing
   test_4a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin", "Nivolumab"),
     regimen_type = "containING"
   )
@@ -613,52 +590,79 @@ test_that("drug regimen specified, order not specified", {
   # expect all times that drug was received (for the first index ca)
   # to be returned
   test_4b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
     multiple = "all"
   ) %>%
     filter(grepl("Carboplatin", regimen_drugs) |
-             grepl("Nivolumab", regimen_drugs))
+             grepl("Nivolumab", regimen_drugs)) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_4a$cohort_ca_drugs, test_4b)
+  expect_equal(test_4a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_4b)
 })
 
 test_that("drug regimen specified, order specified to be within cancer", {
-
   # regimen of a certain number but drug name not specified
   # all patients whose first drug after diagnosis was carbo pem
   test_0a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_order = 1,
     regimen_order_type = "within cancer"
   )
 
   # compare to data
   test_0b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c("cohort", "record_id", "ca_seq"),
     multiple = "all"
   ) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
-    ungroup()
+    ungroup() %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_0a$cohort_ca_drugs, test_0b)
+  expect_equal(test_0a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_0b)
 
   # all patients whose first drug after diagnosis was carbo pem
   test_1a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = 1,
@@ -667,24 +671,38 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
   # compare to data
   test_1b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c("cohort", "record_id", "ca_seq"),
     multiple = "all"
   ) %>%
     group_by(record_id) %>%
     slice(which.min(regimen_number)) %>%
     ungroup() %>%
-    filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium")
+    filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_1a$cohort_ca_drugs, test_1b)
+  expect_equal(test_1a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_1b)
 
   # second regimen after diagnosis was carbo pem
   test_2a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = 2,
@@ -693,12 +711,20 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
   # compare to data
   test_2b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
@@ -709,13 +735,19 @@ test_that("drug regimen specified, order specified to be within cancer", {
     ungroup() %>%
     filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
     filter(new_reg_number == 2) %>%
-    select(-new_reg_number)
+    select(-new_reg_number) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_2a$cohort_ca_drugs, test_2b)
+  expect_equal(test_2a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_2b)
 
   # first AND/OR second regimen after diagnosis was carbo pem
   test_3a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "Exact",
     regimen_order = c(1, 2),
@@ -724,12 +756,20 @@ test_that("drug regimen specified, order specified to be within cancer", {
 
   # compare to data
   test_3b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
@@ -740,14 +780,20 @@ test_that("drug regimen specified, order specified to be within cancer", {
     ungroup() %>%
     filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
     filter(new_reg_number %in% c(1, 2)) %>%
-    select(-new_reg_number)
+    select(-new_reg_number) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_3a$cohort_ca_drugs, test_3b)
+  expect_equal(test_3a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_3b)
 
   # first AND/OR second regimen after diagnosis was carbo pem
   # regimen_type = containing rather than default of exact
   test_4a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
     regimen_type = "containing",
     regimen_order = c(1, 2),
@@ -755,12 +801,20 @@ test_that("drug regimen specified, order specified to be within cancer", {
   )
 
   test_4b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_dx_index") %>%
       group_by(record_id) %>%
       slice(which.min(ca_seq)) %>%
       ungroup() %>%
       select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
+    data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1) %>%
+      pluck("ca_drugs"),
     by = c(
       "cohort", "record_id", "ca_seq"
     ),
@@ -771,214 +825,274 @@ test_that("drug regimen specified, order specified to be within cancer", {
     ungroup() %>%
     filter(grepl("Carboplatin, Pemetrexed Disodium", regimen_drugs)) %>%
     filter(new_reg_number %in% c(1, 2)) %>%
-    select(-new_reg_number)
+    select(-new_reg_number) %>%
+    arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_4a$cohort_ca_drugs, test_4b)
+  expect_equal(test_4a$cohort_ca_drugs %>%
+                 arrange(cohort, record_id, ca_seq, regimen_number),
+               test_4b)
 })
+
 
 test_that("exact drug regimen specified,
           order specified to be within regimen", {
-  # single regimen specified, want first time that regimen
-  # was given for all cancers
-  test_1a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
-    regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
-    regimen_order = c(1),
-    regimen_order_type = "within REGimen"
-  )
+            # single regimen specified, want first time that regimen
+            # was given for all cancers
+            test_1a <- create_analytic_cohort(
+              data_synapse = data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1),
+              regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
+              regimen_order = c(1),
+              regimen_order_type = "within REGimen"
+            )
 
-  test_1b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
-      group_by(record_id) %>%
-      slice(which.min(ca_seq)) %>%
-      select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
-    by = c(
-      "cohort", "record_id", "ca_seq"
-    ),
-    multiple = "all"
-  ) %>%
-    group_by(record_id, regimen_drugs) %>%
-    mutate(new_reg_number = 1:n()) %>%
-    ungroup() %>%
-    filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
-    filter(new_reg_number %in% c(1)) %>%
-    select(-new_reg_number)
+            test_1b <- left_join(
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_dx_index") %>%
+                group_by(record_id) %>%
+                slice(which.min(ca_seq)) %>%
+                select(cohort, record_id, ca_seq),
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_drugs"),
+              by = c(
+                "cohort", "record_id", "ca_seq"
+              ),
+              multiple = "all"
+            ) %>%
+              group_by(record_id, regimen_drugs) %>%
+              mutate(new_reg_number = 1:n()) %>%
+              ungroup() %>%
+              filter(regimen_drugs == "Carboplatin, Pemetrexed Disodium") %>%
+              filter(new_reg_number %in% c(1)) %>%
+              select(-new_reg_number) %>%
+              arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_1a$cohort_ca_drugs, test_1b)
+            expect_equal(test_1a$cohort_ca_drugs %>%
+                           arrange(cohort, record_id, ca_seq, regimen_number),
+                         test_1b)
 
-  # multiple regimens specified, want first time each given
-  test_2a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
-    regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
-    regimen_order = c(1),
-    regimen_order_type = "within REGimen"
-  )
+            # multiple regimens specified, want first time each given
+            test_2a <- create_analytic_cohort(
+              data_synapse = data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1),
+              regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
+              regimen_order = c(1),
+              regimen_order_type = "within REGimen"
+            )
 
-  test_2b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
-      group_by(record_id) %>%
-      slice(which.min(ca_seq)) %>%
-      select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
-    by = c(
-      "cohort", "record_id", "ca_seq"
-    ),
-    multiple = "all"
-  ) %>%
-    group_by(record_id, regimen_drugs) %>%
-    mutate(new_reg_number = 1:n()) %>%
-    ungroup() %>%
-    filter(regimen_drugs %in% c(
-      "Carboplatin, Pemetrexed Disodium",
-      "Nivolumab"
-    )) %>%
-    filter(new_reg_number %in% c(1)) %>%
-    select(-new_reg_number)
+            test_2b <- left_join(
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_dx_index") %>%
+                group_by(record_id) %>%
+                slice(which.min(ca_seq)) %>%
+                select(cohort, record_id, ca_seq),
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_drugs"),
+              by = c(
+                "cohort", "record_id", "ca_seq"
+              ),
+              multiple = "all"
+            ) %>%
+              group_by(record_id, regimen_drugs) %>%
+              mutate(new_reg_number = 1:n()) %>%
+              ungroup() %>%
+              filter(regimen_drugs %in% c(
+                "Carboplatin, Pemetrexed Disodium",
+                "Nivolumab"
+              )) %>%
+              filter(new_reg_number %in% c(1)) %>%
+              select(-new_reg_number) %>%
+              arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_2a$cohort_ca_drugs, test_2b)
+            expect_equal(test_2a$cohort_ca_drugs %>%
+                           arrange(cohort, record_id, ca_seq, regimen_number),
+                         test_2b)
 
-  # multiple regimens specified
-  # first and/or second time they were received
-  # multiple regimens specified, want first time each given
-  test_3a <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
-    regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
-    regimen_order = c(1, 2),
-    regimen_order_type = "within REGimen"
-  )
+            # multiple regimens specified
+            # first and/or second time they were received
+            # multiple regimens specified, want first time each given
+            test_3a <- create_analytic_cohort(
+              data_synapse = data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1),
+              regimen_drugs = c("Carboplatin, Pemetrexed Disodium", "Nivolumab"),
+              regimen_order = c(1, 2),
+              regimen_order_type = "within REGimen"
+            )
 
-  test_3b <- left_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
-      group_by(record_id) %>%
-      slice(which.min(ca_seq)) %>%
-      select(cohort, record_id, ca_seq),
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
-    by = c(
-      "cohort", "record_id", "ca_seq"
-    ),
-    multiple = "all"
-  ) %>%
-    group_by(record_id, regimen_drugs) %>%
-    mutate(new_reg_number = 1:n()) %>%
-    ungroup() %>%
-    filter(regimen_drugs %in% c(
-      "Carboplatin, Pemetrexed Disodium",
-      "Nivolumab"
-    )) %>%
-    filter(new_reg_number %in% c(1, 2)) %>%
-    select(-new_reg_number)
+            test_3b <- left_join(
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_dx_index") %>%
+                group_by(record_id) %>%
+                slice(which.min(ca_seq)) %>%
+                select(cohort, record_id, ca_seq),
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_drugs"),
+              by = c(
+                "cohort", "record_id", "ca_seq"
+              ),
+              multiple = "all"
+            ) %>%
+              group_by(record_id, regimen_drugs) %>%
+              mutate(new_reg_number = 1:n()) %>%
+              ungroup() %>%
+              filter(regimen_drugs %in% c(
+                "Carboplatin, Pemetrexed Disodium",
+                "Nivolumab"
+              )) %>%
+              filter(new_reg_number %in% c(1, 2)) %>%
+              select(-new_reg_number) %>%
+              arrange(cohort, record_id, ca_seq, regimen_number)
 
-  expect_equal(test_3a$cohort_ca_drugs, test_3b)
-})
+            expect_equal(test_3a$cohort_ca_drugs %>%
+                           arrange(cohort, record_id, ca_seq, regimen_number),
+                         test_3b)
+          })
+
 test_that("containing drug regimen specified,
           order specified to be within regimen", {
-  # specify regimen type to be containing (default is exact,
-  # which is what is implemented in the above)
-  test_1c <- create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
-    regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
-    regimen_type = "containing",
-    regimen_order = c(1),
-    regimen_order_type = "within REGimen"
-  )
+            # specify regimen type to be containing (default is exact,
+            # which is what is implemented in the above)
+            test_1c <- create_analytic_cohort(
+              data_synapse = data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1),
+              regimen_drugs = c("Carboplatin, Pemetrexed Disodium"),
+              regimen_type = "containing",
+              regimen_order = c(1),
+              regimen_order_type = "within REGimen"
+            )
 
-  # order containing
-  ordered_containing_regs <- data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs %>%
-    filter(grepl("Carboplatin, Pemetrexed Disodium", regimen_drugs)) %>%
-    distinct(cohort, record_id, regimen_number, regimen_drugs) %>%
-    group_by(cohort, record_id) %>%
-    mutate(order_within_containing_regimen = 1:n()) %>%
-    ungroup() %>%
-    filter(order_within_containing_regimen %in% c(1)) %>%
-    select(
-      cohort, record_id, regimen_number,
-      order_within_containing_regimen
-    )
+            # order containing
+            ordered_containing_regs <- data_releases_pull_data %>%
+              # keep a single NSCLC release
+              purrr::keep(grepl("NSCLC", names(.))) %>%
+              pluck(1) %>%
+              pluck("ca_drugs") %>%
+              filter(grepl("Carboplatin, Pemetrexed Disodium", regimen_drugs)) %>%
+              distinct(cohort, record_id, regimen_number, regimen_drugs) %>%
+              group_by(cohort, record_id) %>%
+              mutate(order_within_containing_regimen = 1:n()) %>%
+              ungroup() %>%
+              filter(order_within_containing_regimen %in% c(1)) %>%
+              select(
+                cohort, record_id, regimen_number,
+                order_within_containing_regimen
+              )
 
-  # merge containing order onto the regimen data
-  # only keep regimens of interest
-  ca_drugs_with_containing_order <- inner_join(data_releases_pull_data$`NSCLC_v2.0-public`$ca_drugs,
-    ordered_containing_regs,
-    by = c(
-      "cohort", "record_id",
-      "regimen_number"
-    ),
-    multiple = "all"
-  )
+            # merge containing order onto the regimen data
+            # only keep regimens of interest
+            ca_drugs_with_containing_order <- inner_join(data_releases_pull_data %>%
+                                                           # keep a single NSCLC release
+                                                           purrr::keep(grepl("NSCLC", names(.))) %>%
+                                                           pluck(1) %>%
+                                                           pluck("ca_drugs"),
+                                                         ordered_containing_regs,
+                                                         by = c(
+                                                           "cohort", "record_id",
+                                                           "regimen_number"
+                                                         ),
+                                                         multiple = "all"
+            )
 
-  # merge cohort with patients who received drug regimens of interest
-  # in order specified
-  test_1d <- inner_join(
-    data_releases_pull_data$`NSCLC_v2.0-public`$ca_dx_index %>%
-      group_by(record_id) %>%
-      slice(which.min(ca_seq)) %>%
-      ungroup() %>%
-      select(cohort, record_id, ca_seq),
-    ca_drugs_with_containing_order,
-    by = c(
-      "cohort", "record_id", "ca_seq"
-    )
-  ) %>%
-    arrange(cohort, record_id, ca_seq) %>%
-    select(
-      cohort, record_id, institution,
-      regimen_number, ca_seq, everything()
-    ) %>%
-    as.data.frame()
+            # merge cohort with patients who received drug regimens of interest
+            # in order specified
+            test_1d <- inner_join(
+              data_releases_pull_data %>%
+                # keep a single NSCLC release
+                purrr::keep(grepl("NSCLC", names(.))) %>%
+                pluck(1) %>%
+                pluck("ca_dx_index") %>%
+                group_by(record_id) %>%
+                slice(which.min(ca_seq)) %>%
+                ungroup() %>%
+                select(cohort, record_id, ca_seq),
+              ca_drugs_with_containing_order,
+              by = c(
+                "cohort", "record_id", "ca_seq"
+              )
+            ) %>%
+              arrange(cohort, record_id, ca_seq) %>%
+              select(
+                cohort, record_id, institution,
+                regimen_number, ca_seq, everything()
+              ) %>%
+              as.data.frame()
 
-  expect_equal(
-    test_1c$cohort_ca_drugs %>%
-      arrange(cohort, record_id, ca_seq) %>%
-      select(
-        cohort, record_id, ca_seq, regimen_number,
-        everything()
-      ),
-    test_1d %>%
-      arrange(cohort, record_id, ca_seq) %>%
-      select(
-        cohort, record_id, ca_seq, regimen_number,
-        everything()
-      )
-  )
-})
+            expect_equal(
+              test_1c$cohort_ca_drugs %>%
+                arrange(cohort, record_id, ca_seq) %>%
+                select(cohort, record_id, ca_seq, regimen_number,
+                       institution, contains("phase"),
+                       everything()),
+              test_1d %>%
+                arrange(cohort, record_id, ca_seq) %>%
+                select(cohort, record_id, ca_seq, regimen_number,
+                       institution, contains("phase"),
+                       everything())
+            )
+          })
 
 test_that("regimen_type", {
-
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_type
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data %>%
+      # keep a single NSCLC release
+      purrr::keep(grepl("NSCLC", names(.))) %>%
+      pluck(1),
     regimen_type = "exact_containing"
   ))
 
   # if regimen_type is specified, regimen_drugs must also be specified
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`CRC_v2.0-public`$CRC_v2.0,
+    data_synapse = data_releases_pull_data[1],
     regimen_type = "exact"
-  ))
+  ), "^If regimen_type is specified")
 })
 
 test_that("regimen_order", {
-
   # character value provided for regimen_order
   # only testing on a single cancer cohort since not cohort-specific
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`BrCa_v1.1-consortium`$BrCa_v1.1,
+    data_synapse = data_releases_pull_data[1],
     regimen_order = "C"
-  ))
+  ), "^The regimen_order parameter must be a numeric value")
 })
 
 test_that("regimen_order_type", {
-
   # only testing on a single cancer cohort since not cohort-specific
   # invalid value provided for regimen_order_type
   expect_error(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`BrCa_v1.1-consortium`$BrCa_v1.1,
+    data_synapse = data_releases_pull_data[1],
     regimen_order = 1,
     regimen_order_type =
       "within_btwn_cancer"
-  ))
+  ), "^For regimen_order_type select from")
 
   # regimen_order is specified but regimen_order_type is not
   expect_error(create_analytic_cohort(
@@ -994,85 +1108,137 @@ test_that("regimen_order_type", {
   ))
 })
 
-
 test_that("No patients met criteria", {
-
   # when a single cohort is supplied
   expect_message(create_analytic_cohort(
-    data_synapse = data_releases_pull_data$`NSCLC_v2.0-public`,
+    data_synapse = data_releases_pull_data[1],
     regimen_drugs = "Carboplatin, Pemetrexed",
     regimen_order = 1000,
     regimen_order_type = "within cancer"
-  ))
+  ), "^No patients meeting the specified criteria")
 
   # message returned for criteria not met by all cohorts: histology
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+      purrr::keep(grepl("NSCLC|BrCa", names(.))),
     histology = "Adenocarcinoma"
-  ), "Note: No patients meeting the specified criteria*")
+  ), "No patients meeting the specified criteria*")
 
   # message returned for criteria not met by all cohorts: institution
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+      purrr::keep(grepl("NSCLC|BrCa", names(.))),
     institution = "UHN"
-  ))
+  ), "^Note: Some datasets are only available for select*")
 
   # message returned for criteria not met by any cohorts
   expect_message(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v1.1-consortium", "BrCa_v1.2-consortium")),
+      purrr::keep(grepl("NSCLC|BrCa", names(.))),
     regimen_drugs = "ABC",
-  ))
+  ), "^Note: Some datasets are only available*")
 })
 
 
 # Multiple Cohort Tests ---------------------------------------------------
 
 test_that("multiple cohorts - message is thrown", {
-
   # message returned when multiple data releases are supplied for the same cohort
   expect_message(create_analytic_cohort(
-    data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v3.1-consortium", "NSCLC_v2.0-public")),
+    data_synapse = multiple_NSCLC_pull_data_synapse,
   ), "Note: Multiple data releases were supplied*")
 })
 
 # check that only most recent release is returned
 test_that("multiple cohorts - check most recent release is returned", {
-
   expect_equal(create_analytic_cohort(
-    data_synapse = data_releases_pull_data %>%
-      purrr::keep(names(.) %in% c("NSCLC_v3.1-consortium", "NSCLC_v2.0-public"))) %>%
+    data_synapse = multiple_NSCLC_pull_data_synapse) %>%
       pluck("cohort_ca_dx") %>%
-      select(-cohort_release),
-
-    data_releases_pull_data$`NSCLC_v3.1-consortium`$ca_dx_index %>%
+      select(-cohort_release) %>%
+      mutate(across(any_of(c(
+        "release_version",
+        "naaccr_laterality_cd",
+        "naaccr_tnm_path_desc",
+        "pdl1_iclrange",
+        "pdl1_iclrange_2",
+        "pdl1_icurange",
+        "pdl1_icurange_2",
+        "pdl1_tcurange",
+        "pdl1_lcpsrange",
+        "pdl1_ucpsrange",
+        "cpt_seq_date",
+        "Match_Norm_Seq_Allele1",
+        "Match_Norm_Seq_Allele2",
+        "Protein_position"
+      )), ~ as.character(.))),
+    multiple_NSCLC_pull_data_synapse$`NSCLC_v3.1`$ca_dx_index %>%
       group_by(cohort, record_id) %>%
       slice_min(ca_seq) %>%
-      ungroup())
+      ungroup() %>%
+      mutate(across(any_of(c(
+        "release_version",
+        "naaccr_laterality_cd",
+        "naaccr_tnm_path_desc",
+        "pdl1_iclrange",
+        "pdl1_iclrange_2",
+        "pdl1_icurange",
+        "pdl1_icurange_2",
+        "pdl1_tcurange",
+        "pdl1_lcpsrange",
+        "pdl1_ucpsrange",
+        "cpt_seq_date",
+        "Match_Norm_Seq_Allele1",
+        "Match_Norm_Seq_Allele2",
+        "Protein_position"
+      )), ~ as.character(.))))
 })
 
 # check that only most recent release is returned, with multiple of one cohort
 # AND another cohort specified
 test_that("multiple cohorts - most recent release is returned when multiple cohorts are provided", {
 
-  selected_cohorts <- data_releases_pull_data %>%
-    purrr::keep(names(.) %in% c("NSCLC_v3.1-consortium",
-                                "NSCLC_v2.0-public",
-                                "CRC_v2.0-public"))
-
-  result <- create_analytic_cohort(data_synapse = selected_cohorts) %>%
+  result <- create_analytic_cohort(data_synapse = multiple_NSCLC_CRC_pull_data_synapse) %>%
     pluck("cohort_ca_dx") %>%
     select(-cohort_release) %>%
     select(order(colnames(.))) %>%
     arrange(cohort, record_id)
 
   expected <- bind_rows(
-    data_releases_pull_data$`NSCLC_v3.1-consortium`$ca_dx_index,
-    data_releases_pull_data$`CRC_v2.0-public`$ca_dx_index
-  ) %>%
+    multiple_NSCLC_CRC_pull_data_synapse$`NSCLC_v3.1`$ca_dx_index %>%
+      mutate(across(any_of(c(
+        "release_version",
+        "naaccr_laterality_cd",
+        "naaccr_tnm_path_desc",
+        "pdl1_iclrange",
+        "pdl1_iclrange_2",
+        "pdl1_icurange",
+        "pdl1_icurange_2",
+        "pdl1_tcurange",
+        "pdl1_lcpsrange",
+        "pdl1_ucpsrange",
+        "cpt_seq_date",
+        "Match_Norm_Seq_Allele1",
+        "Match_Norm_Seq_Allele2",
+        "Protein_position"
+      )), ~ as.character(.))),
+    multiple_NSCLC_CRC_pull_data_synapse$`CRC_v2.0`$ca_dx_index %>%
+      mutate(across(any_of(c(
+        "release_version",
+        "naaccr_laterality_cd",
+        "naaccr_tnm_path_desc",
+        "pdl1_iclrange",
+        "pdl1_iclrange_2",
+        "pdl1_icurange",
+        "pdl1_icurange_2",
+        "pdl1_tcurange",
+        "pdl1_lcpsrange",
+        "pdl1_ucpsrange",
+        "cpt_seq_date",
+        "Match_Norm_Seq_Allele1",
+        "Match_Norm_Seq_Allele2",
+        "Protein_position"
+      )), ~ as.character(.))
+      )) %>%
     group_by(cohort, record_id) %>%
     slice_min(ca_seq, with_ties = FALSE) %>%
     ungroup() %>%
@@ -1081,10 +1247,11 @@ test_that("multiple cohorts - most recent release is returned when multiple coho
 
   expect_equal(result, expected)
 })
+
+
 # check that the total number of rows per dataframe are equal when pulling
 # individual cohorts and stacking as pulling multiple cohorts
 test_that("multiple cohorts- names & number of rows per dataframe", {
-
   most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
     mutate(cohort_version = paste0(cohort, "_", version)) %>%
     select(cohort_version) %>%
@@ -1093,7 +1260,7 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
   ## get unique pairs of cohorts to compare
   pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
 
-  ## create empty lists to store results from foor loop
+  ## create empty lists to store results from for loop
   dim_individual_cohorts_list <- list()
   dim_multiple_cohorts_list <- list()
 
@@ -1196,75 +1363,3 @@ test_that("multiple cohorts- names & number of rows per dataframe", {
   expect_equal(df_names_individual_cohorts_list, df_names_multiple_cohorts_list)
 
 })
-
-# check that the column names by dataframe are equal when pulling
-# individual cohorts and stacking as pulling multiple cohorts
-test_that("multiple cohorts- column names per dataframe", {
-
-  most_recent_release_versions <- synapse_version(most_recent = TRUE) %>%
-    mutate(cohort_version = paste0(cohort, "_", version)) %>%
-    select(cohort_version) %>%
-    unlist()
-
-  ## get unique pairs of cohorts to compare
-  pairs_most_recent_release_versions <- combn(most_recent_release_versions, 2)
-
-  individual_cohorts_colnames_list <- list()
-  multiple_cohorts_colnames_list <- list()
-
-  for (i in 1:(ncol(pairs_most_recent_release_versions))) {
-    create_analytic_cohort_1 <- create_analytic_cohort(
-      data_synapse = data_releases_pull_data %>%
-        purrr::keep(
-          names(.) %in% c(pairs_most_recent_release_versions[1, i])
-        ))
-
-    result_colnames_cohort_1 <- do.call(bind_rows, lapply(names(create_analytic_cohort_1), function(name) {
-      data.frame(
-        df_name = name,
-        col_name = names(create_analytic_cohort_1[[name]]),
-        stringsAsFactors = FALSE
-      )
-    }))
-
-    create_analytic_cohort_2 <- create_analytic_cohort(
-      data_synapse = data_releases_pull_data %>%
-        purrr::keep(
-          names(.) %in% c(pairs_most_recent_release_versions[2, i])
-        ))
-
-    result_colnames_cohort_2 <- do.call(bind_rows, lapply(names(create_analytic_cohort_2), function(name) {
-      data.frame(
-        df_name = name,
-        col_name = names(create_analytic_cohort_2[[name]]),
-        stringsAsFactors = FALSE
-      )
-    }))
-
-    individual_cohorts_colnames_list[[i]] <- bind_rows(result_colnames_cohort_1, result_colnames_cohort_2) %>%
-      distinct() %>%
-      arrange(df_name, col_name)
-
-    create_analytic_cohort_multi <- create_analytic_cohort(
-      data_synapse = data_releases_pull_data %>%
-        purrr::keep(
-          names(.) %in% c(
-            pairs_most_recent_release_versions[1, i],
-            pairs_most_recent_release_versions[2, i]
-          )))
-
-    multiple_cohorts_colnames_list[[i]] <- do.call(bind_rows, lapply(names(create_analytic_cohort_multi), function(name) {
-      data.frame(
-        df_name = name,
-        col_name = names(create_analytic_cohort_multi[[name]]),
-        stringsAsFactors = FALSE
-      )
-    })) %>%
-      arrange(df_name, col_name)
-
-  }
-
-  expect_equal(individual_cohorts_colnames_list, multiple_cohorts_colnames_list)
-
-})
-
