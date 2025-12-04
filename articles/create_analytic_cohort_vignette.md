@@ -1,0 +1,158 @@
+# Tutorial: create_analytic_cohort
+
+## Introduction
+
+The
+[`create_analytic_cohort()`](https://genie-bpc.github.io/genieBPC/reference/create_analytic_cohort.md)
+function allows the user to create a cohort from the GENIE BPC data
+based on cancer diagnosis information such as cancer cohort, treating
+institution, histology, and stage at diagnosis, as well as
+cancer-directed regimen information including regimen name and regimen
+order. This function returns a list of data frames containing each of
+the clinical and genomic data files for patients that met criteria for
+the analytic cohort.
+
+This vignette will walk a user through the
+[`create_analytic_cohort()`](https://genie-bpc.github.io/genieBPC/reference/create_analytic_cohort.md)
+function.
+
+## Setup
+
+Before going through the tutorial, install and load the {genieBPC}
+library and log into Synapse using the
+[`set_synapse_credentials()`](https://genie-bpc.github.io/genieBPC/reference/set_synapse_credentials.md)
+function. For more information on
+[`set_synapse_credentials()`](https://genie-bpc.github.io/genieBPC/reference/set_synapse_credentials.md),
+refer to the `Tutorial: pull_data_synapse()` vignette.
+
+``` r
+library(genieBPC)
+library(dplyr)
+library(tibble)
+library(magrittr)
+library(gt)
+
+set_synapse_credentials()
+
+gt_compact_fun <- function(x) {
+  gt::tab_options(x,
+                  table.font.size = 'small',
+                  data_row.padding = gt::px(1),
+                  summary_row.padding = gt::px(1),
+                  grand_summary_row.padding = gt::px(1),
+                  footnotes.padding = gt::px(1),
+                  source_notes.padding = gt::px(1),
+                  row_group.padding = gt::px(1))
+}
+```
+
+## Modifying Function Arguments
+
+The
+[`create_analytic_cohort()`](https://genie-bpc.github.io/genieBPC/reference/create_analytic_cohort.md)
+function includes several input parameters:
+
+| Argument             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `data_synapse`       | The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `index_ca_seq`       | Index cancer sequence. Default is 1, indicating the patient's first index cancer. The index cancer is also referred to as the BPC Project cancer in the GENIE BPC Analytic Data Guide; this is the cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. Specifying multiple index cancer sequences, e.g. index_ca_seq = c(1, 2), will return index cancers to patients with 1 index cancer and will return the first AND second index cancers to patients with multiple. |
+| `institution`        | GENIE BPC participating institution. Must be one of 'DFCI', 'MSK', 'UHN', or 'VICC' for NSCLC, BLADDER, Prostate, and PANC cohorts; must be one of 'DFCI', 'MSK', 'VICC' for CRC and BrCa. Default selection is all institutions. This parameter corresponds to the variable \`institution\` in the Analytic Data Guide.                                                                                                                                                                                                                    |
+| `stage_dx`           | Stage at diagnosis. Must be one of 'Stage I', 'Stage II', 'Stage III', 'Stage I-III NOS', 'Stage IV'. Default selection is all stages. This parameter corresponds to the variable \`stage_dx\` in the Analytic Data Guide.                                                                                                                                                                                                                                                                                                                  |
+| `histology`          | Cancer histology. For all cancer cohorts except for BrCa (breast cancer), this parameter corresponds to the variable \`ca_hist_adeno_squamous\` and must be one of 'Adenocarcinoma', 'Squamous cell', 'Sarcoma', 'Small cell carcinoma', 'Carcinoma', 'Other histologies/mixed tumor'. For BrCa, this parameter corresponds to the variable \`ca_hist_brca\` and must be one of 'Invasive lobular carcinoma', 'Invasive ductal carcinoma', 'Other histology'. Default selection is all histologies.                                         |
+| `regimen_drugs`      | Vector with names of drugs in cancer-directed regimen, separated by a comma. For example, to specify a regimen consisting of Carboplatin and Pemetrexed, specify regimen_drugs = 'Carboplatin, Pemetrexed'. Acceptable values are found in the \`drug_regimen_list\` dataset provided with this package. This parameter corresponds to the variable \`regimen_drugs\` in the Analytic Data Guide.                                                                                                                                           |
+| `regimen_type`       | Indicates whether the regimen(s) specified in \`regimen_drugs\` indicates the exact regimen to return, or if regimens containing the drugs listed in \`regimen_drugs\` should be returned. Must be one of 'Exact' or 'Containing'. The default is 'Exact'.                                                                                                                                                                                                                                                                                  |
+| `regimen_order`      | Order of cancer-directed regimen. If multiple drugs are specified, \`regimen_order\` indicates the regimen order for all drugs; different values of \`regimen_order\` cannot be specified for different drug regimen. If multiple values are specified, e.g. c(1, 2), then drug regimens that met either order criteria are returned.                                                                                                                                                                                                       |
+| `regimen_order_type` | Specifies whether the \`regimen_order\` parameter refers to the order of receipt of the drug regimen within the cancer diagnosis (across all other drug regimens; 'within cancer') or the order of receipt of the drug regimen within the times that that drug regimen was administered (e.g. the first time carboplatin pemetrexed was received, out of all times that the patient received carboplatin pemetrexed; 'within regimen'). Acceptable values are 'within cancer' and 'within regimen'.                                         |
+| `return_summary`     | Specifies whether a summary table for the cohort is returned. Default is FALSE. The \`gtsummary\` package is required to return a summary table.                                                                                                                                                                                                                                                                                                                                                                                            |
+
+This function returns a list of data frames containing clinical and next
+generation sequencing information for patients that met the specified
+criteria. Optionally, if return_summary = TRUE, the list also includes
+summary tables for the number of records per dataset
+(‘tbl_overall_summary’) as well as tables of key cancer diagnosis
+(‘tbl_cohort’), cancer-directed regimen (‘tbl_drugs’) and next
+generation sequencing (‘tbl_ngs’) variables.
+
+## Example using package test data
+
+**Create analytic cohort using package test data**
+
+``` r
+create_analytic_cohort(data_synapse = genieBPC::nsclc_test_data)
+```
+
+## Examples using data from `pull_data_synapse()`
+
+Examples 2-4 create analytic datasets based on the GENIE BPC NSCLC
+cohort. To begin, the user must first pull the NSCLC data from Synapse
+and save it to the local environment, as shown below using the
+`pull_data_synapse` function:
+
+``` r
+nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
+```
+
+### Example 2
+
+Create a cohort of all patients with stage IV NSCLC adenocarcinoma and
+also return all of their corresponding cancer-directed drugs
+
+``` r
+nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
+                                             stage_dx = "Stage IV", 
+                                             histology = "Adenocarcinoma")
+
+ls(nsclc_stg_iv_adeno)
+```
+
+### Example 3
+
+Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed
+Disodium or Cisplatin, Etoposide as their first drug regimen for their
+first index NSCLC
+
+``` r
+create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+                       regimen_drugs = c("Cisplatin, Pemetrexed Disodium","Cisplatin, Etoposide"),
+                       regimen_order = 1,
+                       regimen_order_type = "within cancer")
+```
+
+### Example 4
+
+Create a cohort of all NSCLC patients who received Cisplatin, Pemetrexed
+Disodium at any time throughout the course of treatment for their cancer
+diagnosis, but in the event that the patient received the drug multiple
+times, only select the first time.
+
+``` r
+nsclc_cisplatin_pem_any = create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
+                                                 regimen_drugs = c("Cisplatin, Pemetrexed Disodium"),
+                                                 regimen_order = 1,
+                                                 regimen_order_type = "within regimen",
+                                                 return_summary = TRUE)
+```
+
+``` r
+nsclc_cisplatin_pem_any$tbl_overall_summary
+```
+
+[TABLE]
+
+``` r
+nsclc_cisplatin_pem_any$tbl_cohort
+```
+
+[TABLE]
+
+``` r
+nsclc_cisplatin_pem_any$tbl_drugs
+```
+
+[TABLE]
+
+``` r
+nsclc_cisplatin_pem_any$tbl_ngs
+```
+
+[TABLE]

@@ -1,0 +1,301 @@
+# Tutorial: GENIE BPC Data Structure
+
+### AACR Project GENIE
+
+- [AACR Project
+  GENIE](https://www.aacr.org/professionals/research/aacr-project-genie/)
+  is a publicly accessible international cancer registry of real-world
+  data assembled through data sharing between 19 of the leading cancer
+  centers in the world.
+
+- GENIE aggregates, harmonizes, and links clinical-grade,
+  next-generation cancer genomic sequencing data with clinical outcomes
+  obtained during routine medical practice from cancer patients treated
+  at these institutions, although clinical information available is
+  limited (~\<10 variables).
+
+### GENIE BPC
+
+- The goal of [Project GENIE
+  BPC](https://www.aacr.org/about-the-aacr/newsroom/news-releases/aacr-project-genie-begins-five-year-collaborative-research-project-with-36-million-in-new-funding/)
+  (Biopharma Collaborative) is to augment the existing registry genomic
+  data with enhanced clinical (phenomic) data to support
+  clinical-genomics analyses.
+
+  - Phenomic data are curated using the PRISSMM curation model.
+  - Currently MSK, Dana Farber, Vanderbilt and University Health Network
+    are the participating institutions. GENIE BPC will be expanded to
+    more institutions in phase II.
+
+- GENIE BPC sponsors six projects that involve augmenting the genomic
+  data in Project GENIE to include PRISSMM phenomic data and
+  cancer-related outcomes. Each project encompasses a single cancer
+  site. While all projects are based on curating data under the PRISSMM
+  phenomic data curation model, the variables available for each project
+  may vary. The six projects are:
+
+  1.  Non-small cell lung cancer (NSCLC)
+  2.  Colon/rectal cancer (CRC)
+  3.  Breast cancer (BrCa)
+  4.  Pancreas cancer (PANC)
+  5.  Bladder cancer (BLADDER)
+  6.  Prostate cancer (Prostate)
+
+### GENIE BPC Elements
+
+GENIE BPC is comprised of several phenomic (clinical) elements that
+include data from the AACR Project GENIE Tier 1 registry, institutions’
+tumor registries, manual curation based on institutions’ electronic
+health records (PRISSMM phenomic data model), and derived variables
+based on these data elements. The elements are:
+
+1.  Patient Characteristics
+2.  Cancer Diagnosis
+    1.  Cancer Diagnosis: BPC Project Cancer
+    2.  Cancer Diagnosis: Non-BPC Project Cancer
+3.  Cancer-Directed Drugs
+4.  Cancer-Directed Radiation Therapy
+5.  PRISSMM Pathology
+6.  PRISSMM Imaging
+7.  PRISSMM Medical Oncologist Assessments
+8.  PRISSMM Tumor Marker
+9.  Cancer Panel Test
+
+This vignette will describe the structure of each element (dataset).
+
+#### Patient Characteristics
+
+The Patient Characteristics dataset is structured as one record per
+patient. This dataset includes variables such as date of death, last
+known alive date, and number of pathology reports, imaging reports,
+medical oncologist assessments, along with many other demographic and
+vital status variables.
+
+The Patient Characteristics dataset can be linked to all other datasets
+using `cohort` and `record_id`.
+
+#### Cancer Diagnosis
+
+Two Cancer Diagnosis datasets are provided: the BPC Project Cancer
+Diagnosis dataset and the Non-BPC Project Cancer Diagnosis dataset.
+
+| BPC Project Cancer                                                                                                          | Non-BPC Project Cancer                                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| The cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. | A diagnosis of the same or different cancer type as the project cancer that occurs prior to, simultaneous with, or after the BPC Project cancer. |
+| Has genomic sequencing associated with the cancer diagnosis.                                                                | Does *not* have associated genomic sequencing                                                                                                    |
+| Recorded in the BPC Project Cancer Diagnosis dataset.                                                                       | Recorded in the Non-BPC Project Cancer Diagnosis dataset.                                                                                        |
+
+##### Cancer Diagnosis: BPC Project Cancer
+
+The BPC Project Cancer Diagnosis dataset contains one record per BPC
+Project cancer diagnosis, per patient.
+
+The BPC Project Cancer Diagnosis dataset can be linked to the following
+datasets:
+
+- Cancer-Directed Regimen dataset using variables `cohort`, `record_id`
+  and `ca_seq`
+
+- Cancer Panel Test dataset using variables `cohort`, `record_id` and
+  `ca_seq`
+
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
+  PRISSMM Medical Oncologist Assessment datasets using `cohort` and
+  `record_id`
+
+##### Cancer Diagnosis: Non-BPC Project Cancer
+
+The Non-BPC Project Cancer Diagnosis dataset contains one record per
+non-BPC Project cancer diagnosis, per patient. This dataset includes two
+types of cancer diagnoses: 1) non-BPC Project invasive cancer and in
+situ/non-invasive cancer diagnoses, and 2) other tumors.
+
+The Non-BPC Project Cancer Diagnosis dataset can be linked to the
+following datasets:
+
+- Cancer-Directed Regimen Dataset using variables `cohort`, `record_id`
+  and `ca_seq`
+
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
+  PRISSMM Medical Oncologist Assessment datasets using `cohort` and
+  `record_id`
+
+- Cannot be linked to the Cancer Panel Test dataset because non-BPC
+  Project cancer diagnoses were not genomically sequenced
+
+#### Cancer-Directed Regimen Dataset
+
+The Cancer-Directed Regimen dataset is structured as one record per
+regimen-associated cancer diagnosis, per patient.
+
+Cancer-directed regimens were curated for all cancer diagnoses,
+including both BPC Project and non-BPC Project cancers. A regimen can
+consist of one drug or up to five drugs given together. Cancer-directed
+drugs include anti-neoplastic drugs, immunotherapies, targeted
+therapies, and hormone therapies. A break in treatment of ≥8 weeks was
+used to indicate the end of a regimen; even if all drugs in the regimen
+were re-initiated 8+ weeks later, this was considered a new regimen.
+
+If the cancer-directed drug was part of an investigational drug trial,
+the drug name(s) `drugs_drug_1`-`drugs_drug_5` will be set to
+“Investigational Drug” and the end date interval will match the start
+date interval. Identification of investigational drugs varies by
+institution depending on contractual obligations. For some institutions,
+all drugs that are part of an investigational trial are required to be
+masked, even if standard of care. For other institutions, only the
+investigational drug(s) are required to be masked.
+
+The Cancer-Directed Regimen can be linked to the following datasets:
+
+- BPC Project and non-BPC Project Cancer Diagnosis datasets using the
+  variables `cohort`, `record_id` and `ca_seq`
+
+- Cancer Panel Test dataset using the variables `cohort`, `record_id`
+  and `ca_seq`
+
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
+  PRISSMM Medical Oncologist Assessment datasets using `cohort` and
+  `record_id`
+
+#### Cancer-Directed Radiation Therapy Dataset
+
+The Cancer-Directed Radiation Therapy dataset is structured as one
+record per radiation therapy-associated cancer diagnosis, per patient.
+For example, if radiation therapy is associated with a single cancer
+diagnosis, there will be one corresponding record in this dataset. If
+radiation therapy is associated with two cancer diagnoses, then there
+will be two corresponding records in this dataset: one for the first
+associated cancer diagnosis and another for the second associated cancer
+diagnosis. If it is unknown which cancer diagnosis the radiation therapy
+is associated with, there will still be one record in this dataset.
+
+Radiation therapy was curated beginning within 30 days of the first BPC
+Project cancer diagnosis. All subsequent radiation therapies were
+recorded. Additional radiation therapy corresponding to non-BPC Project
+Cancers may be recorded.
+
+Radiation therapy data is available for the following cohorts: PANC,
+Prostate, BLADDER.
+
+This dataset can be linked to the following datasets:
+
+- BPC Project Cancer Diagnosis, Non-BPC Project Cancer Diagnosis,
+  Cancer-Directed Regimen, Cancer Panel Test datasets datasets using the
+  variables `cohort`, `record_id` and `ca_seq`
+
+- Patient Characteristics, PRISSMM Pathology, PRISSMM Imaging, and
+  PRISSMM Medical Oncologist Assessment datasets using `cohort` and
+  `record_id.`
+
+#### PRISSMM Pathology Dataset
+
+The PRISSMM Pathology dataset is structured as one record per pathology
+report, per patient.
+
+All pathology reports beginning with the month and year of the first BPC
+Project cancer diagnosis and all subsequent pathology reports are
+recorded (including pathology reports corresponding to non-BPC Project
+cancer and subsequent BPC Project cancer diagnoses).
+
+The PRISSMM Pathology dataset can be linked to the following datasets:
+
+- Cancer Panel Test dataset using `cohort` and `record_id`, `ca_seq`,
+  `path_proc_number` and `path_report_number`
+
+- Patient Characteristics, BPC Project and Non-BPC Project Cancer
+  Diagnosis, Cancer-Directed Regimen, PRISSMM Imaging, and PRISSMM
+  Medical Oncologist Assessment datasets using `cohort` and `record_id`
+
+#### PRISSMM Imaging Dataset
+
+The PRISSMM Imaging dataset is structured as one record per imaging
+report, per patient.
+
+All imaging reports beginning with the month and year of the first BPC
+Project cancer diagnosis and all subsequent imaging reports are recorded
+(including imaging reports corresponding to non-BPC Project cancer and
+subsequent BPC Project cancer diagnoses).
+
+The PRISSMM Imaging dataset can be linked to all datasets using the
+variable `record_id`.
+
+#### PRISSMM Medical Oncologist Assessment Dataset
+
+The PRISSMM Medical Oncologist Assessment dataset is structured as one
+row per curated medical oncologist assessment, per patient.
+
+Medical oncologist assessments were curated beginning with the month and
+year of the first BPC Project cancer diagnosis. One medical oncologist
+assessment per month was curated.
+
+The PRISSMM Medical Oncologist Assessment dataset can be linked to all
+datasets using the variable `record_id`.
+
+#### PRISSMM Tumor Marker Dataset
+
+The PRISSMM Tumor Marker dataset is structured as one record per curated
+tumor marker result, per patient. All serum-based tumor markers that are
+related to the diagnosis/prognosis of cancer were curated.
+
+Tumor marker data is available for the following cohorts: CRC, BrCa,
+PANC, Prostate.
+
+*Note: variables pertaining to PD-L1, MSI and MMR are recorded in the
+pathology dataset.*
+
+The PRISSMM Tumor Marker dataset can be linked to all datasets using the
+variable `record_id`.
+
+#### Cancer Panel Test Dataset
+
+The Cancer Panel Test dataset is structured as one record per cancer
+panel test and its associated cancer diagnosis, per patient.
+
+The cancer panel test refers to the multi-gene panels that have been
+performed through next generation sequencing (NGS) assays. The terms
+“cancer panel test (CPT)” and “next generation sequencing (NGS)” are
+used interchangeably.
+
+The Cancer Panel Test dataset can be linked to the following datasets:
+
+- BPC Project Cancer Diagnosis dataset using the variables `cohort`,
+  `record_id` and `ca_seq`
+
+- Cancer-Directed Regimen dataset using the variables `cohort`,
+  `record_id` and `ca_seq`
+
+- PRISSMM Pathology dataset using `cohort`, `record_id`, `ca_seq`,
+  `path_proc_number` and `path_report_number`
+
+*Note: this dataset cannot be linked to the non-BPC Project Cancer
+Diagnosis dataset because non-BPC Project cancer diagnoses were not
+genomically sequenced.*
+
+## Differences Between Synapse and cBioPortal Genomic Data
+
+Please note that pulling genomic GENIE data from Synapse using
+[`pull_data_synapse()`](https://genie-bpc.github.io/genieBPC/reference/pull_data_synapse.md)
+and pulling GENIE data from cBioPortal may result in small differences
+in the data due to systematic differences in the processing pipelines
+employed by Synapse and cBioPortal. These differences may include:
+
+- Data formatting - Some data sets (e.g. CNA files) may appear in wide
+  format in Synapse data versus long format in cBioPortal data, or
+  column attributes and names may appear sightly different (e.g. fusions
+  files).
+
+- Default filtering - By default, cBioPortal filters out Silent, Intron,
+  IGR, 3’UTR, 5’UTR, 3’Flank and 5’Flank, except for the promoter
+  mutations of the TERT gene. See [cBioPortal
+  documentation](https://docs.cbioportal.org/file-formats/#mutation-data)
+  for more details. These mutations are retained in Synapse processing
+  pipelines.
+
+- Hugo Symbols - Some genes have more than one accepted Hugo Symbol and
+  may be referred to differently between data sources (e.g. `NSD3` is an
+  alias for `WHSC1L1`). Some tools exist to help you resolve gene
+  aliases across genomic data sources. See `gnomeR::recode_alias()`,
+  `cbioportal::get_alias()` and vignettes from the
+  [{gnomeR}](https://mskcc-epi-bio.github.io/gnomeR/) and
+  [{cbioportalR}](https://www.karissawhiting.com/cbioportalR/) for more
+  information on how to use these functions and work with gene aliases.
