@@ -43,17 +43,23 @@ a dataframe of samples with one observation per patient.
 
 ``` r
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#> Error in .get_synapse_token(pat = pat): No credentials found. Have you authenticated yourself? Use
-#> `set_synapse_credentials()` to set credentials for this session, or pass a
-#> `pat` (see README:'Data Access & Authentication' for details on
-#> authentication).
+#> ✔ pt_char has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
+#> ✔ cpt has been imported for "NSCLC_v2.0"
+#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
+#> ✔ fusions has been imported for "NSCLC_v2.0"
+#> ✔ cna has been imported for "NSCLC_v2.0"
 
 ex1 <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
   stage_dx = c("Stage IV"),
   histology = "Adenocarcinoma"
 )
-#> Error: object 'nsclc_2_0' not found
 
  samples_data1 <- .resolve_duplicates(
    x = "GENIE-MSK-P-0025741",
@@ -62,7 +68,6 @@ ex1 <- create_analytic_cohort(
   sample_type = "Metastasis",
   min_max_time = "max"
 )
-#> Error: object 'ex1' not found
 
 samples_data2 <- .resolve_duplicates(
    x = "GENIE-MSK-P-0025741",
@@ -71,5 +76,4 @@ samples_data2 <- .resolve_duplicates(
   sample_type = "Primary",
   min_max_time = "max"
 )
-#> Error: object 'ex1' not found
 ```

@@ -103,6 +103,12 @@ nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0
                                              histology = "Adenocarcinoma")
 
 ls(nsclc_stg_iv_adeno)
+#>  [1] "cohort_ca_drugs"           "cohort_ca_dx"             
+#>  [3] "cohort_ca_dx_non_index"    "cohort_cna"               
+#>  [5] "cohort_fusions"            "cohort_mutations_extended"
+#>  [7] "cohort_ngs"                "cohort_prissmm_imaging"   
+#>  [9] "cohort_prissmm_md"         "cohort_prissmm_pathology" 
+#> [11] "cohort_pt_char"
 ```
 
 ### Example 3
