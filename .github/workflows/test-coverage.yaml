@@ -14,14 +14,8 @@ jobs:
     runs-on: windows-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
-      SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
       SYNAPSE_PAT: ${{ secrets.SYNAPSE_PAT }}
-      SYNAPSE_USERNAME_PUBLIC: ${{ secrets.SYNAPSE_USERNAME_PUBLIC }}
-      SYNAPSE_PASSWORD_PUBLIC: ${{ secrets.SYNAPSE_PASSWORD_PUBLIC }}
       SYNAPSE_PAT_PUBLIC: ${{ secrets.SYNAPSE_PAT_PUBLIC }}
-      SYNAPSE_USERNAME_NO_TERMS: ${{ secrets.SYNAPSE_USERNAME_NO_TERMS }}
-      SYNAPSE_PASSWORD_NO_TERMS: ${{ secrets.SYNAPSE_PASSWORD_NO_TERMS }}
       SYNAPSE_PAT_NO_TERMS: ${{ secrets.SYNAPSE_PAT_NO_TERMS }}
 
     steps:
@@ -47,14 +41,8 @@ jobs:
 
       - name: Test coverage
         env:
-            SYNAPSE_USERNAME: ${{ secrets.SYNAPSE_USERNAME }}
-            SYNAPSE_PASSWORD: ${{ secrets.SYNAPSE_PASSWORD }}
             SYNAPSE_PAT: ${{ secrets.SYNAPSE_PAT }}
-            SYNAPSE_USERNAME_PUBLIC: ${{ secrets.SYNAPSE_USERNAME_PUBLIC }}
-            SYNAPSE_PASSWORD_PUBLIC: ${{ secrets.SYNAPSE_PASSWORD_PUBLIC }}
             SYNAPSE_PAT_PUBLIC: ${{ secrets.SYNAPSE_PAT_PUBLIC }}
-            SYNAPSE_USERNAME_NO_TERMS: ${{ secrets.SYNAPSE_USERNAME_NO_TERMS }}
-            SYNAPSE_PASSWORD_NO_TERMS: ${{ secrets.SYNAPSE_PASSWORD_NO_TERMS }}
             SYNAPSE_PAT_NO_TERMS: ${{ secrets.SYNAPSE_PAT_NO_TERMS }}
         run: |
           genieBPC::set_synapse_credentials()
