@@ -164,8 +164,12 @@ test_that("correct release returned", {
                                                            string = as.character(release_version))) %>%
     map(., select, -release_version) %>%
     bind_rows(.id = "data_release") %>%
+    # PANC v1.2-consortium and Prosate v1.2-consortium are missing
+    # release_version_character (it isn't on the data for some reason)
+    # need to drop missing values to avoid error in tests
+    drop_na(release_version_character) %>%
     mutate(release_matches = str_detect(pattern = str_trim(release_version_character),
-                                        string = data_release)) %>%
+                                        string  = data_release)) %>%
     filter(release_matches == FALSE)
 
   expect_equal(nrow(release_returned), 0)
