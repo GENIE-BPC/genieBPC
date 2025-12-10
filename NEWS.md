@@ -1,4 +1,4 @@
-# genieBPC (development version)
+# genieBPC (development version) 
 
 * Update tests to use setup.R file and to only run current data releases on CRAN and GitHub Actions (all data releases are tested when running locally)
 
