@@ -1,4 +1,4 @@
-test_that("expected datasts", {
+test_that("expected datasets", {
   # transpose to 1 col/dataframe
   synapse_tables_wide <- genieBPC::synapse_tables %>%
     dplyr::arrange(df) %>%
@@ -36,10 +36,13 @@ test_that("expected datasts", {
 
   # expect only certain cohorts to have radiation data
   synapse_tables_wide_rt_cohorts <- synapse_tables_wide %>%
-    dplyr::filter(stringr::str_to_upper(cohort) %in% c("PANC", "PROSTATE", "BLADDER") |
+    dplyr::filter(stringr::str_to_upper(cohort) %in% c("PANC", "PROSTATE", "BLADDER", "RENAL") |
                     (stringr::str_to_upper(cohort) == "NSCLC" &
                        !(version %in% c("v1.1-consortium",
                                         "v2.2-consortium",
+                                        "v2.0-public"))) |
+                    (stringr::str_to_upper(cohort) == "CRC" &
+                       !(version %in% c("v1.3-consortium",
                                         "v2.0-public"))))
 
   expect_equal(nrow(synapse_tables_wide_rt_cohorts),
@@ -58,7 +61,9 @@ test_that("expected datasts", {
   # expect only certain cohorts + data releases to have SV data
   synapse_tables_wide_sv_releases <- synapse_tables_wide %>%
     dplyr::filter(as.Date(paste0(release_date, "-01"), format = "%Y-%m-%d") >=
-                    as.Date("2023-11-01", "%Y-%m-%d"))
+                    as.Date("2023-11-01", "%Y-%m-%d") |
+                  (stringr::str_to_upper(cohort) == "PANC" &
+                    version == "v1.2-consortium"))
 
   expect_equal(nrow(synapse_tables_wide_sv_releases),
                nrow(synapse_tables_wide %>%

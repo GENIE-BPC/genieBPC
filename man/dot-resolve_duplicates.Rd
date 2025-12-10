@@ -30,7 +30,7 @@ a dataframe of samples with one observation per patient.
 See `select_unique_ngs` for details on selection criteria
 }
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) withAutoprint(\{ # examplesIf}
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 
 ex1 <- create_analytic_cohort(

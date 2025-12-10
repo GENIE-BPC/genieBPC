@@ -15,7 +15,7 @@ pull_data_synapse(
 \item{cohort}{Vector or list specifying the cohort(s) of interest. Must be
 one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-and "BLADDER" (Bladder Cancer). This is not case sensitive.}
+"BLADDER" (Bladder Cancer), and "RENAL" (Renal Cancer). This is not case sensitive.}
 
 \item{version}{Vector specifying the version of the cohort. Must match one of the
 release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
@@ -78,19 +78,22 @@ your PATs outside of your scripts for security purposes.
   \item \href{https://www.synapse.org/#!Synapse:syn58597690}{NSCLC v3.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn64425776}{CRC v3.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn71825209}{BrCa v1.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn53018714}{BLADDER v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn50612821}{PANC v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn50612204}{Prostate v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/#!Synapse:syn69750457}{RENAL v1.1-Consortium Analytic Data Guide}
 }
 }
 
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) withAutoprint(\{ # examplesIf}
 # Example 1 ----------------------------------
 # Set up 'Synapse' credentials
 set_synapse_credentials()

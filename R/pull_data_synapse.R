@@ -9,7 +9,7 @@
 #' @param cohort Vector or list specifying the cohort(s) of interest. Must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-#'   and "BLADDER" (Bladder Cancer). This is not case sensitive.
+#'   "BLADDER" (Bladder Cancer), and "RENAL" (Renal Cancer). This is not case sensitive.
 #' @param version Vector specifying the version of the cohort. Must match one of the
 #'   release versions available for the specified `cohort` (see `synapse_version()` for available cohort versions).
 #'   When entering multiple cohorts, it is inferred that the order of the version
@@ -55,14 +55,17 @@
 #'   \item \href{https://www.synapse.org/#!Synapse:syn58597690}{NSCLC v3.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn53463650}{CRC v1.3-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn31751466}{CRC v2.0-Public Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn64425776}{CRC v3.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn26077313}{BrCa v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn32330194}{BrCa v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn71825209}{BrCa v1.0-Public Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30787692}{BLADDER v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn53018714}{BLADDER v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn50612821}{PANC v1.2-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
 #'   \item \href{https://www.synapse.org/#!Synapse:syn50612204}{Prostate v1.2-Consortium Analytic Data Guide}
+#'   \item \href{https://www.synapse.org/#!Synapse:syn69750457}{RENAL v1.1-Consortium Analytic Data Guide}
 #' }
 #'
 #' @return Returns a nested list of clinical and genomic data corresponding to
@@ -123,13 +126,16 @@ pull_data_synapse <- function(cohort = NULL, version = NULL,
     stringr::str_to_upper(cohort)=="BLADDER" ~ "BLADDER",
     stringr::str_to_upper(cohort)=="PANC" | stringr::str_to_upper(cohort)=="PANCREAS" ~ "PANC",
     stringr::str_to_upper(cohort)=="PROSTATE" ~ "Prostate",
+    stringr::str_to_upper(cohort)=="RENAL" | 
+      stringr::str_to_upper(cohort) == "RCC" ~ "RENAL",
+
     # last condition to avoid error message:
     # '`cohort` must be a single string, not a character `NA`.'
     # when an NA is fed into arg_match below
     TRUE ~ cohort
   )
 
-  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
+  select_cohort <- rlang::arg_match(cohort, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate", "RENAL"),
     multiple = TRUE
   )
 
