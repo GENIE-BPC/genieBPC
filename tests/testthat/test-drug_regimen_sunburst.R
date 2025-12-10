@@ -99,6 +99,13 @@ test_that("Runs for all cohorts", {
   testthat::expect_no_error(drug_regimen_sunburst(bladder_v1_2$BLADDER_v1.2,
                                                   bladder_cohort,
                                                   max_n_regimens = 3))
+  
+  # Renal
+  renal_v1_1 <- pull_data_synapse(cohort = "RENAL", version = "v1.1-consortium")
+  renal_cohort <- create_analytic_cohort(data_synapse = renal_v1_1$RENAL_v1.1)
+  testthat::expect_no_error(drug_regimen_sunburst(renal_v1_1$RENAL_v1.1,
+                                                  renal_cohort,
+                                                  max_n_regimens = 3))
 })
 
 test_that("data_synapse parameter", {

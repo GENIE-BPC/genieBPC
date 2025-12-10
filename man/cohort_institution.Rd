@@ -10,7 +10,8 @@ A lookup table for institutions participating in curation by cancer cohort
   \item{cohort}{GENIE BPC Project cancer. One of "NSCLC"
   (non-small cell lung cancer), "CRC" (colorectal cancer),
   "BrCa" (breast cancer), "PANC" (pancreatic cancer),
-  "Prostate" (prostate cancer), and "BLADDER" (bladder cancer).}
+  "Prostate" (prostate cancer), "BLADDER" (bladder cancer), 
+  and "RENAL" (renal cancer).}
   \item{institution}{GENIE BPC participating institution.}
   ...
 }

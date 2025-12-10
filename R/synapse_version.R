@@ -12,7 +12,7 @@
 #' @param cohort Vector specifying the cohort(s) of interest. Cohorts must be
 #'   one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 #'   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-#'   and "BLADDER" (Bladder Cancer).
+#'   "BLADDER" (Bladder Cancer), and "RENAL" (Renal Cancer).
 #' @param most_recent Indicates whether the function will return only the most
 #'   recent version number for each cohort (`most_recent` = TRUE) or all
 #'   available version numbers for each cohort (`most_recent`= FALSE)
@@ -33,7 +33,7 @@ synapse_version <- function(cohort = NULL, most_recent = FALSE) {
 
   # if cohort is not specified, return all cohorts
   if (is.null(cohort)){
-    select_cohort <- c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate")
+    select_cohort <- c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate", "RENAL")
   } else {
     cohort_case <- dplyr::case_when(
       stringr::str_to_upper(cohort) == "NSCLC" |
@@ -47,9 +47,11 @@ synapse_version <- function(cohort = NULL, most_recent = FALSE) {
       stringr::str_to_upper(cohort) == "BLADDER" ~ "BLADDER",
       stringr::str_to_upper(cohort) == "PANC" |
         stringr::str_to_upper(cohort) == "PANCREAS" ~ "PANC",
-      stringr::str_to_upper(cohort) == "PROSTATE" ~ "Prostate"
+      stringr::str_to_upper(cohort) == "PROSTATE" ~ "Prostate",
+      stringr::str_to_upper(cohort) =="RENAL" | 
+        stringr::str_to_upper(cohort) == "RCC" ~ "RENAL"
     )
-    select_cohort <- rlang::arg_match(cohort_case, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate"),
+    select_cohort <- rlang::arg_match(cohort_case, c("NSCLC", "CRC", "BrCa", "BLADDER", "PANC", "Prostate", "RENAL"),
                                     multiple = TRUE)
   }
 

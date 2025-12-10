@@ -66,7 +66,7 @@ See the
 for further documentation and examples.
 }
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) withAutoprint(\{ # examplesIf}
 # Example 1 ----------------------------------
 # Create a cohort of all patients with stage IV NSCLC of
 # histology adenocarcinoma

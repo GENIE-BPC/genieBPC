@@ -1,4 +1,6 @@
-# genieBPC (development version) 
+# genieBPC 2.1.1
+
+* Add CRC v3.1-consortium, RENAL v1.1-consortium, and BrCa v1.0-public data releases
 
 * Update tests to use setup.R file and to only run current data releases on CRAN and GitHub Actions (all data releases are tested when running locally)
 

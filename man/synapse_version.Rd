@@ -10,7 +10,7 @@ synapse_version(cohort = NULL, most_recent = FALSE)
 \item{cohort}{Vector specifying the cohort(s) of interest. Cohorts must be
 one of "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
 "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate" (Prostate Cancer),
-and "BLADDER" (Bladder Cancer).}
+"BLADDER" (Bladder Cancer), and "RENAL" (Renal Cancer).}
 
 \item{most_recent}{Indicates whether the function will return only the most
 recent version number for each cohort (`most_recent` = TRUE) or all
