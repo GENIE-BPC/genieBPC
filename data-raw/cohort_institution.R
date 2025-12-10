@@ -7,6 +7,7 @@ cohort_institution <- tibble::tribble(
   "CRC", "MSK",
   "CRC", "DFCI",
   "CRC", "VICC",
+  "CRC", "UHN",
   "BrCa", "MSK",
   "BrCa", "DFCI",
   "BrCa", "VICC",
@@ -21,7 +22,11 @@ cohort_institution <- tibble::tribble(
   "BLADDER", "MSK",
   "BLADDER", "DFCI",
   "BLADDER", "UHN",
-  "BLADDER", "VICC"
+  "BLADDER", "VICC",
+  "RENAL",  "MSK",
+  "RENAL", "DFCI",
+  "RENAL", "UCSF",
+  "RENAL", "UHN"
 )
 
 usethis::use_data(cohort_institution, internal = FALSE, overwrite = TRUE)

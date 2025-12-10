@@ -209,10 +209,11 @@ test_that("institution - non-existent or incorrect specified", {
     institution = "uDFCI"
   ))
 
-  # UHN didn't participate in CRC
+  # [UPDATE 12/10/2025] Changed test
+  # UHN didn't participate in BrCa
   expect_error(create_analytic_cohort(
     data_synapse = data_releases_pull_data %>%
-      purrr::keep(grepl("CRC", names(.))),
+      purrr::keep(grepl("BrCa", names(.))),
     institution = "UHN"
   ),
   "The specified institution is not available*")

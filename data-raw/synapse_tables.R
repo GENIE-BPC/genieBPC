@@ -21,7 +21,10 @@ release_dates <- tibble::tribble(
   "BrCa", "v1.2-consortium", "2022-10",
   "Prostate", "v1.1-consortium", "2022-03",
   "PANC", "v1.2-consortium", "2023-01",
-  "Prostate", "v1.2-consortium", "2023-01"
+  "Prostate", "v1.2-consortium", "2023-01",
+  "CRC", "v3.1-consortium", "2025-03",
+  "RENAL", "v1.1-consortium", "2025-10",
+  "BrCa", "v1.0-public", "2025-12",
 )
 
 
@@ -50,7 +53,7 @@ releases_by_cohort <- purrr::map_df(release_cohorts,
 
 # for each data release, get subfolders (clinical files, portal, documentation)
 releases_by_cohort_subfolders <- purrr::map_df(releases_by_cohort,
-  ~ dplyr::bind_rows(as.list(synGetChildren(.))),
+  ~ dplyr::bind_rows(as.list(synGetChildren(.$id))),
   .id = "cohort_release"
 ) %>%
   dplyr::select(cohort_release, name, id) %>%
@@ -81,8 +84,8 @@ synapse_tables <- all_syn_ids %>%
       !grepl("meta|seg", name))) %>%
   # exclude NSCLC v2.1-consortium and CRC v1.1 and v1.2-consortium releases
   # they were replaced with NSCLC v2.2-consortium and CRC v1.3-consortium
-  filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium")),
-         !(cohort == "CRC" & version %in% c("v1.1-consortium", "v1.2-consortium"))) %>%
+  filter(!(cohort == "NSCLC" & version %in% c("v2.1-consortium (SENSITIVE)")),
+         !(cohort == "CRC" & version %in% c("v1.1-consortium (SENSITIVE)", "v1.2-consortium (SENSITIVE)"))) %>%
   dplyr::mutate(
     filename_pre = str_remove(
       pattern = ".csv|.txt",

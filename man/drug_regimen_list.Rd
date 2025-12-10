@@ -11,7 +11,8 @@ data release:
   \item{cohort}{GENIE BPC Project cancer. One of "NSCLC"
   (non-small cell lung cancer), "CRC" (colorectal cancer),
   "BrCa" (breast cancer), "PANC" (pancreatic cancer),
-  "Prostate" (prostate cancer), and "BLADDER" (bladder cancer).}
+  "Prostate" (prostate cancer), "BLADDER" (bladder cancer),
+  and "RENAL" (renal cancer).}
   \item{cohort_data_release}{GENIE BPC data release. Occasionally, drug names
   were updated across releases to include additional drug name synonyms.}
   \item{drug_name}{Name of generic/ingredient cancer-directed drug}
