@@ -83,7 +83,7 @@ drug_regimen_sunburst <- function(data_synapse,
          `data_synapse` parameter containing the nested list with the dataframes:
          pt_char, ca_dx_index, ca_dx_non_index, ca_drugs,
          prissmm_imaging, prissmm_pathology, prissmm_md, cpt,
-         mutations_extended, fusions, sv, and cna.")
+         mutations_extended, fusions/sv, and cna.")
   }
 
 
