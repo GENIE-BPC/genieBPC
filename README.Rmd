@@ -43,7 +43,7 @@ remotes::install_github("GENIE-BPC/genieBPC")
 
 -   **Data processing**
 
-    -   `create_analytic_cohort()` selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information\
+    -   `create_analytic_cohort()` selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information
     -   `select_unique_ngs()` selects a unique next generation sequencing (NGS) test corresponding to the selected diagnoses
 
 -   **Data visualization:** `drug_regimen_sunburst()` creates a sunburst figure of drug regimen information corresponding to the selected diagnoses in the order that the regimens were administered
