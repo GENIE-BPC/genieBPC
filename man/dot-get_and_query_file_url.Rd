@@ -40,7 +40,7 @@ list of 'Synapse' data frames
 Get URL for a given 'Synapse' file and download to local machine
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 
 file <- data.frame(
   version_num = "NSCLC_v2.1",

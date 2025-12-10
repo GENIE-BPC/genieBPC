@@ -93,7 +93,7 @@ your PATs outside of your scripts for security purposes.
 }
 
 \examples{
-\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))) withAutoprint(\{ # examplesIf}
 # Example 1 ----------------------------------
 # Set up 'Synapse' credentials
 set_synapse_credentials()
