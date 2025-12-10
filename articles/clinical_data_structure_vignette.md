@@ -23,16 +23,16 @@
   clinical-genomics analyses.
 
   - Phenomic data are curated using the PRISSMM curation model.
-  - Currently MSK, Dana Farber, Vanderbilt and University Health Network
-    are the participating institutions. GENIE BPC will be expanded to
-    more institutions in phase II.
+  - Currently MSK, Dana Farber, Vanderbilt, UCSF, and University Health
+    Network are the participating institutions. GENIE BPC will be
+    expanded to more institutions in phase II.
 
-- GENIE BPC sponsors six projects that involve augmenting the genomic
+- GENIE BPC sponsors seven projects that involve augmenting the genomic
   data in Project GENIE to include PRISSMM phenomic data and
   cancer-related outcomes. Each project encompasses a single cancer
   site. While all projects are based on curating data under the PRISSMM
   phenomic data curation model, the variables available for each project
-  may vary. The six projects are:
+  may vary. The seven projects are:
 
   1.  Non-small cell lung cancer (NSCLC)
   2.  Colon/rectal cancer (CRC)
@@ -40,6 +40,7 @@
   4.  Pancreas cancer (PANC)
   5.  Bladder cancer (BLADDER)
   6.  Prostate cancer (Prostate)
+  7.  Renal cancer (RENAL)
 
 ### GENIE BPC Elements
 
@@ -175,7 +176,7 @@ recorded. Additional radiation therapy corresponding to non-BPC Project
 Cancers may be recorded.
 
 Radiation therapy data is available for the following cohorts: PANC,
-Prostate, BLADDER.
+Prostate, BLADDER, RENAL.
 
 This dataset can be linked to the following datasets:
 

@@ -18,7 +18,8 @@ cohort
 
   GENIE BPC Project cancer. One of "NSCLC" (non-small cell lung cancer),
   "CRC" (colorectal cancer), "BrCa" (breast cancer), "PANC" (pancreatic
-  cancer), "Prostate" (prostate cancer), and "BLADDER" (bladder cancer).
+  cancer), "Prostate" (prostate cancer), "BLADDER" (bladder cancer), and
+  "RENAL" (renal cancer).
 
 - institution:
 

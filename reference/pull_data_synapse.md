@@ -25,8 +25,8 @@ pull_data_synapse(
   Vector or list specifying the cohort(s) of interest. Must be one of
   "NSCLC" (Non-Small Cell Lung Cancer), "CRC" (Colorectal Cancer), or
   "BrCa" (Breast Cancer), "PANC" (Pancreatic Cancer), "Prostate"
-  (Prostate Cancer), and "BLADDER" (Bladder Cancer). This is not case
-  sensitive.
+  (Prostate Cancer), "BLADDER" (Bladder Cancer), and "RENAL" (Renal
+  Cancer). This is not case sensitive.
 
 - version:
 
@@ -101,11 +101,17 @@ Documentation corresponding to the clinical data files can be found on
 - [CRC v2.0-Public Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn31751466)
 
+- [CRC v3.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn64425776)
+
 - [BrCa v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn26077313)
 
 - [BrCa v1.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn32330194)
+
+- [BrCa v1.0-Public Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn71825209)
 
 - [BLADDER v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30787692)
@@ -125,6 +131,9 @@ Documentation corresponding to the clinical data files can be found on
 - [Prostate v1.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn50612204)
 
+- [RENAL v1.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn69750457)
+
 ## Author
 
 Karissa Whiting, Michael Curry
@@ -139,15 +148,16 @@ set_synapse_credentials()
 
 # Print available versions of the data
 synapse_version(most_recent = TRUE)
-#> # A tibble: 6 × 4
+#> # A tibble: 7 × 4
 #>   cohort   version         release_date versions_returned   
 #>   <chr>    <chr>           <chr>        <chr>               
 #> 1 BLADDER  v1.2-consortium 2023-11      Most Recent Versions
-#> 2 BrCa     v1.2-consortium 2022-10      Most Recent Versions
-#> 3 CRC      v1.3-consortium 2024-02      Most Recent Versions
+#> 2 BrCa     v1.0-public     2025-12      Most Recent Versions
+#> 3 CRC      v3.1-consortium 2025-03      Most Recent Versions
 #> 4 NSCLC    v3.1-consortium 2024-04      Most Recent Versions
 #> 5 PANC     v1.2-consortium 2023-01      Most Recent Versions
 #> 6 Prostate v1.2-consortium 2023-01      Most Recent Versions
+#> 7 RENAL    v1.1-consortium 2025-10      Most Recent Versions
 
 # Pull version 2.0-public for non-small cell lung cancer
 # and version 2.0-public for colorectal cancer data
