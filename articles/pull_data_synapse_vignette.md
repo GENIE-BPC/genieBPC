@@ -58,11 +58,12 @@ order to use this function. To obtain access:
 
 3.  Accept the **Synapse account terms of use.**
 
-4.  Use [this link](https://www.synapse.org/#!Team:3399797) to access
-    the GENIE BPC team list and request to join the team. Please include
-    your full name and affiliation in the message before sending out the
-    request. *(Note: Please allow up to a week to review and grant
-    access.)*
+4.  Email <genieinfo@aacr.org> with your full name and affiliation to
+    request a concept sheet. Once the concept sheet has been reviewed
+    and approval has been granted by the Data Use and Publications
+    Committee, access to the consortium data on Synapse will then be
+    assigned to that user. *(Note: Please allow up to a week to review
+    and grant access.)*
 
 5.  Once the request is accepted, you may access the data in the [GENIE
     Biopharma Collaborative

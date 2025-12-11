@@ -19,5 +19,5 @@ permission to access the GENIE BPC data.
 
 ``` r
 .is_connected_to_genie()
-#> [1] TRUE
+#> [1] FALSE
 ```

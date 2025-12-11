@@ -82,8 +82,7 @@
 <p><strong>Data processing</strong></p>
 <ul>
 <li>
-<code><a href="reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information<br>
-</li>
+<code><a href="reference/create_analytic_cohort.html">create_analytic_cohort()</a></code> selects an analytic cohort based on cancer diagnosis information and/or cancer-directed drug regimen information</li>
 <li>
 <code><a href="reference/select_unique_ngs.html">select_unique_ngs()</a></code> selects a unique next generation sequencing (NGS) test corresponding to the selected diagnoses</li>
 </ul>
@@ -98,6 +97,7 @@
 <p><strong><em>For public data releases:</em></strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Be sure to create a username and password. <em>Note: do NOT connect via your Google account.</em></p></li>
+<li><p><em>New July 2025</em> Enable two-factor authentication on Synapse. This step is required for accessing the data via {genieBPC}. You will not need to use two-factor authentication each time you pull the data. However, it is required that you enable two-factor authentication to allow your Personal Access Token (PAT) to successfully pull the data via {genieBPC}.</p></li>
 <li><p>Accept the <strong>Synapse account terms of use.</strong></p></li>
 <li><p>Navigate to <a href="https://www.synapse.org/Synapse:syn27056172/wiki/616601" class="external-link">GENIE Biopharma Collaborative Public page</a>.</p></li>
 <li><p>In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.</p></li>
@@ -106,15 +106,16 @@
 <p><strong><em>For consortium data releases (restricted to GENIE consortium members &amp; BPC pharmaceutical partners):</em></strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Register for a <a href="https://www.synapse.org/#" class="external-link">‘Synapse’ account</a>. Be sure to create a username and password. <em>Note: do NOT connect via your Google account.</em></p></li>
+<li><p><em>New July 2025</em> Enable two-factor authentication on Synapse. This step is required for accessing the data via {genieBPC}. You will not need to use two-factor authentication each time you pull the data. However, it is required that you enable two-factor authentication to allow your Personal Access Token (PAT) to successfully pull the data via {genieBPC}.</p></li>
 <li><p>Accept the <strong>Synapse account terms of use.</strong></p></li>
-<li><p>Use <a href="https://www.synapse.org/#!Team:3399797" class="external-link">this link</a> to access the GENIE BPC team list and request to join the team. Please include your full name and affiliation in the message before sending out the request. <em>(Note: Please allow up to a week to review and grant access.)</em></p></li>
+<li><p>Email <a href="mailto:genieinfo@aacr.org" class="email">genieinfo@aacr.org</a> with your full name and affiliation to request a concept sheet. Once the concept sheet has been reviewed and approval has been granted by the Data Use and Publications Committee, access to the consortium data on Synapse will then be assigned to that user. <em>(Note: Please allow up to a week to review and grant access.)</em></p></li>
 <li><p>Once the request is accepted, you may access the data in the <a href="https://www.synapse.org/#!Synapse:syn21226493" class="external-link">GENIE Biopharma Collaborative projects</a>.</p></li>
 <li><p>In the Files folder, navigate to Data Releases and click on the cancer cohort and data release version of choice.</p></li>
 <li><p>Select <em>Request Access</em>, <strong>review the terms of data use,</strong> and select <em>Accept.</em></p></li>
 </ol>
 <p><em>Note: permissions for Synapse and permissions for each data release are distinct. Both permissions must be accepted to successfully access the data.</em></p>
 <p><strong><em>Request a Synapse Personal Access Token (PAT):</em></strong></p>
-<p>Once you are logged into your Synapse account, you may request a Synapse personal access token (PAT).</p>
+<p>Once you are logged into your Synapse account, request a Synapse personal access token (PAT). As of July 2025, this is the only method that permits accessing the data via the {genieBPC} R package. Previously, username and passwords were also accepted.</p>
 <ol style="list-style-type: decimal">
 <li><p>In the left hand panel towards the bottom, click the button that shows the first letter of your first name. This button displays the text “Your Account” when hovered over and appears directly above the question mark button.</p></li>
 <li><p>Next, select <em>Account Settings</em> and then scroll to the bottom of the page.</p></li>
@@ -134,6 +135,7 @@
 <ul>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn30557304" class="external-link">NSCLC v2.0-Public Analytic Data Guide</a> <em>Released May 2022</em></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn31751466" class="external-link">CRC v2.0-Public Analytic Data Guide</a> <em>Released August 2022</em></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn71825209" class="external-link">BrCa v1.0-Public Analytic Data Guide</a> <em>Released December 2025</em></p></li>
 </ul>
 <p><strong>Consortium Data Releases</strong><br><em>Note that only GENIE BPC consortium users have access to the consortium releases.</em></p>
 <ul>
@@ -141,6 +143,7 @@
 <li><p><a href="https://www.synapse.org/#!Synapse:syn53463493" class="external-link">NSCLC v2.2-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn58597690" class="external-link">NSCLC v3.1-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn53463650" class="external-link">CRC v1.3-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn64425776" class="external-link">CRC v3.1-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn26077313" class="external-link">BrCa v1.1-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn32330194" class="external-link">BrCa v1.2-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn29787285" class="external-link">PANC v1.1-Consortium Analytic Data Guide</a></p></li>
@@ -149,6 +152,7 @@
 <li><p><a href="https://www.synapse.org/#!Synapse:syn53018714" class="external-link">BLADDER v1.2-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn30148714" class="external-link">Prostate v1.1-Consortium Analytic Data Guide</a></p></li>
 <li><p><a href="https://www.synapse.org/#!Synapse:syn50612204" class="external-link">Prostate v1.2-Consortium Analytic Data Guide</a></p></li>
+<li><p><a href="https://www.synapse.org/#!Synapse:syn69750457" class="external-link">RENAL v1.1-Consortium Analytic Data Guide</a></p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -182,6 +186,7 @@
 <div class="section level2">
 <h2 id="genie-bpc-publications">GENIE BPC Publications<a class="anchor" aria-label="anchor" href="#genie-bpc-publications"></a>
 </h2>
+<p>Acebedo A, Bedard PL, Brown S, et al: <a href="https://www.esmorwd.org/article/S2949-8201(24)00075-4/fulltext" class="external-link">Collaborating across sectors in service of open science, precision oncology, and patients: an overview of the AACR Project GENIE (Genomics Evidence Neoplasia Information Exchange) Biopharma Collaborative (BPC)</a>. ESMO Real World Data and Digital Oncology 7:100097, 2025</p>
 <p>Lavery JA, Brown S, Curry MA, Martin A, Sjoberg DD, Whiting K. <a href="https://academic.oup.com/bioinformatics/article/39/1/btac796/6909009" class="external-link">A data processing pipeline for the AACR project GENIE biopharma collaborative data with the {genieBPC} R package</a> Bioinformatics. Volume 39, Issue 1. 2023 Jan; doi: 10.1093/bioinformatics/btac796</p>
 <p><strong>Methodological Papers</strong></p>
 <p>Kehl KL, Lavery JA, Brown S, Fuchs H, Riely G, Schrag D, Newcomb A, Nichols C, Micheel CM, Bedard PL, Sweeney SM, Fiandalo M, Panageas KS; AACR Project GENIE BPC Core Team. <a href="https://pubmed.ncbi.nlm.nih.gov/38484212/" class="external-link">Biomarker Inference and the Timing of Next-Generation Sequencing in a Multi-Institutional, Cross-Cancer Clinicogenomic Data Set</a>. JCO Precis Oncol. 2024 Mar;8:e2300489. doi: 10.1200/PO.23.00489. PMID: 38484212; PMCID: PMC10954072.</p>
@@ -244,7 +249,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/GENIE-BPC/genieBPC/actions" class="external-link"><img src="https://github.com/GENIE-BPC/genieBPC/workflows/R-cmd-check/badge.svg" alt="R-cmd-check"></a></li>
 <li><a href="https://cran.r-project.org/package=genieBPC" class="external-link"><img src="https://www.r-pkg.org/badges/version/genieBPC" alt="CRAN status"></a></li>
-<li><a href="https://app.codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/GENIE-BPC/genieBPC" class="external-link"><img src="https://codecov.io/gh/GENIE-BPC/genieBPC/branch/main/graph/badge.svg?token=431LhDhF5K" alt="codecov"></a></li>
 </ul>
 </div>
 
