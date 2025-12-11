@@ -196,6 +196,9 @@ releases.*
 - [CRC v1.3-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn53463650)
 
+- [CRC v3.1-Consortium Analytic Data
+  Guide](https://www.synapse.org/#!Synapse:syn64425776)
+
 - [BrCa v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn26077313)
 
@@ -219,9 +222,6 @@ releases.*
 
 - [Prostate v1.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn50612204)
-
-- [CRC v3.1-Consortium Analytic Data
-  Guide](https://www.synapse.org/#!Synapse:syn64425776)
 
 - [RENAL v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn69750457)
