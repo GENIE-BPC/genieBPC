@@ -25,6 +25,7 @@ release_dates <- tibble::tribble(
   "CRC", "v3.1-consortium", "2025-03",
   "RENAL", "v1.1-consortium", "2025-10",
   "BrCa", "v1.0-public", "2025-12",
+  "PANC", "v1.0-public", "2025-01",
 )
 
 
