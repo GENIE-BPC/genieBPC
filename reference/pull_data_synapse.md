@@ -125,6 +125,9 @@ Documentation corresponding to the clinical data files can be found on
 - [PANC v1.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn50612821)
 
+- [PANC v1.0-Public Analytic Data
+  Guide](https://www.synapse.org/Synapse:syn72666511)
+
 - [Prostate v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn30148714)
 
@@ -155,7 +158,7 @@ synapse_version(most_recent = TRUE)
 #> 2 BrCa     v1.0-public     2025-12      Most Recent Versions
 #> 3 CRC      v3.1-consortium 2025-03      Most Recent Versions
 #> 4 NSCLC    v3.1-consortium 2024-04      Most Recent Versions
-#> 5 PANC     v1.2-consortium 2023-01      Most Recent Versions
+#> 5 PANC     v1.0-public     2025-01      Most Recent Versions
 #> 6 Prostate v1.2-consortium 2023-01      Most Recent Versions
 #> 7 RENAL    v1.1-consortium 2025-10      Most Recent Versions
 

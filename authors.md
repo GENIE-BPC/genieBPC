@@ -24,7 +24,7 @@
 Source:
 [`DESCRIPTION`](https://github.com/GENIE-BPC/genieBPC/blob/main/DESCRIPTION)
 
-Lavery J, Curry M, Brown S, Whiting K, Fuchs H, Martin A (2025).
+Lavery J, Curry M, Brown S, Whiting K, Fuchs H, Martin A (2026).
 *genieBPC: Project GENIE BioPharma Collaborative Data Processing
 Pipeline*. R package version 2.1.1,
 <https://genie-bpc.github.io/genieBPC/>.
@@ -32,7 +32,7 @@ Pipeline*. R package version 2.1.1,
     @Manual{,
       title = {genieBPC: Project GENIE BioPharma Collaborative Data Processing Pipeline},
       author = {Jessica A. Lavery and Michael A. Curry and Samantha Brown and Karissa Whiting and Hannah Fuchs and Axel Martin},
-      year = {2025},
+      year = {2026},
       note = {R package version 2.1.1},
       url = {https://genie-bpc.github.io/genieBPC/},
     }
