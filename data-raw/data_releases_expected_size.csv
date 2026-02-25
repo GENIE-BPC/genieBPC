@@ -209,3 +209,16 @@ BrCa,v1.0-public,cpt,1234,29,BrCa_v1.0-public
 BrCa,v1.0-public,mutations_extended,7051,64,BrCa_v1.0-public
 BrCa,v1.0-public,sv,427,40,BrCa_v1.0-public
 BrCa,v1.0-public,cna,1003,1199,BrCa_v1.0-public
+PANC,v1.0-public,pt_char,1109,51,PANC_v1.0-public
+PANC,v1.0-public,ca_dx_index,1110,173,PANC_v1.0-public
+PANC,v1.0-public,ca_dx_non_index,279,109,PANC_v1.0-public
+PANC,v1.0-public,ca_drugs,3153,102,PANC_v1.0-public
+PANC,v1.0-public,prissmm_imaging,14520,42,PANC_v1.0-public
+PANC,v1.0-public,prissmm_pathology,3532,327,PANC_v1.0-public
+PANC,v1.0-public,ca_radtx,526,83,PANC_v1.0-public
+PANC,v1.0-public,prissmm_md,15870,13,PANC_v1.0-public
+PANC,v1.0-public,tumor_marker,17718,14,PANC_v1.0-public
+PANC,v1.0-public,cpt,1130,29,PANC_v1.0-public
+PANC,v1.0-public,mutations_extended,7911,64,PANC_v1.0-public
+PANC,v1.0-public,sv,236,40,PANC_v1.0-public
+PANC,v1.0-public,cna,1003,964,PANC_v1.0-public

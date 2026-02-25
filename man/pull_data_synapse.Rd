@@ -86,6 +86,7 @@ your PATs outside of your scripts for security purposes.
   \item \href{https://www.synapse.org/#!Synapse:syn53018714}{BLADDER v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn29787285}{PANC v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn50612821}{PANC v1.2-Consortium Analytic Data Guide}
+  \item \href{https://www.synapse.org/Synapse:syn72666511}{PANC v1.0-Public Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn30148714}{Prostate v1.1-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn50612204}{Prostate v1.2-Consortium Analytic Data Guide}
   \item \href{https://www.synapse.org/#!Synapse:syn69750457}{RENAL v1.1-Consortium Analytic Data Guide}
