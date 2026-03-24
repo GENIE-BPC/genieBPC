@@ -26,6 +26,7 @@ release_dates <- tibble::tribble(
   "RENAL", "v1.1-consortium", "2025-10",
   "BrCa", "v1.0-public", "2025-12",
   "PANC", "v1.0-public", "2026-01",
+  "Prostate", "v1.0-public", "2026-03"
 )
 
 

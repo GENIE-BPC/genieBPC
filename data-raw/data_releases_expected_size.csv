@@ -222,3 +222,16 @@ PANC,v1.0-public,cpt,1130,29,PANC_v1.0-public
 PANC,v1.0-public,mutations_extended,7911,64,PANC_v1.0-public
 PANC,v1.0-public,sv,236,40,PANC_v1.0-public
 PANC,v1.0-public,cna,1003,964,PANC_v1.0-public
+Prostate,v1.0-public,pt_char,1116,52,Prostate_v1.0-public
+Prostate,v1.0-public,ca_dx_index,1116,178,Prostate_v1.0-public
+Prostate,v1.0-public,ca_dx_non_index,180,108,Prostate_v1.0-public
+Prostate,v1.0-public,ca_drugs,5588,102,Prostate_v1.0-public
+Prostate,v1.0-public,prissmm_imaging,22496,42,Prostate_v1.0-public
+Prostate,v1.0-public,prissmm_pathology,5121,300,Prostate_v1.0-public
+Prostate,v1.0-public,ca_radtx,1953,83,Prostate_v1.0-public
+Prostate,v1.0-public,prissmm_md,21775,15,Prostate_v1.0-public
+Prostate,v1.0-public,tumor_marker,41423,14,Prostate_v1.0-public
+Prostate,v1.0-public,cpt,1227,29,Prostate_v1.0-public
+Prostate,v1.0-public,mutations_extended,8525,64,Prostate_v1.0-public
+Prostate,v1.0-public,sv,658,40,Prostate_v1.0-public
+Prostate,v1.0-public,cna,1003,1066,Prostate_v1.0-public
