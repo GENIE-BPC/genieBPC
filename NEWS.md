@@ -1,3 +1,7 @@
+# genieBPC 2.2.0
+
+* Add PANC v1.0-public (#162) and Prostate v1.0-public (#164) data releases
+
 # genieBPC 2.1.1
 
 * Add CRC v3.1-consortium, RENAL v1.1-consortium, and BrCa v1.0-public data releases
