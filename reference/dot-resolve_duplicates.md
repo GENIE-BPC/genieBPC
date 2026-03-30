@@ -42,18 +42,8 @@ a dataframe of samples with one observation per patient.
 ## Examples
 
 ``` r
+if (FALSE) { # genieBPC::.is_connected_to_genie(pat = Sys.getenv("SYNAPSE_PAT"))
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#> ✔ pt_char has been imported for "NSCLC_v2.0"
-#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
-#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
-#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
-#> ✔ cpt has been imported for "NSCLC_v2.0"
-#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
-#> ✔ fusions has been imported for "NSCLC_v2.0"
-#> ✔ cna has been imported for "NSCLC_v2.0"
 
 ex1 <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
@@ -76,4 +66,5 @@ samples_data2 <- .resolve_duplicates(
   sample_type = "Primary",
   min_max_time = "max"
 )
+}
 ```

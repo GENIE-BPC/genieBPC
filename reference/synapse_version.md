@@ -42,7 +42,7 @@ numbers are specified as part of the call to \`pull_data_synapse()\`.
 
 ``` r
 synapse_version()
-#> # A tibble: 18 × 4
+#> # A tibble: 19 × 4
 #>    cohort   version         release_date versions_returned
 #>    <chr>    <chr>           <chr>        <chr>            
 #>  1 BLADDER  v1.1-consortium 2022-11      All Versions     
@@ -59,10 +59,11 @@ synapse_version()
 #> 12 NSCLC    v3.1-consortium 2024-04      All Versions     
 #> 13 PANC     v1.1-consortium 2022-02      All Versions     
 #> 14 PANC     v1.2-consortium 2023-01      All Versions     
-#> 15 PANC     v1.0-public     2025-01      All Versions     
+#> 15 PANC     v1.0-public     2026-01      All Versions     
 #> 16 Prostate v1.1-consortium 2022-03      All Versions     
 #> 17 Prostate v1.2-consortium 2023-01      All Versions     
-#> 18 RENAL    v1.1-consortium 2025-10      All Versions     
+#> 18 Prostate v1.0-public     2026-03      All Versions     
+#> 19 RENAL    v1.1-consortium 2025-10      All Versions     
 synapse_version(most_recent = TRUE)
 #> # A tibble: 7 × 4
 #>   cohort   version         release_date versions_returned   
@@ -71,7 +72,7 @@ synapse_version(most_recent = TRUE)
 #> 2 BrCa     v1.0-public     2025-12      Most Recent Versions
 #> 3 CRC      v3.1-consortium 2025-03      Most Recent Versions
 #> 4 NSCLC    v3.1-consortium 2024-04      Most Recent Versions
-#> 5 PANC     v1.0-public     2025-01      Most Recent Versions
-#> 6 Prostate v1.2-consortium 2023-01      Most Recent Versions
+#> 5 PANC     v1.0-public     2026-01      Most Recent Versions
+#> 6 Prostate v1.0-public     2026-03      Most Recent Versions
 #> 7 RENAL    v1.1-consortium 2025-10      Most Recent Versions
 ```

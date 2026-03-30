@@ -134,6 +134,9 @@ Documentation corresponding to the clinical data files can be found on
 - [Prostate v1.2-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn50612204)
 
+- [Prostate v1.0-Public Analytic Data
+  Guide](https://www.synapse.org/Synapse:syn73963128)
+
 - [RENAL v1.1-Consortium Analytic Data
   Guide](https://www.synapse.org/#!Synapse:syn69750457)
 
@@ -158,8 +161,8 @@ synapse_version(most_recent = TRUE)
 #> 2 BrCa     v1.0-public     2025-12      Most Recent Versions
 #> 3 CRC      v3.1-consortium 2025-03      Most Recent Versions
 #> 4 NSCLC    v3.1-consortium 2024-04      Most Recent Versions
-#> 5 PANC     v1.0-public     2025-01      Most Recent Versions
-#> 6 Prostate v1.2-consortium 2023-01      Most Recent Versions
+#> 5 PANC     v1.0-public     2026-01      Most Recent Versions
+#> 6 Prostate v1.0-public     2026-03      Most Recent Versions
 #> 7 RENAL    v1.1-consortium 2025-10      Most Recent Versions
 
 # Pull version 2.0-public for non-small cell lung cancer
@@ -181,18 +184,16 @@ synapse_version(most_recent = TRUE)
 #> ✔ mutations_extended has been imported for "CRC_v2.0"
 #> ✔ fusions has been imported for "CRC_v2.0"
 #> ✔ cna has been imported for "CRC_v2.0"
-#> ✔ pt_char has been imported for "NSCLC_v2.0"
-#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
-#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
-#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
-#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
-#> ✔ cpt has been imported for "NSCLC_v2.0"
-#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
-#> ✔ fusions has been imported for "NSCLC_v2.0"
-#> ✔ cna has been imported for "NSCLC_v2.0"
+#> Error in purrr::map(version_num_df_nest, ~.pull_data_by_cohort(version_num_df = .x,     token = token, download_location = download_location)): ℹ In index: 2.
+#> ℹ With name: NSCLC_v2.0.
+#> Caused by error in `dplyr::mutate()`:
+#> ℹ In argument: `file_info = map(...)`.
+#> Caused by error in `map()`:
+#> ℹ In index: 1.
+#> Caused by error in `curl::curl_fetch_memory()`:
+#> ! Timeout was reached [repo-prod.prod.sagebase.org]:
+#> Operation too slow. Less than 1 bytes/sec transferred the last 600 seconds
 
  names(ex1)
-#> [1] "CRC_v2.0"   "NSCLC_v2.0"
+#> Error: object 'ex1' not found
 ```

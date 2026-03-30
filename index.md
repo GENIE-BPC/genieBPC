@@ -173,6 +173,14 @@ its corresponding variables for each data release.
   Guide](https://www.synapse.org/#!Synapse:syn71825209) *Released
   December 2025*
 
+- [PANC v1.0-Public Analytic Data
+  Guide](https://www.synapse.org/Synapse:syn72666511) *Released January
+  2026*
+
+- [Prostate v1.0-Public Analytic Data
+  Guide](https://www.synapse.org/Synapse:syn73963128) *Released March
+  2026*
+
 **Consortium Data Releases**  
 *Note that only GENIE BPC consortium users have access to the consortium
 releases.*
