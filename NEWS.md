@@ -4,7 +4,7 @@
 
 # genieBPC 2.1.1
 
-* Add CRC v3.1-consortium, RENAL v1.1-consortium, and BrCa v1.0-public data releases
+* Add CRC v3.1-consortium, RENAL v1.1-consortium, and BrCa v1.0-public data releases (#148)
 
 * Update tests to use setup.R file and to only run current data releases on CRAN and GitHub Actions (all data releases are tested when running locally)
 
@@ -71,7 +71,6 @@
 * Removed **CRC v1.1-consortium** release - Due to the inadvertent inclusion of data indicative of ages over 89 for data associated with the Project GENIE BioPharma Collaborative, this release was replaced with the newly added **CRC v1.3-consortium** release. 
 
 * Removed **CRC v1.2-consortium** release - Due to the inadvertent inclusion of data indicative of ages over 89 for data associated with the Project GENIE BioPharma Collaborative, this release was replaced with the newly added **CRC v1.3-consortium** release. 
-
 
 # genieBPC 1.1.0
 
@@ -142,7 +141,6 @@ pass the CRAN checks.
 ### Data Release Updates
 
 * Incorporated the most recent public and consortium data releases (issue #42)
-
 
 # genieBPC 0.1.0
 
