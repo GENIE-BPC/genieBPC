@@ -24,12 +24,13 @@ Authors:
   \item Michael A. Curry (\href{https://orcid.org/0000-0002-0261-4044}{ORCID})
   \item Samantha Brown (\href{https://orcid.org/0000-0001-5352-974X}{ORCID})
   \item Karissa Whiting (\href{https://orcid.org/0000-0002-4683-1868}{ORCID})
-  \item Hannah Fuchs (\href{https://orcid.org/0000-0003-2426-0096}{ORCID})
-  \item Axel Martin
+  \item Yufei Deng (\href{https://orcid.org/0009-0000-3352-1126}{ORCID})
 }
 
 Other contributors:
 \itemize{
+  \item Hannah Fuchs (\href{https://orcid.org/0000-0003-2426-0096}{ORCID}) [contributor]
+  \item Axel Martin [contributor]
   \item Daniel D. Sjoberg \email{danield.sjoberg@gmail.com} (\href{https://orcid.org/0000-0003-0862-2018}{ORCID}) [contributor]
 }
 
