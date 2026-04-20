@@ -184,16 +184,18 @@ synapse_version(most_recent = TRUE)
 #> ✔ mutations_extended has been imported for "CRC_v2.0"
 #> ✔ fusions has been imported for "CRC_v2.0"
 #> ✔ cna has been imported for "CRC_v2.0"
-#> Error in purrr::map(version_num_df_nest, ~.pull_data_by_cohort(version_num_df = .x,     token = token, download_location = download_location)): ℹ In index: 2.
-#> ℹ With name: NSCLC_v2.0.
-#> Caused by error in `dplyr::mutate()`:
-#> ℹ In argument: `file_info = map(...)`.
-#> Caused by error in `map()`:
-#> ℹ In index: 1.
-#> Caused by error in `curl::curl_fetch_memory()`:
-#> ! Timeout was reached [repo-prod.prod.sagebase.org]:
-#> Operation too slow. Less than 1 bytes/sec transferred the last 600 seconds
+#> ✔ pt_char has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
+#> ✔ cpt has been imported for "NSCLC_v2.0"
+#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
+#> ✔ fusions has been imported for "NSCLC_v2.0"
+#> ✔ cna has been imported for "NSCLC_v2.0"
 
  names(ex1)
-#> Error: object 'ex1' not found
+#> [1] "CRC_v2.0"   "NSCLC_v2.0"
 ```

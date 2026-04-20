@@ -59,21 +59,26 @@ ex1 <- drug_regimen_sunburst(
 # Example 2 ----------------------------------
 # using pull_data_synapse
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#> Error in .get_synapse_token(pat = pat): No credentials found. Have you authenticated yourself? Use
-#> `set_synapse_credentials()` to set credentials for this session, or pass a
-#> `pat` (see README:'Data Access & Authentication' for details on
-#> authentication).
+#> ✔ pt_char has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
+#> ✔ cpt has been imported for "NSCLC_v2.0"
+#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
+#> ✔ fusions has been imported for "NSCLC_v2.0"
+#> ✔ cna has been imported for "NSCLC_v2.0"
 
 nsclc_stg_iv <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
   stage = "Stage IV"
 )
-#> Error: object 'nsclc_2_0' not found
 
 ex2 <- drug_regimen_sunburst(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
   data_cohort = nsclc_stg_iv,
   max_n_regimens = 3
 )
-#> Error: object 'nsclc_2_0' not found
 ```

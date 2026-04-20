@@ -189,14 +189,20 @@ ex3 <- create_analytic_cohort(
 # Example 4 ----------------------------------
 # Using create_analytic_cohort with pull_data_synapse
 set_synapse_credentials()
-#> Error in curl::curl_fetch_memory(url, handle = handle): Timeout was reached [auth-prod.prod.sagebase.org]:
-#> Operation too slow. Less than 1 bytes/sec transferred the last 600 seconds
+#> ✔ You are now connected to 'Synapse' with your Personal Access Token for this R session!
 
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
-#> Error in .get_synapse_token(pat = pat): No credentials found. Have you authenticated yourself? Use
-#> `set_synapse_credentials()` to set credentials for this session, or pass a
-#> `pat` (see README:'Data Access & Authentication' for details on
-#> authentication).
+#> ✔ pt_char has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_dx_non_index has been imported for "NSCLC_v2.0"
+#> ✔ ca_drugs has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_imaging has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_pathology has been imported for "NSCLC_v2.0"
+#> ✔ prissmm_md has been imported for "NSCLC_v2.0"
+#> ✔ cpt has been imported for "NSCLC_v2.0"
+#> ✔ mutations_extended has been imported for "NSCLC_v2.0"
+#> ✔ fusions has been imported for "NSCLC_v2.0"
+#> ✔ cna has been imported for "NSCLC_v2.0"
 
 ex4 <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
@@ -204,5 +210,4 @@ ex4 <- create_analytic_cohort(
   regimen_order = 1,
   regimen_order_type = "within regimen"
 )
-#> Error: object 'nsclc_2_0' not found
 ```

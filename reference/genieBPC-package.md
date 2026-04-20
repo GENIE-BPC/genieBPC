@@ -32,11 +32,14 @@ Authors:
 
 - Karissa Whiting ([ORCID](https://orcid.org/0000-0002-4683-1868))
 
-- Hannah Fuchs ([ORCID](https://orcid.org/0000-0003-2426-0096))
-
-- Axel Martin
+- Yufei Deng ([ORCID](https://orcid.org/0009-0000-3352-1126))
 
 Other contributors:
+
+- Hannah Fuchs ([ORCID](https://orcid.org/0000-0003-2426-0096))
+  \[contributor\]
+
+- Axel Martin \[contributor\]
 
 - Daniel D. Sjoberg <danield.sjoberg@gmail.com>
   ([ORCID](https://orcid.org/0000-0003-0862-2018)) \[contributor\]
