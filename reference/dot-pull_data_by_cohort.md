@@ -32,6 +32,7 @@ to a local path
 ## Examples
 
 ``` r
+
 temp_directory <- tempdir()
 
 syn_df <- data.frame(

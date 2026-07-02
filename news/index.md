@@ -2,6 +2,8 @@
 
 ## genieBPC 2.2.0
 
+CRAN release: 2026-04-20
+
 - Add PANC v1.0-public
   ([\#162](https://github.com/GENIE-BPC/genieBPC/issues/162)) and
   Prostate v1.0-public

@@ -80,11 +80,11 @@ using `cohort` and `record_id`.
 Two Cancer Diagnosis datasets are provided: the BPC Project Cancer
 Diagnosis dataset and the Non-BPC Project Cancer Diagnosis dataset.
 
-| BPC Project Cancer                                                                                                          | Non-BPC Project Cancer                                                                                                                           |
-|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| BPC Project Cancer | Non-BPC Project Cancer |
+|----|----|
 | The cancer that met the eligibility criteria for the project and was selected at random for PRISSMM phenomic data curation. | A diagnosis of the same or different cancer type as the project cancer that occurs prior to, simultaneous with, or after the BPC Project cancer. |
-| Has genomic sequencing associated with the cancer diagnosis.                                                                | Does *not* have associated genomic sequencing                                                                                                    |
-| Recorded in the BPC Project Cancer Diagnosis dataset.                                                                       | Recorded in the Non-BPC Project Cancer Diagnosis dataset.                                                                                        |
+| Has genomic sequencing associated with the cancer diagnosis. | Does *not* have associated genomic sequencing |
+| Recorded in the BPC Project Cancer Diagnosis dataset. | Recorded in the Non-BPC Project Cancer Diagnosis dataset. |
 
 ##### Cancer Diagnosis: BPC Project Cancer
 

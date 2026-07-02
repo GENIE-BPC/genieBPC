@@ -22,12 +22,14 @@ analytic cohorts that are ready for clinico-genomic analyses.
 Install {genieBPC} from CRAN:
 
 ``` r
+
 install.packages("genieBPC")
 ```
 
 Install the development version of {genieBPC} with:
 
 ``` r
+
 remotes::install_github("GENIE-BPC/genieBPC")
 ```
 
@@ -235,12 +237,14 @@ with Stage IV adenocarcinoma NSCLC.
 *Pull data for NSCLC version 2.0-public:*
 
 ``` r
+
 nsclc_2_0 <- pull_data_synapse(cohort = "NSCLC", version = "v2.0-public")
 ```
 
 *Select stage IV adenocarcinoma NSCLC diagnoses:*
 
 ``` r
+
 nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0, 
                                              stage_dx = "Stage IV", 
                                              histology = "Adenocarcinoma")
@@ -250,6 +254,7 @@ nsclc_stg_iv_adeno <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0
 patient in the analytic cohort returned above:*
 
 ``` r
+
 nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs(
   data_cohort = nsclc_stg_iv_adeno$cohort_ngs)
 ```
@@ -258,6 +263,7 @@ nsclc_stg_iv_adeno_unique_sample <- select_unique_ngs(
 regimens received by patients diagnosed with stage IV adenocarcinoma:*
 
 ``` r
+
 sunplot <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                  data_cohort = nsclc_stg_iv_adeno,
                                  max_n_regimens = 3)

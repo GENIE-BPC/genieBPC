@@ -11,12 +11,12 @@ plot ‘sunburst_plot’.
 
 ## Modifying Function Arguments
 
-| \`drug_regimen_sunburst()\` Function Arguments |                                                                                                                 |
-|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Argument                                       | Description                                                                                                     |
-| `data_synapse`                                 | The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest. |
-| `data_cohort`                                  | The list returned from the \`create_analytic_cohort()\` function call.                                          |
-| `max_n_regimens`                               | The number of lines of treatment displayed in the sunburst plot.                                                |
+| \`drug_regimen_sunburst()\` Function Arguments |  |
+|----|----|
+| Argument | Description |
+| `data_synapse` | The item from the nested list returned from pull_data_synapse() corresponding to the cancer cohort of interest. |
+| `data_cohort` | The list returned from the \`create_analytic_cohort()\` function call. |
+| `max_n_regimens` | The number of lines of treatment displayed in the sunburst plot. |
 
 Note that the innermost circle of the sunburst plot indicates the first
 therapies that patients received following diagnosis. The circle is
@@ -36,6 +36,7 @@ function. For more information on
 refer to the `Tutorial: pull_data_synapse()` vignette.
 
 ``` r
+
 library(genieBPC)
 
 set_synapse_credentials()
@@ -45,6 +46,7 @@ This tutorial will utilize the data downloaded in the
 `Tutorial: pull_data_synapse()` vignette, as shown below:
 
 ``` r
+
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
@@ -55,6 +57,7 @@ cancer-directed regimens received by patients diagnosed with Stage IV
 NSCLC.
 
 ``` r
+
 nsclc_stg_iv <- create_analytic_cohort(data_synapse = nsclc_2_0$NSCLC_v2.0,
                                       stage = c("Stage IV"))
 
@@ -64,6 +67,7 @@ nsclc_treatment <- drug_regimen_sunburst(data_synapse = nsclc_2_0$NSCLC_v2.0,
 ```
 
 ``` r
+
 head(nsclc_treatment$treatment_history)
 #> # A tibble: 6 × 2
 #>   path                                                                       Pop
@@ -77,6 +81,7 @@ head(nsclc_treatment$treatment_history)
 ```
 
 ``` r
+
 nsclc_treatment$sunburst_plot
 ```
 

@@ -7,13 +7,13 @@ patients’ corresponding genomic samples.
 
 ## Modifying Function Arguments
 
-| \`select_unique_ngs()\` Function Arguments |                                                                                                                                                                                   |
-|--------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Argument                                   | Description                                                                                                                                                                       |
-| `data_cohort`                              | CPT (NGS) dataframe returned from the create_analytic_cohort function.                                                                                                            |
-| `oncotree_code`                            | Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options.                                     |
-| `sample_type`                              | Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type. |
-| `min_max_time`                             | Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last).                                                     |
+| \`select_unique_ngs()\` Function Arguments |  |
+|----|----|
+| Argument | Description |
+| `data_cohort` | CPT (NGS) dataframe returned from the create_analytic_cohort function. |
+| `oncotree_code` | Character vector specifying which sample OncoTree codes to keep. See 'cpt_oncotree_code' column of data_cohort argument above to get options. |
+| `sample_type` | Character specifying which type of genomic sample to prioritize, options are 'Primary', 'Local' and 'Metastasis'. Default is to not select a NGS sample based on the sample type. |
+| `min_max_time` | Character specifying if the first or last genomic sample recorded should be kept. Options are 'min' (first) and 'max' (last). |
 
 The
 [`select_unique_ngs()`](https://genie-bpc.github.io/genieBPC/reference/select_unique_ngs.md)
@@ -55,6 +55,7 @@ function. For more information on
 refer to the `Tutorial: pull_data_synapse()` vignette.
 
 ``` r
+
 library(genieBPC)
 
 set_synapse_credentials()
@@ -64,6 +65,7 @@ This tutorial will utilize the data downloaded in the
 `Tutorial: pull_data_synapse()` vignette, as shown below:
 
 ``` r
+
 nsclc_2_0 <- pull_data_synapse("NSCLC", version = "v2.0-public")
 ```
 
@@ -83,6 +85,7 @@ sample will be returned regardless of whether it meets the argument
 criteria specified below.
 
 ``` r
+
 ex1 <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
   stage_dx = c("Stage IV"),
@@ -112,6 +115,7 @@ sample will be returned regardless of whether it meets the argument
 criteria specified below.
 
 ``` r
+
 ex2 <- create_analytic_cohort(
   data_synapse = nsclc_2_0$NSCLC_v2.0,
   regimen_drugs = c("Cisplatin, Pemetrexed Disodium", "Cisplatin, Etoposide"),
